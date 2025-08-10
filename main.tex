@@ -14,7 +14,6 @@
 \hypersetup{colorlinks=true, citecolor=darkblue, linkcolor=darkblue, urlcolor=darkblue}
 
 
-
 \usepackage{amssymb}
 \usepackage{multirow}
 \usepackage{bigdelim}
@@ -146,13 +145,8 @@
 \input{preamble}
 
 \title{
-% SmolVLA: A community-driven robotics foundational model \\ 
-% SmolVLA: A Community-Driven Foundation Model for Affordable and Efficient Robotics \\
-SmolVLA: A vision-language-action model for affordable and efficient robotics 
-% SmolVLA: A foundation model for affordable and efficient robotics
+Robot Learning: A Tutorial
 }
-
-
 
 
 \newcommand{\huggingface}{\raisebox{-1.5pt}{\includegraphics[height=1.05em]{logos/hf.pdf}}\xspace}
@@ -177,87 +171,33 @@ SmolVLA: A vision-language-action model for affordable and efficient robotics
 \newcommand{\hf}{\raisebox{.28em}{\hspace{.05em}\includegraphics[height=.65em]{logos/hf.pdf}}\xspace}
 \newcommand{\ensps}{\raisebox{.3em}{\hspace{.05em}\includegraphics[height=.65em]{logos/ensps_logo.pdf}}\xspace}
 
+\authorOne[]{Francesco Capuano \ensps \hf}
+\authorOne[]{Adil Zouitine\hf}
+\authorOne[]{Pepijn Kooijmans\hf}
+\authorOne[]{Steven Palma\hf}
+\authorOne[]{Martino Russi\hf}
+\authorOne[]{Caroline Pascal\hf}
+\authorOne[]{Thomas Wolf\hf}
+\authorOne[]{Michel Aractingi\hf}
 
-\authorOne[]{Mustafa Shukor$^*$\sorbonne}
-\authorOne[]{Dana Aubakirova$^*$\hf}
-\authorOne[]{Francesco Capuano$^*$\hf\ensps}
-
-\authorTwo[]{Pepijn Kooijmans\hf}
-\authorTwo[]{Steven Palma\hf}
-\authorTwo[]{Adil Zouitine\hf}
-\authorTwo[]{Michel Aractingi\hf}
-\authorTwo[]{Caroline Pascal\hf}
-\authorTwo[]{Martino Russi\hf}
-\authorTwo[]{Andres Marafioti\hf}
-\authorTwo[]{Simon Alibert\hf}
-
-
-
-\authorTwo[]{Matthieu Cord\sorbonne$^v$}
-\authorTwo[]{Thomas Wolf\hf}
-\authorTwo[]{Remi Cadene$^*$\hf}
-
-
-
-
-
-\contribution[]{\hf Hugging Face, \sorbonne Sorbonne University, $^v$ valeo.ai, \ensps École Normale Supérieure Paris-Saclay \quad $^*$ Core team}
+\contribution[]{\hf Hugging Face, \ensps École Normale Supérieure Paris-Saclay}
 
 \newcommand{\fix}{\marginpar{FIX}}
 \newcommand{\new}{\marginpar{NEW}}
 
-
-
-
 \abstract{
-Vision-language models (VLMs) pretrained on large-scale multimodal datasets encode rich visual and linguistic knowledge, making them a strong foundation for robotics. 
-Rather than training robotic policies from scratch, recent approaches adapt VLMs into vision-language-action (VLA) models that enable natural language-driven perception and control. 
-However, existing VLAs are typically massive--often with billions of parameters--leading to high training costs and limited real-world deployability. 
-Moreover, they rely on academic and industrial datasets, overlooking the growing availability of community-collected data from affordable robotic platforms.
-In this work, we present SmolVLA, a small, efficient, and community-driven VLA that drastically reduces both training and inference costs, while retaining competitive performance. 
-SmolVLA is designed to be trained on a single GPU and deployed on consumer-grade GPUs or even CPUs. 
-To further improve responsiveness, we introduce an asynchronous inference stack decoupling perception and action prediction from action execution, allowing higher control rates with chunked action generation. 
-% SmolVLA is a 450M-parameter model with only 100M trainable parameters, trained entirely on public datasets, which exclusively uses open-source VLMs. 
-Despite its compact size, SmolVLA achieves performance comparable to VLAs that are 10$\times$ larger. We evaluate SmolVLA on a range of both simulated as well as real-world robotic benchmarks and release all code, pretrained models, and training data. 
-% Despite its compact size, SmolVLA achieves performance comparable to VLAs that are 10$\times$ larger, underscoring the relevance of our method. 
-% We release all training and inference code, pretrained models and checkpoints, as well as training data.
-
-% Vision-language models (VLMs), pretrained on massive multimodal datasets, capture broad visual knowledge and offer a compelling foundation for robotics. Rather than training policies from scratch, recent works have explored adapting VLMs to vision-language-action (VLA) models. VLAs perceive and act in the real world by following natural language instructions. However, existing VLAs are prohibitively large-often with billions of parameters—making them expensive to train and difficult to deploy on real-world robots. In this work, we introduce SmolVLA, a community-driven, small and efficient VLA that significantly reduces both training and inference costs and can control affordable robots. Our architecture enables training on a single GPU and deployment on consumer grade GPUs or CPUs. To further accelerate inference, we propose an asynchronous execution stack that decouples action execution from perception and action prediction, enabling higher observation rates when using chunked action generation. SmolVLA is 450M-parameter model with only 100M trainable parameters, and trained entirely on public datasets using open-source VLMs, while achieving performance competitive with models 10× larger. We evaluate SmolVLA across both simulated and real-world robotic benchmarks and release all code and pretrained models.
-
-% \begin{itemize}
-%     % \item Why do we care?
-%     % \item Towards more generalist foundation models for robotics
-%     % \item Efficiency is critical
-%     % \item Findings and contributions
-%     % \item Open-sourcing.
-% \end{itemize}
+Recent advancements in foundation models have enabled unprecedented progress in robotics.
+Leveraging learning-based approaches, the community has produced the first generalist models for tasks such as manipulation and whole-body control, with many results openly released.
+This work presents a comprehensive tutorial on modern robot learning, introducing the conceptual underpinnings of the most prominent approaches and pairing them with reproducible implementations using the open-source LeRobot framework.
+The tutorial is designed to serve both as a structured academic reference and as a practical guide for researchers in the field of robot learning.
 }
-
-
-
 
 \begin{document}
 
-
 \maketitle
-
-
-
-\input{sections/01_introduction}
-\input{sections/02_related_work}
-\input{sections/03_method}
-\input{sections/04_experiments}
-\input{sections/05_conclusion}
-
-
-
-
-% \newpage
-
-
 
 \bibliographystyle{hfstyle/plainnat}
 \bibliography{main}
 
-\input{sections/appendix}
+
 \end{document}
