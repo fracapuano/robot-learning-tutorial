@@ -1,0 +1,72 @@
+\begin{figure}[h!]
+    \centering
+    \captionsetup{type=figure}
+
+    \begin{minipage}[t]{0.48\linewidth}
+        \centering
+        \setlength{\tabcolsep}{6pt}
+        \renewcommand{\arraystretch}{1.2}
+        \resizebox{0.8\linewidth}{!}{
+        \begin{tabular}{cccccc}
+            \toprule
+            \multirow{2}{*}{\textbf{N}} & \multicolumn{5}{c}{\textbf{Success Rate (\%) — LIBERO}} \\\cmidrule(lr){2-6}
+             & \textbf{S} & \textbf{O} & \textbf{G} & \textbf{10} & \textbf{Avg} \\
+            \midrule
+            8           & 77 & 88 & 86 & 49 & 75.0  \\
+            16          & 88 & 91 & 91 & 44 & 78.5  \\
+            24          & 86 & 97 & 86 & 49 & 79.5  \\
+            32          & 89 & 94 & 85 & 53 & 80.3  \\
+            \midrule
+            Skip \%2     & 84 & 90 & 83 & 45 & 75.5  \\
+            \midrule
+            VLM-256M     & 86 & 83 & 75 & 59 & 75.8  \\
+            \bottomrule
+        \end{tabular}
+        }
+        \captionof{table}{\textbf{Skipping VLM layers.} Skipping layers from a large VLM (here 500M parameters) yields better results than downsizing the VLM. Skipping every second layer is a competitive baseline.}
+        \label{tab:ablation_vlm_layers}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.48\linewidth}
+        \centering
+        \setlength{\tabcolsep}{6pt}
+        \renewcommand{\arraystretch}{1.2}
+        \resizebox{0.8\linewidth}{!}{
+        \begin{tabular}{cccccc}
+            \toprule
+            \textbf{Expert width} & \multicolumn{5}{c}{\textbf{Success Rate (\%) — LIBERO}} \\\cmidrule(lr){2-6}
+             \textbf{(w.r.t. VLM)} & \textbf{S} & \textbf{O} & \textbf{G} & \textbf{10} & \textbf{Avg} \\
+            \midrule
+            $\times$1.00 & 87 & 96 & 90 & 56 & 82.3 \\
+            $\times$0.75 & 82 & 89 & 84 & 55 & 77.5 \\
+            $\times$0.50 & 89 & 94 & 85 & 53 & 80.3 \\
+            $\times$0.25 & 76 & 97 & 83 & 39 & 73.8 \\
+            \bottomrule
+        \end{tabular}
+        }
+        \captionof{table}{\textbf{Expert capacity.} Adjusting the expert's hidden size affects performance. Larger capacities yield better success rates.}
+        \label{tab:ablation_expert_capacity}
+    \end{minipage}
+    
+    % \vspace{0.5cm}
+
+    % \begin{minipage}[t]{0.45\linewidth}
+    %     \centering
+    %     \setlength{\tabcolsep}{6pt}
+    %     \renewcommand{\arraystretch}{1.2}
+    %     \resizebox{1.0\linewidth}{!}{
+    %     \begin{tabular}{lccccc}
+    %         \toprule
+    %         \textbf{Expert Variant} & \multicolumn{5}{c}{\textbf{Success Rate (\%) — LIBERO}} \\\cmidrule(lr){2-6}
+    %          & \textbf{S} & \textbf{O} & \textbf{G} & \textbf{10} & \textbf{Avg} \\
+    %         \midrule
+    %         Full             & 89 & 94 & 85 & 53 & 80.3  \\
+    %         Skip 1 Layer     & 84 & 90 & 83 & 45 & 75.5  \\
+    %         VLM-256M         & 86 & 83 & 75 & 59 & 75.8  \\
+    %         \bottomrule
+    %     \end{tabular}
+    %     }
+    %     \captionof{table}{\textbf{Shallower action expert.} Using a shallower expert reduces performance compared to the full version, though smaller VLMs with full experts perform similarly.}
+    %     \label{tab:ablation_shallow_expert}
+    % \end{minipage}
+\end{figure}

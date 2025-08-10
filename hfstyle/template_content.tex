@@ -1,0 +1,100 @@
+% A few local macros that are used by the example content.
+\newcommand{\expect}[2]{\mathds{E}_{{#1}} \left[ {#2} \right]}
+\newcommand{\myvec}[1]{\boldsymbol{#1}}
+\newcommand{\myvecsym}[1]{\boldsymbol{#1}}
+\newcommand{\vx}{\myvec{x}}
+\newcommand{\vy}{\myvec{y}}
+\newcommand{\vz}{\myvec{z}}
+\newcommand{\vtheta}{\myvecsym{\theta}}
+
+\section{Introduction}
+
+\kant[1]
+\kant[2]
+\kant[3]
+
+\section{Using Figures}
+%
+We can add figures in the usual way. Figure \ref{fig:image1}.
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=\columnwidth]{kurt-cotoaga-1210012-unsplash}
+	\caption{Image. This image comes from unsplash.com, which is a great website to get 
+	free to use high quality images.}
+	\label{fig:image1}
+\end{figure}
+
+\section{Latex Environments}
+Using paragraph environment.
+\paragraph{Opening Paragraph.} Paragraph is a way to have a bolded heading, and that can also 
+enter into the pdf bookmark structure.
+
+\section{Equations}
+%
+We can write equations this way:
+\begin{align}
+\log p(\vx) & = \log \int p_\theta(\vx,\vz) p(\vz) d\vz \nonumber \\
+& = \log \expect{p(\vz)}{p_\theta(\vx,\vz)}
+\label{eq:marginalisation1}
+\end{align}
+We refer to the previous equation \eqref{eq:marginalisation1}.
+Later let's compute the gradient $\nabla_\theta \log p(\vx)$. The commands 
+\verb|\vz|, \verb|\vx|, \verb|\expect| are locally-defined macros.
+The file \texttt{defns.tex} provides a larger set of short macros for
+common constructions, but some of them clash with existing packages.
+\begin{align}
+\log p(\vx) & = \nabla_{\vtheta} \sum_{i=1}^N \log p(y | x(\vtheta)) + \mathcal{R}(x) \nonumber \\
+            & + \|\nabla_{\vtheta}\vx(\vtheta)\|^2_2 \\
+            & y \in \mathbb{R}; \vx \in \mathbb{R}^D \qquad \text{using \texttt{\textbackslash mathbb}} \\
+            & y \in \mathds{R}; \vx \in \mathds{R}^D \qquad \text{using \texttt{\textbackslash mathds}}
+\label{eq:marginalisation2}
+\end{align}
+
+\subsection{Tables}
+Use \href{https://www.tablesgenerator.com/latex_tables}{\texttt{www.tablesgenerator.com/latex\_tables}} to help make tables.
+
+\begin{table}[tb]
+	\centering
+	\caption{Sizes of datasets. Testing with a much longer caption to see how it looks over 
+	multiple lines. }
+	\begin{tabular}{lll}
+		\hline
+		Dataset  & N      & D            \\
+		\hline \hline
+		MNIST    & 60,000 & $32\times32$ \\
+		ImageNet & 1m     & $64\times64$\\
+		\hline
+	\end{tabular}
+\end{table}
+
+\subsubsection{Using lists}
+%
+Itemize lists
+\begin{itemize}
+	\item Item 1
+    \item Item 2
+	\item Item 3
+\end{itemize}
+
+\noindent Enumerate lists
+\begin{enumerate}
+	\item Item 1
+	\item Item 2
+	\item Item 3
+\end{enumerate}
+
+\section{DeepMind Brand Colours}
+The brand standard specifies a colour palette that is available using the package \texttt{dm-colors}, which is already included in this template. Colours include: \textcolor{dmblue400}{This} \textcolor{dmyellow500}{text} \textcolor{dmteal400}{is} \textcolor{dmpurple400}{rendered} \textcolor{dmred400}{using} \textcolor{dmorange400}{dmcolors}.
+
+\section{Including References and Bibliography}
+\begin{figure*}[t]
+	\centering
+	\includegraphics[width=\columnwidth]{kurt-cotoaga-1210012-unsplash}
+	\includegraphics[width=\columnwidth]{kurt-cotoaga-1210012-unsplash}
+	\caption{Image. This image comes from unsplash.com, which is a great website to get 
+		free to use high quality images.}
+	\label{fig:image2}
+\end{figure*}
+References can be formatted in two styles with the \texttt{citep}
+command \citep{silver2016mastering} and with the \texttt{citet}
+command \citet{silver2016mastering}.

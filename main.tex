@@ -1,0 +1,263 @@
+\documentclass[table]{hfstyle/hf}
+
+\usepackage{microtype}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{lineno}
+\usepackage{enumitem}
+\usepackage{listings} %
+\usepackage{svg}
+
+\definecolor{ darkblue}{rgb}{0, 0, 0.5}
+\hypersetup{colorlinks=true, citecolor=darkblue, linkcolor=darkblue, urlcolor=darkblue}
+
+
+
+\usepackage{amssymb}
+\usepackage{multirow}
+\usepackage{bigdelim}
+\usepackage{todonotes}
+\usepackage{longtable}
+\usepackage{tabularray}
+\usepackage{wrapfig}
+\usepackage[most]{tcolorbox} 
+\usepackage{url}
+\usepackage{xspace}
+\usepackage{svg}
+\usepackage[absolute]{textpos} %
+
+\usepackage{fdsymbol}   %
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+
+\usepackage[utf8]{inputenc} %
+\usepackage[T1]{fontenc}    %
+\usepackage{url}            %
+\usepackage{booktabs}       %
+\usepackage{amsfonts}       %
+\usepackage{nicefrac}       %
+\usepackage{microtype}      %
+\usepackage[table]{xcolor}         %
+\usepackage{amsmath}
+\usepackage[most]{tcolorbox}
+\usepackage{csquotes}
+
+\usepackage{siunitx}
+\usepackage{graphicx}
+\usepackage{arydshln}
+\usepackage{enumitem}
+\usepackage{soul} %
+
+\usepackage{multirow}
+\usepackage{xspace}
+\usepackage{adjustbox}
+\usepackage{pifont}
+\usepackage{caption}
+\usepackage{makecell}
+%\usepackage{subcaption}
+\usepackage{bold-extra}
+\usepackage{url}
+
+\usepackage{pgf-pie}
+
+\usepackage{hyperref}
+\definecolor{linkcolor}{RGB}{0, 0, 128}
+\hypersetup{
+     colorlinks   = true,
+     citecolor    = linkcolor,
+     linkcolor    = linkcolor,
+     urlcolor     = linkcolor,
+}
+\usepackage{pifont}%
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+\usepackage{listings}
+
+\setlist[itemize]{leftmargin=*,itemsep=0em,parsep=0.3em,topsep=0.3em}
+
+
+\DeclareUnicodeCharacter{2212}{\ensuremath{-}}
+
+\addtolength{\extrarowheight}{\belowrulesep}
+\aboverulesep=0pt
+\belowrulesep=0pt
+
+\definecolor{maroon}{HTML}{F26035}
+\definecolor{yellow}{HTML}{FDBC42}
+\definecolor{lavender}{HTML}{734f96}
+\definecolor{darkergrey}{HTML}{444444}
+\definecolor{midgrey}{HTML}{e6eded}
+
+\definecolor{neutralEight}{HTML}{343434}
+\definecolor{neutralFive}{HTML}{838383}
+\definecolor{neutralThree}{HTML}{bebebe}
+\definecolor{neutralOne}{HTML}{dedede}
+\definecolor{lightgrey}{HTML}{fafcfc}
+
+\usepackage{tikz}
+\newcommand{\cblock}[3]{
+  \hspace{-1.5mm}
+  \begin{tikzpicture}
+    [
+    node/.style={square, minimum size=10mm, thick, line width=0pt},
+    ]
+    \node[fill={rgb,255:red,#1;green,#2;blue,#3}] () [] {};
+  \end{tikzpicture}%
+}
+
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+
+\definecolor{maroon}{HTML}{F26035}
+\definecolor{yellow}{HTML}{FDBC42}
+\definecolor{darkred}{RGB}{156, 39, 33}
+\definecolor{darkblue}{RGB}{31, 90, 153}
+\definecolor{forestgreen}{rgb}{0.13, 0.55, 0.13}
+\definecolor{olmoDarkBlue}{HTML}{012e59}
+\definecolor{olmoBlue}{HTML}{265ed4}
+\definecolor{olmoLightBlue}{HTML}{012e59}
+\definecolor{olmoTeal}{HTML}{00d5ff}
+\definecolor{olmoYellow}{HTML}{ffbb00}
+\definecolor{olmoOrange}{HTML}{ff9100}
+
+
+\newcommand{\nol}[1]{{\color{purple} [nol]: #1}}
+
+
+\usepackage{setspace}
+
+\usepackage{nicematrix}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{P}[1]{>{\centering\let\newline\\\arraybackslash\columncolor{ai2lightpink}}m{#1}}
+%\newcolumntype{W}[1]{>{\columncolor{white}}c}  %
+\addtolength{\extrarowheight}{\belowrulesep}
+\aboverulesep=0pt
+\belowrulesep=0pt
+
+\newcommand{\orr}[1]{\textcolor{red}{[OZ:#1]}}
+
+
+
+
+\input{preamble}
+
+\title{
+% SmolVLA: A community-driven robotics foundational model \\ 
+% SmolVLA: A Community-Driven Foundation Model for Affordable and Efficient Robotics \\
+SmolVLA: A vision-language-action model for affordable and efficient robotics 
+% SmolVLA: A foundation model for affordable and efficient robotics
+}
+
+
+
+
+\newcommand{\huggingface}{\raisebox{-1.5pt}{\includegraphics[height=1.05em]{logos/hf.pdf}}\xspace}
+\newcommand{\coreContrib}{\raisebox{.33em}{\hspace{.05em}\includegraphics[height=.5em]{logos/core.png}}\xspace}
+
+\newcommand{\emailLogo}{\raisebox{-1.5pt}{\includegraphics[height=1.05em]{logos/email.pdf}}\xspace}
+\newcommand{\hfdataset}{\raisebox{-1.5pt}{\includegraphics[height=1.05em]{logos/db.pdf}}\xspace}
+\newcommand{\github}{\raisebox{-1.5pt}{\includegraphics[height=1.05em]{logos/github.pdf}}\xspace}
+
+
+\newcommand{\spaces}{\raisebox{-1.5pt}{\includegraphics[height=1.05em]{logos/spaces.png}}\xspace}
+
+
+\newcommand{\chrome}{\raisebox{-1.5pt}{\includegraphics[height=1.05em]{logos/chrome.png}}\xspace}
+
+
+\newcommand{\huggingsnap}{\raisebox{-1.5pt}{\includegraphics[height=1.05em]{logos/huggingapp.png}}\xspace}
+\newcommand{\wandb}{\raisebox{-1.5pt}{\includegraphics[height=1.05em]{logos/wandb-logo.pdf}}\xspace}
+
+
+\newcommand{\sorbonne}{\raisebox{.15em}{\hspace{.08em}\includegraphics[height=.75em]{logos/sorbonne_logo.png}}\xspace}
+\newcommand{\hf}{\raisebox{.28em}{\hspace{.05em}\includegraphics[height=.65em]{logos/hf.pdf}}\xspace}
+\newcommand{\ensps}{\raisebox{.3em}{\hspace{.05em}\includegraphics[height=.65em]{logos/ensps_logo.pdf}}\xspace}
+
+
+\authorOne[]{Mustafa Shukor$^*$\sorbonne}
+\authorOne[]{Dana Aubakirova$^*$\hf}
+\authorOne[]{Francesco Capuano$^*$\hf\ensps}
+
+\authorTwo[]{Pepijn Kooijmans\hf}
+\authorTwo[]{Steven Palma\hf}
+\authorTwo[]{Adil Zouitine\hf}
+\authorTwo[]{Michel Aractingi\hf}
+\authorTwo[]{Caroline Pascal\hf}
+\authorTwo[]{Martino Russi\hf}
+\authorTwo[]{Andres Marafioti\hf}
+\authorTwo[]{Simon Alibert\hf}
+
+
+
+\authorTwo[]{Matthieu Cord\sorbonne$^v$}
+\authorTwo[]{Thomas Wolf\hf}
+\authorTwo[]{Remi Cadene$^*$\hf}
+
+
+
+
+
+\contribution[]{\hf Hugging Face, \sorbonne Sorbonne University, $^v$ valeo.ai, \ensps École Normale Supérieure Paris-Saclay \quad $^*$ Core team}
+
+\newcommand{\fix}{\marginpar{FIX}}
+\newcommand{\new}{\marginpar{NEW}}
+
+
+
+
+\abstract{
+Vision-language models (VLMs) pretrained on large-scale multimodal datasets encode rich visual and linguistic knowledge, making them a strong foundation for robotics. 
+Rather than training robotic policies from scratch, recent approaches adapt VLMs into vision-language-action (VLA) models that enable natural language-driven perception and control. 
+However, existing VLAs are typically massive--often with billions of parameters--leading to high training costs and limited real-world deployability. 
+Moreover, they rely on academic and industrial datasets, overlooking the growing availability of community-collected data from affordable robotic platforms.
+In this work, we present SmolVLA, a small, efficient, and community-driven VLA that drastically reduces both training and inference costs, while retaining competitive performance. 
+SmolVLA is designed to be trained on a single GPU and deployed on consumer-grade GPUs or even CPUs. 
+To further improve responsiveness, we introduce an asynchronous inference stack decoupling perception and action prediction from action execution, allowing higher control rates with chunked action generation. 
+% SmolVLA is a 450M-parameter model with only 100M trainable parameters, trained entirely on public datasets, which exclusively uses open-source VLMs. 
+Despite its compact size, SmolVLA achieves performance comparable to VLAs that are 10$\times$ larger. We evaluate SmolVLA on a range of both simulated as well as real-world robotic benchmarks and release all code, pretrained models, and training data. 
+% Despite its compact size, SmolVLA achieves performance comparable to VLAs that are 10$\times$ larger, underscoring the relevance of our method. 
+% We release all training and inference code, pretrained models and checkpoints, as well as training data.
+
+% Vision-language models (VLMs), pretrained on massive multimodal datasets, capture broad visual knowledge and offer a compelling foundation for robotics. Rather than training policies from scratch, recent works have explored adapting VLMs to vision-language-action (VLA) models. VLAs perceive and act in the real world by following natural language instructions. However, existing VLAs are prohibitively large-often with billions of parameters—making them expensive to train and difficult to deploy on real-world robots. In this work, we introduce SmolVLA, a community-driven, small and efficient VLA that significantly reduces both training and inference costs and can control affordable robots. Our architecture enables training on a single GPU and deployment on consumer grade GPUs or CPUs. To further accelerate inference, we propose an asynchronous execution stack that decouples action execution from perception and action prediction, enabling higher observation rates when using chunked action generation. SmolVLA is 450M-parameter model with only 100M trainable parameters, and trained entirely on public datasets using open-source VLMs, while achieving performance competitive with models 10× larger. We evaluate SmolVLA across both simulated and real-world robotic benchmarks and release all code and pretrained models.
+
+% \begin{itemize}
+%     % \item Why do we care?
+%     % \item Towards more generalist foundation models for robotics
+%     % \item Efficiency is critical
+%     % \item Findings and contributions
+%     % \item Open-sourcing.
+% \end{itemize}
+}
+
+
+
+
+\begin{document}
+
+
+\maketitle
+
+
+
+\input{sections/01_introduction}
+\input{sections/02_related_work}
+\input{sections/03_method}
+\input{sections/04_experiments}
+\input{sections/05_conclusion}
+
+
+
+
+% \newpage
+
+
+
+\bibliographystyle{hfstyle/plainnat}
+\bibliography{main}
+
+\input{sections/appendix}
+\end{document}

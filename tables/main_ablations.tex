@@ -1,0 +1,219 @@
+\begin{figure}[h!]
+    \centering
+    \captionsetup{type=figure}
+    
+    \begin{minipage}[t]{0.5\linewidth}
+        \centering
+        % \vspace{0.5cm}  % Reduced the negative vspace to avoid overlap
+        \setlength{\tabcolsep}{8pt} % Adjust spacing
+        \renewcommand{\arraystretch}{1} % Adjust row spacing
+        \resizebox{1.0\linewidth}{!}{
+        \begin{tabular}{cccccccc}
+            \multirow{2}{*}{VLM} & \multirow{2}{*}{Model size} & \multirow{2}{*}{VLM size} & \multicolumn{5}{c}{Success rate (LIBERO)}\\
+             & & S & O & G & 10 & AVG \\
+            \shline
+             SVLM-2  & 280M   & 256M  & 86 &	83 &75	& 59 & 75.75\\
+             SVLM-2  & 600M   & 500M  & 89 & 94 & 85 & 53 & 80.25 \\
+             SVLM-2  & 2.5B   & 2B    & 92 & 94 & 85 & 56 & 81.75 \\
+             \shline
+             SVLM-1  & 280M   & 256M  & 76 & 95 & 86 & 56 & 78.25 \\
+             SVLM-1  & 600M   & 500M  & 89 & 85 & 86 & 65 & 81.25 \\
+             SVLM-1  & 2.5B   & 2B    & 83 & 92 & 87 & 42 & 76    \\
+        \end{tabular}%
+        }
+        \captionof{table}{\textbf{Different VLMs.}}
+        \label{tab:ablation_model_size}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.4\linewidth}
+        \centering
+        % \vspace{0.5cm}  % Reduced the negative vspace to avoid overlap
+        \setlength{\tabcolsep}{8pt} % Adjust spacing
+        \renewcommand{\arraystretch}{1} % Adjust row spacing
+        \resizebox{1.0\linewidth}{!}{
+        \begin{tabular}{ccccccc}
+            \multirow{2}{*}{States} & \multirow{2}{*}{Attention} & \multicolumn{5}{c}{Success rate (LIBERO)}\\
+             & & S & O & G & 10 & AVG \\
+            \shline
+            Prefix & CA & 89 & 94 & 85 & 53 & 80.25 \\
+            Suffix & CA & 86 & 82 & 78 & 47 & 73.25 \\
+            Prefix & SA & 62 & 74 & 57 & 20 & 53.25 \\
+            Suffix & SA & 80 & 92 & 80 & 47 & 74.75 \\
+            
+        \end{tabular}%
+        }
+        \captionof{table}{\textbf{States as prefix vs suffix.} }
+        \label{tab:ablation_model_attention}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.3\linewidth}
+        \centering
+        % \vspace{0.5cm}  % Reduced the negative vspace to avoid overlap
+        \setlength{\tabcolsep}{8pt} % Adjust spacing
+        \renewcommand{\arraystretch}{1} % Adjust row spacing
+        \resizebox{1.0\linewidth}{!}{
+        \begin{tabular}{cccccc}
+            \multirow{2}{*}{Attention} & \multicolumn{5}{c}{Success rate (LIBERO)}\\
+             &  S & O & G & 10 & AVG \\
+            \shline
+               CA     & 89	& 94 & 85 & 53 & 80.25 \\
+               SA     & 62 & 74 & 57 & 20 & 53.25 \\
+               CA+SA  & 85 & 91 & 73 & 40 & 72.25 \\
+            \shline
+               CA     & 87	& 92 & 83 & 54 & 79 \\
+               SA     & 80	& 94 & 84 & 40 & 74.5 \\
+               CA+SA  & 86	& 99 & 90 & 67 & 85.5 \\
+        \end{tabular}%
+        }
+        \captionof{table}{\textbf{CA vs SA.} Top (batch size 16), Bottom (batch size 64).}
+        \label{tab:ablation_model_attention}
+        \label{tab:ablation_model_attention}
+        \label{tab:ablation_model_attention}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.32\linewidth}
+        \centering
+        % \vspace{0.5cm}  % Reduced the negative vspace to avoid overlap
+        \setlength{\tabcolsep}{8pt} % Adjust spacing
+        \renewcommand{\arraystretch}{1} % Adjust row spacing
+        \resizebox{1.0\linewidth}{!}{
+        \begin{tabular}{cccccc}
+            \multirow{2}{*}{Attention}  & \multicolumn{5}{c}{Success rate (LIBERO)}\\
+             &  S & O & G & 10 & AVG \\
+            \shline
+                N/A    & 89 & 94 & 85 & 53 & 80.25   \\
+                Bidir  & 26 & 60 & 37 & 11 & 33.5    \\
+                Causal & 62 & 74 & 57 & 20 & 53.25   \\
+            \shline
+                Bidir  & 79	& 86 & 82 & 23 & 67.5    \\
+                Causal & 80	& 94 & 84 & 40 & 74.5    \\
+        \end{tabular}%
+        }
+        \captionof{table}{\textbf{Attention on action tokens: bidirectional vs causal attention vs no attention (CA).} Top (bs 16), bottom (bs 64)}
+        \label{tab:ablation_causal_bidir_attention}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.3\linewidth}
+        \centering
+        % \vspace{0.5cm}  % Reduced the negative vspace to avoid overlap
+        \setlength{\tabcolsep}{8pt} % Adjust spacing
+        \renewcommand{\arraystretch}{1} % Adjust row spacing
+        \resizebox{1.0\linewidth}{!}{
+        \begin{tabular}{cccccc}
+            \multirow{2}{*}{Expert} & \multicolumn{5}{c}{Success rate (LIBERO)}\\
+             &  S & O & G & 10 & AVG \\
+            \shline
+               Full             & 89 & 94 & 85 & 53 & 80.25  \\
+               Skip 1 layer     & 84 & 90 & 83 & 45 & 75.5   \\
+               \shline 
+               VLM-256M         & 86 &	83 & 75	& 59 & 75.75 \\
+        \end{tabular}%
+        }
+        \captionof{table}{\textbf{Shallower expert}.}
+        \label{tab:ablation_model_attention}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.32\linewidth}
+        \centering
+        % \vspace{0.5cm}  % Reduced the negative vspace to avoid overlap
+        \setlength{\tabcolsep}{8pt} % Adjust spacing
+        \renewcommand{\arraystretch}{1} % Adjust row spacing
+        \resizebox{1.0\linewidth}{!}{
+        \begin{tabular}{cccccc}
+            \multirow{2}{*}{L}  & \multicolumn{5}{c}{Success rate (LIBERO)}\\
+             &  S & O & G & 10 & AVG \\
+            \shline
+            8  & 77 & 88 & 86 & 49 & 75    \\
+            16 & 88 & 91 & 91 & 44 & 78.5  \\
+            24 & 86 & 97 & 86 & 49 & 79.5  \\
+            32 & 89 & 94 & 85 & 53 & 80.25 \\ 
+        \end{tabular}%
+        }
+        \captionof{table}{\textbf{VLM layers.} Interaction between the expert and VLM up to layer $L$.}
+        \label{tab:ablation_vlm_layers}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.32\linewidth}
+        \centering
+        % \vspace{0.5cm}  % Reduced the negative vspace to avoid overlap
+        \setlength{\tabcolsep}{8pt} % Adjust spacing
+        \renewcommand{\arraystretch}{1} % Adjust row spacing
+        \resizebox{1.0\linewidth}{!}{
+        \begin{tabular}{cccccc}
+            \multirow{2}{*}{History}  & \multicolumn{5}{c}{Success rate (LIBERO)}\\
+             &  S & O & G & 10 & AVG \\
+            \shline
+            N/A   & 89 & 94 & 85 & 53 & 80.25 \\
+            2 I   & 86 & 90 & 85 & 51 & 78    \\
+            3 I   & 83 & 81 & 76 & 39 & 69.75 \\
+            3 S   & 68 & 85 & 72 & 29 & 63.5  \\
+            3 I+S & 77 & 95 & 74 & 34 & 70    \\
+        \end{tabular}%
+        }
+        \captionof{table}{\textbf{History of observations.} I=Image, S=state.}
+        \label{tab:ablation_vlm_layers}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.32\linewidth}
+        \centering
+        % \vspace{0.5cm}  % Reduced the negative vspace to avoid overlap
+        \setlength{\tabcolsep}{8pt} % Adjust spacing
+        \renewcommand{\arraystretch}{1} % Adjust row spacing
+        \resizebox{1.0\linewidth}{!}{
+        \begin{tabular}{cccccc}
+            \multirow{2}{*}{Expert width}  & \multicolumn{5}{c}{Success rate (LIBERO)}\\
+             &  S & O & G & 10 & AVG \\
+            \shline
+           $\times$ 1    & 87 & 96 & 90& 56& 82.25  \\
+           $\times$ 0.75 & 82 & 89 & 84& 55& 77.5   \\
+           $\times$ 0.5  & 89 & 94 & 85& 53& 80.25  \\
+           $\times$ 0.25 & 76 & 97 & 83& 39& 73.75  \\
+        \end{tabular}%
+        }
+        \captionof{table}{\textbf{Expert capacity} Varying action expert width. \Mus{to repeat.}}
+        \label{tab:ablation_vlm_layers}
+    \end{minipage}
+    \hfill
+        \begin{minipage}[t]{0.4\linewidth}
+        \centering
+        % \vspace{0.5cm}  % Reduced the negative vspace to avoid overlap
+        \setlength{\tabcolsep}{8pt} % Adjust spacing
+        \renewcommand{\arraystretch}{1} % Adjust row spacing
+        \resizebox{1.0\linewidth}{!}{
+        \begin{tabular}{cccccc}
+            \multirow{2}{*}{Policy (Init)}  & \multicolumn{5}{c}{Success rate (LIBERO)}\\
+             &  S & O & G & 10 & AVG \\
+            \shline
+           Ours (SVLM2-500M) & 89 & 94 & 85 & 53 & 80.25 \\
+           \shline
+           $\pi_0$ ($\pi_0$-3B) & 85 & 97 & 88 & 75 & 86.25 \\
+           $\pi_0$ (Paligemma-3B) & 86 & 70 & 75 & 39 & 67.5 \\
+           \shline
+           Ours (SVLM2-500M) &  \\
+           \shline
+           $\pi_0$ ($\pi_0$-3B)   & 90	& 86 & 95 & 73 & 86    \\
+           $\pi_0$ (Paligemma-3B) & 87	& 63 & 89 & 48 & 71.75 \\
+        \end{tabular}%
+        }
+        \captionof{table}{\textbf{Ours vs PI0}. Bottom bs 64}
+        \label{tab:ablation_vlm_layers}
+    \end{minipage}
+    \hfill
+        \begin{minipage}[t]{0.4\linewidth}
+        \centering
+        % \vspace{0.5cm}  % Reduced the negative vspace to avoid overlap
+        \setlength{\tabcolsep}{8pt} % Adjust spacing
+        \renewcommand{\arraystretch}{1} % Adjust row spacing
+        \resizebox{1.0\linewidth}{!}{
+        \begin{tabular}{cccccc}
+            \multirow{2}{*}{Policy (Init)}  & \multicolumn{5}{c}{Success rate (LIBERO)}\\
+             &  S & O & G & 10 & AVG \\
+            \shline
+
+        \end{tabular}%
+        }
+        \captionof{table}{\textbf{Chunk size}.}
+        \label{tab:ablation_vlm_layers}
+    \end{minipage}
+    \hfill
+\end{figure}

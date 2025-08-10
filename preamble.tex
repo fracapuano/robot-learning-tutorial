@@ -1,0 +1,48 @@
+
+\definecolor{lightyellow}{rgb}{1, 0.95, 0.85}
+\definecolor{graphicbackground}{rgb}{0.9765,0.9451,0.9059}
+\definecolor{codebackground}{rgb}{0.8314,0.949,0.9882}
+
+\newcommand{\finding}[2]{%
+  \begin{tcolorbox}[colback=lightyellow, colframe=black, arc=4pt, boxsep=1pt]
+    \paragraph{\textbf{\textit{Finding} #1.}} #2
+  \end{tcolorbox}%
+}
+
+% Tables
+\usepackage{booktabs}
+\usepackage{graphicx}
+% \usepackage{subfig}
+\usepackage{subcaption}
+\usepackage{multirow}
+
+\newcommand{\tablestyle}[2]{\setlength{\tabcolsep}{#1}\renewcommand{\arraystretch}{#2}\centering\footnotesize}
+\newlength\savewidth\newcommand\shline{\noalign{\global\savewidth\arrayrulewidth
+  \global\arrayrulewidth 1pt}\hline\noalign{\global\arrayrulewidth\savewidth}}
+
+\newlength\thinwidth\newcommand\thinline{\noalign{\global\savewidth\arrayrulewidth
+  \global\arrayrulewidth 0.5pt}\hline\noalign{\global\arrayrulewidth\savewidth}}
+
+\definecolor{Gray}{gray}{0.92}
+\definecolor{DarkGray}{gray}{0.5}
+
+% colors
+\definecolor{LightCyan}{rgb}{0.88,1,1}
+\definecolor{altRowColor}{gray}{0.92}
+\definecolor{highlightRowColor}{rgb}{0.9, 0.9, 1}
+\newcommand{\colorrow}{\rowcolor{highlightRowColor}}
+\newcommand{\grayrow}{\rowcolor{Gray}}
+\newcommand{\highlightcell}{\cellcolor{highlightRowColor}}
+\newcommand{\colorcell}{\cellcolor{Gray}}
+
+
+\newcommand{\cpar}{\par\noindent\textbf}
+
+\newcommand{\graytext}{\textcolor{gray}}
+
+
+\newcommand{\Mus}[1]{{\color{red}\textbf{Mus:#1}}}
+\newcommand{\Dan}[1]{{\color{blue}\textbf{Dana:#1}}}
+
+
+\newcommand{\ours}{{SmolVLA}\xspace}

@@ -1,0 +1,439 @@
+\section{Experiments}
+
+\subsection{Experimental setup}
+We evaluate our model on both simulated and real-world robotic manipulation tasks. 
+To evaluate \ours in simulation, we collected a new dataset for MetaWorld~\citep{yu2020metaworld} comprising of 50 demonstrations for each of the 50 tasks.
+For real-world evaluation, we collected three datasets using the SO-100 robot arm~\citep{Knight_Standard_Open_SO-100} and 1 with SO-101 arm~\citep{Knight_Standard_Open_SO-100}, each corresponding to a different manipulation task. Each dataset contains demonstrations relative to one task, with 10 trajectories for each of 5 distinct starting positions, resulting in a total of 50 demonstrations per dataset. The datasets record trajectories relative to
+Unless specified otherwise, \ours is always trained in a multi-task setting.
+
+\paragraph{Evaluation metrics.} We report success rate (SR) as the primary metric across all benchmarks. For simulation-based evaluations, SR is binary--set to 1 if the task is successfully completed, and 0 otherwise. For real-world evaluations, we adopt a more fine-grained scoring approach by decomposing each task into subtasks. For example, in the Pick-and-Place task, we assign a score of 0.5 for successfully picking the cube and an additional 0.5 for correctly placing it into the target container.
+
+\paragraph{Simulated environments.}
+We evaluate \ours in two established multi-task simulation benchmarks: LIBERO~\citep{liu2023libero} and Meta-World~\citep{yu2020metaworld}. LIBERO assesses diverse visuomotor skills across four categories--\textit{Spatial}, \textit{Object}, \textit{Goal}, and \textit{Long}--with 10 tasks per category (40 total). We use a dataset~\citep{kimopenvla,pertsch2025fast}\footnote{LIBERO dataset: \href{https://huggingface.co/datasets/physical-intelligence/libero}{physical-intelligence/libero}} containing 1,693 episodes covering all tasks, and evaluate with 10 trials per task, reporting average success rates based on binary completion criteria. 
+Meta-World evaluates generalization across 50 tasks of varying difficulty: \textit{easy}, \textit{medium}, \textit{hard}, and \textit{very hard}~\citep{seo2023masked}. We use a dataset\footnote{Meta-World dataset: \href{https://huggingface.co/datasets/lerobot/metaworld_mt50}{lerobot/metaworld\_mt50}} of 2,500 episodes (50 per task), and mirror the evaluation protocol used for LIBERO: 10 trials per task, with trials scored as 1 only if the task is fully completed.
+
+\paragraph{Real-world tasks.} We evaluated \ours on 4 datasets in a real-world setting, which we open-source on Hugging Face (\Cref{fig:tasks}). In particular, we benchmark real-world pick and placing capabilities\footnote{Pick-Place dataset: \href{https://huggingface.co/datasets/lerobot/svla_so100_pickplace}{lerobot/svla\_so100\_pickplace}}, stacking capabilities\footnote{Stacking dataset: \href{https://huggingface.co/datasets/lerobot/svla_so100_stacking}{lerobot/svla\_so100\_stacking}.}, and sorting capabilities\footnote{Sorting dataset: \href{https://huggingface.co/datasets/lerobot/svla_so100_sorting}{lerobot/svla\_so100\_sorting}.} for the SO100 robot, alongside real-world pick and placing capabilities for the SO101 platform \footnote{(SO101) Pick-Place dataset: \href{https://huggingface.co/datasets/lerobot/svla_so101_pickplace}{lerobot/svla\_so101\_pickplace}}. Critically, \ours is not pretrained on any datasets recorded for the SO101.
+
+For the pick and place task, \ours is instructed to \texttt{pick up the cube and place it in the box}. The box is small in size and in a fixed position positions while the cube starting position is varied within 5 different starting conditions. % TODO(fracapuano): for the academic submission provide a figure of the different starting positions should be provided
+We assess completion of the task with a fine-grained score resulting in a score of 0.5 for successfully grasping the cube, and 0.5 for successfully placing it into the box.
+ 
+For the stacking task, \ours is required to put a cube on top of another. We instruct the robot to \texttt{pick up the red cube and put it on top of the blue cube}. The initial positions of both cubes vary across episodes.
+% TODO(fracapuano): for the academic submission provide a figure of the different starting positions should be provided
+We assess completion of the task with a fine-grained score resulting in a score of 0.5 for successfully grasping the top cube, and 0.5 for successfully placing it on top of the bottom cube.
+
+For the sorting tasks, which has longer horizon, \ours must sort the cubes depending on the color, following the instruction to \texttt{put the red cube in the right box and the blue cube in the left box}. The cubes are placed in  5 different positions as in Task~1. To introduce variation, the colors of the cubes are flipped, with 5 episodes per color configuration, resulting in 10 demonstrations per position. The boxes locations remain fixed across all demonstrations. 
+We assess completion of the task with a fine-grained score resulting in a score of 0.25 for successfully grasping either of the cubes, and 0.25 for successfully completing one cube-box matching, resulting in a score of 0.25 \( \times \) 4 upon task completion.
+Figure~\ref{fig:tasks}(A) presents initial and final frames for successful episodes for all tasks, alongside the Hugging Face handle of the corresponding dataset\footnote{Datasets can be easily explored via \href{https://huggingface.co/spaces/lerobot/visualize_dataset}{\texttt{visualize\_dataset}}}.
+
+To assess \ours's generalization, we also evaluate our model on a different robot embodiment and task\footnote{Pick-Place-Lego dataset: \href{https://huggingface.co/datasets/lerobot/svla_so101_pickplace}{lerobot/svla\_so101\_pickplace}.}, similar to pick-place but rather using a small block instead of a cube. 
+In this task, the robot is instructed to \texttt{put the pink lego brick into the transparent box}. This task requires more precision, especially in grasping the small lego object, together with advanced vision capabilities considering the box's transparency.
+
+\begin{figure}
+    \centering
+    \begin{minipage}[t]{0.99\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/tasks.pdf}
+        \caption{Illustrations of the four real-world tasks we benchmark \ours against, presenting starting and terminal frame for each of the dataset considered, for both SO100 embodiments (A) and SO101 (B). For SO100, we use top and wrist cameras, where for SO101 we use top and side cameras (as seen in the images).}
+        \label{fig:tasks}
+    \end{minipage}
+    \vspace{-0.6cm}
+\end{figure}
+
+% \paragraph{LIBERO~\citep{liu2023libero}.}
+% LIBERO is a multi-task simulated benchmark designed to test various aspects of VLA capabilities. We evaluate our model across four categories: \textit{Spatial}, \textit{Object}, \textit{Goal}, and \textit{Long}.
+% Each category assesses specific skills in the VLA's behavior: spatial relationships are probed by changing object positions, object recognition is assessed by altering object types, goal understanding is tested by modifying the task goal, and long-horizon capabilities are measured measuring long-term capabilities. 
+% Each of these categories contains 10 tasks, totaling 40 distinct tasks. Our model is trained on a dataset\footnote{LIBERO dataset: \href{https://huggingface.co/datasets/physical-intelligence/libero}{physical-intelligence/libero}.}~\citep{kimopenvla,pertsch2025fast} covering all these tasks and amounting at 1,693 episodes. 
+% For evaluation, we conduct 10 trials per task and report the average success rate. Success rates is computed averaging binary success indicators over each trial, with a score of 1 being awarded exclusively when the robot completes the task correctly (0 otherwise).
+
+% \paragraph{Meta-World \citep{yu2020metaworld}.}
+% Meta-World is another multi-task simulation benchmark focused on testing model generalization across 50 different tasks, categorized into varying difficulty levels: \textit{easy}, \textit{medium}, \textit{hard}, and \textit{very hard}~\citep{seo2023masked}. 
+% We collect a training dataset \footnote{Meta-World dataset: \href{https://huggingface.co/datasets/lerobot/metaworld_mt50}{lerobot/metaworld\_mt50}.} of 2,500 episodes, with 50 episodes per task. For evaluation, we perform 10 trials per task and report the average success rate. Similar to LIBERO, the tasks are sparse, with a success score of 1 achieved only when the task is fully completed.
+
+
+\subsection{Robots}
+Across simulation and real-world enviroments, we use a variety of robotic platforms.
+\begin{itemize}
+    \item \textbf{SO100 and SO101 \citep{cadene2024lerobot}}. The Standard Open SO-100 is a low-cost, 3D-printable robotic arm designed for improving accessibility to robotics and robot learning research. Both the SO-100 and its updated version, the SO-101, are open-source platforms for basic manipulation tasks. Each arm has six degrees of freedom and uses low-cost servo motors that are controlled with position commands. The SO101 has better arm design for faster assembly and different motors, making its movements smoother and better for tasks requiring more precisions.
+    \item \textbf{Panda \citep{haddadin2022franka}.} The Franka Emika Panda is a single 7-DOF torque-controlled robotic arm designed for safe and precise manipulation. Its high-resolution joint sensing and compliant control make it well-suited for learning-based manipulation tasks in both simulation and real-world settings. This robot is used in the LIBERO simulator.
+    \item \textbf{Swayer \citep{yu2020metaworld}.} Is a single 4-DOF controlled robotic arm designed for manipulation tasks. Is is used in the Meta-World simulator and the policy control the position and state of the gripper.    
+\end{itemize}
+
+\subsection{Implementation details.}
+
+We conduct our experiments using LeRobot~\citep{cadene2024lerobot}, a PyTorch-based framework for real-world robotics. 
+During pretraining, we train for 200,000 steps with a global batch size of 256 on all our community datasets. 
+After a 100-step warmup, we use a cosine learning rate schedule starting at 1e-4 and decaying to a minimum of 2.5e-6. We use the AdamW optimizer with $\beta_1=0.9, \beta_2=0.95$.
+Training is performed after resizing the images to 512×512, for consistency with the VLM input size. 
+We use SmolVLM-2~\citep{marafioti2025smolvlm} as our VLM backbone. 
+The action expert is trained with flow matching to output chunks of \( n = 50 \) actions. For real-world evaluation, we perform synchronous inference: the model samples new observations only after executing the full chunk of actions. In simulation, we perform inference by sampling new observations and predicting a new action after each executed action. During inference, the flow matching is fixed to 10 steps. 
+We train only the action expert module, keeping the VLM frozen. 
+Our main model, contains 450 million parameters, with approximately 100 million dedicated to the action expert. 
+We use only the first 16 layers of the large language model (LLM) within the VLM. For fine-tuning on simulation benchmarks, we train for 100,000 steps with a batch size of 64, while for real-world tasks, we fine-tune for 200,000 steps. 
+However, we observe in practice that the model can be trained for a much smaller number of steps without sacrificing significant performance levels.
+
+Beyond maintaining a compact model and a reduced number of tokens, we employ several optimizations to enhance training efficiency. 
+Specifically, we leverage \texttt{bfloat16} precision and \texttt{torch.compile()} \citep{paszke2019pytorch} that JIT-compiles PyTorch code into optimized kernels. 
+To ensure compatibility with these optimizations, we maintain a fixed sequence length and batch size, discarding any excess frames in an episode that do not fit a complete batch. 
+For multi-GPU and multi-node training, we utilize Hugging Face's \texttt{accelerate} \citep{accelerate} library with mixed precision, providing a scalable and memory-efficient training setup. 
+Pretraining was conducted using 4 GPUs to accomodate for large batch size, but the model can easily be trained on a single GPU due to its small size. Overall, the project consumed approximately 30k GPU hours.
+
+\subsection{Baselines}
+We compare our model against two popular and strong baselines, both available in the LeRobot library \citep{cadene2024lerobot}.
+
+\paragraph{\( \bf{\pi}_0 \) \citep{black2024pi_0}.}
+\( \pi_0 \) is a VLA which leverages a VLM combined with Flow Matching for action chunk prediction. 
+It has a total model size of 3.3 billion parameters and is pre-trained on 10,000 hours of cross-embodiment robotics data. 
+The model architecture is based on Paligemma \citep{beyer2024paligemma} and accepts three RGB images, sensorimotor states, and a language instruction as inputs.
+
+\paragraph{ACT \citep{zhao2023learningact}.}
+ACT is a Conditional Variational Autoencoder (CVAE) \citep{NIPS2015_8d55a249cvae} policy model with an encoder-decoder transformer architecture containing approximately 80 million parameters. ACT uses a ResNet vision encoder pre-trained on ImageNet, while the CVAE is trained from scratch. The model generates action chunks and is optimized using a regression objective, directly predicting continuous actions. The model accepts a sequence of RGB images, and sensorimotor states.
+
+% \paragraph{Diffusion policy \citep{chi2024diffusionpolicy}.} (TODO: fracapuano) add diffusion policy to the mix for the submission
+
+\subsection{Main results}
+In this section, we present the main results of \ours in both real-world and simulated environments. For real-world evaluation, \ours is pretrained on community-collected datasets. \( \pi_0 \) is finetuned on the respective target datasets, while ACT is trained from scratch on each dataset.
+
+\input{tables/main_results_libero}
+
+\paragraph{Simulation Evaluation.}
+In \Cref{tab:libero_metaworld_combined}, we further evaluate \ours on two major simulation benchmarks--LIBERO and Meta-World--using a multi-task training setup. \ours{} outperforms other VLA-based approaches such as Octo \citep{team2024octo} and OpenVLA \citep{kimopenvla}, as well as the diffusion policy baseline across both LIBERO and Meta-World. We also compare against two variants of $\pi_0$: one initialized from a vision-language model (Paligemma-3B), and another further pretrained on robotics datasets (intitialized from the weights released by the authors). Despite not being pretrained on robotics data, \ours{} consistently outperforms the VLM-initialized $\pi_0$ and performs competitively with the robotics-pretrained version. Note that, compared to $\pi_0$, \ours is around 40\% faster to train and consumes 6$\times$ less memory.
+
+\input{tables/main_results_real}
+
+\paragraph{Real-World Evaluation.}
+In \Cref{tab:main_results_real}, we evaluate \ours{} on four real-world tasks. For the SO101 benchmark, the model is trained on a combination of three datasets, and success rates are reported per task as well as on average. \ours{} outperforms both ACT \citep{zhao2023learningact}, which is trained individually on each task, and \( \pi_0 \), a significantly larger model in terms of parameter count (\( \sim 7\times\)). 
+Similarly, on SO101 (see \Cref{tab:main_results_real_so101}), \ours{} surpasses ACT in both in-distribution and out-of-distribution (OOD) settings. For OOD evaluation, the Lego object is placed in novel positions not previously encountered during training.
+
+\input{tables/main_results_effect_of_pretraining}
+
+\paragraph{Effect of pretraining and multitask learning.} In \Cref{tab:main_results_effect_of_pretrain}, we further evaluate the impact of pretraining \ours on community datasets in terms of the difference in real-world performance, and investigate whether multitask finetuning provides additional benefits for \ours. The results show that, pretraining on community datasets leads to a substantial performance improvement (from 51.7 to 78.3). 
+Furthermore, multitask finetuning yields further gains, underscoring the importance of knowledge transfer across tasks.
+
+% Diffusion Policy~\cite{khazatsky2024droid} libero
+
+% Diffusion Policy~\cite{chi2023diffusion} metaworld
+
+% \begin{itemize}
+%     \item Figure 1: Performance (AVG SR) vs training time.
+%     \item Figure 2: Performance vs inference time.
+% \end{itemize}
+
+% \input{tables/main_results_so101}
+
+\input{tables/async_results}
+
+\subsection{Asynchronous inference}
+
+We evaluated \ours{} under two inference modes: sync and async. 
+The sync mode reflects a standard evaluation setting in robotics, whereby the policy predicts a chunk of actions that is executed fully before the next prediction cycle begins. In contrast, the async mode decouples action execution and policy inference, allowing predictions and control to run in parallel.
+
+\paragraph{Results.}
+For both inference modes, we report the success rate and policy speed (\Cref{fig:async_inference_summary}). To evaluate speed, we design two experiments using the Pick-Place task. In the first experiment, we measure the time taken to complete the task across 10 trials and 5 different cube positions. In the second, we fix a time limit (e.g., 60 seconds) and count the number of cubes successfully picked and placed into the box, from different positions. Timing begins when the robot starts moving. As shown in \Cref{tab:real_async_success}, both inference modes achieve comparable success rates across three real-world tasks. However, asynchronous inference demonstrates a substantial speed advantage (\Cref{tab:real_async_time}). On average, it completes the task in 9.7 seconds, compared to 13.75 seconds in the synchronous setting (\( \sim 30\% \) faster). Furthermore, under the fixed-time evaluation, the asynchronous mode allows the robot to complete 19 successful pick-and-place cycles, compared to only 9 in the synchronous case (\Cref{tab:real_async_cubes}). Qualitatively, we observe that asynchronous inference enables faster reactions and better adaptability to changes in the environment. The robot exhibits greater robustness to shifts in object positions and external disturbances, and overall is capable to solve the same tasks a significantly larger number of times due to the avoidance of prediction lags (\Cref{fig:async_inference_summary}).
+
+% We start counting the time after the robot move
+% for timing we consider always success
+
+% \subsection{SmolVLA on single GPU.}
+
+% No pretraining, direct finetuning on final tasks.
+
+% \subsection{SmolVLA trained on community datasets}
+
+% Pretraining on filtered So100 datasets and then finetuning on the final tasks.
+
+
+% \subsection{SmolVLA trained on academic and community datasets}
+
+% Large-scale pretraining on academic (+ community) datasets. Then finetuning on final tasks.
+
+\subsection{Ablation Study}
+We conduct a comprehensive ablation study to assess key design choices behind the final \ours model. 
+All ablations are conducted on the LIBERO benchmark. Unless otherwise noted, models are trained from scratch without any pretraining on robotics data. The VLM backbone is frozen, and only the action expert is trained from scratch.
+
+\input{tables/ablations_ca_sa}
+
+\paragraph{Cross-attention (CA) vs. self-attention (SA) between VLM and \( \actionexpert \).}
+We compare how the VLM features interact with the action expert, comparing causal self-attention (SA), cross-attention (CA), or our proposed interleaved SA+CA setup. 
+In the SA setting, action tokens attend to each other using a causal mask, while in the CA setting the VLM features act as keys and values for attention in the \( \actionexpert \). 
+As shown in \Cref{tab:ablation_model_attention}, cross-attention outperforms self-attention significantly. Interleaving both yields the best results, highlighting their complementary strengths.
+
+\input{tables/ablations_vlm_layers}
+
+\paragraph{Causal vs. bidirectional attention on action tokens within \( \actionexpert \).} 
+Next, we investigate how action tokens should attend to each other within the action expert, \( \actionexpert \). 
+We compare: \emph{(i)} no interaction between action tokens (pure CA), \emph{(ii)} causal self-attention, and \emph{(iii)} bidirectional self-attention. \Cref{tab:ablation_causal_bidir_attention} shows causal self-attention performs best, while bidirectional interaction harms performance.
+Surprisingly, the no-interaction (CA-only) setup performs competitively, suggesting that conditioning on VLM features alone can be powerful.
+
+\paragraph{Using early LLM layers in the VLM.}
+The VLM backbone consists of a vision encoder followed by an LLM. 
+Motivated by improving the efficiency of \ours, we investigate using features from the first \( N < L\) layers only instead of all the \( L \) LLM layers available or the features~\citep{black2024pi_0}.
+Before starting to train, we discard the top \( L - N \) layers of the VLM. 
+As shown in \Cref{tab:ablation_vlm_layers}, using only the first half of the VLM layers gives a good trade-off between performance and compute. 
+Further, we also test a variant sampling every second VLM layer (Skip \% 2, ~\citep{shukor2024skipping})--reducing depth by half while retaining full model capacity. \Cref{tab:ablation_vlm_layers} indicates skipping every second layer performs better than training a smaller VLM, but worse than using the first \( N < L \) layers directly.
+
+% % \vspace{-0.6cm}
+% \begin{wraptable}{r}{0.5\linewidth}
+%     \centering
+%     \setlength{\tabcolsep}{8pt} % Balanced spacing
+%     \renewcommand{\arraystretch}{1.2} % Enhanced row height
+%     \resizebox{0.8\linewidth}{!}{
+%         \begin{tabular}{cccccc}
+%         \toprule
+%             \textbf{Training objective} & \multicolumn{5}{c}{\textbf{Success Rate (\%) -- LIBERO}} \\\cmidrule(lr){2-6}
+%              & \textbf{S} & \textbf{O} & \textbf{G} & \textbf{10} & \textbf{Avg} \\
+%             \midrule
+%              Flow matching   & 89 & 94 & 85 & 53 & 80.25 \\
+%              % \shline
+%              Regression   &  92	& 85 & 86 & 38 & 75.25 \\
+%         \end{tabular}%
+%         }
+%         \captionof{table}{\textbf{Training objective.} We compare our training objective based on Flow matching to regression with L1 loss.}
+%     \vspace{-0.cm}
+%     \label{tab:ablation_regression}
+% \end{wraptable}
+
+
+\paragraph{Action Expert Capacity.}
+Motivated by efficiency arguments, we investigate varying the hidden dimension of the action expert to explore the impact of model capacity on performance.
+Given the VLM dimension \( d \), \Cref{tab:ablation_expert_capacity} shows reducing the expert's hidden size to \( 0.75 \times d \) achieves a good balance between performance and efficiency.
+
+\input{tables/ablations_regression_vs_flow_matching}
+
+\paragraph{Regression vs. Flow Matching training objectives.}
+We compare two learning objectives for training the action expert \( \actionexpert \): flow matching (our default), and a standard regression L1 loss on the predicted versus ground-truth action chunks. 
+In keeping with~\citet{black2024pi_0, chi2024diffusionpolicy} \Cref{tab:ablation_regression} shows that flow matching significantly outperforms regression, suggesting flow matching provides better inductive bias for modeling complex, multimodal action distributions.
+
+\paragraph{States to the VLM or Action Expert?}
+We compare two variants: \emph{(i)} feeding the sensorimotor states to the VLM (by projecting them into token space), and \emph{(ii)} passing them directly to the action expert. 
+\Cref{tab:ablation_states_to_prefix} indicates including state information in the VLM leads to significantly better performance for both the CA and SA variants.
+
+\input{tables/ablations_chunk_size}
+
+\paragraph{Action chunk size, \( n \).}
+Our model predicts chunks of actions, where each chunk consists of \( n \) time steps. We study the effect of varying \( n \) on the overall performance. 
+A larger \( n \) allows the robot to execute more actions at inference time before needing to process new observations and predict the next chunk. 
+However, \Cref{tab:ablation_chunk_size} shows that both very small and very large values of \( n \) degrade performance. We find that chunk sizes between 10 and 50 provide a good balance between the robot reactivity and efficiency.
+
+% % \vspace{-0.4cm}
+% \begin{wraptable}{r}{0.4\linewidth}
+%     \centering
+%     \setlength{\tabcolsep}{8pt} % Adjusted for compactness
+%     \renewcommand{\arraystretch}{1.2} % Improved row spacing
+%     \resizebox{\linewidth}{!}{
+%         \begin{tabular}{ccccccc}
+%             \toprule
+%             \textbf{States} & \textbf{Attention} & \multicolumn{5}{c}{\textbf{Success Rate (\%) -- LIBERO}} \\\cmidrule(lr){3-7}
+%              & & \textbf{S} & \textbf{O} & \textbf{G} & \textbf{10} & \textbf{Avg} \\
+%             \midrule
+%             Prefix & CA & 89 & 94 & 85 & 53 & 80.3 \\
+%             Suffix & CA & 86 & 82 & 78 & 47 & 73.3 \\
+%             Prefix & SA & 62 & 74 & 57 & 20 & 53.3 \\
+%             Suffix & SA & 80 & 92 & 80 & 47 & 74.8 \\
+%             \bottomrule
+%         \end{tabular}
+%     }
+%     \captionof{table}{\textbf{States as prefix vs. suffix.} Feeding states to the VLM (prefix) leads to better performance than feeding them to the expert (suffix).}
+%     \vspace{-1cm}
+%     \label{tab:ablation_states_to_prefix}
+% \end{wraptable}
+
+\paragraph{Number of executed actions before updating observations.}
+To improve inference speed in real-world deployment, the robot can execute multiple actions from the predicted chunk before processing new observations, hereby overwriting the current chunk before its exhaustion.
+Still, while acting the entire chunk speeds up inference, it also reduces the robot's responsiveness to environmental changes.
+\Cref{tab:ablation_action_steps} demonstrates updating observations more frequently significantly improves success rate, highlighting a trade-off between inference speed and control accuracy.
+
+% \paragraph{Scaling the VLM.}
+% We investigate the impact of VLM size on overall performance. We train models with various VLM backbones based on SmolVLM2, ranging from 256M to 2B parameters. As shown in \Cref{tab:ablation_different_vlms}, increasing the VLM size consistently improves performance, reinforcing the importance of strong vision-language representations for downstream action prediction. 
+
+% \vspace{-0.4cm}
+% \begin{wraptable}{r}{0.5\linewidth}
+%     \centering
+%     \setlength{\tabcolsep}{8pt} % Balanced spacing
+%     \renewcommand{\arraystretch}{1.2} % Enhanced row height
+%     \resizebox{\linewidth}{!}{
+%         \begin{tabular}{cccccccc}
+%             \toprule
+%             \textbf{VLM} & \textbf{Model Size} & \textbf{VLM Size} & \multicolumn{5}{c}{\textbf{Success Rate (\%) -- LIBERO}} \\\cmidrule(lr){4-8}
+%              & & & \textbf{S} & \textbf{O} & \textbf{G} & \textbf{10} & \textbf{Avg} \\
+%             \midrule
+%             SVLM-2 & 280M  & 256M & 86 & 83 & 75 & 59 & 75.8 \\
+%             SVLM-2 & 600M  & 500M & 89 & 94 & 85 & 53 & 80.3 \\
+%             SVLM-2 & 2.5B  & 2B   & 92 & 94 & 85 & 56 & 81.8 \\
+%             \bottomrule
+%         \end{tabular}
+%     }
+%     \captionof{table}{\textbf{Effect of VLM size.} Performance increases with larger vision-language models (VLMs), suggesting capacity scaling improves success rate on LIBERO tasks.}
+%     \vspace{-0.9cm}
+%     \label{tab:ablation_different_vlms}
+% \end{wraptable}
+
+% Simulation + some real (e.g. model size)
+
+% \paragraph{Ablation on final model.}
+% bs 64, VLM at 16, CA+SA causal, exp0.75
+
+% - state to prefix +1
+% - CA vs SA vs CA+SA +2
+% - VLM layer +3
+% - VLM size +2
+% - Different VLMs +2
+
+% Minor:
+% - causal attention vs bidir + 1
+% - Experts capacity +3
+
+% appendix:
+% - chunk sizw
+% - action steps
+
+% \paragraph{Effect of pretraining.}
+
+% bs 64, VLM at 16, CA+SA causal exp 0.75.
+
+% - Increase number of community datasets
+% - DROID
+% - Filtered vs non filtered
+
+% \paragraph{Main results.}
+% Main model to conduct ablation: cross-att, 500M, states to pref, chunk 50, special tokens.
+% \begin{itemize}
+%     \item Different model sizes.
+%     \item Cross-attention vs self-att vs interleaved.
+%     \item Skipping computations: smaller expert (interleaved vs half vlm) vs full expert.
+%     \item Expert size: with main configuration, scale width.
+    
+% \end{itemize}
+
+% \paragraph{Ablations.}
+% Main model to conduct ablation: cross-att, 500M, states to pref, chunk 50, special tokens.
+% \begin{itemize}
+%     \item High resolution (tiling) vs low resolution.
+%     \item Special image tokens ?
+%     \item History to the model: states, images and images + states?
+%     \item States to VLM instead of expert
+%     \item Different chunk size
+%     \item Different number of action steps (horizon) during inference.
+% \end{itemize}
+
+% \paragraph{Good to have.}
+% \begin{itemize}
+%     \item Different VLMs.
+%     \item Regression vs flow-matching.
+% \end{itemize}
+
+
+
+% \begin{table}[h!]
+%     \centering
+%     \subfloat[\textbf{Objective}.
+%         \label{tab:aimv1_aimv2_cap_ablation}
+%     ]{
+%         \begin{minipage}[t]{0.1\textwidth}  % Set width here
+%             \tablestyle{3pt}{1.0}
+%             \begin{tabular}{l cc ccc}
+%                 model & pre-train attn. & IN-1k & VQAv2 & TextVQA \\
+%                 \shline
+%                 AIM & \textit{prefix} & 72.0 & 65.4 & 12.7 \\
+%                 \multirow{2}{*}{Cap} & \textit{bidir} & 85.1 & 76.2 & 34.4 \\
+%                                       & \textit{prefix} & 85.4 & 76.8 & 36.5 \\
+%                 \grayrow ours & \textit{prefix} & \textbf{85.6} & \textbf{76.9} & \textbf{37.5} \\
+%             \end{tabular}
+%         \end{minipage}
+%     }
+%     \hfill
+%     \subfloat[\textbf{Ours vs CLIP.}.
+%         \label{tab:aimv2_vs_clip}
+%     ]{
+%         \begin{minipage}[t]{0.1\linewidth}  % Set width here
+%             \tablestyle{3pt}{1.0}
+%             \begin{tabular}{l cccc}
+%                 model & bsz & IN-1k & VQAv2 & TextVQA \\
+%                 \shline
+%                 \multirow{2}{*}{CLIP} & 8k & 84.6 & 74.1 & 24.6 \\
+%                                        & 16k & 85.2 & 74.8 & 26.3 \\
+%                 CapPa & 8k & 84.7 & 75.1 & 30.6 \\
+%                 \grayrow Ours & 8k & \textbf{85.6} & \textbf{76.9} & \textbf{37.5} \\
+%             \end{tabular}
+%         \end{minipage}
+%     }
+%     \hfill
+%     \subfloat[\textbf{Criteria Weights}.
+%         \label{tab:criteria_weights}
+%     ]{
+%         \begin{minipage}[t]{0.3\textwidth}  % Set width here
+%             \tablestyle{3pt}{1.1}
+%             \begin{tabular}{l ccc}
+%                 $\alpha$ & IN-1k & VQAv2 & TextVQA \\
+%                 \shline
+%                 0.2 & \textbf{85.6} & 76.7 & 37.4 \\
+%                 \grayrow 0.4 & \textbf{85.6} & \textbf{76.9} & \textbf{37.5} \\
+%                 0.6 & \textbf{85.6} & 76.7 & 37.4 \\
+%             \end{tabular}
+%         \end{minipage}
+%     }
+
+%     \vspace{4mm}
+
+%     \subfloat[\textbf{Decoder Architecture}.
+%         \label{tab:decoder_arch}
+%     ]{
+%         \begin{minipage}[t]{0.3\textwidth}  % Set width here
+%             \tablestyle{7pt}{1.1}
+%             \begin{tabular}{l ccc}
+%                 & IN-1k & VQAv2 & TextVQA \\
+%                 \shline
+%                 \textit{separate} & \textbf{85.6} & \textbf{77.1} & 37.2 \\
+%                 \grayrow \textit{joint} & \textbf{85.6} & 76.9 & \textbf{37.5} \\
+%             \end{tabular}
+%         \end{minipage}
+%     }
+%     \hfill
+%     \subfloat[\textbf{Decoder Width}.
+%         \label{tab:decoder_width}
+%     ]{
+%         \begin{minipage}[t]{0.3\textwidth}  % Set width here
+%             \tablestyle{7pt}{1}
+%             \begin{tabular}{l ccc}
+%                 width & IN-1k & VQAv2 & TextVQA \\
+%                 \shline
+%                 512 & 85.3 & 76.2 & 35.9 \\
+%                 \grayrow 1024 & \textbf{85.6} & \textbf{76.9} & \textbf{37.5} \\
+%                 1536 & 85.1 & \textbf{76.9} & 36.9 \\
+%             \end{tabular}
+%         \end{minipage}
+%     }
+%     \hfill
+%     \subfloat[\textbf{Decoder Depth}.
+%         \label{tab:decoder_depth}
+%     ]{
+%         \begin{minipage}[t]{0.3\textwidth}  % Set width here
+%             \tablestyle{7pt}{1}
+%             \begin{tabular}{l ccc}
+%                 depth & IN-1k & VQAv2 & TextVQA \\
+%                 \shline
+%                 8 & 85.5 & 76.7 & 37.0 \\
+%                 \grayrow 12 & \textbf{85.6} & \textbf{76.9} & \textbf{37.5} \\
+%                 16 & \textbf{85.6} & \textbf{76.9} & 36.6 \\
+%             \end{tabular}
+%         \end{minipage}
+%     }
+
+%     \caption{\textbf{Ablations.} Quantitative comparisons across objectives, decoder designs, and more.}
+%     \label{tab:ablations}
+% \end{table}
+
+
+% \input{tables/main_ablations}
+
+
+% \paragraph{Training data.}
+% Real eval.
+% \begin{itemize}
+%     \item No pretraining (efficient adaptation of VLM to VLA).
+%     % \item Pretraining on academic datasets (DROID ...).
+%     \item Pretraining on community datasets.
+%     % \item Pretraining on academic + community datasets.
+%     \item with vs without filtering
+% \end{itemize}
+
+

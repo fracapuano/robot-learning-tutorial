@@ -1,0 +1,105 @@
+% \begin{figure}[h!]
+%     \centering
+%     \captionsetup{type=figure}
+
+%     \definecolor{grayrow}{gray}{0.92}
+    
+%     % LIBERO Benchmark Table
+%     \begin{minipage}[t]{0.48\linewidth}
+%         \centering
+%         \setlength{\tabcolsep}{6pt}
+%         \renewcommand{\arraystretch}{1.2}
+%         \resizebox{\linewidth}{!}{
+%         \begin{tabular}{lccccccc}
+%             \toprule
+%             \textbf{Policy} & \textbf{Model Size} & \textbf{VLA} & \multicolumn{5}{c}{\textbf{Success Rate (\%) — LIBERO}} \\
+%             \cmidrule(lr){4-8}
+%             & & Pretrain & \textbf{E} & \textbf{M} & \textbf{H} & \textbf{VH} & \textbf{Avg} \\
+%             \midrule
+%             % \rowcolor{grayrow}
+%             % \multicolumn{8}{l}{\textbf{Prior Work}} \\
+%             Diffusion Policy & -- & No & 78.3 & 92.5 & 68.3 & 50.5 & 72.4 \\
+%             Octo & 0.09B & Yes & 78.9 & 85.7 & 84.6 & 51.1 & 75.1 \\
+%             OpenVLA & 7B & Yes & 84.7 & 88.4 & 79.2 & 53.7 & 76.5 \\
+%             $\pi_0$ (Paligemma-3B) & 3.3B & No & 87 & 63 & 89 & 48 & 71.8 \\
+%             $\pi_0$ & 3.3B & Yes & 90 & 86 & 95 & 73 & 86.0 \\
+%             \midrule
+%             % \rowcolor{grayrow}
+%             % \multicolumn{8}{l}{\textbf{Ours}} \\
+%             \ours & 0.45B & No & 90 & 96 & 92 & 71 & \textbf{87.3} \\
+%             \bottomrule
+%         \end{tabular}
+%         }
+%         \captionof{table}{\textbf{LIBERO benchmark.} Success rates of different policies on LIBERO. Scores are from \cite{kimopenvla} except for ours.}
+%         \label{tab:libero_results}
+%     \end{minipage}
+%     \hfill
+%     % Meta-World Benchmark Table
+%     \begin{minipage}[t]{0.48\linewidth}
+%         \centering
+%         \setlength{\tabcolsep}{6pt}
+%         \renewcommand{\arraystretch}{1.2}
+%         \resizebox{\linewidth}{!}{
+%         \begin{tabular}{lcccccc}
+%             \toprule
+%             \textbf{Policy} & \textbf{VLA} & \multicolumn{5}{c}{\textbf{Success Rate (\%) — Meta-World}} \\
+%             \cmidrule(lr){3-7}
+%             & Pretrain & \textbf{S} & \textbf{O} & \textbf{G} & \textbf{10} & \textbf{Avg} \\
+%             \midrule
+%             % \rowcolor{grayrow}
+%             % \multicolumn{7}{l}{\textbf{Prior Work}} \\
+%             Diffusion Policy & No & 23.1 & 10.7 & 1.9 & 6.1 & 10.5 \\
+%             TinyVLA & No & 77.6 & 21.5 & 11.4 & 15.8 & 31.6 \\
+%             $\pi_0^*$ (3.5B-Paligemma) & No & 80.4 & 40.9 & 36.7 & 44.0 & 50.5 \\
+%             $\pi_0^*$ (3.5B) & Yes & 71.8 & 48.2 & 41.7 & 30.0 & 47.9 \\
+%             \midrule
+%             % \rowcolor{grayrow}
+%             % \multicolumn{7}{l}{\textbf{Ours}} \\
+%             \ours (0.45B) & No & 82.5 & 41.8 & 45.0 & 60.0 & \textbf{57.3} \\
+%             \bottomrule
+%         \end{tabular}
+%         }
+%         \captionof{table}{\textbf{Meta-World benchmark.} Comparison on Meta-World. Diffusion policy numbers are from \cite{wen2024tinyvla}.}
+%         \label{tab:metaworld_results}
+%     \end{minipage}
+% \end{figure}
+
+\begin{table}[h!]
+    \centering
+    \setlength{\tabcolsep}{6pt}
+    \renewcommand{\arraystretch}{1.2}
+    \definecolor{grayrow}{gray}{0.92}
+    \resizebox{0.85\linewidth}{!}{
+    \begin{tabular}{llc|ccccc}
+        \toprule
+        \textbf{Benchmark} & \textbf{Policy (\# Params)} & \textbf{VLA Pt.} & \multicolumn{5}{c}{\textbf{Success Rate (\%) — Simulation}} 
+             \\
+        \midrule
+        \rowcolor{grayrow}
+        \multicolumn{3}{l}{\textbf{LIBERO}} & \textbf{Spatial} & \textbf{Object} & \textbf{Goal} & \textbf{Long} & \textbf{Avg.}\\
+        & Diffusion Policy \citep{chi2023diffusion}  & No & 78.3 & 92.5 & 68.3 & 50.5 & 72.4 \\
+        & Octo (0.09B) \citep{team2024octo} & Yes & 78.9 & 85.7 & 84.6 & 51.1 & 75.1 \\
+        & OpenVLA (7B) \citep{kimopenvla} & Yes & 84.7 & 88.4 & 79.2 & 53.7 & 76.5 \\
+        & $\pi_0$ (Paligemma-3B) & No & 87 & 63 & 89 & 48 & 71.8 \\
+        & $\pi_0$ (3.3B) & Yes & 90 & 86 & 95 & 73 & 86.0 \\
+        \midrule
+        & \ours (0.24B) & No & 87 & 93 & 88 & 63 & 82.75 \\
+        & \ours (0.45B) & No & 90 & 96 & 92 & 71 & 87.3 \\
+        & \ours (2.25B) & No & 93	& 94 & 91 & 77 & \textbf{88.75} \\
+        \midrule
+        \rowcolor{grayrow}
+        \multicolumn{3}{l}{\textbf{Meta-World}} & \textbf{Easy} & \textbf{Medium} & \textbf{Hard} & \textbf{Very Hard} & \textbf{Avg.} \\
+        & Diffusion Policy \citep{chi2023diffusion} & No & 23.1 & 10.7 & 1.9 & 6.1 & 10.5 \\
+        & TinyVLA \citep{TinyLLaVA} & No & 77.6 & 21.5 & 11.4 & 15.8 & 31.6 \\
+        & $\pi_0$ (3.5B-Paligemma) & No & 80.4 & 40.9 & 36.7 & 44.0 & 50.5 \\
+        & $\pi_0$ (3.5B) & Yes & 71.8 & 48.2 & 41.7 & 30.0 & 47.9 \\
+        \midrule
+        & \ours (0.24B) & No & 86.43 & 46.36 & 35 & 60 & 56.95 \\
+        & \ours (0.45B) & No & 82.5 & 41.8 & 45.0 & 60.0 & 57.3 \\
+        & \ours (2.25B) & No & 87.14 & 51.82 & 70 & 64 & \textbf{68.24} \\
+        \bottomrule
+    \end{tabular}
+    }
+    \caption{\textbf{Simulation benchmarks (LIBERO and Meta-World).} Success rates (\%) for various policies. LIBERO tasks correspond to different  settings (e.g., spatial, object, goal, long-horizon); Meta-World tasks reflect different difficulty levels. VLA Pt refers pretraining on robotics data. SmolVLA is only initialized from the VLM. Baselines scores from \cite{kimopenvla,wen2024tinyvla}.}
+    \label{tab:libero_metaworld_combined}
+\end{table}

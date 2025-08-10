@@ -1,0 +1,24 @@
+\begin{table}[h!]
+    \centering
+    \setlength{\tabcolsep}{12pt}
+    \renewcommand{\arraystretch}{1.3}
+    \definecolor{lightgray}{gray}{0.92}
+    \resizebox{0.4\linewidth}{!}{
+    \begin{tabular}{lcc}
+        \toprule
+        \textbf{Policy} & \multicolumn{2}{c}{\textbf{Pick-Place-Lego}}  \\
+        & ID & OOD \\ \cmidrule{1-2}
+        \midrule
+        \rowcolor{lightgray}
+        \multicolumn{3}{l}{\textbf{Single-task Training}} \\
+        \quad ACT~\citep{zhao2023learningact}  & 70 & 40 \\
+        \midrule
+        \rowcolor{lightgray}
+        \multicolumn{3}{l}{\textbf{Multi-task Training}} \\
+        \quad \ours-450M         & 90 & 50 \\
+        \bottomrule
+    \end{tabular}
+    }
+    \caption{\textbf{Real-world evaluation on SO101 and SO101 OOD.} Success rate (\%) across the Pick-Place-Lego task using policies trained in single-task and multi-task settings. For OOD evaluation, the Lego is shifted by around 1 cm from the training position.}
+    \label{tab:combined_results_real_so101}
+\end{table}

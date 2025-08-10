@@ -1,0 +1,47 @@
+\begin{figure}[h!]
+    \centering
+    \captionsetup{type=figure}
+    
+    \begin{minipage}[t]{0.48\linewidth}
+        \centering
+        \setlength{\tabcolsep}{6pt}
+        \renewcommand{\arraystretch}{1.2}
+        \resizebox{0.7\linewidth}{!}{
+        \begin{tabular}{cccccc}
+            \toprule
+            \textbf{Chunk} & \multicolumn{5}{c}{\textbf{Success Rate (\%) — LIBERO}} \\\cmidrule(lr){2-6}
+            \textbf{Size} & \textbf{S} & \textbf{O} & \textbf{G} & \textbf{10} & \textbf{Avg} \\
+            \midrule
+             1   & 45 & 77 & 54 & 24 & 50.0  \\
+             10  & 90 & 94 & 94 & 58 & 84.0  \\
+             30  & 85 & 94 & 87 & 48 & 78.5  \\
+             50  & 89 & 94 & 85 & 53 & 80.3  \\
+             100 & 83 & 88 & 85 & 42 & 74.5  \\
+            \bottomrule
+        \end{tabular}
+        }
+        \captionof{table}{\textbf{Action chunk size.} A chunk size between 10 and 50 strikes a good balance between action prediction frequency and performance.}
+        \label{tab:ablation_chunk_size}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.48\linewidth}
+        \centering
+        \setlength{\tabcolsep}{6pt}
+        \renewcommand{\arraystretch}{1.2}
+        \resizebox{0.7\linewidth}{!}{
+        \begin{tabular}{cccccc}
+            \toprule
+            \textbf{Action} & \multicolumn{5}{c}{\textbf{Success Rate (\%) — LIBERO}} \\\cmidrule(lr){2-6}
+             \textbf{Steps}& \textbf{S} & \textbf{O} & \textbf{G} & \textbf{10} & \textbf{Avg} \\
+            \midrule
+             1  & 89 & 94 & 85 & 53 & 80.3 \\
+             10 & 89 & 94 & 91 & 57 & 82.8 \\
+             30 & 76 & 91 & 74 & 42 & 70.8 \\
+             50 & 54 & 70 & 58 & 25 & 51.8 \\
+            \bottomrule
+        \end{tabular}
+        }
+        \captionof{table}{\textbf{Action execution steps.} Sampling new observations more frequently (e.g., every 1 or 10 steps) significantly improves performance.}
+        \label{tab:ablation_action_steps}
+    \end{minipage}
+\end{figure}

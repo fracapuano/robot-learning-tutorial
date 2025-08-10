@@ -1,0 +1,31 @@
+\begin{table}[h!]
+    \centering
+    \begin{minipage}[t]{0.95\linewidth}
+        \centering
+        \setlength{\tabcolsep}{10pt}
+        \renewcommand{\arraystretch}{1.1}
+        \definecolor{lightgray}{gray}{0.92}
+        \resizebox{0.7\linewidth}{!}{
+        \begin{tabular}{lccccc}
+            \toprule
+            & & \multicolumn{4}{c}{\textbf{Success Rate (\%) — Real World}} \\
+            \cmidrule(lr){3-6}
+            \textbf{Policy} & \textbf{VLA pt.} &  \textbf{Pick-Place} & \textbf{Stacking} & \textbf{Sorting} & \textbf{Avg.} \\
+            \midrule
+            \rowcolor{lightgray}
+            \multicolumn{6}{l}{\textbf{Single-task Training}} \\
+            \ours (0.45B)   & No & 55 & 45 & 20 & 40 \\
+            \midrule
+            \rowcolor{lightgray}
+            \multicolumn{6}{l}{\textbf{Multi-task Training}} \\
+            \ours (0.45B)    & No   & 80 & 40 & 35 & 51.7 \\
+            \ours (0.45B)    & Yes  & 75 & 90 & 70 & 78.3 \\
+            \bottomrule
+        \end{tabular}
+        }
+        \caption{\textbf{Effect of pretraining and multitask learning.} Success rate (\%) across three tasks using \ours trained in multi-task and single-task settings. Results with SO100 robot.}
+        \label{tab:main_results_effect_of_pretrain}
+    \end{minipage}%
+    \hspace{0.05\linewidth}%
+
+\end{table}

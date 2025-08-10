@@ -1,0 +1,125 @@
+% \begin{figure}[h!]
+%     \centering
+%     \captionsetup{type=figure}
+
+%     \begin{minipage}[t]{0.42\linewidth}
+%         \centering
+%         \setlength{\tabcolsep}{5pt}
+%         \renewcommand{\arraystretch}{1.2}
+%         \resizebox{0.95\linewidth}{!}{
+%         \begin{tabular}{lcccc}
+%             \toprule
+%             \multirow{2}{*}{\textbf{Inference}} & \multicolumn{4}{c}{\textbf{Success Rate (\%)}} \\\cmidrule(lr){2-5}
+%              & \textbf{Pick-Place} & \textbf{Stacking} & \textbf{Sorting} & \textbf{Avg} \\
+%             \midrule
+%             Sync  & 75 & 70 & 90 & 78.3 \\
+%             Async & 80 & 50 & 90 & 73.3 \\
+%             \bottomrule
+%         \end{tabular}
+%         }
+%         \captionof{table}{\textbf{Real-world benchmarks.} Both inference modes perform comparably.}
+%         \label{tab:real_async_success}
+%     \end{minipage}
+%     \hfill
+%     \begin{minipage}[t]{0.28\linewidth}
+%         \centering
+%         \setlength{\tabcolsep}{5pt}
+%         \renewcommand{\arraystretch}{1.2}
+%         \resizebox{0.95\linewidth}{!}{
+%         \begin{tabular}{lccc}
+%             \toprule
+%             \multirow{2}{*}{\textbf{Inference}} & \multicolumn{3}{c}{\textbf{Time (s)}} \\\cmidrule(lr){2-4}
+%              & \textbf{Total} & \textbf{Avg} & \textbf{Std} \\
+%             \midrule
+%             Sync  & 137.5 & 13.75 & 2.42 \\
+%             Async & 97.0  & 9.70  & 2.95 \\
+%             \bottomrule
+%         \end{tabular}
+%         }
+%         \captionof{table}{\textbf{Pick-Place task completion time.} The robot is faster with asynchronous inference .}
+%         \label{tab:real_async_time}
+%     \end{minipage}
+%     \hfill
+%     \begin{minipage}[t]{0.28\linewidth}
+%         \centering
+%         \setlength{\tabcolsep}{5pt}
+%         \renewcommand{\arraystretch}{1.2}
+%         \resizebox{0.95\linewidth}{!}{
+%         \begin{tabular}{lccc}
+%             \toprule
+%             \multirow{2}{*}{\textbf{Inference}} & \multicolumn{3}{c}{\textbf{\# of Cubes}} \\\cmidrule(lr){2-4}
+%              & \textbf{Total} & \textbf{Avg} & \textbf{Std} \\
+%             \midrule
+%             Sync  & 19  & 3.8  & 1.3  \\
+%             Async & 9   & 1.8  & 0.45 \\
+%             \bottomrule
+%         \end{tabular}
+%         }
+%         \captionof{table}{\textbf{Pick-Place in fixed time frame.} Asynchronous inference helps the model to pick and place more cubes in 60 seconds.}
+%         \label{tab:real_async_cubes}
+%     \end{minipage}
+% \end{figure}
+
+\begin{figure}[h!]
+    \centering
+
+    \begin{subfigure}[t]{0.42\linewidth}
+        \centering
+        \setlength{\tabcolsep}{5pt}
+        \renewcommand{\arraystretch}{1.2}
+        \resizebox{0.95\linewidth}{!}{
+        \begin{tabular}{lcccc}
+            \toprule
+            \multirow{2}{*}{\textbf{Inference}} & \multicolumn{4}{c}{\textbf{Success Rate (\%) — Real World}} \\\cmidrule(lr){2-5}
+             & \textbf{Pick-Place} & \textbf{Stacking} & \textbf{Sorting} & \textbf{Avg} \\
+            \midrule
+            Sync  & 75 & 90 & 70 & 78.3 \\
+            Async & 80 & 90 & 50 & 73.3 \\
+            \bottomrule
+        \end{tabular}
+        }
+        \subcaption{\textbf{Performance (success rates).}}
+        \label{tab:real_async_success}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.28\linewidth}
+        \centering
+        \setlength{\tabcolsep}{5pt}
+        \renewcommand{\arraystretch}{1.2}
+        \resizebox{0.95\linewidth}{!}{
+        \begin{tabular}{lccc}
+            \toprule
+            \multirow{2}{*}{\textbf{Inference}} & \multicolumn{3}{c}{\textbf{Time (s) — Real World}} \\\cmidrule(lr){2-4}
+             & \textbf{Total} & \textbf{Avg} & \textbf{Std} \\
+            \midrule
+            Sync  & 137.5 & 13.75 & 2.42 \\
+            Async & 97.0  & 9.70  & 2.95 \\
+            \bottomrule
+        \end{tabular}
+        }
+        \subcaption{\textbf{Task completion time.}}
+        \label{tab:real_async_time}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.28\linewidth}
+        \centering
+        \setlength{\tabcolsep}{5pt}
+        \renewcommand{\arraystretch}{1.2}
+        \resizebox{0.95\linewidth}{!}{
+        \begin{tabular}{lccc}
+            \toprule
+            \multirow{2}{*}{\textbf{Inference}} & \multicolumn{3}{c}{\textbf{\# of Cubes — Real World} } \\\cmidrule(lr){2-4}
+             & \textbf{Total} & \textbf{Avg} & \textbf{Std} \\
+            \midrule
+            Sync  & 9   & 1.8  & 0.45  \\
+            Async & 19  & 3.8  & 1.3  \\
+            \bottomrule
+        \end{tabular}
+        }
+        \subcaption{\textbf{Performance in fixed time.}}
+        \label{tab:real_async_cubes}
+    \end{subfigure}
+
+    \caption{\textbf{Comparison between synchronous (Sync) and asynchronous (Async) inference.} We evaluate \ours on three real-world tasks under both inference modes. Asynchronous inference achieves similar success rates (left) but is significantly faster (middle) and complete more tasks (right) in fixed-time settings. Hyperparameters have been optimized for Pick-Place and reused across tasks.}
+    \label{fig:async_inference_summary}
+\end{figure}

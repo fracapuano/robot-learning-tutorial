@@ -1,0 +1,47 @@
+\begin{figure}[h!]
+    \centering
+    \captionsetup{type=figure}
+    
+    \begin{minipage}[t]{0.48\linewidth}
+        \centering
+        \setlength{\tabcolsep}{6pt}
+        \renewcommand{\arraystretch}{1.1}
+        \resizebox{0.85\linewidth}{!}{
+        \begin{tabular}{cccccc}
+            \toprule
+            \textbf{Attention} & \multicolumn{5}{c}{\textbf{Success Rate (\%) — LIBERO}} \\ \cmidrule(lr){2-6}
+            \textbf{mechanism} & \textbf{S} & \textbf{O} & \textbf{G} & \textbf{10} & \textbf{Avg} \\
+            \midrule
+            CA             & 87 & 92 & 83 & 54 & 79.0 \\
+            SA             & 80 & 94 & 84 & 40 & 74.5 \\
+            CA+SA (ours)   & 86 & 99 & 90 & 67 & 85.5 \\
+            \bottomrule
+        \end{tabular}
+        }
+        \captionof{table}{\textbf{Cross vs self-attention.} Interleaved cross (CA) and self-attention (SA) yield the best results. 
+        % Batch size = 64.
+        }
+        \label{tab:ablation_model_attention}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.48\linewidth}
+        \centering
+        \setlength{\tabcolsep}{6pt}
+        \renewcommand{\arraystretch}{1.1}
+        \resizebox{0.8\linewidth}{!}{
+        \begin{tabular}{cccccc}
+            \toprule
+            \textbf{Attention} & \multicolumn{5}{c}{\textbf{Success Rate (\%) — LIBERO}} \\ \cmidrule(lr){2-6}
+             \textbf{mask} & \textbf{S} & \textbf{O} & \textbf{G} & \textbf{10} & \textbf{Avg} \\
+            \midrule
+            Bidir   & 79 & 86 & 82 & 23 & 67.5 \\
+            Causal  & 80 & 94 & 84 & 40 & 74.5 \\
+            \bottomrule
+        \end{tabular}
+        }
+        \captionof{table}{\textbf{Bidirectional vs causal attention.} Preventing future action leakage improves performance. 
+        % Batch size = 64.
+        }
+        \label{tab:ablation_causal_bidir_attention}
+    \end{minipage}
+\end{figure}

@@ -1,0 +1,42 @@
+\section{Discussion}
+
+We introduce a compact, efficient, and lightweight  VLA model--\ours--that runs on consumer-grade hardware, controls low-cost robots, and rivals significantly larger VLAs. 
+\ours's architecture is designed for efficient training and inference without compromising the success rate.
+In addition, we propose an asynchronous inference stack that enables faster adaptation and responsiveness in real-world manipulation tasks. 
+This inference strategy is model-agnostic and can be integrated with any policy that outputs chunks of actions. 
+Our work is supported by thorough ablations and analysis of the proposed architecture, that can guide practitioners and researchers to further improve the model architecture. 
+Finally, we open-source our model, codebase, training datasets, robots hardware and provide detailed instructions to facilitate full reproducibility.
+
+
+
+\subsection{Limitations}
+We identify several limitations remaining in our contribution. In particular:
+
+\begin{itemize}
+    \item{\textbf{Dataset diversity and cross-embodiment training.}} Our pretraining currently uses datasets collected from a single robot type (SO100). Although we demonstrate that the model can be fine-tuned to different robots (\Cref{tab:main_results_real_so101}) and outperforms existing baselines, we argue incorporating training data from multiple robot embodiments is likely to prove critical in enhancing the model’s ability to generalize to new robotic platforms.
+    \item{\textbf{Dataset size and scalability.}} The dataset used for training contains approximately 23k trajectories, and is significantly smaller than those used in typical VLA training regimes--OpenVLA, for instance, utilizes around 1 million trajectories. Expanding the dataset size could substantially improve the model’s performance and its generalization across a wider range of tasks and environments.
+    \item{\textbf{Model size and hardware efficiency.}}
+    \ours has less than 0.5 billion parameters, allowing for fast inference on consumer-grade hardware. While this efficiency is beneficial, exploring ways to scale these architectures further without sacrificing speed or accessibility is an important direction for future research. 
+    \item{\textbf{Choice of VLM backbone.}} We rely on an off-the-shelf VLM backbone pretrained mainly on document reading and OCR tasks~\citep{marafioti2025smolvlm}. However, it is not yet clear whether these VLMs are optimal for real-world robotic interaction scenarios. Future work could explore alternative or more specialized pretraining strategies to better align VLM backbones with the peculiar demands of robotic environments.
+    \item{\textbf{Multimodal and robotics data joint training.}}
+    Integrating shared training on both robotics-specific data and broader multimodal datasets has the potential to improve generalization and instruction-following abilities. Such joint training could lead to more robust and adaptable VLAs.
+    \item{\textbf{Task complexity and longer horizon.}}
+    While \ours competes effectively on relatively simple and short-horizon tasks, scaling the approach to tackle longer-horizon problems remains an important challenge. Incorporating hierarchical policies or multi-level planning mechanisms may help to address this complexity.
+    \item{\textbf{Learning paradigms: Imitation vs. Reinforcement Learning.}} Our current approach primarily relies on imitation learning. Nevertheless, exploring reinforcement learning techniques for VLAs \citep{chen2025conrft}--especially for handling complex or long--horizon tasks—could offer significant performance benefits and more dexterous policy adaptation.
+\end{itemize}
+
+\section{Aknowledgements}
+The authors thank Marina Barannikov, Alexandre Chapin, Ville Kuosmanen, and Jade Choghari for their help in community and simulated datasets. 
+The authors thank Alexander Soare for his early work on asynchronous inference.
+The authors thank Quentin Gallouedec, Pablo Montalvo-Leroux, Merve Noyan, Pedro Cuenca, Loubna Ben Allal,  Aritra Roy Gosthipaty and the rest of the Hugging Face team for their support during this project. 
+This work was partly supported by the HPC resources of IDRIS under the allocation 2025-[A0181016235] made by GENCI and the PostGenAI@Paris cluster (ANR-23-IACL-0007, FRANCE 2030).
+
+% For help with datasets 
+% Quentin Gallouedec \\
+
+% For help with simulation datasets \\
+% Jade Choghari
+
+% Hugging face \\
+% Jean-zay for compute \\
+% Cluster PostGenAI@Paris (ANR-23-IACL-0007, FRANCE 2030)

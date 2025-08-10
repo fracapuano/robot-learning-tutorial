@@ -1,0 +1,55 @@
+\begin{table}[h!]
+    \centering
+    \begin{minipage}[t]{0.52\linewidth}
+        \centering
+        \setlength{\tabcolsep}{10pt}
+        \renewcommand{\arraystretch}{1.1}
+        \definecolor{lightgray}{gray}{0.92}
+        \resizebox{\linewidth}{!}{
+        \begin{tabular}{lcccc}
+            \toprule
+            & \multicolumn{4}{c}{\textbf{Success Rate (\%) — Real World}} \\
+            \cmidrule(lr){2-5}
+            \textbf{Policy} & \textbf{Pick-Place} & \textbf{Stacking} & \textbf{Sorting} & \textbf{Avg.} \\
+            \midrule
+            \rowcolor{lightgray}
+            \multicolumn{5}{l}{\textbf{Single-task Training}} \\
+            ACT & 70 & 50 & 25 & 48.3 \\
+            \midrule
+            \rowcolor{lightgray}
+            \multicolumn{5}{l}{\textbf{Multi-task Training}} \\
+            $\pi_0$ (3.5B)       & 100 & 40 & 45 & 61.7 \\
+            \ours (0.45B)         & 75 & 90 & 70 & 78.3 \\
+            \bottomrule
+        \end{tabular}
+        }
+        \caption{\textbf{Real-world benchmarks (SO100).} Success rate (\%) across three tasks using policies trained in multi-task and single-task settings.}
+        \label{tab:main_results_real}
+    \end{minipage}%
+    \hspace{0.05\linewidth}%
+    \begin{minipage}[t]{0.38\linewidth}
+        \centering
+        \setlength{\tabcolsep}{8pt}
+        \renewcommand{\arraystretch}{1.2}
+        \definecolor{lightgray}{gray}{0.92}
+        \resizebox{\linewidth}{!}{
+        \begin{tabular}{lcc}
+            \toprule
+            & \multicolumn{2}{c}{\textbf{Success Rate (\%) — Real World}} \\
+            \cmidrule(lr){2-3}
+            \textbf{Policy} & \textbf{In Distribution} & \textbf{Out of Distribution} \\
+            \midrule
+            \rowcolor{lightgray}
+            \multicolumn{3}{l}{\textbf{Single-task Training}} \\
+            ACT & 70 & 40 \\
+            % \midrule
+            % \rowcolor{lightgray}
+            % \multicolumn{3}{l}{\textbf{Multi-task Training}} \\
+            \ours (0.45B)  & 90 & 50 \\
+            \bottomrule
+        \end{tabular}
+        }
+        \caption{\textbf{Real-world benchmark (SO101).} Success rate (\%) for the Pick-Place-Lego task using policies trained in single-task setting.}
+        \label{tab:main_results_real_so101}
+    \end{minipage}
+\end{table}
