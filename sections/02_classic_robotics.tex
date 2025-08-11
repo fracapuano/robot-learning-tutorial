@@ -1,0 +1,15 @@
+\section{Classical Robotics Foundations}
+\label{sec:classical}
+
+\subsection{Core Focus Areas: Locomotion, Manipulation, and Whole-Body Control}
+Robotic \emph{locomotion} concerns generating dynamically feasible motions for legged or wheeled platforms under terrain variability and contact constraints. \emph{Manipulation} addresses grasping, non-prehensile actions, and dexterous interactions with objects, often under partial observability and frictional contact. \emph{Whole-body control} integrates locomotion and manipulation to coordinate many degrees of freedom subject to nonholonomic constraints, torque limits, and stability criteria (e.g., ZMP, centroidal dynamics). These capabilities have historically been enabled by model-based planning and control pipelines that exploit structure in rigid-body mechanics.
+
+\subsection{The Traditional Robotics Paradigm}
+\subsubsection{Kinematics and Dynamics Modeling}
+Classical formulations model robot geometry via forward and inverse kinematics and derive equations of motion using Lagrangian or Newton–Euler methods. Screw theory and \(\mathrm{SE}(3)\)/\(\mathfrak{se}(3)\) provide compact Lie group representations for rigid-body motion. Accurate geometric and inertial modeling underpins control law synthesis and trajectory optimization.
+
+\subsubsection{Motion Planning and Control}
+Sampling-based planners (e.g., PRM, RRT*) and trajectory optimization compute collision-free, dynamically feasible references in configuration or task spaces. Tracking is achieved with controllers ranging from joint-space PID and resolved-rate schemes to inverse-dynamics control, impedance/operational-space control, and model predictive control (MPC). Whole-body MPC combines contact planning with torque-constrained optimization to satisfy friction cones, center-of-mass dynamics, and task priorities.
+
+\subsection{Limitations of Classic Robotics}
+Despite their maturity, purely model-based pipelines encounter difficulties in (i) modeling complex contact with stiction and stick–slip transitions, (ii) calibration drift and unmodeled compliance, (iii) scalability to high-DOF whole-body behaviors with tight feedback latencies, and (iv) brittle performance under distribution shift. These limitations motivate \emph{learning-augmented} systems that retain geometric structure while leveraging data-driven policies to close residual gaps.

@@ -1,0 +1,16 @@
+\section{Single-Task Policy Architectures}
+\label{sec:single}
+
+\subsection{Action Chunking with Transformers}
+\subsubsection{Model Architecture and Training Objectives}
+Action Chunking with Transformers (ACT) models short horizons of low-level actions as fixed-length ``chunks'' conditioned on recent observations and proprioception. A transformer parameterizes a distribution over action sequences, enabling parallel prediction of temporally coherent control signals. Supervised training on teleoperated demonstrations minimizes sequence-level losses (e.g., mean-squared error on joint velocities/torques), optionally with scheduled sampling or consistency regularization to improve rollout stability.
+
+\subsubsection{Practical Implementation in \texttt{LeRobot}}
+A practical ACT pipeline comprises (i) synchronized demonstration collection (vision and robot states) with precise timestamping, (ii) dataset serialization into a standardized episodic format, (iii) chunked windowing of action targets, (iv) transformer training with early stopping on validation rollouts, and (v) deployment with action-rate limiting and safety monitors. Careful calibration of control frequency and chunk length is critical for fine manipulation.
+
+\subsection{Diffusion-Based Policy Models}
+\subsubsection{Generative Modeling for Action Sequences}
+Diffusion policies treat action generation as conditional denoising: starting from noise in action space, a learned score model iteratively refines to produce feasible control sequences conditioned on observations (and optionally goals or language). This formulation naturally captures multimodality (multiple valid strategies), scales to higher-dimensional actions, and supports receding-horizon execution.
+
+\subsubsection{Practical Implementation}
+Training proceeds by corrupting ground-truth action sequences and fitting a time-indexed network to denoise under teacher forcing; inference uses a small number of reverse steps with horizon MPC-style rollouts. In practice, datasets benefit from action normalization, viewpoint augmentation, and careful tuning of denoising steps versus control latency. Within \texttt{LeRobot}, diffusion policy trainers can be paired with standardized dataset loaders and evaluation callbacks to track success rates and robustness under perturbations.

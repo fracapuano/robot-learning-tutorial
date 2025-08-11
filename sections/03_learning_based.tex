@@ -1,0 +1,25 @@
+\section{Learning-Based Approaches to Robotics}
+\label{sec:learning}
+
+\subsection{Reinforcement Learning (RL) for Robotic Control}
+\subsubsection{Problem Formulation and Control Objectives}
+We pose control as a Markov decision process (MDP) with state space \(\mathcal{S}\), action space \(\mathcal{A}\), transition kernel \(P\), reward \(r\), and discount \(\gamma\). A policy \(\pi_\theta(a\!\mid\!s)\) maximizes \(J(\theta)=\mathbb{E}\!\left[\sum_{t=0}^{\infty}\gamma^t r(s_t,a_t)\right]\). Practical objectives include setpoint tracking, task success, energy regularization, and safety constraints (e.g., joint limits, collision avoidance).
+
+\subsubsection{Policy Optimization Methods in Robotics}
+Modern practice spans on-policy (e.g., TRPO/PPO) and off-policy (e.g., DDPG/TD3/SAC) actor–critic methods, as well as model-based RL that learns or exploits dynamics for sample efficiency. Off-policy approaches are favored for real robots due to data efficiency and the ability to incorporate replay. Auxiliary techniques—domain randomization, dynamics identification, and constraint handling—facilitate sim-to-real transfer and safe exploration.
+
+\subsubsection{Practical Implementation: Training RL Policies with \texttt{LeRobot}}
+\texttt{LeRobot} provides standardized dataset and model abstractions, and can be integrated with established RL backends. A typical workflow comprises: (i) environment and observation/action specification (simulated or real), (ii) policy class selection (e.g., SAC/PPO wrappers), (iii) logging and evaluation hooks, (iv) sim-to-real calibration (actuation limits, latency compensation), and (v) deployment with safety interlocks. The framework’s dataset utilities simplify offline RL pretraining or behavior cloning initialization before online fine-tuning.
+
+\subsubsection{Limitations of RL in Real-World Robotics: Simulators and Reward Design}
+Notwithstanding successes in quadruped locomotion and manipulation, practical bottlenecks persist: expensive data collection, reward misspecification and shaping burden, partial observability, and safety during exploration. High-fidelity simulation reduces real-world trials but introduces transfer gaps; reward engineering often requires domain expertise and iterative tuning. Stable, sample-efficient, and safety-aware RL remains an active research frontier.
+
+\subsection{Imitation Learning (IL) for Robotics}
+\subsubsection{Leveraging Real-World Demonstrations}
+IL bypasses online reward optimization by learning from expert trajectories. In visuomotor settings, demonstrations pair high-dimensional observations (RGB, depth, proprioception) with action sequences. Policy learning reduces to supervised learning under covariate shift, necessitating strategies that mitigate compounding errors.
+
+\subsubsection{Reward-Free Training and Data-Centric Perspectives}
+Data-centric IL emphasizes broad, diverse, and real-world demonstration corpora to improve generalization. Pretraining on heterogeneous demonstrations and fine-tuning on task-specific data can produce robust policies without explicit rewards, especially for contact-rich manipulation.
+
+\subsubsection{A Taxonomy of IL Approaches}
+Behavior Cloning (BC) minimizes one-step imitation loss; interactive IL (e.g., DAgger) aggregates data under the learner’s state distribution; adversarial/apprenticeship methods recover reward surrogates; and diffusion- or flow-based action generators model multimodal action distributions. Interactive feedback and on-the-fly corrections further reduce covariate shift in deployment.
