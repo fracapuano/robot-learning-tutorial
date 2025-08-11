@@ -13,12 +13,12 @@
 % Layout %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \RequirePackage[top=2.25cm, bottom=2.5cm, left=2.5cm, right=2.5cm, columnsep=0.65cm, margin=1.9cm]{geometry}
-\RequirePackage{microtype}
+\RequirePackage[expansion=false]{microtype}
 \RequirePackage{placeins}
 \RequirePackage{hyphenat}
 \RequirePackage{setspace}
 \RequirePackage{parskip}
-\RequirePackage[latin, english]{babel}
+\RequirePackage[english]{babel}
 \RequirePackage{lipsum}
 \RequirePackage{etoolbox}
 \RequirePackage{fancyhdr}  % custom headers/footers
@@ -129,41 +129,23 @@
 
 % % http://c.caignaert.free.fr/Install-ttf-Font.pdf
 
-% Set the main font to Times New Roman
-% \setmainfont{Manrope}
-% Set sans-serif font to Manrope
-\RequirePackage{ifxetex}
-\usepackage{ifxetex}
-\ifxetex
-    \usepackage{fontspec}
-    \setsansfont{Manrope}
-\else
-    \RequirePackage[T1]{fontenc}
-    \usepackage[T1]{fontenc}
-    \usepackage{hfstyle/manrope}
-    \renewcommand{\sfdefault}{manrope}
-\fi
+% Use standard LaTeX fonts
+\RequirePackage[T1]{fontenc}
 
-% % \pdfmapline{+optimistic < assets/Optimistic.ttf <T1-WGL4.enc}
-% % \renewcommand{\sfdefault}{optimistic}
-
-% \DeclareFontFamily{T1}{manrope}{}
-% \DeclareFontShape{T1}{manrope}{m}{n}{<-> s * [0.88] ai2style/fonts/Manrope}{}
-% \pdfmapline{+manrope < ai2style/fonts/Manrope.ttf <T1-WGL4.enc}
-% \renewcommand{\sfdefault}{manrope}
+% Custom font references removed - using standard LaTeX fonts
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Imporve appearance of ToC
 
 \RequirePackage{tocloft}
 
-% Make sure the section titles in TOC are in Manrope
+% Section titles in TOC use standard font
 \renewcommand{\cftsecfont}{\sffamily}
 \renewcommand{\cftsubsecfont}{\sffamily}
 \renewcommand{\cftsubsubsecfont}{\sffamily}
 \renewcommand{\cftparafont}{\sffamily}
 
-% Make the page numbers in TOC use Manrope
+% Page numbers in TOC use standard font
 \renewcommand{\cftsecpagefont}{\sffamily}
 \renewcommand{\cftsubsecpagefont}{\sffamily}
 \renewcommand{\cftsubsubsecpagefont}{\sffamily}

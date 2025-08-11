@@ -1,67 +1,59 @@
 \documentclass[table]{hfstyle/hf}
 
-\usepackage{microtype}
-\usepackage{hyperref}
-\usepackage{url}
-\usepackage{booktabs}
+% Basic packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
 \usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{url}
 \usepackage{lineno}
 \usepackage{enumitem}
-\usepackage{listings} %
-\usepackage{svg}
+\usepackage{listings}
 
-\definecolor{ darkblue}{rgb}{0, 0, 0.5}
-\hypersetup{colorlinks=true, citecolor=darkblue, linkcolor=darkblue, urlcolor=darkblue}
-
-
+% Math and symbols
+\usepackage{amsmath}
+\usepackage{amsfonts}
 \usepackage{amssymb}
+\usepackage{nicefrac}
+\usepackage{siunitx}
+
+% Tables and figures
 \usepackage{multirow}
 \usepackage{bigdelim}
-\usepackage{todonotes}
 \usepackage{longtable}
 \usepackage{tabularray}
 \usepackage{wrapfig}
-\usepackage[most]{tcolorbox} 
-\usepackage{url}
-\usepackage{xspace}
-\usepackage{svg}
-\usepackage[absolute]{textpos} %
+\usepackage{caption}
+% \usepackage{subcaption}  % Commented out - add back when using subfigures
+\usepackage{makecell}
+\usepackage{adjustbox}
 
-\usepackage{fdsymbol}   %
+% Color and boxes
+\usepackage[most]{tcolorbox}
+\usepackage{xcolor}
+
+% Text and formatting
+\usepackage{xspace}
+\usepackage{soul}
+\usepackage{csquotes}
+\usepackage{arydshln}
+
+% Bibliography and references
+\usepackage{natbib}
+
+% Special packages
+\usepackage{todonotes}
+\usepackage[absolute]{textpos}
+\usepackage{pifont}
+\usepackage{bold-extra}
+\usepackage{pgf-pie}
+
+% Algorithms
+\usepackage{fdsymbol}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
 
-
-\usepackage[utf8]{inputenc} %
-\usepackage[T1]{fontenc}    %
-\usepackage{url}            %
-\usepackage{booktabs}       %
-\usepackage{amsfonts}       %
-\usepackage{nicefrac}       %
-\usepackage{microtype}      %
-\usepackage[table]{xcolor}         %
-\usepackage{amsmath}
-\usepackage[most]{tcolorbox}
-\usepackage{csquotes}
-
-\usepackage{siunitx}
-\usepackage{graphicx}
-\usepackage{arydshln}
-\usepackage{enumitem}
-\usepackage{soul} %
-
-\usepackage{multirow}
-\usepackage{xspace}
-\usepackage{adjustbox}
-\usepackage{pifont}
-\usepackage{caption}
-\usepackage{makecell}
-%\usepackage{subcaption}
-\usepackage{bold-extra}
-\usepackage{url}
-
-\usepackage{pgf-pie}
-
+% Hyperref (load last)
 \usepackage{hyperref}
 \definecolor{linkcolor}{RGB}{0, 0, 128}
 \hypersetup{
@@ -70,13 +62,12 @@
      linkcolor    = linkcolor,
      urlcolor     = linkcolor,
 }
-\usepackage{pifont}%
+
+% Custom commands
 \newcommand{\cmark}{\ding{51}}%
 \newcommand{\xmark}{\ding{55}}%
-\usepackage{listings}
 
 \setlist[itemize]{leftmargin=*,itemsep=0em,parsep=0.3em,topsep=0.3em}
-
 
 \DeclareUnicodeCharacter{2212}{\ensuremath{-}}
 
@@ -132,15 +123,11 @@
 \newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 \newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 \newcolumntype{P}[1]{>{\centering\let\newline\\\arraybackslash\columncolor{ai2lightpink}}m{#1}}
-%\newcolumntype{W}[1]{>{\columncolor{white}}c}  %
 \addtolength{\extrarowheight}{\belowrulesep}
 \aboverulesep=0pt
 \belowrulesep=0pt
 
 \newcommand{\orr}[1]{\textcolor{red}{[OZ:#1]}}
-
-
-
 
 \input{preamble}
 
@@ -152,22 +139,7 @@ Robot Learning: A Tutorial
 \newcommand{\huggingface}{\raisebox{-1.5pt}{\includegraphics[height=1.05em]{logos/hf.pdf}}\xspace}
 \newcommand{\coreContrib}{\raisebox{.33em}{\hspace{.05em}\includegraphics[height=.5em]{logos/core.png}}\xspace}
 
-\newcommand{\emailLogo}{\raisebox{-1.5pt}{\includegraphics[height=1.05em]{logos/email.pdf}}\xspace}
-\newcommand{\hfdataset}{\raisebox{-1.5pt}{\includegraphics[height=1.05em]{logos/db.pdf}}\xspace}
-\newcommand{\github}{\raisebox{-1.5pt}{\includegraphics[height=1.05em]{logos/github.pdf}}\xspace}
 
-
-\newcommand{\spaces}{\raisebox{-1.5pt}{\includegraphics[height=1.05em]{logos/spaces.png}}\xspace}
-
-
-\newcommand{\chrome}{\raisebox{-1.5pt}{\includegraphics[height=1.05em]{logos/chrome.png}}\xspace}
-
-
-\newcommand{\huggingsnap}{\raisebox{-1.5pt}{\includegraphics[height=1.05em]{logos/huggingapp.png}}\xspace}
-\newcommand{\wandb}{\raisebox{-1.5pt}{\includegraphics[height=1.05em]{logos/wandb-logo.pdf}}\xspace}
-
-
-\newcommand{\sorbonne}{\raisebox{.15em}{\hspace{.08em}\includegraphics[height=.75em]{logos/sorbonne_logo.png}}\xspace}
 \newcommand{\hf}{\raisebox{.28em}{\hspace{.05em}\includegraphics[height=.65em]{logos/hf.pdf}}\xspace}
 \newcommand{\ensps}{\raisebox{.3em}{\hspace{.05em}\includegraphics[height=.65em]{logos/ensps_logo.pdf}}\xspace}
 
@@ -186,15 +158,14 @@ Robot Learning: A Tutorial
 \newcommand{\new}{\marginpar{NEW}}
 
 \abstract{
-Recent advancements in foundation models have enabled unprecedented progress in robotics.
-Leveraging learning-based approaches, the community has produced the first generalist models for tasks such as manipulation and whole-body control, with many results openly released.
-This work presents a comprehensive tutorial on modern robot learning, introducing the conceptual underpinnings of the most prominent approaches and pairing them with reproducible implementations using the open-source LeRobot framework.
-The tutorial is designed to serve both as a structured academic reference and as a practical guide for researchers in the field of robot learning.
+\input{sections/00_abstract}
 }
 
 \begin{document}
 
 \maketitle
+
+\input{sections/01_introduction}
 
 \bibliographystyle{hfstyle/plainnat}
 \bibliography{main}

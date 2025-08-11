@@ -1,0 +1,11 @@
+.DS_store
+
+*.aux
+*.nav
+*.log
+*.snm
+*.toc
+*.out
+*.vrb
+*.blg
+*latexmk*
