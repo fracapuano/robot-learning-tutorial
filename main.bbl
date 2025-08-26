@@ -1,8 +1,72 @@
-\begin{thebibliography}{0}
+\begin{thebibliography}{13}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Alizadeh and Zhu(2024)]{alizadehComprehensiveSurveySpace2024}
+Mohammad Alizadeh and Zheng~H. Zhu.
+\newblock A comprehensive survey of space robotic manipulators for on-orbit servicing.
+\newblock \emph{Frontiers in Robotics and AI}, 11, October 2024.
+\newblock ISSN 2296-9144.
+\newblock \doi{10.3389/frobt.2024.1470950}.
+
+\bibitem[Bekris et~al.(2024)Bekris, Doerr, Meng, and Tangirala]{bekrisStateRobotMotion2024}
+Kostas~E. Bekris, Joe Doerr, Patrick Meng, and Sumanth Tangirala.
+\newblock The {{State}} of {{Robot Motion Generation}}, October 2024.
+
+\bibitem[Burridge et~al.(1999)Burridge, Rizzi, and Koditschek]{burridgeSequentialCompositionDynamically1999b}
+R.~R. Burridge, A.~A. Rizzi, and D.~E. Koditschek.
+\newblock Sequential {{Composition}} of {{Dynamically Dexterous Robot Behaviors}}.
+\newblock \emph{The International Journal of Robotics Research}, 18\penalty0 (6):\penalty0 534--555, June 1999.
+\newblock ISSN 0278-3649, 1741-3176.
+\newblock \doi{10.1177/02783649922066385}.
+
+\bibitem[Fujita et~al.(2020)Fujita, Soda, Murata, and Tsuhari]{fujitaDevelopmentRobotsNuclear2020}
+Jun Fujita, Daisuke Soda, Chotaro Murata, and Hiroyuki Tsuhari.
+\newblock Development of {{Robots}} for {{Nuclear Power Plants}} and {{Their Application}} to {{New Fields}}.
+\newblock 57\penalty0 (4), 2020.
+
+\bibitem[Griffin et~al.(2017)Griffin, Wiedebach, Bertrand, Leonessa, and Pratt]{griffinWalkingStabilizationUsing2017}
+Robert~J. Griffin, Georg Wiedebach, Sylvain Bertrand, Alexander Leonessa, and Jerry Pratt.
+\newblock Walking {{Stabilization Using Step Timing}} and {{Location Adjustment}} on the {{Humanoid Robot}}, {{Atlas}}.
+\newblock In \emph{2017 {{IEEE}}/{{RSJ International Conference}} on {{Intelligent Robots}} and {{Systems}} ({{IROS}})}, pages 667--673, September 2017.
+\newblock \doi{10.1109/IROS.2017.8202223}.
+
+\bibitem[Hansen et~al.(2022)Hansen, Wang, and Su]{hansenTemporalDifferenceLearning2022}
+Nicklas Hansen, Xiaolong Wang, and Hao Su.
+\newblock Temporal {{Difference Learning}} for {{Model Predictive Control}}, July 2022.
+
+\bibitem[Ji et~al.(2023)Ji, Margolis, and Agrawal]{jiDribbleBotDynamicLegged2023}
+Yandong Ji, Gabriel~B. Margolis, and Pulkit Agrawal.
+\newblock {{DribbleBot}}: {{Dynamic Legged Manipulation}} in the {{Wild}}, April 2023.
+
+\bibitem[Lee et~al.(2020)Lee, Hwangbo, Wellhausen, Koltun, and Hutter]{leeLearningQuadrupedalLocomotion2020}
+Joonho Lee, Jemin Hwangbo, Lorenz Wellhausen, Vladlen Koltun, and Marco Hutter.
+\newblock Learning {{Quadrupedal Locomotion}} over {{Challenging Terrain}}.
+\newblock \emph{Science Robotics}, 5\penalty0 (47):\penalty0 eabc5986, October 2020.
+\newblock ISSN 2470-9476.
+\newblock \doi{10.1126/scirobotics.abc5986}.
+
+\bibitem[Margolis et~al.(2022)Margolis, Yang, Paigwar, Chen, and Agrawal]{margolisRapidLocomotionReinforcement2022}
+Gabriel~B. Margolis, Ge~Yang, Kartik Paigwar, Tao Chen, and Pulkit Agrawal.
+\newblock Rapid {{Locomotion}} via {{Reinforcement Learning}}, May 2022.
+
+\bibitem[NVIDIA et~al.(2025)NVIDIA, Bjorck, Casta{\~n}eda, Cherniadev, Da, Ding, Fan, Fang, Fox, Hu, Huang, Jang, Jiang, Kautz, Kundalia, Lao, Li, Lin, Lin, Liu, Llontop, Magne, Mandlekar, Narayan, Nasiriany, Reed, Tan, Wang, Wang, Wang, Wang, Xiang, Xie, Xu, Xu, Ye, Yu, Zhang, Zhang, Zhao, Zheng, and Zhu]{nvidiaGR00TN1Open2025}
+NVIDIA, Johan Bjorck, Fernando Casta{\~n}eda, Nikita Cherniadev, Xingye Da, Runyu Ding, Linxi~"Jim" Fan, Yu~Fang, Dieter Fox, Fengyuan Hu, Spencer Huang, Joel Jang, Zhenyu Jiang, Jan Kautz, Kaushil Kundalia, Lawrence Lao, Zhiqi Li, Zongyu Lin, Kevin Lin, Guilin Liu, Edith Llontop, Loic Magne, Ajay Mandlekar, Avnish Narayan, Soroush Nasiriany, Scott Reed, You~Liang Tan, Guanzhi Wang, Zu~Wang, Jing Wang, Qi~Wang, Jiannan Xiang, Yuqi Xie, Yinzhen Xu, Zhenjia Xu, Seonghyeon Ye, Zhiding Yu, Ao~Zhang, Hao Zhang, Yizhou Zhao, Ruijie Zheng, and Yuke Zhu.
+\newblock {{GR00T N1}}: {{An Open Foundation Model}} for {{Generalist Humanoid Robots}}, March 2025.
+
+\bibitem[Sanneman et~al.(2020)Sanneman, Fourie, and Shah]{sannemanStateIndustrialRobotics2020}
+Lindsay Sanneman, Christopher Fourie, and Julie~A. Shah.
+\newblock The {{State}} of {{Industrial Robotics}}: {{Emerging Technologies}}, {{Challenges}}, and {{Key Research Directions}}, October 2020.
+
+\bibitem[Zhang et~al.(2024)Zhang, Xiao, He, and Shi]{zhangWoCoCoLearningWholeBody2024}
+Chong Zhang, Wenli Xiao, Tairan He, and Guanya Shi.
+\newblock {{WoCoCo}}: {{Learning Whole-Body Humanoid Control}} with {{Sequential Contacts}}, November 2024.
+
+\bibitem[Zhao et~al.(2023)Zhao, Kumar, Levine, and Finn]{zhaoLearningFineGrainedBimanual2023}
+Tony~Z. Zhao, Vikash Kumar, Sergey Levine, and Chelsea Finn.
+\newblock Learning {{Fine-Grained Bimanual Manipulation}} with {{Low-Cost Hardware}}, April 2023.
 
 \end{thebibliography}

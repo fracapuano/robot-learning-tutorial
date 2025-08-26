@@ -1,34 +1,62 @@
-\section{Robotics Foundations}
+TLDR:
+This section provides a possible ansThe question as per why traditional methods based on motion planning and purely physics-based robot control should be updated in light of more modern learning-based approaches. 
+Here, we argue about the superiority of learning-based approaches versus purely dynamics-based approaches in contexts where primary concerns include (1) generalization to tasks and embodiments (2) reducing dependancy on human expertise (3) leveraging historical trends on the production of data.
+
+\section{Artificial motion}
 \label{sec:classical}
 
-Robotics is concerned with producing real-world motion in a way that is useful, reliable and safe. 
-At its core, robotics is thus an inherently multidisciplinar domain, as producing motion requires interfacing various hardware and software componets, each at various levels. 
-As a direct consequence of its multi-disciplinar nature, robotics traditionally employed an array of methods concerned with its main purpose of producing motion.
-Methods to produce robotics motion range from traditional \emph{explicit} models---leveraging precise descriptions of the mechanics of robots' rigid bodies and their interactions with eventual obstancles in the robots environment---to fully \emph{learning-based} systems, offloading modelling the robot mechanics and rather treating motion as a statistical pattern to learn given multiple sensorimotor readings.
-Between these two extrema, a variety of methods exist, with many borrowing traits from the opposite extremum to tackle specific challenges. 
-On the one hand, as learning-based systems can benefit from information relative to the physics of particularly static tasks, Temporal Difference (TD) methods have been complemented with Model-Predictive Control (MPC)~\citep{TDMPC}.
+Robotics is concerned with producing artificial motion in the physical world in a way that is useful, reliable and safe.
+Thus robotics is at its very core an inherently multidisciplinar domain: producing motion requires interfacing various hardware and software componets, each at various levels.
+Defining a concept of usefulness typically depends on a profound understanding of the applicative domain considered, whereas ensuring reliable and safe execution moreso relies on estimating the inhernet uncertainty in the robot's actions, guaranteeing adaptiveness of control while optimizing for performance, and more.
+Knowledge of mechanical, electrical, and software engineering, as well as rigid-body mechanics and control theory have therefore been quintessential in robotics since the field first developed.
+Lately, Machine Learning (ML) has proven useful in complementing said disciplines, making usage of the robotics data currently becoming more and more available.
+As a direct consequence of its multi-disciplinar nature, robotics developed as a rather wide array of methods, all concerned with the main purpose of producing artificial motion in the physical world.
+
+Methods to produce robotics motion range from traditional \emph{explicit} models---leveraging precise descriptions of the mechanics of robots' rigid bodies and their interactions with eventual obstancles in the robots environment---to fully \emph{learning-based} systems, offloading modelling the robot mechanics and rather treating motion as a statistical pattern to learn given multiple sensorimotor readings~\citep{bekrisStateRobotMotion2024}.
+Between these two extrema, a variety of methods exists, with many borrowing traits from the opposite extremum to tackle specific challenges.
+On the one hand, as learning-based systems can benefit from information relative to the physics of particularly static tasks, Temporal Difference (TD) methods have been complemented with Model-Predictive Control (MPC)~\citep{hansenTemporalDifferenceLearning2022}.
 On the other hand, explicit models may be relying on assumptions proving overly simplicistic---or even unrealistic---in practice, as in the case of assuming perfect observability of a robot state using sensorimotor readings. In this context, feedback loops at the control level help mitigate the effects of poor state estimation, complementing the motion planning process with discrepancy-from-target information, similarily to how loss functions are used in statistical learning.
-Figure~\ref{fig:generating-motion-atlas} graphically illustrates the most prominent models in general-purpose applications, and we refer the interested reader to~\citet{STATUS_OF_MOTION_GENERATION} for a comprehensive overview of both general and application-specific methods for motion generation.
+Figure~\ref{fig:generating-motion-atlas} graphically illustrates the most prominent models in general-purpose applications, and we refer the interested reader to~\citet{bekrisStateRobotMotion2024} for a comprehensive overview of both general and application-specific methods for motion generation.
 Aiming at introducing the inherent benefit of learning-based approaches in the context of an increasing availability of robot-data---the main focus of this tutorial---in the rest of this section we will present an illustrative example for the task of manipulation using a rather simplicistic technique in the broader context of traditional robotics: inverse kinematics.
-While far from more advanced techniques that have proven groundbreaking in specific real-world applications (among many others,~\citep{KATHIB_POTENTIAL_FIELD, SEQUENTIAL_COMPOSITION_OF_DYNAMICALLY_DEXTEROUS}), we believe the basics primitive of a full description of movement provide sufficient intuition as to the motivation of learning-based methods in the context of modern robotics.
+While far from more advanced techniques that have proven groundbreaking in specific real-world applications (among many others,~\citep{hansenTemporalDifferenceLearning2022,burridgeSequentialCompositionDynamically1999b}), we believe the basics primitive of a full description of movement provide sufficient intuition as to the motivation of learning-based methods in the context of modern robotics.
 
-\subsection{A Toy Example: A Planar Manipulator}
-Locomotion, Manipulation, Whole body control: what are they
+\subsection{Different kinds of motion} 
+% Robotics atlas: moving through and modifying an environment (and combinations). That is, (1) locomotion (2) manipulation and (3) whole-body control
+At its core, robotics deals with producing motion via actuating joints connecting nearly entirely-rigid links. 
+A key distiction between focus areas in robotics is based on whether the generated motion modifies (1) the relative state of the robot with respect to its environment, (2) the absolute state of the environment or (3) both relative and absolute state (Figure~\ref{fig:robotics-basic-atlas}).
+For instance, (1) may consist in changes in the robot's physical location within its environment. 
+Generally, modifications to a robot's location within its environment may be considered instances of the general \emph{locomotion} problem, further specified as \emph{wheeled} or \emph{legged} locomotion based on whenever a robot makes use of wheels or leg(s) to move in the environment.
+Further, (2) are typically achieved \emph{through} the robot, i.e. generating motion to cause a perform an action inducing a desirable modification, effectively manipulating (\emph{manipulation}) the environment. 
+Manipulation is a well studied problem class in robotics, nowadays solved in practice for static and repetitive manipulation tasks, typically performed in controlled and precisely studied scenarios for instance via industrial robots employed at various stages of manifacturing processes.
+Lastly, an increased level of dynamism in the robot-environment interactions can be obtained combining (1) and (2), thus designing systems capable to move within \emph{and} interact with their environment, falling under the category of \emph{whole-body control}, and is characterized by a typically much larger set of control variables compared to either locomotion or manipulation alone.
 
-Toy example of planar robot
+% Focus on manipulation and learning-based approaches
+Work in producing robots capable of navigating a diverse set of terrains demonstrated the premise of both dynamics and learning-based approaches for locomotion~\citep{griffinWalkingStabilizationUsing2017,jiDribbleBotDynamicLegged2023,leeLearningQuadrupedalLocomotion2020,margolisRapidLocomotionReinforcement2022}, and recent works on whole-body control indicated the premise of learning-based approaches to generate rich motion in complex robot including humanoids~\citep{zhangWoCoCoLearningWholeBody2024,nvidiaGR00TN1Open2025}.
+Manipulation has also been widely studied, particularly considering its aforementioned relevance for many impactful applications ranging from high-risk applications for humans~\citep{fujitaDevelopmentRobotsNuclear2020,alizadehComprehensiveSurveySpace2024,fujitaDevelopmentRobotsNuclear2020} to manifacturing~\citep{sannemanStateIndustrialRobotics2020}.
+While explicit models relying on precise descriptions of the dynamics and knowledge of the robot-environment system have been the key to most industrial robots currently in use, recent works leveraging learning-based techniques for manipulation proved particularly promising. For instance,~\citet{zhaoLearningFineGrainedBimanual2023} accomplished highly dexterous manipulation tasks using much less performant hardware compared to industrial baselines, all avoiding tuning from robotics experts~\citep{zhaoLearningFineGrainedBimanual2023} by exclusively learning to manipulate objects from robotics data.
 
-Full physical description by means of forward kinmeatics to generate movement
+\subsection{A Toy Example: (Planar) Manipulation}
+% Full physical description by means of forward kinmeatics to generate movement
+Manipulating an object first requires reaching it first, to then perform some kind of action.
+Robot manipulators typically consist of a series of links and joints, all connected to an \emph{end-effector}.
+Links and joints are considered responsible for generating motion, while the end effector is instead used to perform specific actions at the target location (e.g., picking/releasing objects via closing/opening a gripper, using a specialized tool like a screwdiver or a measurement device).
+As such, at its very core, manipulation entails moving to the location of an object. 
 
-Most of the times you want to track something, so you do inverse kinematics
+If we consider the (toy) example presented in Figure~\ref{fig:planar-manipulation-simple}, then we can analytically write the end-effector's position as a function of the control applied
+Figure~\ref{fig:planar-manipulation-floor}, 
+Figure~\ref{fig:planar-manipulation-floor-box}
 
-What is inverse kinematics
+% TODO: watch Russ video for a good introduction to inverse kinematics
 
 \subsubsection{Overcoming Estimation Error via Feedabck Loops}
 
 Adding feedback loops to a (simplified) dynamical system
 
-Tuning the gain is not immediate and rather cumbersome
+Tuning gains is not immediate and rather cumbersome
 
 \subsection{Limitations}
 
-Reinforcement Learning for pivoting task's limitations for robot learning
+Modelling is hard, fragile and not scalable
+
+It does not benefit from the growing amount of data being produced
+
