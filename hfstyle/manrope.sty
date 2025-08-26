@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{hfstyle/manrope}[Provides the manrope font]
+\ProvidesPackage{hf/manrope}[Provides the manrope font]
 
 % Write the fd file
 \begin{filecontents}{t1manrope.fd}
@@ -19,9 +19,9 @@
 \DeclareFontShape{T1}{manrope}{b} {sl}{<-> ssub * manrope/b/n} {}
 \end{filecontents}
 
-% Comment out font mapping - let system handle TrueType fonts
-% \pdfmapline{+manroperegular < hfstyle/manrope/Manrope-Regular.ttf}
-% \pdfmapline{+manropebold < hfstyle/manrope/Manrope-Bold.ttf}
+% Write the map lines
+\pdfmapline{+manroperegular < hfstyle/manrope/Manrope-Regular.ttf <T1-WGL4.enc}
+\pdfmapline{+manropebold < hfstyle/manrope/Manrope-Bold.ttf <T1-WGL4.enc}
 
 
 
