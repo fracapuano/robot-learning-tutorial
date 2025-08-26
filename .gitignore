@@ -9,3 +9,5 @@
 *.vrb
 *.blg
 *latexmk*
+*fls
+*synctex*
