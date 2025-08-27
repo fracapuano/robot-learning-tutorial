@@ -8,11 +8,11 @@ TODO:
 
 ## 2. Classical Robotics Foundations
 
-- [] 2.1 Core Focus Areas in Robotics: Locomotion, Manipulation, and Whole-Body Control
-- [] 2.2 The Traditional Robotics Paradigm
-    - [] 2.2.1 Kinematics and Dynamics Modeling
-    - [] 2.2.2 Motion Planning and Control
-- [] 2.3 The limitations of classic robotics
+- [] 2.1 Artificial motion: goals, multidisciplinarity, and ML complementing classic methods
+- [] 2.2 Different kinds of motion: locomotion, manipulation, and whole-body control
+- [] 2.3 Case study: (Planar) Manipulation
+    - [] 2.3.1 Overcoming estimation error via feedback loops (controller gains)
+- [] 2.4 Limitations: modeling is fragile, not scalable, and does not leverage growing data
 
 ## 3. Learning-Based Approaches to Robotics
 
@@ -30,16 +30,15 @@ TODO:
 
 - [] 4.1 Action Chunking with Transformers
     - [] 4.1.1 Model Architecture and Training Objectives
-    - [] 4.1.2 Practical Implementation in LeRobot
+    - [] 4.1.2 Practical Implementation with lerobot
 - [] 4.2 Diffusion-Based Policy Models
     - [] 4.2.1 Generative Modeling for Action Sequences
-    - [] 4.2.2 Practical Implementation
+    - [] 4.2.2 Practical Implementation with lerobot
 
 ## 5. Multi-task Policies: Vision-Language-Action (VLA) Models in Robotics
 
 - [] 5.1 Overview of Major Architectures: RT-1, RT-2, OpenVLA, Pi0, SmolVLA, SmolVLA++
-- [] 5.3 Practical Implementation: Integrating VLAs with LeRobot
-- [] 5.4 Experimental Evaluation
+- [] 5.3 Practical Implementation: Using VLAs with lerobot
 
 ## 6. Emerging Directions in Robot Learning
 
@@ -50,3 +49,4 @@ TODO:
     - [] 6.2.1 EXPO
     - [] 6.2.2 From Imitation to Refinement
 
+## 7. Conclusions
