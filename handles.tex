@@ -1,0 +1,27 @@
+\definecolor{hf1}{HTML}{FFD220}
+\definecolor{hf2}{HTML}{FF8360}
+\definecolor{hf3}{HTML}{2D728F}
+\definecolor{hf4}{HTML}{B5DFCA}
+\definecolor{hf5}{HTML}{BABFD1}
+
+\newcommand{\highlight}[1]{\textcolor{hf2}{#1}}
+
+\newcommand{\lerobot}{\texttt{lerobot}}
+\newcommand{\FK}{\text{FK}}
+\newcommand{\targetvel}{\dot {p}^*}
+\newcommand{\targetpos}{p^*}
+
+% TL;DR boxes at the beginning of each chapter
+\newtcolorbox{callout}[2][]{
+  enhanced, breakable,
+  colback=hfbackground, opacityback=0.85,
+  colframe=ai2accent, boxrule=0.6pt, arc=2mm,
+  left=8pt, right=8pt, top=8pt, bottom=8pt,
+  before skip=10pt, after skip=10pt,
+  fonttitle=\sffamily\bfseries,
+  title={\sffamily\bfseries #2},
+  #1
+}
+
+% Convenience environment for TL;DR
+\newenvironment{tldr}[1][TL;DR]{\begin{callout}{#1}}{\end{callout}}
