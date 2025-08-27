@@ -3,12 +3,12 @@ TODO:
 ## 1. Introduction
 
 - [] 1.1 Motivation: The Interdisciplinary Nature of Robotics in the Machine Learning Era
-- [] 1.2 Scope and Contributions of this Work
+- [] 1.2 Scope and Contributions of this work
 - [] 1.3 Structure of the Report
 
 ## 2. Classical Robotics Foundations
 
-- [] 2.1 Artificial motion: goals, multidisciplinarity, and ML complementing classic methods
+- [] 2.1 Artificial motion
 - [] 2.2 Different kinds of motion: locomotion, manipulation, and whole-body control
 - [] 2.3 Case study: (Planar) Manipulation
     - [] 2.3.1 Overcoming estimation error via feedback loops (controller gains)

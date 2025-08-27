@@ -47,6 +47,7 @@
 \usepackage{pifont}
 \usepackage{bold-extra}
 \usepackage{pgf-pie}
+\usepackage{epigraph}
 
 % Algorithms
 \usepackage{fdsymbol}
@@ -116,7 +117,6 @@
 \newcommand{\nol}[1]{{\color{purple} [nol]: #1}}
 
 
-
 \usepackage{setspace}
 
 \usepackage{nicematrix}
@@ -131,12 +131,13 @@
 \newcommand{\orr}[1]{\textcolor{red}{[OZ:#1]}}
 
 \input{preamble}
+\input{math_commands}
+\input{handles}
 
 \title{
-Robot Learning: A Tutorial
+Robot Learning with \lerobot: A Tutorial
 }
 
-\newcommand{\lerobot}{\texttt{lerobot}}
 \newcommand{\huggingface}{\raisebox{-1.5pt}{\includegraphics[height=1.05em]{logos/hf.pdf}}\xspace}
 \newcommand{\coreContrib}{\raisebox{.33em}{\hspace{.05em}\includegraphics[height=.5em]{logos/core.png}}\xspace}
 
@@ -163,11 +164,11 @@ Robot Learning: A Tutorial
 
 \maketitle
 
-\input{sections/01_introduction}
+% \input{sections/01_introduction}
 \input{sections/02_classic_robotics}
-\input{sections/03_learning_based}
-\input{sections/04_single_task}
-\input{sections/05_generalist_models}
+% \input{sections/03_learning_based}
+% \input{sections/04_single_task}
+% \input{sections/05_generalist_models}
 
 \bibliographystyle{hfstyle/plainnat}
 \bibliography{main}
