@@ -1,123 +1,29 @@
-\begin{thebibliography}{25}
+\begin{thebibliography}{6}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
 
-\bibitem[DRO()]{DROIDLargeScaleIntheWild}
-{{DROID}}: {{A Large-Scale In-the-Wild Robot Manipulation Dataset}}.
-\newblock https://droid-dataset.github.io/.
-
-\bibitem[Ope()]{OpenXEmbodimentRobotic}
-Open {{X-Embodiment}}: {{Robotic Learning Datasets}} and {{RT-X Models}}.
-\newblock https://robotics-transformer-x.github.io/.
-
-\bibitem[{AgiBot-World-Contributors} et~al.(2025){AgiBot-World-Contributors}, Bu, Cai, Chen, Cui, Ding, Feng, Gao, He, Hu, Huang, Jiang, Jiang, Jing, Li, Li, Liu, Liu, Lu, Luo, Luo, Mu, Niu, Pan, Pang, Qiao, Ren, Ruan, Shan, Shen, Shi, Shi, Shi, Sima, Song, Wang, Wang, Wei, Xie, Xu, Yan, Yang, Yang, Yang, Yao, Zeng, Zhang, Zhang, Zhao, Zhao, Zhao, and Zhu]{agibot-world-contributorsAgiBotWorldColosseo2025}
-{AgiBot-World-Contributors}, Qingwen Bu, Jisong Cai, Li~Chen, Xiuqi Cui, Yan Ding, Siyuan Feng, Shenyuan Gao, Xindong He, Xuan Hu, Xu~Huang, Shu Jiang, Yuxin Jiang, Cheng Jing, Hongyang Li, Jialu Li, Chiming Liu, Yi~Liu, Yuxiang Lu, Jianlan Luo, Ping Luo, Yao Mu, Yuehan Niu, Yixuan Pan, Jiangmiao Pang, Yu~Qiao, Guanghui Ren, Cheng Ruan, Jiaqi Shan, Yongjian Shen, Chengshi Shi, Mingkang Shi, Modi Shi, Chonghao Sima, Jianheng Song, Huijie Wang, Wenhao Wang, Dafeng Wei, Chengen Xie, Guo Xu, Junchi Yan, Cunbiao Yang, Lei Yang, Shukai Yang, Maoqing Yao, Jia Zeng, Chi Zhang, Qinglin Zhang, Bin Zhao, Chengyue Zhao, Jiaqi Zhao, and Jianchao Zhu.
-\newblock {{AgiBot World Colosseo}}: {{A Large-scale Manipulation Platform}} for {{Scalable}} and {{Intelligent Embodied Systems}}, August 2025.
-
-\bibitem[Alayrac et~al.(2022)Alayrac, Donahue, Luc, Miech, Barr, Hasson, Lenc, Mensch, Millican, Reynolds, Ring, Rutherford, Cabi, Han, Gong, Samangooei, Monteiro, Menick, Borgeaud, Brock, Nematzadeh, Sharifzadeh, Binkowski, Barreira, Vinyals, Zisserman, and Simonyan]{alayracFlamingoVisualLanguage2022}
-Jean-Baptiste Alayrac, Jeff Donahue, Pauline Luc, Antoine Miech, Iain Barr, Yana Hasson, Karel Lenc, Arthur Mensch, Katie Millican, Malcolm Reynolds, Roman Ring, Eliza Rutherford, Serkan Cabi, Tengda Han, Zhitao Gong, Sina Samangooei, Marianne Monteiro, Jacob Menick, Sebastian Borgeaud, Andrew Brock, Aida Nematzadeh, Sahand Sharifzadeh, Mikolaj Binkowski, Ricardo Barreira, Oriol Vinyals, Andrew Zisserman, and Karen Simonyan.
-\newblock Flamingo: A {{Visual Language Model}} for {{Few-Shot Learning}}, November 2022.
-
-\bibitem[Aldaco et~al.()Aldaco, Armstrong, Baruch, Bingham, Chan, Dwibedi, Finn, Florence, Goodrich, Gramlich, Herzog, Hoech, Nguyen, Storz, Tabanpour, Tompson, Wahid, Wahrburg, Xu, Yaroshenko, and Zhao]{aldacoALOHA2Enhanced}
-Jorge Aldaco, Travis Armstrong, Robert Baruch, Jeff Bingham, Sanky Chan, Debidatta Dwibedi, Chelsea Finn, Pete Florence, Spencer Goodrich, Wayne Gramlich, Alexander Herzog, Jonathan Hoech, Thinh Nguyen, Ian Storz, Baruch Tabanpour, Jonathan Tompson, Ayzaan Wahid, Ted Wahrburg, Sichun Xu, Sergey Yaroshenko, and Tony~Z Zhao.
-\newblock {{ALOHA}} 2: {{An Enhanced Low-Cost Hardware}} for {{Bimanual Teleoperation}}.
-
-\bibitem[Alizadeh and Zhu(2024)]{alizadehComprehensiveSurveySpace2024}
-Mohammad Alizadeh and Zheng~H. Zhu.
-\newblock A comprehensive survey of space robotic manipulators for on-orbit servicing.
-\newblock \emph{Frontiers in Robotics and AI}, 11, October 2024.
-\newblock ISSN 2296-9144.
-\newblock \doi{10.3389/frobt.2024.1470950}.
-
-\bibitem[Bekris et~al.(2024)Bekris, Doerr, Meng, and Tangirala]{bekrisStateRobotMotion2024}
-Kostas~E. Bekris, Joe Doerr, Patrick Meng, and Sumanth Tangirala.
-\newblock The {{State}} of {{Robot Motion Generation}}, October 2024.
-
-\bibitem[Fujita et~al.(2020)Fujita, Soda, Murata, and Tsuhari]{fujitaDevelopmentRobotsNuclear2020}
-Jun Fujita, Daisuke Soda, Chotaro Murata, and Hiroyuki Tsuhari.
-\newblock Development of {{Robots}} for {{Nuclear Power Plants}} and {{Their Application}} to {{New Fields}}.
-\newblock 57\penalty0 (4), 2020.
-
-\bibitem[Griffin et~al.(2017)Griffin, Wiedebach, Bertrand, Leonessa, and Pratt]{griffinWalkingStabilizationUsing2017}
-Robert~J. Griffin, Georg Wiedebach, Sylvain Bertrand, Alexander Leonessa, and Jerry Pratt.
-\newblock Walking {{Stabilization Using Step Timing}} and {{Location Adjustment}} on the {{Humanoid Robot}}, {{Atlas}}.
-\newblock In \emph{2017 {{IEEE}}/{{RSJ International Conference}} on {{Intelligent Robots}} and {{Systems}} ({{IROS}})}, pages 667--673, September 2017.
-\newblock \doi{10.1109/IROS.2017.8202223}.
+\bibitem[Chi et~al.(2024)Chi, Xu, Feng, Cousineau, Du, Burchfiel, Tedrake, and Song]{chiDiffusionPolicyVisuomotor2024}
+Cheng Chi, Zhenjia Xu, Siyuan Feng, Eric Cousineau, Yilun Du, Benjamin Burchfiel, Russ Tedrake, and Shuran Song.
+\newblock Diffusion {{Policy}}: {{Visuomotor Policy Learning}} via {{Action Diffusion}}, March 2024.
 
 \bibitem[Hansen et~al.(2022)Hansen, Wang, and Su]{hansenTemporalDifferenceLearning2022}
 Nicklas Hansen, Xiaolong Wang, and Hao Su.
 \newblock Temporal {{Difference Learning}} for {{Model Predictive Control}}, July 2022.
 
-\bibitem[Ji et~al.(2023)Ji, Margolis, and Agrawal]{jiDribbleBotDynamicLegged2023}
-Yandong Ji, Gabriel~B. Margolis, and Pulkit Agrawal.
-\newblock {{DribbleBot}}: {{Dynamic Legged Manipulation}} in the {{Wild}}, April 2023.
+\bibitem[Lee et~al.(2024)Lee, Wang, Etukuru, Kim, Shafiullah, and Pinto]{leeBehaviorGenerationLatent2024}
+Seungjae Lee, Yibin Wang, Haritheja Etukuru, H.~Jin Kim, Nur Muhammad~Mahi Shafiullah, and Lerrel Pinto.
+\newblock Behavior {{Generation}} with {{Latent Actions}}, June 2024.
 
-\bibitem[Knight et~al.()Knight, Kooijmans, Wolf, Alibert, Aractingi, Aubakirova, Zouitine, Martino, Palma, Pascal, and Cadene]{knightStandardOpenSO100}
-Rob Knight, Pepijn Kooijmans, Thomas Wolf, Simon Alibert, Michel Aractingi, Dana Aubakirova, Adil Zouitine, Russi Martino, Steven Palma, Caroline Pascal, and Remi Cadene.
-\newblock Standard {{Open SO-100}} \& {{SO-101 Arms}}.
+\bibitem[Luo et~al.(2024)Luo, Xu, Wu, and Levine]{luoPreciseDexterousRobotic2024}
+Jianlan Luo, Charles Xu, Jeffrey Wu, and Sergey Levine.
+\newblock Precise and {{Dexterous Robotic Manipulation}} via {{Human-in-the-Loop Reinforcement Learning}}, October 2024.
 
-\bibitem[Kober et~al.()Kober, Bagnell, and Peters]{koberReinforcementLearningRobotics}
-Jens Kober, J~Andrew Bagnell, and Jan Peters.
-\newblock Reinforcement {{Learning}} in {{Robotics}}: {{A Survey}}.
-
-\bibitem[Lee et~al.(2020)Lee, Hwangbo, Wellhausen, Koltun, and Hutter]{leeLearningQuadrupedalLocomotion2020}
-Joonho Lee, Jemin Hwangbo, Lorenz Wellhausen, Vladlen Koltun, and Marco Hutter.
-\newblock Learning {{Quadrupedal Locomotion}} over {{Challenging Terrain}}.
-\newblock \emph{Science Robotics}, 5\penalty0 (47):\penalty0 eabc5986, October 2020.
-\newblock ISSN 2470-9476.
-\newblock \doi{10.1126/scirobotics.abc5986}.
-
-\bibitem[Lynch and Park(2017)]{lynchModernRoboticsMechanics2017}
-Kevin~M. Lynch and Frank~C. Park.
-\newblock \emph{Modern {{Robotics}}: {{Mechanics}}, {{Planning}}, and {{Control}}}.
-\newblock Cambridge University Press, 1 edition, May 2017.
-\newblock ISBN 978-1-316-66123-9 978-1-107-15630-2 978-1-316-60984-2.
-\newblock \doi{10.1017/9781316661239}.
-
-\bibitem[Margolis et~al.(2022)Margolis, Yang, Paigwar, Chen, and Agrawal]{margolisRapidLocomotionReinforcement2022}
-Gabriel~B. Margolis, Ge~Yang, Kartik Paigwar, Tao Chen, and Pulkit Agrawal.
-\newblock Rapid {{Locomotion}} via {{Reinforcement Learning}}, May 2022.
-
-\bibitem[NVIDIA et~al.(2025)NVIDIA, Bjorck, Casta{\~n}eda, Cherniadev, Da, Ding, Fan, Fang, Fox, Hu, Huang, Jang, Jiang, Kautz, Kundalia, Lao, Li, Lin, Lin, Liu, Llontop, Magne, Mandlekar, Narayan, Nasiriany, Reed, Tan, Wang, Wang, Wang, Wang, Xiang, Xie, Xu, Xu, Ye, Yu, Zhang, Zhang, Zhao, Zheng, and Zhu]{nvidiaGR00TN1Open2025}
-NVIDIA, Johan Bjorck, Fernando Casta{\~n}eda, Nikita Cherniadev, Xingye Da, Runyu Ding, Linxi~"Jim" Fan, Yu~Fang, Dieter Fox, Fengyuan Hu, Spencer Huang, Joel Jang, Zhenyu Jiang, Jan Kautz, Kaushil Kundalia, Lawrence Lao, Zhiqi Li, Zongyu Lin, Kevin Lin, Guilin Liu, Edith Llontop, Loic Magne, Ajay Mandlekar, Avnish Narayan, Soroush Nasiriany, Scott Reed, You~Liang Tan, Guanzhi Wang, Zu~Wang, Jing Wang, Qi~Wang, Jiannan Xiang, Yuqi Xie, Yinzhen Xu, Zhenjia Xu, Seonghyeon Ye, Zhiding Yu, Ao~Zhang, Hao Zhang, Yizhou Zhao, Ruijie Zheng, and Yuke Zhu.
-\newblock {{GR00T N1}}: {{An Open Foundation Model}} for {{Generalist Humanoid Robots}}, March 2025.
-
-\bibitem[OpenAI et~al.(2024)OpenAI, Achiam, Adler, Agarwal, Ahmad, Akkaya, Aleman, Almeida, Altenschmidt, Altman, Anadkat, Avila, Babuschkin, Balaji, Balcom, Baltescu, Bao, Bavarian, Belgum, Bello, Berdine, {Bernadett-Shapiro}, Berner, Bogdonoff, Boiko, Boyd, Brakman, Brockman, Brooks, Brundage, Button, Cai, Campbell, Cann, Carey, Carlson, Carmichael, Chan, Chang, Chantzis, Chen, Chen, Chen, Chen, Chen, Chess, Cho, Chu, Chung, Cummings, Currier, Dai, Decareaux, Degry, Deutsch, Deville, Dhar, Dohan, Dowling, Dunning, Ecoffet, Eleti, Eloundou, Farhi, Fedus, Felix, Fishman, Forte, Fulford, Gao, Georges, Gibson, Goel, Gogineni, Goh, {Gontijo-Lopes}, Gordon, Grafstein, Gray, Greene, Gross, Gu, Guo, Hallacy, Han, Harris, He, Heaton, Heidecke, Hesse, Hickey, Hickey, Hoeschele, Houghton, Hsu, Hu, Hu, Huizinga, Jain, Jain, Jang, Jiang, Jiang, Jin, Jin, Jomoto, Jonn, Jun, Kaftan, Kaiser, Kamali, Kanitscheider, Keskar, Khan, Kilpatrick, Kim, Kim, Kim, Kirchner, Kiros, Knight, Kokotajlo, Kondraciuk, Kondrich, Konstantinidis, Kosic, Krueger, Kuo, Lampe, Lan, Lee, Leike, Leung, Levy, Li, Lim, Lin, Lin, Litwin, Lopez, Lowe, Lue, Makanju, Malfacini, Manning, Markov, Markovski, Martin, Mayer, Mayne, McGrew, McKinney, McLeavey, McMillan, McNeil, Medina, Mehta, Menick, Metz, Mishchenko, Mishkin, Monaco, Morikawa, Mossing, Mu, Murati, Murk, M{\'e}ly, Nair, Nakano, Nayak, Neelakantan, Ngo, Noh, Ouyang, O'Keefe, Pachocki, Paino, Palermo, Pantuliano, Parascandolo, Parish, Parparita, Passos, Pavlov, Peng, Perelman, Peres, Petrov, Pinto, Michael, Pokorny, Pokrass, Pong, Powell, Power, Power, Proehl, Puri, Radford, Rae, Ramesh, Raymond, Real, Rimbach, Ross, Rotsted, Roussez, Ryder, Saltarelli, Sanders, Santurkar, Sastry, Schmidt, Schnurr, Schulman, Selsam, Sheppard, Sherbakov, Shieh, Shoker, Shyam, Sidor, Sigler, Simens, Sitkin, Slama, Sohl, Sokolowsky, Song, Staudacher, Such, Summers, Sutskever, Tang, Tezak, Thompson, Tillet, Tootoonchian, Tseng, Tuggle, Turley, Tworek, Uribe, Vallone, Vijayvergiya, Voss, Wainwright, Wang, Wang, Wang, Ward, Wei, Weinmann, Welihinda, Welinder, Weng, Weng, Wiethoff, Willner, Winter, Wolrich, Wong, Workman, Wu, Wu, Wu, Xiao, Xu, Yoo, Yu, Yuan, Zaremba, Zellers, Zhang, Zhang, Zhao, Zheng, Zhuang, Zhuk, and Zoph]{openaiGPT4TechnicalReport2024}
-OpenAI, Josh Achiam, Steven Adler, Sandhini Agarwal, Lama Ahmad, Ilge Akkaya, Florencia~Leoni Aleman, Diogo Almeida, Janko Altenschmidt, Sam Altman, Shyamal Anadkat, Red Avila, Igor Babuschkin, Suchir Balaji, Valerie Balcom, Paul Baltescu, Haiming Bao, Mohammad Bavarian, Jeff Belgum, Irwan Bello, Jake Berdine, Gabriel {Bernadett-Shapiro}, Christopher Berner, Lenny Bogdonoff, Oleg Boiko, Madelaine Boyd, Anna-Luisa Brakman, Greg Brockman, Tim Brooks, Miles Brundage, Kevin Button, Trevor Cai, Rosie Campbell, Andrew Cann, Brittany Carey, Chelsea Carlson, Rory Carmichael, Brooke Chan, Che Chang, Fotis Chantzis, Derek Chen, Sully Chen, Ruby Chen, Jason Chen, Mark Chen, Ben Chess, Chester Cho, Casey Chu, Hyung~Won Chung, Dave Cummings, Jeremiah Currier, Yunxing Dai, Cory Decareaux, Thomas Degry, Noah Deutsch, Damien Deville, Arka Dhar, David Dohan, Steve Dowling, Sheila Dunning, Adrien Ecoffet, Atty Eleti, Tyna Eloundou, David Farhi, Liam Fedus, Niko Felix, Sim{\'o}n~Posada Fishman, Juston Forte, Isabella Fulford, Leo Gao, Elie Georges, Christian Gibson, Vik Goel, Tarun Gogineni, Gabriel Goh, Rapha {Gontijo-Lopes}, Jonathan Gordon, Morgan Grafstein, Scott Gray, Ryan Greene, Joshua Gross, Shixiang~Shane Gu, Yufei Guo, Chris Hallacy, Jesse Han, Jeff Harris, Yuchen He, Mike Heaton, Johannes Heidecke, Chris Hesse, Alan Hickey, Wade Hickey, Peter Hoeschele, Brandon Houghton, Kenny Hsu, Shengli Hu, Xin Hu, Joost Huizinga, Shantanu Jain, Shawn Jain, Joanne Jang, Angela Jiang, Roger Jiang, Haozhun Jin, Denny Jin, Shino Jomoto, Billie Jonn, Heewoo Jun, Tomer Kaftan, {\L}ukasz Kaiser, Ali Kamali, Ingmar Kanitscheider, Nitish~Shirish Keskar, Tabarak Khan, Logan Kilpatrick, Jong~Wook Kim, Christina Kim, Yongjik Kim, Jan~Hendrik Kirchner, Jamie Kiros, Matt Knight, Daniel Kokotajlo, {\L}ukasz Kondraciuk, Andrew Kondrich, Aris Konstantinidis, Kyle Kosic, Gretchen Krueger, Vishal Kuo, Michael Lampe, Ikai Lan, Teddy Lee, Jan Leike, Jade Leung, Daniel Levy, Chak~Ming Li, Rachel Lim, Molly Lin, Stephanie Lin, Mateusz Litwin, Theresa Lopez, Ryan Lowe, Patricia Lue, Anna Makanju, Kim Malfacini, Sam Manning, Todor Markov, Yaniv Markovski, Bianca Martin, Katie Mayer, Andrew Mayne, Bob McGrew, Scott~Mayer McKinney, Christine McLeavey, Paul McMillan, Jake McNeil, David Medina, Aalok Mehta, Jacob Menick, Luke Metz, Andrey Mishchenko, Pamela Mishkin, Vinnie Monaco, Evan Morikawa, Daniel Mossing, Tong Mu, Mira Murati, Oleg Murk, David M{\'e}ly, Ashvin Nair, Reiichiro Nakano, Rajeev Nayak, Arvind Neelakantan, Richard Ngo, Hyeonwoo Noh, Long Ouyang, Cullen O'Keefe, Jakub Pachocki, Alex Paino, Joe Palermo, Ashley Pantuliano, Giambattista Parascandolo, Joel Parish, Emy Parparita, Alex Passos, Mikhail Pavlov, Andrew Peng, Adam Perelman, Filipe de Avila~Belbute Peres, Michael Petrov, Henrique Ponde de~Oliveira Pinto, Michael, Pokorny, Michelle Pokrass, Vitchyr~H. Pong, Tolly Powell, Alethea Power, Boris Power, Elizabeth Proehl, Raul Puri, Alec Radford, Jack Rae, Aditya Ramesh, Cameron Raymond, Francis Real, Kendra Rimbach, Carl Ross, Bob Rotsted, Henri Roussez, Nick Ryder, Mario Saltarelli, Ted Sanders, Shibani Santurkar, Girish Sastry, Heather Schmidt, David Schnurr, John Schulman, Daniel Selsam, Kyla Sheppard, Toki Sherbakov, Jessica Shieh, Sarah Shoker, Pranav Shyam, Szymon Sidor, Eric Sigler, Maddie Simens, Jordan Sitkin, Katarina Slama, Ian Sohl, Benjamin Sokolowsky, Yang Song, Natalie Staudacher, Felipe~Petroski Such, Natalie Summers, Ilya Sutskever, Jie Tang, Nikolas Tezak, Madeleine~B. Thompson, Phil Tillet, Amin Tootoonchian, Elizabeth Tseng, Preston Tuggle, Nick Turley, Jerry Tworek, Juan Felipe~Cer{\'o}n Uribe, Andrea Vallone, Arun Vijayvergiya, Chelsea Voss, Carroll Wainwright, Justin~Jay Wang, Alvin Wang, Ben Wang, Jonathan Ward, Jason Wei, C.~J. Weinmann, Akila Welihinda, Peter Welinder, Jiayi Weng, Lilian Weng, Matt Wiethoff, Dave Willner, Clemens Winter, Samuel Wolrich, Hannah Wong, Lauren Workman, Sherwin Wu, Jeff Wu, Michael Wu, Kai Xiao, Tao Xu, Sarah Yoo, Kevin Yu, Qiming Yuan, Wojciech Zaremba, Rowan Zellers, Chong Zhang, Marvin Zhang, Shengjia Zhao, Tianhao Zheng, Juntang Zhuang, William Zhuk, and Barret Zoph.
-\newblock {{GPT-4 Technical Report}}, March 2024.
-
-\bibitem[Sanneman et~al.(2020)Sanneman, Fourie, and Shah]{sannemanStateIndustrialRobotics2020}
-Lindsay Sanneman, Christopher Fourie, and Julie~A. Shah.
-\newblock The {{State}} of {{Industrial Robotics}}: {{Emerging Technologies}}, {{Challenges}}, and {{Key Research Directions}}, October 2020.
-
-\bibitem[Siciliano and Khatib(2016)]{sicilianoSpringerHandbookRobotics2016}
-Bruno Siciliano and Oussama Khatib, editors.
-\newblock \emph{Springer {{Handbook}} of {{Robotics}}}.
-\newblock Springer {{Handbooks}}. Springer International Publishing, Cham, 2016.
-\newblock ISBN 978-3-319-32550-7 978-3-319-32552-1.
-\newblock \doi{10.1007/978-3-319-32552-1}.
-
-\bibitem[Tang et~al.(2023)Tang, Zhao, Wang, Zhang, Sun, Zheng, Du, Qian, and Kurths]{tangPerceptionNavigationAutonomous2023}
-Yang Tang, Chaoqiang Zhao, Jianrui Wang, Chongzhen Zhang, Qiyu Sun, Weixing Zheng, Wenli Du, Feng Qian, and Juergen Kurths.
-\newblock Perception and {{Navigation}} in {{Autonomous Systems}} in the {{Era}} of {{Learning}}: {{A Survey}}.
-\newblock \emph{IEEE Transactions on Neural Networks and Learning Systems}, 34\penalty0 (12):\penalty0 9604--9624, December 2023.
-\newblock ISSN 2162-237X, 2162-2388.
-\newblock \doi{10.1109/TNNLS.2022.3167688}.
-
-\bibitem[Tedrake({\natexlab{a}})]{tedrakeRoboticManipulationPerception}
-Russ Tedrake.
-\newblock Robotic {{Manipulation}}. {{Perception}}, {{Planning}} and {{Control}}., {\natexlab{a}}.
-
-\bibitem[Tedrake({\natexlab{b}})]{tedrakeUnderactuatedRoboticsAlgorithms}
-Russ Tedrake.
-\newblock Underactuated {{Robotics}}. {{Algorithms}} for {{Walking}}, {{Running}}, {{Swimming}}, {{Flying}}, and {{Manipulation}}, {\natexlab{b}}.
-
-\bibitem[Zhang et~al.(2024)Zhang, Xiao, He, and Shi]{zhangWoCoCoLearningWholeBody2024}
-Chong Zhang, Wenli Xiao, Tairan He, and Guanya Shi.
-\newblock {{WoCoCo}}: {{Learning Whole-Body Humanoid Control}} with {{Sequential Contacts}}, November 2024.
+\bibitem[Shukor et~al.(2025)Shukor, Aubakirova, Capuano, Kooijmans, Palma, Zouitine, Aractingi, Pascal, Russi, Marafioti, Alibert, Cord, Wolf, and Cadene]{shukorSmolVLAVisionLanguageActionModel2025}
+Mustafa Shukor, Dana Aubakirova, Francesco Capuano, Pepijn Kooijmans, Steven Palma, Adil Zouitine, Michel Aractingi, Caroline Pascal, Martino Russi, Andres Marafioti, Simon Alibert, Matthieu Cord, Thomas Wolf, and Remi Cadene.
+\newblock {{SmolVLA}}: {{A Vision-Language-Action Model}} for {{Affordable}} and {{Efficient Robotics}}, June 2025.
 
 \bibitem[Zhao et~al.(2023)Zhao, Kumar, Levine, and Finn]{zhaoLearningFineGrainedBimanual2023}
 Tony~Z. Zhao, Vikash Kumar, Sergey Levine, and Chelsea Finn.
