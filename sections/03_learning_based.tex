@@ -1,9 +1,27 @@
-\epigraph{\textit{All models are wrong} [...]}{George Box}
+\epigraph{The best material model for a cat is another, or preferably the same cat}{Norbert Wiener}
 
-\section{Learning-Based Approaches to Robotics}
+\section{Robot Learning}
 \label{sec:learning}
 
-\subsection{Reinforcement Learning (RL) for Robotic Control}
+Learning-based techniques for robotics naturally address the limitations presented in~\ref{sec:classical} (Figure~\ref{fig:robot-learning-upsides}).
+Learning-based techniques typically rely on prediction-to-action (\emph{visuomotor policies}), thereby directly mapping sensorimotor inputs to predicted actions, streamlining the harmonization of control policies.
+Mapping sensorimotor inputs to actions directly also allows to add diverse input modalities over time, leveraging the automatic feature extraction characteristic of most common learning systems.
+Further, learning-based approaches can in principle entirely bypass modeling efforts and instead rely exclusively on interactions data, proving transformative when dynamics are challenging to model or unknown.
+Lastly, we argue learning for robotics (\emph{robot learning}) is naturally well posed to leverage the growing amount of robotics data openly available, just as computer vision first and natural language processing later did historically benefit from large scale corpora of (possibly non curated) data.
+As it largely leverages techniques and results developed within more mature subfields within ML (computer vision-based feature extractors, language-based semantics, etc.), robot learning is thus posed to potentially benefit from the growing amount of motion data available, in great part overlooked by dynamics-based approaches.
+
+Robot learning is a field at its relative nascent stages, and no prevalent technique(s) proved distinctly better than others.
+Still, two major classes of methods gained prominence in applications of ML to robotics: \highlight{reinforcement learning (RL)} and \highlight{behavioral cloning (BC)}.
+In this section, we provide a conceptual overview of applications of the former to robotics, as well as introduce practical examples of how to use RL within \lerobot.
+We then introduce the major limitations RL suffers from, introducing BC shortly after.
+Importantly, (Figure~\ref{fig:robot-learning-atlas}) we decided to include generalist robot models~\citep{blackpi0VisionLanguageActionFlow2024,shukorSmolVLAVisionLanguageActionModel2025} alongside task-specific BC methods.
+While very different in spirit---generalist models learn to take instructions as input and to use them to generate motion valid across many tasks---foundation models like \( \pi_0 \), for instance, are largely trained to reproduce trajectories contained in a large training set of input demonstrations.
+This distinction being made, we argue generalist policies can indeed be grouped alongside other BC methods.
+
+Figure~\ref{fig:robot-learning-atlas} illustrates this classification graphically, explicitly listing all the robot learning policies currently available in \lerobot: Action Chunking with Transformers (ACT)~\citep{zhaoLearningFineGrainedBimanual2023}, Diffusion Policy~\citep{chiDiffusionPolicyVisuomotor2024}, Vector-Quantized Behavior Transformer (VQ-BeT)~\citep{leeBehaviorGenerationLatent2024}, \( \pi_0 \)~\citep{blackpi0VisionLanguageActionFlow2024}, SmolVLA~\citep{shukorSmolVLAVisionLanguageActionModel2025}, Human-in-the-loop Sample-efficient RL (HIL-SERL)~\citep{luoPreciseDexterousRobotic2024} and TD-MPC~\citep{hansenTemporalDifferenceLearning2022}.
+
+\subsection{Reinforcement Learning for Robotics}
+
 \subsubsection{Problem Formulation and Control Objectives}
 We pose control as a Markov decision process (MDP) with state space \(\mathcal{S}\), action space \(\mathcal{A}\), transition kernel \(P\), reward \(r\), and discount \(\gamma\). A policy \(\pi_\theta(a\!\mid\!s)\) maximizes \(J(\theta)=\mathbb{E}\!\left[\sum_{t=0}^{\infty}\gamma^t r(s_t,a_t)\right]\). Practical objectives include setpoint tracking, task success, energy regularization, and safety constraints (e.g., joint limits, collision avoidance).
 
