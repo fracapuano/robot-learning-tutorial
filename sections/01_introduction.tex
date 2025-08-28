@@ -1,10 +1,37 @@
 \section{Introduction}
 
-\subsection{Motivation: The Interdisciplinary Nature of Robotics in the Machine Learning Era}
-Robotics in 2025 sits at the intersection of classical model-based control, machine perception, and large-scale machine learning. Foundational problems in locomotion, manipulation, and whole-body control demand reasoning across rigid-body dynamics, contact modeling, planning under uncertainty, and high-dimensional function approximation. At the same time, end-to-end learning has matured from proof-of-concept demonstrations to systems that benefit from internet-scale multimodal pretraining and robotics-specific fine-tuning, closing the gap between laboratory benchmarks and deployment in unstructured settings. This tutorial embraces that interdisciplinarity: it treats modern robot learning as a synthesis of classical priors and data-driven policies rather than a replacement of one by the other.
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{figures/ch1/ch1-lerobot-figure1.png}
+    \caption{\lerobot in an open-source library for end-to-end robotics, supporting SOTA robot learning methods in Pytorch}
+    \label{fig:figure1}
+\end{figure}
 
-\subsection{Scope and Contributions of This Work}
-This document serves two purposes. First, it provides a concise, academically rigorous overview of core concepts in classical robotics that remain essential for principled system design (kinematics, dynamics, planning, and control). Second, it surveys contemporary learning-based methods for robotic control, with an emphasis on (i) reinforcement learning (RL) and imitation learning (IL), (ii) single-task policy architectures such as transformer-based action chunking and diffusion policies, and (iii) multi-task vision–language–action (VLA) models. Throughout, we complement exposition with \emph{reproducible} implementation guidance using the open-source \texttt{LeRobot} framework, to lower the barrier between concept and practice while maintaining scientific rigor.
+Autonomous robotics holds the premise of relieving humans from repetitive, tiring or dangerous manual tasks. 
+Consequently, the field of robotics has been widely studied since its first inception in the 1950s.
+Lately, advancements in Machine Learning (ML) have sparked the development of a relatively new class of methods used to tackle robotics problems, leveraging large amounts of computation and data rather than human expertise and modeling to develop autonomous systems.
 
-\subsection{Structure of the Report}
-Section~\ref{sec:classical} reviews classical robotics foundations and their limitations in contact-rich, high-DOF regimes. Section~\ref{sec:learning} formulates learning-based control via RL and IL, highlighting problem setups, algorithms, and known failure modes (e.g., reward misspecification, simulation gaps, and safety constraints). Section~\ref{sec:single} details single-task policy families (transformer chunking, diffusion) and their practical training recipes. Section~\ref{sec:multi} surveys multi-task VLA models (e.g., RT-1/RT-2, OpenVLA, $\pi_0/\pi_{0.5}$, and SmolVLA), together with integration patterns and experimental evaluation protocols. Section~6, not covered here, discusses emerging directions (e.g., world models and post-training) beyond the present scope.
+Robotics in 2025 sits is increasingly moving away from classical model-based control paradigm, embracing the advancements made in ML, thus unlocking (1) monolithic perception-to-action action pipelines and (2) multi-modal data-driven feature extraction strategies, together with (3) reduced reliance on precise models of the world and (4) a better positioning to benefit from the growing availability of robotics data openly available.
+While central problems in manipulation, locomotion and whole-body control demand knowledge of rigid-body dynamics, contact modeling, planning under uncertainty, recent results seem to indicate learning can prove as effective as explicit modeling, sparking interest in the field of \emph{robot learning}.
+This interest can be largely justified considering the significant challenges related to deriving accurate models of robot-environment interactions.
+Also, because end-to-end learning on large and increasing amounts of data produced \emph{foundation models} capable to semantically reason over multiple input modalities (images, text, audio, etc.), deriving methods for robotics based on learning seems particularly promising, given the current trends related to the growth of openly available datasets.
+
+At its core, robotics is also an inherently multi-disciplinary field, to the very least considering the diverse skills required in terms of \emph{software} and \emph{hardware}.
+Integrating learning-based techniques increases the heterogeneity of skills needed to tackle robotics, whether in applications or research.
+\lerobot is an open-source library end-to-end integrated with the entire robotics stack.
+With a strong focus on accessible, real-world robots, \highlight{(1) \lerobot supports many, openly available, robotic platforms} for manipulation, locomotion and even whole-body control. 
+\lerobot's \highlight{(2) unified, low-level approach to reading/writing robot configurations} also allows to extend support for other robots relatively easily. 
+The library also supports \highlight{(3) a native robotics dataset's format}---\texttt{LeRobotDataset}---that is used to efficiently share datasets. 
+\lerobot also supports many state-of-the-art (SOTA) algorithms in robot learning---Reinforcement Learning (RL) and Behavioral Cloning (BC)---with efficient implementations in Pytorch and extended support to experimentation and experiments tracking.
+Lastly, \lerobot defines a custom, optimized inference stack for robotic policies decoupling action planning from action execution, proving effective in guaranteeing more adaptability at runtime.
+
+This tutorial serves the double purpose of providing useful references for the science and practical use of common robot learning techniques.
+To this aim, we strike to provide rigorous yet concise overviews of the core concepts behind the techniques presented, paired with practical examples of how to use these in applications, for practitioners and researchers in the field of robot learning.
+This tutorial is structured as follows:
+\begin{itemize}
+\item Section~\ref{sec:classical} reviews classical robotics foundations, introducing the limitations of dynamics-based approaches to robotics.
+\item Section~\ref{sec:learning} elaborates on the limitations of dynamics-based methods, and introduces learning-based techniques, their upsides and potential limitations. We also provide practical examples on the use of RL for robotics with \lerobot.
+\item Section~\ref{sec:single} further describes robot learning techniques that aim at solving single tasks learning from specific expert demonstrations, presenting examples using \lerobot.
+\item Section~\ref{sec:multi} presents recent contributions towards generalist models for robotics applications, presenting examples with \lerobot. 
+\item Lastly, Section~\ref{sec:extensions} covers emerging directions in robot learning research, introducing recent works in world modeling and post-training techniques for robotics foundation models.
+\end{itemize}
