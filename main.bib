@@ -253,6 +253,24 @@
   file = {/Users/fracapuano/Zotero/storage/SSNAZ6U4/Griffin et al. - 2017 - Walking Stabilization Using Step Timing and Location Adjustment on the Humanoid Robot, Atlas.pdf;/Users/fracapuano/Zotero/storage/VP885PA9/1703.html}
 }
 
+@misc{haarnojaSoftActorCriticOffPolicy2018,
+  title = {Soft {{Actor-Critic}}: {{Off-Policy Maximum Entropy Deep Reinforcement Learning}} with a {{Stochastic Actor}}},
+  shorttitle = {Soft {{Actor-Critic}}},
+  author = {Haarnoja, Tuomas and Zhou, Aurick and Abbeel, Pieter and Levine, Sergey},
+  year = {2018},
+  month = aug,
+  number = {arXiv:1801.01290},
+  eprint = {1801.01290},
+  primaryclass = {cs},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.1801.01290},
+  urldate = {2025-08-29},
+  abstract = {Model-free deep reinforcement learning (RL) algorithms have been demonstrated on a range of challenging decision making and control tasks. However, these methods typically suffer from two major challenges: very high sample complexity and brittle convergence properties, which necessitate meticulous hyperparameter tuning. Both of these challenges severely limit the applicability of such methods to complex, real-world domains. In this paper, we propose soft actor-critic, an off-policy actor-critic deep RL algorithm based on the maximum entropy reinforcement learning framework. In this framework, the actor aims to maximize expected reward while also maximizing entropy. That is, to succeed at the task while acting as randomly as possible. Prior deep RL methods based on this framework have been formulated as Q-learning methods. By combining off-policy updates with a stable stochastic actor-critic formulation, our method achieves state-of-the-art performance on a range of continuous control benchmark tasks, outperforming prior on-policy and off-policy methods. Furthermore, we demonstrate that, in contrast to other off-policy algorithms, our approach is very stable, achieving very similar performance across different random seeds.},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Artificial Intelligence,Computer Science - Machine Learning,Statistics - Machine Learning},
+  file = {/Users/fracapuano/Zotero/storage/HG6UQIRM/Haarnoja et al. - 2018 - Soft Actor-Critic Off-Policy Maximum Entropy Deep Reinforcement Learning with a Stochastic Actor.pdf;/Users/fracapuano/Zotero/storage/RKG3J7MX/1801.html}
+}
+
 @misc{hansenTemporalDifferenceLearning2022,
   title = {Temporal {{Difference Learning}} for {{Model Predictive Control}}},
   author = {Hansen, Nicklas and Wang, Xiaolong and Su, Hao},
@@ -525,6 +543,23 @@
   file = {/Users/fracapuano/Zotero/storage/5HNZLG9D/OpenAI et al. - 2019 - Solving Rubik's Cube with a Robot Hand.pdf;/Users/fracapuano/Zotero/storage/WSM7BJ4I/1910.html}
 }
 
+@misc{openaiSolvingRubiksCube2019a,
+  title = {Solving {{Rubik}}'s {{Cube}} with a {{Robot Hand}}},
+  author = {OpenAI and Akkaya, Ilge and Andrychowicz, Marcin and Chociej, Maciek and Litwin, Mateusz and McGrew, Bob and Petron, Arthur and Paino, Alex and Plappert, Matthias and Powell, Glenn and Ribas, Raphael and Schneider, Jonas and Tezak, Nikolas and Tworek, Jerry and Welinder, Peter and Weng, Lilian and Yuan, Qiming and Zaremba, Wojciech and Zhang, Lei},
+  year = {2019},
+  month = oct,
+  number = {arXiv:1910.07113},
+  eprint = {1910.07113},
+  primaryclass = {cs},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.1910.07113},
+  urldate = {2025-08-29},
+  abstract = {We demonstrate that models trained only in simulation can be used to solve a manipulation problem of unprecedented complexity on a real robot. This is made possible by two key components: a novel algorithm, which we call automatic domain randomization (ADR) and a robot platform built for machine learning. ADR automatically generates a distribution over randomized environments of ever-increasing difficulty. Control policies and vision state estimators trained with ADR exhibit vastly improved sim2real transfer. For control policies, memory-augmented models trained on an ADR-generated distribution of environments show clear signs of emergent meta-learning at test time. The combination of ADR with our custom robot platform allows us to solve a Rubik's cube with a humanoid robot hand, which involves both control and state estimation problems. Videos summarizing our results are available: https://openai.com/blog/solving-rubiks-cube/},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Artificial Intelligence,Computer Science - Computer Vision and Pattern Recognition,Computer Science - Machine Learning,Computer Science - Robotics,Statistics - Machine Learning},
+  file = {/Users/fracapuano/Zotero/storage/PR9FTPGH/OpenAI et al. - 2019 - Solving Rubik's Cube with a Robot Hand.pdf;/Users/fracapuano/Zotero/storage/LIBFMX3K/1910.html}
+}
+
 @misc{OpenXEmbodimentRobotic,
   title = {Open {{X-Embodiment}}: {{Robotic Learning Datasets}} and {{RT-X Models}}},
   shorttitle = {Open {{X-Embodiment}}},
@@ -550,6 +585,40 @@
   archiveprefix = {arXiv},
   keywords = {Computer Science - Robotics},
   file = {/Users/fracapuano/Zotero/storage/8ETI44WZ/Sanneman et al. - 2020 - The State of Industrial Robotics Emerging Technologies, Challenges, and Key Research Directions.pdf;/Users/fracapuano/Zotero/storage/Y37S4WE2/2010.html}
+}
+
+@misc{schulmanProximalPolicyOptimization2017,
+  title = {Proximal {{Policy Optimization Algorithms}}},
+  author = {Schulman, John and Wolski, Filip and Dhariwal, Prafulla and Radford, Alec and Klimov, Oleg},
+  year = {2017},
+  month = aug,
+  number = {arXiv:1707.06347},
+  eprint = {1707.06347},
+  primaryclass = {cs},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.1707.06347},
+  urldate = {2025-08-29},
+  abstract = {We propose a new family of policy gradient methods for reinforcement learning, which alternate between sampling data through interaction with the environment, and optimizing a "surrogate" objective function using stochastic gradient ascent. Whereas standard policy gradient methods perform one gradient update per data sample, we propose a novel objective function that enables multiple epochs of minibatch updates. The new methods, which we call proximal policy optimization (PPO), have some of the benefits of trust region policy optimization (TRPO), but they are much simpler to implement, more general, and have better sample complexity (empirically). Our experiments test PPO on a collection of benchmark tasks, including simulated robotic locomotion and Atari game playing, and we show that PPO outperforms other online policy gradient methods, and overall strikes a favorable balance between sample complexity, simplicity, and wall-time.},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Machine Learning},
+  file = {/Users/fracapuano/Zotero/storage/DGQ79LDQ/Schulman et al. - 2017 - Proximal Policy Optimization Algorithms.pdf;/Users/fracapuano/Zotero/storage/ISS4QTB9/1707.html}
+}
+
+@misc{schulmanTrustRegionPolicy2017,
+  title = {Trust {{Region Policy Optimization}}},
+  author = {Schulman, John and Levine, Sergey and Moritz, Philipp and Jordan, Michael I. and Abbeel, Pieter},
+  year = {2017},
+  month = apr,
+  number = {arXiv:1502.05477},
+  eprint = {1502.05477},
+  primaryclass = {cs},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.1502.05477},
+  urldate = {2025-08-29},
+  abstract = {We describe an iterative procedure for optimizing policies, with guaranteed monotonic improvement. By making several approximations to the theoretically-justified procedure, we develop a practical algorithm, called Trust Region Policy Optimization (TRPO). This algorithm is similar to natural policy gradient methods and is effective for optimizing large nonlinear policies such as neural networks. Our experiments demonstrate its robust performance on a wide variety of tasks: learning simulated robotic swimming, hopping, and walking gaits; and playing Atari games using images of the screen as input. Despite its approximations that deviate from the theory, TRPO tends to give monotonic improvement, with little tuning of hyperparameters.},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Machine Learning},
+  file = {/Users/fracapuano/Zotero/storage/MC469UHX/Schulman et al. - 2017 - Trust Region Policy Optimization.pdf;/Users/fracapuano/Zotero/storage/V7M6LZV3/1502.html}
 }
 
 @misc{shukorSmolVLAVisionLanguageActionModel2025,
@@ -585,6 +654,12 @@
   file = {/Users/fracapuano/Zotero/storage/JHG94GYG/Siciliano and Khatib - 2016 - Springer Handbook of Robotics.pdf}
 }
 
+@article{SpinningUp2018,
+  title = {Spinning up in Deep Reinforcement Learning},
+  author = {Achiam, Joshua},
+  year = {2018}
+}
+
 @misc{SuttonBartoBook,
   title = {Sutton \& {{Barto Book}}: {{Reinforcement Learning}}: {{An Introduction}}},
   urldate = {2025-08-28},
@@ -607,6 +682,62 @@
   lccn = {Q325.6 .R45 2018},
   keywords = {Reinforcement learning},
   file = {/Users/fracapuano/Zotero/storage/CJB8FNNL/Sutton and Barto - 2018 - Reinforcement learning an introduction.pdf}
+}
+
+@misc{tangDeepReinforcementLearning2024,
+  title = {Deep {{Reinforcement Learning}} for {{Robotics}}: {{A Survey}} of {{Real-World Successes}}},
+  shorttitle = {Deep {{Reinforcement Learning}} for {{Robotics}}},
+  author = {Tang, Chen and Abbatematteo, Ben and Hu, Jiaheng and Chandra, Rohan and {Mart{\'i}n-Mart{\'i}n}, Roberto and Stone, Peter},
+  year = {2024},
+  month = sep,
+  number = {arXiv:2408.03539},
+  eprint = {2408.03539},
+  primaryclass = {cs},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.2408.03539},
+  urldate = {2025-08-29},
+  abstract = {Reinforcement learning (RL), particularly its combination with deep neural networks referred to as deep RL (DRL), has shown tremendous promise across a wide range of applications, suggesting its potential for enabling the development of sophisticated robotic behaviors. Robotics problems, however, pose fundamental difficulties for the application of RL, stemming from the complexity and cost of interacting with the physical world. This article provides a modern survey of DRL for robotics, with a particular focus on evaluating the real-world successes achieved with DRL in realizing several key robotic competencies. Our analysis aims to identify the key factors underlying those exciting successes, reveal underexplored areas, and provide an overall characterization of the status of DRL in robotics. We highlight several important avenues for future work, emphasizing the need for stable and sample-efficient real-world RL paradigms, holistic approaches for discovering and integrating various competencies to tackle complex long-horizon, open-world tasks, and principled development and evaluation procedures. This survey is designed to offer insights for both RL practitioners and roboticists toward harnessing RL's power to create generally capable real-world robotic systems.},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Machine Learning,Computer Science - Robotics},
+  file = {/Users/fracapuano/Zotero/storage/ZTX4VSMA/Tang et al. - 2024 - Deep Reinforcement Learning for Robotics A Survey of Real-World Successes.pdf;/Users/fracapuano/Zotero/storage/WDVGKFL3/2408.html}
+}
+
+@article{tangDeepReinforcementLearning2025,
+  title = {Deep {{Reinforcement Learning}} for {{Robotics}}: {{A Survey}} of {{Real-World Successes}}},
+  shorttitle = {Deep {{Reinforcement Learning}} for {{Robotics}}},
+  author = {Tang, Chen and Abbatematteo, Ben and Hu, Jiaheng and Chandra, Rohan and {Mart{\'i}n-Mart{\'i}n}, Roberto and Stone, Peter},
+  year = {2025},
+  month = may,
+  journal = {Annual Review of Control, Robotics, and Autonomous Systems},
+  volume = {8},
+  number = {1},
+  pages = {153--188},
+  issn = {2573-5144},
+  doi = {10.1146/annurev-control-030323-022510},
+  urldate = {2025-08-29},
+  abstract = {Reinforcement learning (RL), particularly its combination with deep neural networks, referred to as deep RL (DRL), has shown tremendous promise across a wide range of applications, suggesting its potential for enabling the development of sophisticated robotic behaviors. Robotics problems, however, pose fundamental difficulties for the application of RL, stemming from the complexity and cost of interacting with the physical world. This article provides a modern survey of DRL for robotics, with a particular focus on evaluating the real-world successes achieved with DRL in realizing several key robotic competencies. Our analysis aims to identify the key factors underlying those exciting successes, reveal underexplored areas, and provide an overall characterization of the status of DRL in robotics. We highlight several important avenues for future work, emphasizing the need for stable and sample-efficient real-world RL paradigms; holistic approaches for discovering and integrating various competencies to tackle complex long-horizon, open-world tasks; and principled development and evaluation procedures. This survey is designed to offer insights for both RL practitioners and roboticists toward harnessing RL's power to create generally capable real-world robotic systems.},
+  copyright = {http://creativecommons.org/licenses/by/4.0/},
+  langid = {english},
+  file = {/Users/fracapuano/Zotero/storage/CCNUWJ73/Tang et al. - 2025 - Deep Reinforcement Learning for Robotics A Survey of Real-World Successes.pdf}
+}
+
+@article{tangDeepReinforcementLearning2025a,
+  title = {Deep {{Reinforcement Learning}} for {{Robotics}}: {{A Survey}} of {{Real-World Successes}}},
+  shorttitle = {Deep {{Reinforcement Learning}} for {{Robotics}}},
+  author = {Tang, Chen and Abbatematteo, Ben and Hu, Jiaheng and Chandra, Rohan and {Mart{\'i}n-Mart{\'i}n}, Roberto and Stone, Peter},
+  year = {2025},
+  month = may,
+  journal = {Annual Review of Control, Robotics, and Autonomous Systems},
+  volume = {8},
+  number = {Volume 8, 2025},
+  pages = {153--188},
+  publisher = {Annual Reviews},
+  issn = {2573-5144},
+  doi = {10.1146/annurev-control-030323-022510},
+  urldate = {2025-08-29},
+  abstract = {Reinforcement learning (RL), particularly its combination with deep neural networks, referred to as deep RL (DRL), has shown tremendous promise across a wide range of applications, suggesting its potential for enabling the development of sophisticated robotic behaviors. Robotics problems, however, pose fundamental difficulties for the application of RL, stemming from the complexity and cost of interacting with the physical world. This article provides a modern survey of DRL for robotics, with a particular focus on evaluating the real-world successes achieved with DRL in realizing several key robotic competencies. Our analysis aims to identify the key factors underlying those exciting successes, reveal underexplored areas, and provide an overall characterization of the status of DRL in robotics. We highlight several important avenues for future work, emphasizing the need for stable and sample-efficient real-world RL paradigms; holistic approaches for discovering and integrating various competencies to tackle complex long-horizon, open-world tasks; and principled development and evaluation procedures. This survey is designed to offer insights for both RL practitioners and roboticists toward harnessing RL\&apos;s power to create generally capable real-world robotic systems.},
+  langid = {english},
+  file = {/Users/fracapuano/Zotero/storage/UVIIIEXP/Tang et al. - 2025 - Deep Reinforcement Learning for Robotics A Survey of Real-World Successes.pdf;/Users/fracapuano/Zotero/storage/EUKPASJ2/annurev-control-030323-022510.html}
 }
 
 @article{tangPerceptionNavigationAutonomous2023,
