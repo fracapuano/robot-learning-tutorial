@@ -3,6 +3,17 @@
 
 \epigraph{\textit{Approximate the solution, not the problem} [...]}{Richard Sutton}
 
+\subsection{BC for Robotics}
+BC bypass the need for simulators learning starting from real-world data collected by human experts via teleoperation
+In visuomotor settings, demonstrations pair high-dimensional observations (RGB, depth, proprioception) with action sequences. 
+Policy learning reduces to supervised learning under covariate shift, necessitating strategies that mitigate compounding errors.
+
+\subsection{The \textit{LeRobotDataset} Format for Robotics Datasets}
+Structure of the dataset object
+Features stored
+
+\subsubsection{Code Example: Forwarding Batches of a (Streaming) Dataset}
+
 \subsection{Action Chunking with Transformers}
 \subsubsection{Model Architecture and Training Objectives}
 Action Chunking with Transformers (ACT) models short horizons of low-level actions as fixed-length ``chunks'' conditioned on recent observations and proprioception. A transformer parameterizes a distribution over action sequences, enabling parallel prediction of temporally coherent control signals. Supervised training on teleoperated demonstrations minimizes sequence-level losses (e.g., mean-squared error on joint velocities/torques), optionally with scheduled sampling or consistency regularization to improve rollout stability.

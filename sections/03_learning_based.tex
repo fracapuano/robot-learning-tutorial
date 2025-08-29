@@ -1,4 +1,4 @@
-\epigraph{The best material model for a cat is another, or preferably the same cat}{Norbert Wiener}
+\epigraph{\textit{The best material model for a cat is another, or preferably the same cat}}{Norbert Wiener}
 
 \section{Robot Learning}
 \label{sec:learning}
@@ -18,28 +18,97 @@ Importantly, (Figure~\ref{fig:robot-learning-atlas}) we decided to include gener
 While very different in spirit---generalist models learn to take instructions as input and to use them to generate motion valid across many tasks---foundation models like \( \pi_0 \), for instance, are largely trained to reproduce trajectories contained in a large training set of input demonstrations.
 This distinction being made, we argue generalist policies can indeed be grouped alongside other BC methods.
 
-Figure~\ref{fig:robot-learning-atlas} illustrates this classification graphically, explicitly listing all the robot learning policies currently available in \lerobot: Action Chunking with Transformers (ACT)~\citep{zhaoLearningFineGrainedBimanual2023}, Diffusion Policy~\citep{chiDiffusionPolicyVisuomotor2024}, Vector-Quantized Behavior Transformer (VQ-BeT)~\citep{leeBehaviorGenerationLatent2024}, \( \pi_0 \)~\citep{blackpi0VisionLanguageActionFlow2024}, SmolVLA~\citep{shukorSmolVLAVisionLanguageActionModel2025}, Human-in-the-loop Sample-efficient RL (HIL-SERL)~\citep{luoPreciseDexterousRobotic2024} and TD-MPC~\citep{hansenTemporalDifferenceLearning2022}.
+Figure~\ref{fig:robot-learning-atlas} illustrates this classification graphically, explicitly listing all the robot learning policies currently available in \lerobot: Action Chunking with Transformers (ACT)~\citep{zhaoLearningFineGrainedBimanual2023}, Diffusion Policy~\citep{chiDiffusionPolicyVisuomotor2024}, Vector-Quantized Behavior Transformer (VQ-BeT)~\citep{leeBehaviorGenerationLatent2024}, \( \pi_0 \)~\citep{black$p_0$VisionLanguageActionFlow2024}, SmolVLA~\citep{shukorSmolVLAVisionLanguageActionModel2025}, Human-in-the-loop Sample-efficient RL (HIL-SERL)~\citep{luoPreciseDexterousRobotic2024} and TD-MPC~\citep{hansenTemporalDifferenceLearning2022}.
 
-\subsection{Reinforcement Learning for Robotics}
+\subsection{RL for Robotics}
+Applications of RL to robotics have been long studied, to the point the relationship between these two disciplines has been compared to that between physics and matematics~\citep{koberReinforcementLearningRobotics}.
+Indeed, due to their interactive and sequential nature, many robotics problems can be directly mapped to RL problems.
+Figure~\ref{fig:robotics-with-rl-examples} depicts two of such cases. Manipulating a tiling belt into its correct position is a sequential problem where at each cycle the controller needs to adjust the position of the robotic arms based on their current configuration and the state of the tiling belt. 
+In this example, sequentiality arises from the impossibility of placing the belt in its goal position right away from any starting position.
+Figure~\ref{fig:robotics-with-rl-examples} also shows an example of a locomotion problem, where sequentiality is inherent in the problem formulation. Sliding to the side, the controller has to constantly keeps adjusting to the robot's propioperception, avoiding failure (falling).
 
-\subsubsection{Problem Formulation and Control Objectives}
-We pose control as a Markov decision process (MDP) with state space \(\mathcal{S}\), action space \(\mathcal{A}\), transition kernel \(P\), reward \(r\), and discount \(\gamma\). A policy \(\pi_\theta(a\!\mid\!s)\) maximizes \(J(\theta)=\mathbb{E}\!\left[\sum_{t=0}^{\infty}\gamma^t r(s_t,a_t)\right]\). Practical objectives include setpoint tracking, task success, energy regularization, and safety constraints (e.g., joint limits, collision avoidance).
+\subsubsection{A (Concise) Introduction to RL}
+The RL framework~\citep{suttonReinforcementLearningIntroduction2018}, which we briefly introduce here, has often been used to model robotics problems~\citep{koberReinforcementLearningRobotics}.
+RL is a subfield within ML fundamentally concerned with the development of autonomous systems (\emph{agents}) learning how to \emph{continuously behave} in an evolving environment, developing control \emph{policies} to better act when in a given situation.
+Crucially for robotics, agents improve via trial-and-error only, entirely bypassing the need to develop explicit models of the problem dynamics, and rather exploiting interaction data only.
+In RL, this feedback loop between actions and outcomes is established through the agent sensing a scalar quantity (\emph{reward}, Figure~\ref{fig:rl-most-famous-pic}).
 
-\subsubsection{Policy Optimization Methods in Robotics}
-Modern practice spans on-policy (e.g., TRPO/PPO) and off-policy (e.g., DDPG/TD3/SAC) actor–critic methods, as well as model-based RL that learns or exploits dynamics for sample efficiency. Off-policy approaches are favored for real robots due to data efficiency and the ability to incorporate replay. Auxiliary techniques—domain randomization, dynamics identification, and constraint handling—facilitate sim-to-real transfer and safe exploration.
+Formally, interactions between an agent and its environment are typically modeled via a Markov Decision Process (MDP).
+Representing robotics problems via MDPs offers several advantages, including (1) incorporating uncertainty through MDP's inherently stochastic nature and (2) providing a theoretically sound framework for learning without an explicit dynamic model.
+While accommodating also a continuous time formulation, MDPs are typically considered in discrete time in RL, considering interactions to atomically take place over the course of discrete \emph{timestep} \( t=0,1,2,3, \dots, T \).
+MDPs allowing for an unbounded number of interactions ( \( T \to + \infty \) ) are typically termed \emph{infinite-horizon}, and opposed to \emph{finite-horizon} MDPs in which \( T \) cannot grow unbounded.
+Unless diversely specified, we will only be referring to discrete-time episodic MDPs.
 
-\subsubsection{Practical Implementation: Training RL Policies with \texttt{LeRobot}}
-\texttt{LeRobot} provides standardized dataset and model abstractions, and can be integrated with established RL backends. A typical workflow comprises: (i) environment and observation/action specification (simulated or real), (ii) policy class selection (e.g., SAC/PPO wrappers), (iii) logging and evaluation hooks, (iv) sim-to-real calibration (actuation limits, latency compensation), and (v) deployment with safety interlocks. The framework’s dataset utilities simplify offline RL pretraining or behavior cloning initialization before online fine-tuning.
+
+Formally, a Markov Decision Process (MDP) is a tuple \( \mathcal M = (\statespace, \actionspace, \dynamics, r, \gamma, \rho) \), where:
+\begin{itemize}
+    \item \(\statespace\) is the \emph{state space}; \(\state \in \statespace\) denotes the (possibly non-directly observable) environment state at time \(t\). In robotics, states often comprise robot configuration and velocities (\(q_t, \dot q_t\)), and can accomodate sensor readings such as camera or audio streams.
+    \item \(\actionspace\) is the \emph{action space}; \(\action \in \actionspace\) may represent joint torques, joint velocities, or even end-effector commands. In general, actions correspond to commands intervenings on the configuration of the robot. 
+    \item \(\dynamics\) represents the (possibly non-deterministic) environment dynamics, with \(\dynamics: \statespace \times \actionspace \times \statespace \mapsto [0, 1] \) corresponding to \( \dynamics \, \transition = \transitionprob \). For instance, for a planar manipulator dynamics can typically be considered deterministic when the environment is fully described (Figure~\ref{fig:planar-manipulation-simple}), and stochastic when disturbances depending on non-observable parameters intervene (Figure~\ref{fig:planar-manipulator-box-velocity}).
+    \item \(r: \statespace \times \actionspace \times \statespace \to \mathbb R\) is the \emph{reward function}, weighing \( \transition \) in the context of an arbitrary goal. For instance, a simple reward function for quickly moving the along the \( x \) axis in 3D-space could be based on the position of the robot along the \( x \) axis~(\(p_x\)), present negative penalties for falling over (measured from \( p_z \)) and a introduce bonuses \( \dot p_x \) for speed.
+\end{itemize}
+Lastly, \(\gamma \in [0,1)\) represent the discount factor regulating preference for immediate versus long-term reward (with a horizon of \( \tfrac{1}{1-\gamma} \)), and \( \rho \) is the distribution defined over \(\statespace, \) to sample the initial state, \( s_0 \sim \rho \).
+
+For MDPs, a \emph{trajectory} of length \(T\) is the (random) sequence
+\begin{equation}\label{eq:trajectory_definition}
+    \tau = \trajectory,
+\end{equation}
+with per-step rewards defined as \(r_t = r \transition \) for ease of notation.
+
+Interestingly, assuming both the environment dynamics and conditional distribution over actions given states---termed \emph{policy}---to be \emph{Markovian}:
+%
+\begin{align}
+\mathbb P(\stateplusone \vert s_t, a_t, s_{t-1}, a_{t-1}, \dots s_0, a_0 ) &= \mathbb P \transitiongiven \label{eq:dynamics_markovian} \\
+\mathbb P(\action \vert \state, a_{t-1}, s_{t-1}, s_0, a_0) &= \mathbb P(\action \vert \state) \label{eq:policy_markovian}
+\end{align}
+%
+The probability of observing a given trajectory \( \tau \) can be piece-wise factorized into
+\begin{equation}\label{eq:traj_prob}
+    \mathbb P(\tau) = \mathbb P (s_0) \prod_{t=0}^{T-1} \mathbb P \transitiongiven \ \mathbb P(\action \vert \state).
+\end{equation}
+
+Policies \( \mathbb P(\action \vert \state) \) are typically indicated as \( \pi(\action \vert \state) \), and often parametrized via \( \theta \), yielding \( \pi_\theta (\action \vert \state )\).
+Thus, one can define the (discounted) \emph{return} associated to \( \tau \) as the (random) sum of the reward measured over it,
+\[
+    G(\tau) = \sum_{t=0}^{T-1} \gamma^{t} r_t
+\]
+Control agents seek to learn strategies (policies, \( \pi_\theta \)) maximizing the expected return \( \mathbb E G(\tau) \). 
+For a given dynamics \( \mathcal D \)---i.e., for a given problem---taking the expectation over the (possibly random) trajectories resulting from acting according to a certain policy provides a direct, goal-conditioned ordering of all the possible policies obtained, yielding the (maximization) target \( J : \Pi \mapsto \mathbb R \)
+\begin{align}
+    J(\pi_\theta) &= \mathbb E_{\tau \sim \mathbb P_{\theta; \mathcal D}} \left[ G(\tau) \right], \label{eq:RL-j-function} \\
+    \mathbb P_{\theta; \mathcal D} (\tau) &= \rho \prod_{t=0}^{T-1} \mathbb \mathcal D \transition \ \pi_\theta (\action \vert \state).\label{eq:traj-probabilities-for-policies}
+\end{align}
+
+MDPs thus naturally provide a framework to optimize over the space of the possible behaviors an agent might enact (\( \pi \in \Pi \)), searching for the \emph{optimal policy} \( \pi^* = \arg \max_{\theta} J(\pi_\theta) \).
+A variety of methods have been developed in RL as standalone attemps to find (approximate) solutions to the problem of maximizing cumulative reward (Figure~\ref{fig:rl-algos-atlas}.
+Popular approaches to continuous state and action space---such as those studied within robotics---include~\citet{schulmanTrustRegionPolicy2017, schulmanProximalPolicyOptimization2017, haarnojaSoftActorCriticOffPolicy2018}.
+Across manipulation~\citep{openaiSolvingRubiksCube2019} and locomotion~\citep{leeLearningQuadrupedalLocomotion2020} tasks, RL proved very effective in providing a platform to (1) adopt a unified, streamlined perception-to-action pipeline, (2) natively integrate propioperception with multi-modal high-dimensional streams, learning data-driven pre-processing pipelines, (3) disregard a description of the environment dynamics, by focusing on observed interaction data rather than modeling, and (4) anchor policies in the experience collected in offline datasets.
+For a more complete survey of applications of RL to robotics, we refer the reader to~\citet{koberReinforcementLearningRobotics,tangDeepReinforcementLearning2025a}.
+
+\subsubsection{Real-world RL for Robotics}
+Streamlined end-to-end control pipelines, data-driven feature extraction and a disregard of explicit modeling in favor of interaction data are all features of RL for robotics.
+However, in the context of real-world robotics \highlight{RL suffers from limitations concerning machine safety and learning efficiency}.
+
+RL explore erratically, which makes learning at the beginning dangerous for the hardware considered
+Also, even the most sample efficient RL methods needs thousands of samples to learn to perform tasks from scratch. Further, accommodating for the RL setup is non trivial learning directly on the real robot because of challenges with ensuring reset etc.
+So people have studied learning in simulation. This resolves issues with safety inherently, and improves on the practical aspects of using RL because many samples in simulation are attainable in a fraction of the time compared to real-world training. 
+But simulation is different from the real world, and transferability problems arise.
+People tried strategies including randomizing simulators to induce robustness to domain changes, or use real-world data to align simulations with the end result.
+However simulators are also complex to build, and as a result using RL in real-world is still challenging.
+
+\subsubsection{RL in \lerobot: data-driven, sample-efficient, and with human in-the-loop}
+Recent work proposed leveraging for RL in the real-world using HIL-SERL
+
+HIL-SERL is ...
+HIL-SERL addresses ...
+HIL-SERL works by ...
+HIL-SERL presents limitations ...
+
+\subsubsection{Code Example: Training RL Policies with \lerobot}
+Outside of simulation environments, lerobot implements SERL
+
+coding example of how HIL-SERL works
 
 \subsubsection{Limitations of RL in Real-World Robotics: Simulators and Reward Design}
-Notwithstanding successes in quadruped locomotion and manipulation, practical bottlenecks persist: expensive data collection, reward misspecification and shaping burden, partial observability, and safety during exploration. High-fidelity simulation reduces real-world trials but introduces transfer gaps; reward engineering often requires domain expertise and iterative tuning. Stable, sample-efficient, and safety-aware RL remains an active research frontier.
-
-\subsection{Imitation Learning (IL) for Robotics}
-\subsubsection{Leveraging Real-World Demonstrations}
-IL bypasses online reward optimization by learning from expert trajectories. In visuomotor settings, demonstrations pair high-dimensional observations (RGB, depth, proprioception) with action sequences. Policy learning reduces to supervised learning under covariate shift, necessitating strategies that mitigate compounding errors.
-
-\subsubsection{Reward-Free Training and Data-Centric Perspectives}
-Data-centric IL emphasizes broad, diverse, and real-world demonstration corpora to improve generalization. Pretraining on heterogeneous demonstrations and fine-tuning on task-specific data can produce robust policies without explicit rewards, especially for contact-rich manipulation.
-
-\subsubsection{A Taxonomy of IL Approaches}
-Behavior Cloning (BC) minimizes one-step imitation loss; interactive IL (e.g., DAgger) aggregates data under the learner’s state distribution; adversarial/apprenticeship methods recover reward surrogates; and diffusion- or flow-based action generators model multimodal action distributions. Interactive feedback and on-the-fly corrections further reduce covariate shift in deployment.
+simulators for dexterous tasks are complex to build. Also, soft materials are very hard to model
+reward design is also increasingly complex to derive for practical problem, and it is a big source of brittleness
