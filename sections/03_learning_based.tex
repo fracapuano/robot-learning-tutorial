@@ -1,7 +1,7 @@
-\epigraph{\textit{The best material model for a cat is another, or preferably the same cat}}{Norbert Wiener}
-
 \section{Robot Learning}
 \label{sec:learning}
+
+\epigraph{\textit{Approximate the solution, not the problem} [...]}{Richard Sutton}
 
 Learning-based techniques for robotics naturally address the limitations presented in~\ref{sec:classical} (Figure~\ref{fig:robot-learning-upsides}).
 Learning-based techniques typically rely on prediction-to-action (\emph{visuomotor policies}), thereby directly mapping sensorimotor inputs to predicted actions, streamlining the harmonization of control policies.
@@ -14,7 +14,7 @@ Robot learning is a field at its relative nascent stages, and no prevalent techn
 Still, two major classes of methods gained prominence in applications of ML to robotics: \highlight{reinforcement learning (RL)} and \highlight{behavioral cloning (BC)}.
 In this section, we provide a conceptual overview of applications of the former to robotics, as well as introduce practical examples of how to use RL within \lerobot.
 We then introduce the major limitations RL suffers from, introducing BC shortly after.
-Importantly, (Figure~\ref{fig:robot-learning-atlas}) we decided to include generalist robot models~\citep{blackpi0VisionLanguageActionFlow2024,shukorSmolVLAVisionLanguageActionModel2025} alongside task-specific BC methods.
+Importantly, (Figure~\ref{fig:robot-learning-atlas}) we decided to include generalist robot models~\citep{black$p_0$VisionLanguageActionFlow2024,shukorSmolVLAVisionLanguageActionModel2025} alongside task-specific BC methods.
 While very different in spirit---generalist models learn to take instructions as input and to use them to generate motion valid across many tasks---foundation models like \( \pi_0 \), for instance, are largely trained to reproduce trajectories contained in a large training set of input demonstrations.
 This distinction being made, we argue generalist policies can indeed be grouped alongside other BC methods.
 
@@ -40,7 +40,7 @@ MDPs allowing for an unbounded number of interactions ( \( T \to + \infty \) ) a
 Unless diversely specified, we will only be referring to discrete-time episodic MDPs.
 
 
-Formally, a Markov Decision Process (MDP) is a tuple \( \mathcal M = (\statespace, \actionspace, \dynamics, r, \gamma, \rho) \), where:
+Formally, a lenght-\(T\) Markov Decision Process (MDP) is a tuple \( \mathcal M = \langle \statespace, \actionspace, \dynamics, r, \gamma, \rho, T \rangle \), where:
 \begin{itemize}
     \item \(\statespace\) is the \emph{state space}; \(\state \in \statespace\) denotes the (possibly non-directly observable) environment state at time \(t\). In robotics, states often comprise robot configuration and velocities (\(q_t, \dot q_t\)), and can accomodate sensor readings such as camera or audio streams.
     \item \(\actionspace\) is the \emph{action space}; \(\action \in \actionspace\) may represent joint torques, joint velocities, or even end-effector commands. In general, actions correspond to commands intervenings on the configuration of the robot. 
@@ -80,29 +80,56 @@ For a given dynamics \( \mathcal D \)---i.e., for a given problem---taking the e
 \end{align}
 
 MDPs thus naturally provide a framework to optimize over the space of the possible behaviors an agent might enact (\( \pi \in \Pi \)), searching for the \emph{optimal policy} \( \pi^* = \arg \max_{\theta} J(\pi_\theta) \).
-A variety of methods have been developed in RL as standalone attemps to find (approximate) solutions to the problem of maximizing cumulative reward (Figure~\ref{fig:rl-algos-atlas}.
+A variety of methods have been developed in RL as standalone attemps to find (approximate) solutions to the problem of maximizing cumulative reward (Figure~\ref{fig:rl-algos-atlas}).
 Popular approaches to continuous state and action space---such as those studied within robotics---include~\citet{schulmanTrustRegionPolicy2017, schulmanProximalPolicyOptimization2017, haarnojaSoftActorCriticOffPolicy2018}.
-Across manipulation~\citep{openaiSolvingRubiksCube2019} and locomotion~\citep{leeLearningQuadrupedalLocomotion2020} tasks, RL proved very effective in providing a platform to (1) adopt a unified, streamlined perception-to-action pipeline, (2) natively integrate propioperception with multi-modal high-dimensional streams, learning data-driven pre-processing pipelines, (3) disregard a description of the environment dynamics, by focusing on observed interaction data rather than modeling, and (4) anchor policies in the experience collected in offline datasets.
+Across manipulation~\citep{openaiSolvingRubiksCube2019} and locomotion~\citep{leeLearningQuadrupedalLocomotion2020} problems, RL proved extremely effective in providing a platform to (1) adopt a unified, streamlined perception-to-action pipeline, (2) natively integrate propioperception with multi-modal high-dimensional sensor streams  (3) disregard a description of the environment dynamics, by focusing on observed interaction data rather than modeling, and (4) anchor policies in the experience collected and stored in datasets.
 For a more complete survey of applications of RL to robotics, we refer the reader to~\citet{koberReinforcementLearningRobotics,tangDeepReinforcementLearning2025a}.
 
 \subsubsection{Real-world RL for Robotics}
-Streamlined end-to-end control pipelines, data-driven feature extraction and a disregard of explicit modeling in favor of interaction data are all features of RL for robotics.
-However, in the context of real-world robotics \highlight{RL suffers from limitations concerning machine safety and learning efficiency}.
+Streamlined end-to-end control pipelines, data-driven feature extraction and a disregard for explicit modeling in favor of interaction data are all features of RL for robotics.
+However, particularly in the context of real-world robotics RL still suffers from limitations concerning machine safety and learning efficiency.
 
-RL explore erratically, which makes learning at the beginning dangerous for the hardware considered
-Also, even the most sample efficient RL methods needs thousands of samples to learn to perform tasks from scratch. Further, accommodating for the RL setup is non trivial learning directly on the real robot because of challenges with ensuring reset etc.
-So people have studied learning in simulation. This resolves issues with safety inherently, and improves on the practical aspects of using RL because many samples in simulation are attainable in a fraction of the time compared to real-world training. 
-But simulation is different from the real world, and transferability problems arise.
-People tried strategies including randomizing simulators to induce robustness to domain changes, or use real-world data to align simulations with the end result.
-However simulators are also complex to build, and as a result using RL in real-world is still challenging.
+First, especially early in training, \highlight{actions are typically explorative, and thus erractic}.
+On physical systems, untrained policies may command high velocities, self-collisiding configurations, or torques exceeding joint limits, leading to wear and potential hardware damage.
+Mitigating these risks requires external safeguards (e.g., watchdogs, safety monitors, emergency stops), and often even human supervision.
+Further, in the typical episodic setting considered in most robotics problems, experimentation is substantially slowed down by the need to manually reset the environment over the course of training, a time-consuming and brittle process.
+
+Second, learning with a limited number of samples remains problematic in RL, \highlight{limiting the applicability of RL in real-world robotics due to consequently prohibitive timescales of training}.
+Even strong algorithms such as SAC~\citep{haarnojaSoftActorCriticOffPolicy2018} typically require a large numbers of transitions \( \{ \sars \}_{t=1}^N \).
+On hardware, generating these data is time-consuming and demands reliable resetting to initial conditions, which is itself a non-trivial problem.
+
+Critically, training RL policies in simulation~\citep{tobinDomainRandomizationTransferring2017} addresses both issues: it eliminates physical risk and dramatically increases throughput. 
+Yet, simulators require significant modeling effort, and rely on assumptions (simplified physical modeling, instantaneous actuation, static environmental conditions, etc.) limiting transferring policies learned in simulation due the discrepancy between real and simulated environments (\emph{reality gap}, Figure~\ref{fig:synthetic-vs-real-duck}).
+\emph{Domain randomization} (DR) is a popular technique to overcome the reality gap, consisting in randomizing parameters of the simulated environment during training, to induce robustness to specific disturbances.
+In turn, DR is employed to increase the diversity of situations observed over the course the training, improving on the chances sim-to-real transfer~\citep{openaiSolvingRubiksCube2019,antonovaReinforcementLearningPivoting2017,jiDribbleBotDynamicLegged2023}.
+In practice, DR is performed further parametrizing the \emph{simulator}'s dynamics \( \mathcal D \equiv \mathcal D_\xi \) with a \emph{dynamics} (random) vector \( \xi \) drawn an arbitrary distribution, \( \xi \sim \Xi \).
+Over the course of training---typically at each episode's reset---a new \( \xi \) is drawn, and used to specify the environment's dynamics for that episode.
+For instance, one could decide to randomize the friction coefficient of the surface in a locomotion task (Figure~\ref{fig:ducks-on-terrains}), or the center of mass of an object for a manipulation task.
+
+While effective in transfering policies across the reality gap~\citep{jiDribbleBotDynamicLegged2023,tiboniDomainRandomizationEntropy2024}, DR often requires extensive manual engineering.
+First, identifying which parameters to randomize is a very task specific process.
+When locomoting over different terrains, choosing to randomize over the friction coefficient is a reasonable choice, yet not completely resolutive as other factors (lightning conditions, external temperature, joints' fatigue, etc.) may prove just as important.
+Further, selecting the dynamics distribution \( \Xi \) is also non-trivial.
+On the one hand, distributions with low entropy might risk to cause failure at transfer time, due to the limited robustness induced over the course of training.
+On the other hand, excessive randomization may cause over-regularization and hinder performance.
+Attempts at automatically selecting the distribution based on signal from the training process have been made.~\citet{openaiSolvingRubiksCube2019} use a parametric uniform distribution \( \mathcal U(a, b) \) as \( \Xi \), widening the bounds as training progresses and agent's performance improves (AutoDR). 
+While effective, AutoDR may disregard entire batches of data if performance \emph{does not} improve after a distribution update.
+~\citet{tiboniDomainRandomizationEntropy2024} propose a different method to evolve \( \Xi \) based on a success metric tracked during training that explicitly maximizes a more-flexible parametrized Beta distribution, and that does not disregard.
+
+However, even if an ideal distribution \( \Xi \) to sample from was available, many problems cannot be simulated with high-enough fidelity under computational constraints.
+Simulating contact-rich manipulation of possibly deformable or soft materials---i.e., \emph{folding a piece of clothing}---can be costly and even time-intensive, limiting the benefits of in-simulation training.
+An even more important problem is the general unavailability of complicated tasks' \emph{dense} reward function, the design of which is essentially based on human expertise and trial-and-error.
+In practice, \emph{sparse} reward functions are used much more to conclude whether one specific goal has been attained---\emph{is this t-shirt correctly folded?}---but unfortunately incur in more complicated learning.
+As a result, despite notable successes, deploying RL directly on real-world robots at scale remains challenging.
 
 \subsubsection{RL in \lerobot: data-driven, sample-efficient, and with human in-the-loop}
-Recent work proposed leveraging for RL in the real-world using HIL-SERL
+Recent work proposed a practical pathway to real-world training without simulators via \emph{Human-in-the-Loop, Sample-Efficient RL} (HIL-SERL)~\citep{luoPreciseDexterousRobotic2024}.
 
-HIL-SERL is ...
-HIL-SERL addresses ...
-HIL-SERL works by ...
-HIL-SERL presents limitations ...
+At a high level, HIL-SERL augments online RL with human demonstrations and targeted human corrections. Demonstrations provide an initial dataset that seeds learning and constrains early exploration; interactive corrections allow a human supervisor to intervene on failure modes and supply short, high-signal trajectories that the agent incorporates immediately. Efficient off-policy updates reuse all collected data, compounding sample efficiency, while system-level safeguards maintain safety during training.
+
+This design directly addresses the two central limitations above. Because data are collected on the real robot from the outset, there is no sim-to-real transfer gap. Because demonstrations and corrections bias exploration toward relevant behaviors, the agent reaches competent performance in hours rather than days, reducing both wear-and-tear and the need for exhaustive resets. Empirically, HIL-SERL attains near-perfect success rates on diverse manipulation tasks (dynamic manipulation, precision assembly, dual-arm coordination) within 1--2.5 hours of training~\citep{luoPreciseDexterousRobotic2024}. These results align with broader evidence that blending offline datasets with online RL can markedly improve stability and data efficiency~\citep{ballEfficientOnlineReinforcement2023}.
+
+Within \lerobot, we adopt these principles to make real-world RL practical by design: emphasize data reuse, allow human-in-the-loop corrections, and keep the training loop grounded in real data rather than simulators. This yields policies that are both sample-efficient and robustly deployable on the target platform.
 
 \subsubsection{Code Example: Training RL Policies with \lerobot}
 Outside of simulation environments, lerobot implements SERL
@@ -110,5 +137,8 @@ Outside of simulation environments, lerobot implements SERL
 coding example of how HIL-SERL works
 
 \subsubsection{Limitations of RL in Real-World Robotics: Simulators and Reward Design}
-simulators for dexterous tasks are complex to build. Also, soft materials are very hard to model
-reward design is also increasingly complex to derive for practical problem, and it is a big source of brittleness
+High-fidelity simulators for real-world robotics are difficult to build and maintain, especially for contact-rich manipulation and tasks involving deformable or soft materials. Accurate modeling of contact dynamics, frictional phenomena, compliance, and wear requires numerous hard-to-measure parameters and careful calibration. Moreover, reproducing sensing stacks (e.g., camera pipelines with rolling shutter, lens distortions, exposure control, latency) and closed-loop perception is non-trivial~\citep{bekrisStateRobotMotion2024,sicilianoSpringerHandbookRobotics2016}. While domain randomization can improve robustness to modeling errors~\citep{openaiSolvingRubiksCube2019}, and large-scale sim training has delivered impressive locomotion and loco-manipulation capabilities~\citep{hwangboLearningAgileDynamic2019,leeLearningQuadrupedalLocomotion2020,jiDribbleBotDynamicLegged2023}, the engineering effort remains substantial and task-specific.
+
+Reward design poses an additional source of brittleness. Dense shaping terms are often required to guide exploration in long-horizon problems, but poorly tuned terms can lead to specification gaming or local optima. Sparse rewards avoid shaping but exacerbate credit assignment and slow down learning. In practice, complex behaviors frequently require staged curricula or hierarchical decompositions to make rewards tractable~\citep{zhangWoCoCoLearningWholeBody2024,leeLearningQuadrupedalLocomotion2020}. Even then, small changes in hardware, sensing, or environment can invalidate previously tuned rewards and necessitate time-consuming redesign~\citep{tangDeepReinforcementLearning2025a}.
+
+These limitations collectively motivate data-driven real-world training pipelines that minimize dependency on high-fidelity simulators and reduce reward-engineering demands. Human-in-the-loop methods (e.g., HIL-SERL) and imitation-driven approaches provide precisely such a path: they leverage demonstrations and corrections to implicitly encode task structure, focus learning on relevant regions of the state space, and ultimately yield policies that transfer by construction because they are trained where they will be deployed.
