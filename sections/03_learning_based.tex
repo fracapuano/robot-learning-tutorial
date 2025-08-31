@@ -20,7 +20,7 @@ In this section, we provide a conceptual overview of applications of the former 
 We then introduce the major limitations RL suffers from, introducing BC shortly after.
 Importantly, (Figure~\ref{fig:robot-learning-atlas}) we decided to include generalist robot models~\citep{black$p_0$VisionLanguageActionFlow2024,shukorSmolVLAVisionLanguageActionModel2025} alongside task-specific BC methods.
 While very different in spirit---generalist models learn to take instructions as input and to use them to generate motion valid across many tasks---foundation models like \( \pi_0 \), for instance, are largely trained to reproduce trajectories contained in a large training set of input demonstrations.
-This distinction being made, we argue generalist policies can indeed be grouped alongside other BC methods.
+This distinction being made, we argue generalist policies can indeed be grouped alongside other task-specific BC methods as they both leverage similar training data and schemas.
 
 Figure~\ref{fig:robot-learning-atlas} illustrates this classification graphically, explicitly listing all the robot learning policies currently available in \lerobot: Action Chunking with Transformers (ACT)~\citep{zhaoLearningFineGrainedBimanual2023}, Diffusion Policy~\citep{chiDiffusionPolicyVisuomotor2024}, Vector-Quantized Behavior Transformer (VQ-BeT)~\citep{leeBehaviorGenerationLatent2024}, \( \pi_0 \)~\citep{black$p_0$VisionLanguageActionFlow2024}, SmolVLA~\citep{shukorSmolVLAVisionLanguageActionModel2025}, Human-in-the-loop Sample-efficient RL (HIL-SERL)~\citep{luoPreciseDexterousRobotic2024} and TD-MPC~\citep{hansenTemporalDifferenceLearning2022}.
 
@@ -211,7 +211,7 @@ In that, MaxEnt revisits the RL objective \( J (\pi) \) to specifically account 
 \begin{align}
     J(\pi) &= \sum_{t=0}^T \mathbb{E}_{(s_t, a_t) \sim \chi} \left[ r_t + \alpha \mathcal H(\pi (\bullet \vert s_t)) \right] \label{eq:J-soft}
 \end{align}
-This modified objective results in the soft-TD target:
+This modified objective results in the soft TD-target:
 \begin{equation}\label{eq:soft-td-target}
     y_i = \mathbb E_{s_{t+1} \sim \mathbb P( \bullet \vert s_t, a_t)} \left[ r_t + \gamma \left( Q_{\theta_{i-1}} (\stateplusone, a_{t+1}) - \alpha \log \pi_\phi(a_{t+1} \vert \stateplusone) \right) \right], \quad a_{t+1} \sim \pi_\phi(\bullet \vert s_t)
 \end{equation}
@@ -237,32 +237,28 @@ In their technical report,~\citet{luoSERLSoftwareSuite2025} empirically address 
 Reward classifiers are particularly useful in treating complex tasks---e.g., folding a napkin---for which a precise reward formulation is arbitrarily complex to obtain, or that do require significant shaping and are more easily learned directly from demonstrations of successful (\(e^+\)) or failing (\(e^-\)) episodes for given \( s \in \statespace \), with a natural choice for the state-conditioned reward function \( r \mathcal S \mapsto \mathbb R \) in such cases being \( r(s) = \log c(e^+ \ vert s ) \).
 Lastly,~\citep{luoSERLSoftwareSuite2025} do demonstrate the benefits of learning forward (executing the task from initial state to completion) and backward (resetting the environment to the initial state from completion) controllers, learned as separate policies.
 [FROM HERE]
-Lastly, in order to improve on the robustness of the approach used 
-
-Importantly, SERL also presents
+Lastly, in order to improve on the robustness of their approach to different goals while maintaing practical scalability,~\citet{luoSERLSoftwareSuite2025} introduced adopting a modified state and action space expressing joint positions and actions in the end-effector initial pose's frame.
+Randomizing the initial pose of the end-effector,\citet{luoSERLSoftwareSuite2025} achieved a similar result to that of having to manually randomize the position of their goal position, but with the benefit of maintaining the environment in the same condition across different training episodes, achieving higher scalability of their method thanks to the increased practicality of their approach.
 
 % SERL + Human in the loop: HIL-SERL
+Building on off-policy deep Q-learning with replay buffers for sample-efficiency, entropy regularization for better exploration and performance, ingestion of prior data and expert demonstrations to guide learning, and a series of tools and recommendations for real-world training using reward classifiers (Figure~\ref{fig:hil-serl-blocks}),~\citet{luoPreciseDexterousRobotic2024} introduce human interactions during training, achieving near-optimal in challenging real-world manipulation in 1-2 hours.
+Human in the Loop Sample Efficient Robot reinforcement Learning (HIL-SERL)~\citep{luoPreciseDexterousRobotic2024} augments offline-to-online RL with targeted human corrections during training, as well as employing prior data to (1) train a reward classifier and (2) bootstrap RL training.
+While demonstrations provide the initial dataset seeding learning and constraining early exploration, interactive corrections allow a human supervisor to intervene on failure modes and supply short, target interventions to aid the learning process. 
+Crucially, these human interventions are stored in both the online and offline replay buffers, differently from the transitions generated at training time and only stored in the online buffer.
+Consequently, given an intervention timestep \( k \in (0, T) \), length-\(K\) human intervention data \( \{ s^{\text{human}}_k, a^{\text{human}}_k, r^{\text{human}}_k, s^{\text{human}}_{k+1},\}_{t=1}^T \) is more likely to be sampled for off-policy learning than data generated online during training, and as such is expected to provide stronger supervision to the agent while still letting it learn autonomously.
+Empirically, HIL-SERL attains near-perfect success rates on diverse manipulation tasks within 1-2 hours of training~\citep{luoPreciseDexterousRobotic2024}, underscoring how offline datasets with online RL can markedly improve stability and data efficiency and allow real-world RL-training.
 
-Building on off-policy deep Q-learning with replay buffers for sample-efficiency, entropy regularization for better exploration and performance, ingestion of prior data and expert demonstrations to guide learning, and a series of tools and recommendations for real-world training using reward classifiers,~\citet{luoPreciseDexterousRobotic2024} investigate the effects of allowing for human interactions over training, achieving near-optimal success rates while also 
-
-Recent work proposed a practical pathway to real-world training without simulators via \emph{Human-in-the-Loop, Sample-Efficient RL} (HIL-SERL)~\citep{luoPreciseDexterousRobotic2024}.
-
-At a high level, HIL-SERL augments online RL with human demonstrations and targeted human corrections. Demonstrations provide an initial dataset that seeds learning and constrains early exploration; interactive corrections allow a human supervisor to intervene on failure modes and supply short, high-signal trajectories that the agent incorporates immediately. Efficient off-policy updates reuse all collected data, compounding sample efficiency, while system-level safeguards maintain safety during training.
-
-This design directly addresses the two central limitations above. Because data are collected on the real robot from the outset, there is no sim-to-real transfer gap. Because demonstrations and corrections bias exploration toward relevant behaviors, the agent reaches competent performance in hours rather than days, reducing both wear-and-tear and the need for exhaustive resets. Empirically, HIL-SERL attains near-perfect success rates on diverse manipulation tasks (dynamic manipulation, precision assembly, dual-arm coordination) within 1--2.5 hours of training~\citep{luoPreciseDexterousRobotic2024}. These results align with broader evidence that blending offline datasets with online RL can markedly improve stability and data efficiency~\citep{ballEfficientOnlineReinforcement2023}.
-
-Within \lerobot, we adopt these principles to make real-world RL practical by design: emphasize data reuse, allow human-in-the-loop corrections, and keep the training loop grounded in real data rather than simulators. This yields policies that are both sample-efficient and robustly deployable on the target platform.
-
-[TO HERE]
-\subsubsection*{Code Example: Training RL Policies with \lerobot}
-Outside of simulation environments, lerobot implements HIL-SERL for real-world robotics
-
-coding example of how HIL-SERL works
+\subsubsection{Code Example: Real-world RL}
+\textbf{TODO(fracapuano): work out rl training example}
 
 \subsubsection{Limitations of RL in Real-World Robotics: Simulators and Reward Design}
-[TO CHECK]
-High-fidelity simulators for real-world robotics are difficult to build and maintain, especially for contact-rich manipulation and tasks involving deformable or soft materials. Accurate modeling of contact dynamics, frictional phenomena, compliance, and wear requires numerous hard-to-measure parameters and careful calibration. Moreover, reproducing sensing stacks (e.g., camera pipelines with rolling shutter, lens distortions, exposure control, latency) and closed-loop perception is non-trivial~\citep{bekrisStateRobotMotion2024,sicilianoSpringerHandbookRobotics2016}. While domain randomization can improve robustness to modeling errors~\citep{akkayaSolvingRubiksCube2019}, and large-scale sim training has delivered impressive locomotion and loco-manipulation capabilities~\citep{hwangboLearningAgileDynamic2019,leeLearningQuadrupedalLocomotion2020,jiDribbleBotDynamicLegged2023}, the engineering effort remains substantial and task-specific.
 
-Reward design poses an additional source of brittleness. Dense shaping terms are often required to guide exploration in long-horizon problems, but poorly tuned terms can lead to specification gaming or local optima. Sparse rewards avoid shaping but exacerbate credit assignment and slow down learning. In practice, complex behaviors frequently require staged curricula or hierarchical decompositions to make rewards tractable~\citep{zhangWoCoCoLearningWholeBody2024,leeLearningQuadrupedalLocomotion2020}. Even then, changes in hardware, sensing, or environment can invalidate previously tuned rewards and necessitate time-consuming redesign~\citep{tangDeepReinforcementLearning2025a}.
+Despite the advancements in real-world RL training, solving robotics training RL agents in the real world still suffers from the following limitations:
+\begin{itemize}
+\item In those instances where real-world training experience is prohibitively expensive to gather~\citep{degraveMagneticControlTokamak2022, bellemareAutonomousNavigationStratospheric2020}, in-simulation training is often the only option. However, high-fidelity simulators for real-world problems can be difficult to build and maintain, especially for contact-rich manipulation and tasks involving deformable or soft materials.
 
-These limitations collectively motivate data-driven real-world training pipelines that minimize dependency on high-fidelity simulators and reduce reward-engineering demands. Human-in-the-loop methods (e.g., HIL-SERL) and imitation-driven approaches provide precisely such a path: they leverage demonstrations and corrections to implicitly encode task structure, focus learning on relevant regions of the state space, and ultimately yield policies that transfer by construction because they are trained where they will be deployed.
+\item Reward design poses an additional source of brittleness. Dense shaping terms are often required to guide exploration in long-horizon problems, but poorly tuned terms can lead to specification gaming or local optima. Sparse rewards avoid shaping but exacerbate credit assignment and slow down learning. In practice, complex behaviors require efforts shaping rewards: a britlle and error prone process.
+\end{itemize}
+
+Advances in Behavioral Cloning (BC) from corpora of human demonstrations address both these concerns. 
+Learning in a supervised fashion to reproduce expert demonstrations, BC methods prove competitive while bypassing the need for simulated environments and hard-to-define reward functions.
