@@ -76,14 +76,25 @@ Control agents seek to learn strategies (policies, \( \pi_\theta \)) maximizing 
 For a given dynamics \( \mathcal D \)---i.e., for a given problem---taking the expectation over the (possibly random) trajectories resulting from acting according to a certain policy provides a direct, goal-conditioned ordering of all the possible policies obtained, yielding the (maximization) target \( J : \Pi \mapsto \mathbb R \)
 \begin{align}
     J(\pi_\theta) &= \mathbb E_{\tau \sim \mathbb P_{\theta; \mathcal D}} \left[ G(\tau) \right], \label{eq:RL-j-function} \\
-    \mathbb P_{\theta; \mathcal D} (\tau) &= \rho \prod_{t=0}^{T-1} \mathbb \mathcal D \transition \ \pi_\theta (\action \vert \state).\label{eq:traj-probabilities-for-policies}
+    \mathbb P_{\theta; \mathcal D} (\tau) &= \rho \prod_{t=0}^{T-1} \mathcal D \transition \ \pi_\theta (\action \vert \state).\label{eq:traj-probabilities-for-policies}
 \end{align}
 
 MDPs thus naturally provide a framework to optimize over the space of the possible behaviors an agent might enact (\( \pi \in \Pi \)), searching for the \emph{optimal policy} \( \pi^* = \arg \max_{\theta} J(\pi_\theta) \).
+Providing a target for policy search, \( G(\tau) \) can also be used as a target to discriminate between states and state-action pairs.
+Given any state \( s \in \statespace \)---e.g., a given configuration of the robot---the \emph{state-value} function
+\[
+    V_\pi(s) = \mathbb E_{\tau \sim \pi} \left[ G(\tau) \big \vert s_0 = s \right]
+\]
+can be used to discriminate between desirable and undesirable state in terms of long-term (discounted) reward maximization, under a given policy \(\pi\).
+Similarily, the \emph{state-action} value function also conditions the cumulative discounted reward on selecting action \( a \) taken in \( s \), to then according to \( \pi \):
+\[
+    Q_\pi(s,a) = \mathbb E_{\pi, \mathcal D} \left[ G (\tau) \big \vert s_0 = s \right]
+\]
+Crucially, value functions induce an ordering over states and state-action pairs under \( \pi \) and are thus central to most RL algorithms.
 A variety of methods have been developed in RL as standalone attemps to find (approximate) solutions to the problem of maximizing cumulative reward (Figure~\ref{fig:rl-algos-atlas}).
 Popular approaches to continuous state and action space---such as those studied within robotics---include~\citet{schulmanTrustRegionPolicy2017, schulmanProximalPolicyOptimization2017, haarnojaSoftActorCriticOffPolicy2018}.
-Across manipulation~\citep{openaiSolvingRubiksCube2019} and locomotion~\citep{leeLearningQuadrupedalLocomotion2020} problems, RL proved extremely effective in providing a platform to (1) adopt a unified, streamlined perception-to-action pipeline, (2) natively integrate propioperception with multi-modal high-dimensional sensor streams  (3) disregard a description of the environment dynamics, by focusing on observed interaction data rather than modeling, and (4) anchor policies in the experience collected and stored in datasets.
-For a more complete survey of applications of RL to robotics, we refer the reader to~\citet{koberReinforcementLearningRobotics,tangDeepReinforcementLearning2025a}.
+Across manipulation~\citep{akkayaSolvingRubiksCube2019} and locomotion~\citep{leeLearningQuadrupedalLocomotion2020} problems, RL proved extremely effective in providing a platform to (1) adopt a unified, streamlined perception-to-action pipeline, (2) natively integrate propioperception with multi-modal high-dimensional sensor streams  (3) disregard a description of the environment dynamics, by focusing on observed interaction data rather than modeling, and (4) anchor policies in the experience collected and stored in datasets.
+For a more complete survey of applications of RL to robotics, we refer the reader to~\citet{koberReinforcementLearningRobotics,tangDeepReinforcementLearning2024}.
 
 \subsubsection{Real-world RL for Robotics}
 Streamlined end-to-end control pipelines, data-driven feature extraction and a disregard for explicit modeling in favor of interaction data are all features of RL for robotics.
@@ -101,28 +112,34 @@ On hardware, generating these data is time-consuming and demands reliable resett
 Critically, training RL policies in simulation~\citep{tobinDomainRandomizationTransferring2017} addresses both issues: it eliminates physical risk and dramatically increases throughput. 
 Yet, simulators require significant modeling effort, and rely on assumptions (simplified physical modeling, instantaneous actuation, static environmental conditions, etc.) limiting transferring policies learned in simulation due the discrepancy between real and simulated environments (\emph{reality gap}, Figure~\ref{fig:synthetic-vs-real-duck}).
 \emph{Domain randomization} (DR) is a popular technique to overcome the reality gap, consisting in randomizing parameters of the simulated environment during training, to induce robustness to specific disturbances.
-In turn, DR is employed to increase the diversity of situations observed over the course the training, improving on the chances sim-to-real transfer~\citep{openaiSolvingRubiksCube2019,antonovaReinforcementLearningPivoting2017,jiDribbleBotDynamicLegged2023}.
+In turn, DR is employed to increase the diversity of situations observed over the course the training, improving on the chances sim-to-real transfer~\citep{akkayaSolvingRubiksCube2019,antonovaReinforcementLearningPivoting2017,jiDribbleBotDynamicLegged2023}.
 In practice, DR is performed further parametrizing the \emph{simulator}'s dynamics \( \mathcal D \equiv \mathcal D_\xi \) with a \emph{dynamics} (random) vector \( \xi \) drawn an arbitrary distribution, \( \xi \sim \Xi \).
 Over the course of training---typically at each episode's reset---a new \( \xi \) is drawn, and used to specify the environment's dynamics for that episode.
 For instance, one could decide to randomize the friction coefficient of the surface in a locomotion task (Figure~\ref{fig:ducks-on-terrains}), or the center of mass of an object for a manipulation task.
 
 While effective in transfering policies across the reality gap~\citep{jiDribbleBotDynamicLegged2023,tiboniDomainRandomizationEntropy2024}, DR often requires extensive manual engineering.
-First, identifying which parameters to randomize is a very task specific process.
-When locomoting over different terrains, choosing to randomize over the friction coefficient is a reasonable choice, yet not completely resolutive as other factors (lightning conditions, external temperature, joints' fatigue, etc.) may prove just as important.
+First, identifying which parameters to randomize---i.e., the \emph{support} \( \text{supp} \Xi) \) of \( \Xi \)---is an inherently task specific process.
+When locomoting over different terrains, choosing to randomize over the friction coefficient is a reasonable choice, yet not completely resolutive as other factors (lightning conditions, external temperature, joints' fatigue, etc.) may prove just as important, making selecting these parameters another source of brittlness.
 Further, selecting the dynamics distribution \( \Xi \) is also non-trivial.
 On the one hand, distributions with low entropy might risk to cause failure at transfer time, due to the limited robustness induced over the course of training.
 On the other hand, excessive randomization may cause over-regularization and hinder performance.
-Attempts at automatically selecting the distribution based on signal from the training process have been made.~\citet{openaiSolvingRubiksCube2019} use a parametric uniform distribution \( \mathcal U(a, b) \) as \( \Xi \), widening the bounds as training progresses and agent's performance improves (AutoDR). 
-While effective, AutoDR may disregard entire batches of data if performance \emph{does not} improve after a distribution update.
-~\citet{tiboniDomainRandomizationEntropy2024} propose a different method to evolve \( \Xi \) based on a success metric tracked during training that explicitly maximizes a more-flexible parametrized Beta distribution, and that does not disregard.
+Consequently, the research community started investigating approaches to automatically select the randomization distribution using signals from the training process.
+~\citet{akkayaSolvingRubiksCube2019} use a parametric uniform distribution \( \mathcal U(a, b) \) as \( \Xi \), widening the bounds as training progresses and agent's performance improves (AutoDR). 
+While effective, AutoDR requires significant tuning, and even disregard data when performance \emph{does not} improve after a distribution update~\citep{tiboniDomainRandomizationEntropy2024}.
+~\citet{tiboniDomainRandomizationEntropy2024} propose a different method (DORAEMON) to evolve \( \Xi \) based on the success rate (tracked during training), explicitly maximizing parametric Beta distribution, inherently more flexible than uniform distributions.
+DORAEMON proves particularly effective at dynamically increasing the entropy levels of the training distribution employing a max-entropy under performance constraints formulation, differently from AutoDR, which updates a possibly-multivariate environment distributions with fixed, scalar increments on individual bounds.
+Other approaches to automatic DR consist in specifically tuning \( \Xi \) to align as much as possible the simulation and real-world domains.
+For instance, ~\citet{chebotar2019closing} interleave in-simulation policy training with repeated real-world policy rollouts used to adjust \( \Xi \) based on real-world data, while ~\citet{tiboniDROPOSimtoRealTransfer2023} leverage a single, pre-collected set of real-world trajectories and tune \( \Xi \) under a simple likelihood objective.
 
-However, even if an ideal distribution \( \Xi \) to sample from was available, many problems cannot be simulated with high-enough fidelity under computational constraints.
+DR has shown promise, but critically, even under the assumption that an ideal distribution \( \Xi \) to sample from was indeed available, many robotics applications cannot be simulated with high-enough fidelity under practical computational constraints in the first place.
 Simulating contact-rich manipulation of possibly deformable or soft materials---i.e., \emph{folding a piece of clothing}---can be costly and even time-intensive, limiting the benefits of in-simulation training.
 An even more important problem is the general unavailability of complicated tasks' \emph{dense} reward function, the design of which is essentially based on human expertise and trial-and-error.
 In practice, \emph{sparse} reward functions are used much more to conclude whether one specific goal has been attained---\emph{is this t-shirt correctly folded?}---but unfortunately incur in more complicated learning.
 As a result, despite notable successes, deploying RL directly on real-world robots at scale remains challenging.
 
-\subsubsection{RL in \lerobot: data-driven, sample-efficient, and with human in-the-loop}
+\subsubsection{RL in \lerobot: data-driven, real-world, and with a human in-the-loop}
+
+
 Recent work proposed a practical pathway to real-world training without simulators via \emph{Human-in-the-Loop, Sample-Efficient RL} (HIL-SERL)~\citep{luoPreciseDexterousRobotic2024}.
 
 At a high level, HIL-SERL augments online RL with human demonstrations and targeted human corrections. Demonstrations provide an initial dataset that seeds learning and constrains early exploration; interactive corrections allow a human supervisor to intervene on failure modes and supply short, high-signal trajectories that the agent incorporates immediately. Efficient off-policy updates reuse all collected data, compounding sample efficiency, while system-level safeguards maintain safety during training.
@@ -137,7 +154,7 @@ Outside of simulation environments, lerobot implements SERL
 coding example of how HIL-SERL works
 
 \subsubsection{Limitations of RL in Real-World Robotics: Simulators and Reward Design}
-High-fidelity simulators for real-world robotics are difficult to build and maintain, especially for contact-rich manipulation and tasks involving deformable or soft materials. Accurate modeling of contact dynamics, frictional phenomena, compliance, and wear requires numerous hard-to-measure parameters and careful calibration. Moreover, reproducing sensing stacks (e.g., camera pipelines with rolling shutter, lens distortions, exposure control, latency) and closed-loop perception is non-trivial~\citep{bekrisStateRobotMotion2024,sicilianoSpringerHandbookRobotics2016}. While domain randomization can improve robustness to modeling errors~\citep{openaiSolvingRubiksCube2019}, and large-scale sim training has delivered impressive locomotion and loco-manipulation capabilities~\citep{hwangboLearningAgileDynamic2019,leeLearningQuadrupedalLocomotion2020,jiDribbleBotDynamicLegged2023}, the engineering effort remains substantial and task-specific.
+High-fidelity simulators for real-world robotics are difficult to build and maintain, especially for contact-rich manipulation and tasks involving deformable or soft materials. Accurate modeling of contact dynamics, frictional phenomena, compliance, and wear requires numerous hard-to-measure parameters and careful calibration. Moreover, reproducing sensing stacks (e.g., camera pipelines with rolling shutter, lens distortions, exposure control, latency) and closed-loop perception is non-trivial~\citep{bekrisStateRobotMotion2024,sicilianoSpringerHandbookRobotics2016}. While domain randomization can improve robustness to modeling errors~\citep{akkayaSolvingRubiksCube2019}, and large-scale sim training has delivered impressive locomotion and loco-manipulation capabilities~\citep{hwangboLearningAgileDynamic2019,leeLearningQuadrupedalLocomotion2020,jiDribbleBotDynamicLegged2023}, the engineering effort remains substantial and task-specific.
 
 Reward design poses an additional source of brittleness. Dense shaping terms are often required to guide exploration in long-horizon problems, but poorly tuned terms can lead to specification gaming or local optima. Sparse rewards avoid shaping but exacerbate credit assignment and slow down learning. In practice, complex behaviors frequently require staged curricula or hierarchical decompositions to make rewards tractable~\citep{zhangWoCoCoLearningWholeBody2024,leeLearningQuadrupedalLocomotion2020}. Even then, small changes in hardware, sensing, or environment can invalidate previously tuned rewards and necessitate time-consuming redesign~\citep{tangDeepReinforcementLearning2025a}.
 
