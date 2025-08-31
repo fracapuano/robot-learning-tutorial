@@ -3,6 +3,10 @@
 
 \epigraph{\textit{Approximate the solution, not the problem} [...]}{Richard Sutton}
 
+\begin{tldr}
+The need for expensive high-fidelity simulators can be obviated by learning from real-world data, using sample-efficient algorithms that can safely train directly on hardware.
+\end{tldr}
+
 Learning-based techniques for robotics naturally address the limitations presented in~\ref{sec:classical} (Figure~\ref{fig:robot-learning-upsides}).
 Learning-based techniques typically rely on prediction-to-action (\emph{visuomotor policies}), thereby directly mapping sensorimotor inputs to predicted actions, streamlining the harmonization of control policies.
 Mapping sensorimotor inputs to actions directly also allows to add diverse input modalities over time, leveraging the automatic feature extraction characteristic of most common learning systems.
@@ -68,11 +72,11 @@ The probability of observing a given trajectory \( \tau \) can be piece-wise fac
 \end{equation}
 
 Policies \( \mathbb P(\action \vert \state) \) are typically indicated as \( \pi(\action \vert \state) \), and often parametrized via \( \theta \), yielding \( \pi_\theta (\action \vert \state )\).
-Thus, one can define the (discounted) \emph{return} associated to \( \tau \) as the (random) sum of the reward measured over it,
+Thus, one can define the (discounted) \emph{return} associated to \( \tau \) as the (random) sum of measured rewards,
 \[
-    G(\tau) = \sum_{t=0}^{T-1} \gamma^{t} r_t
+    G(\tau) = \sum_{t=0}^{T-1} \gamma^{t} r_t.
 \]
-Control agents seek to learn strategies (policies, \( \pi_\theta \)) maximizing the expected return \( \mathbb E G(\tau) \). 
+Agents seek to learn control strategies (\emph{policies}, \( \pi_\theta \)) maximizing the expected return \( \mathbb E G(\tau) \). 
 For a given dynamics \( \mathcal D \)---i.e., for a given problem---taking the expectation over the (possibly random) trajectories resulting from acting according to a certain policy provides a direct, goal-conditioned ordering of all the possible policies obtained, yielding the (maximization) target \( J : \Pi \mapsto \mathbb R \)
 \begin{align}
     J(\pi_\theta) &= \mathbb E_{\tau \sim \mathbb P_{\theta; \mathcal D}} \left[ G(\tau) \right], \label{eq:RL-j-function} \\
@@ -86,11 +90,17 @@ Given any state \( s \in \statespace \)---e.g., a given configuration of the rob
     V_\pi(s) = \mathbb E_{\tau \sim \pi} \left[ G(\tau) \big \vert s_0 = s \right]
 \]
 can be used to discriminate between desirable and undesirable state in terms of long-term (discounted) reward maximization, under a given policy \(\pi\).
-Similarily, the \emph{state-action} value function also conditions the cumulative discounted reward on selecting action \( a \) taken in \( s \), to then according to \( \pi \):
+Similarily, the \emph{state-action} value function conditions the cumulative discounted reward also on selecting action \( a \) in \( s \), and thereafter act according to \( \pi \):
 \[
-    Q_\pi(s,a) = \mathbb E_{\pi, \mathcal D} \left[ G (\tau) \big \vert s_0 = s \right]
+    Q_\pi(s,a) = \mathbb E_{\tau \sim \pi} \left[ G (\tau) \big \vert s_0 = s, a_0=a \right]
 \]
-Crucially, value functions induce an ordering over states and state-action pairs under \( \pi \) and are thus central to most RL algorithms.
+Crucially, value functions are interrelated:
+\begin{align}
+Q_\pi(s_t, a_t) &= \mathbb{E}_{\stateplusone \sim \mathbb P(\bullet \vert \state, \action)} \left[ r_t + \gamma V_\pi(\stateplusone) \right] \label{eq:q-as-v} \\
+V_\pi(\state) &= \mathbb E_{\action \sim \pi(\bullet \vert \state)} \left[ Q_\pi (\state, \action) \right]
+\label{eq:v-as-q}
+\end{align}
+They also induce an ordering over states and state-action pairs under \( \pi \) and are thus central to most RL algorithms.
 A variety of methods have been developed in RL as standalone attemps to find (approximate) solutions to the problem of maximizing cumulative reward (Figure~\ref{fig:rl-algos-atlas}).
 Popular approaches to continuous state and action space---such as those studied within robotics---include~\citet{schulmanTrustRegionPolicy2017, schulmanProximalPolicyOptimization2017, haarnojaSoftActorCriticOffPolicy2018}.
 Across manipulation~\citep{akkayaSolvingRubiksCube2019} and locomotion~\citep{leeLearningQuadrupedalLocomotion2020} problems, RL proved extremely effective in providing a platform to (1) adopt a unified, streamlined perception-to-action pipeline, (2) natively integrate propioperception with multi-modal high-dimensional sensor streams  (3) disregard a description of the environment dynamics, by focusing on observed interaction data rather than modeling, and (4) anchor policies in the experience collected and stored in datasets.
@@ -137,8 +147,103 @@ An even more important problem is the general unavailability of complicated task
 In practice, \emph{sparse} reward functions are used much more to conclude whether one specific goal has been attained---\emph{is this t-shirt correctly folded?}---but unfortunately incur in more complicated learning.
 As a result, despite notable successes, deploying RL directly on real-world robots at scale remains challenging.
 
-\subsubsection{RL in \lerobot: data-driven, real-world, and with a human in-the-loop}
+\subsubsection{RL in \lerobot: sample-efficient, data-driven, and real-world}
 
+To make the most of (1) the growing number of openly available datasets and (2) relatively inexpensive robots like the SO-100, RL should be anchored in already-collected trajectories and train in the real-world directly.
+Crucially, methods designed for accessible robot platforms (e.g., the SO-100) could in principle be transferred to higher-end robots (e.g., Franka Emika Panda), provided they are general enough.
+In this context, sample-efficient learning is also paramount, as training on the real-world is inherently time-bottlenecked.
+
+Off-policy algorithms like Soft Actor-Critic (SAC)~\citep{haarnojaSoftActorCriticOffPolicy2018} tend to be more sample efficient then their on-policy counterpart~\citep{schulmanProximalPolicyOptimization2017}, due to the presence a \emph{replay buffer} used over the course of the training.
+Other than allowing to re-use transitions \( \sars \) over the course of training, the replay buffer can also accomodate for the injection of previously-collected data in the training process~\citep{ballEfficientOnlineReinforcement2023}.
+Using expert demonstrations to guide learning, and learning-based reward RL can effectively be deployed in the real-world~\citep{luoSERLSoftwareSuite2025}.
+Interestingly, when completed with in-training human interventions, real-world RL agents learn policies with near-perfect success rates on challenging manipulation tasks in 1-2 hours~\citep{luoPreciseDexterousRobotic2024}.
+
+% DQN to DDPG to SAC
+In an MDP, the optimal policy \( \pi^* \) can be derived from its associated \qfunction, \( Q_{\pi^*} \), and in particular the optimal action(s) \(\mu(\state)\) can be selected maximizing the optimal \qfunction over the action space,
+\[
+\mu(\state) = \max_{\action \in \mathcal A} Q_{\pi^*}(\state, \action).
+\]
+Interestingly, the \qopt function satisfies a recursive relationship (\emph{Bellman equation}) based on a very natural intuition%
+\footnote{Quote from~\citet{mnihPlayingAtariDeep2013}. Slightly adapted for consistency of notation throughout this work.}:
+\begin{quote}
+    [...] If the optimal value \( Q^*(\stateplusone, a_{t+1}) \) of the [state] \(\stateplusone \) was known for all possible actions \(a_{t+1} \), then the optimal strategy is to select the action \( a_{t+1}\) maximizing the expected value of \( r_t + \gamma Q^*(s_{t+1}, a_{t+1}) \)
+\[ 
+Q^*(s_t, a_t) = \mathbb E_{s_{t+1} \sim \mathbb P(\bullet \vert s_t, a_t)} \left[ r_t + \gamma \max_{a_{t+1} \in \mathcal A} Q^*(s_{t+1}, a_{t+1}) \big\vert s_t, a_t  \right]
+\]
+\end{quote}
+
+In turn, the optimal \qfunction \ %
+is guaranteed to be self-consistent by definition.
+\emph{Value-iteration} methods exploit this relationship (and/or its state-value counterpart, \( V^*(s_t) \) ) by iteratively updating an initial estimate of \qopt, \( Q_k \) using the Bellman equation as update rule (\emph{Q-learning}):
+\[
+    Q_{i+1}(s_t, a_t) \leftarrow \mathbb E_{s_{t+1} \sim \mathbb P(\bullet \vert s_t, a_t)} \left[ r_t + \gamma \max_{a_{t+1} \in \mathcal A} Q_i (s_{t+1}, a_{t+1}) \big\vert s_t, a_t  \right],  \quad i=0,1,2,\dots,K
+\]
+Then, one can derive the (ideally) near-optimal policy by explicitly maximizing over the action space the final the (ideally) near-optimal estimate \( Q_K \approx Q^* \) over the action space.
+
+Effective in its early applications to small-scale discrete problems and theoretically sound (\( Q_K \approx Q^* \, \text{as } K \to \infty \)), vanilla Q-learning was found complicated to scale to large \( \statespace \times \actionspace \) problems, in which storing alone \( Q : \statespace \times \actionspace \mapsto \mathbb R \) might result prohibitive, as well as not directly usable for continuous state-action space MPDs, such as those considered in robotics.
+In their seminal work on \emph{Deep Q-Learning} (DQN),~\citet{mnihPlayingAtariDeep2013} propose learning Q-values using deep convolutional neural networks, parametrizing Q-functions using neural networks with parameters \( \theta \), updated by sequentially minimizing the temporal-difference (TD) error (\( \delta_i \)) by minimizing:
+\begin{align}
+\mathcal L(\theta_i) &= \mathbb E_{(s_t, a_t) \sim \chi(\bullet)} 
+    \big[ 
+        (\underbrace{y_i - Q_{\theta_i}(s_t, a_t)}_{\delta_i})^2 
+    \big], \label{eq:dqn-loss} \\
+    y_i &= \mathbb E_{s_{t+1} \sim \mathbb P(\bullet \vert s_t, a_t)} \big[ r_t + \gamma \max_{\action \in \mathcal A} Q_{\theta_{i-1}} (\stateplusone, a_{t+1}) \big], \label{eq:TD-target}
+\end{align}
+Where \( \chi \) represents a behavior distribution over state-action pairs. 
+Crucially, \( \chi \) can in principle be different from the policy being followed, effectively allowing to reuse prior data stored in a \emph{replay buffer} in the form of \( \sars \) transitions, sampled and used to form the TD-target \( y_i \) and TD-error \( \delta_i \) during training.
+
+While effective in discrete action-space problems, DQN's application continous control problems is challenging, as in the case of high-capacity function approximators such as neural networks, solving \( \max_{a_t \in \mathcal A} Q_\theta(s_t, a_t) \) at each timestep is simply unfeasible due to the (1) continous nature of the action space (\( \actionspace \subset \mathbb R^n \) for some \( n \)) and (2) impossibility to express the find a cheap (ideally, closed-form) solution to \( Q_\theta \).
+~\citet{silverDeterministicPolicyGradient2014} tackle this fundamental challenge by using a \emph{deterministic} function of the state \( s_t \) as policy, \( \mu_\theta(s_t) = a_t \) parametrized by \( \phi \), in which case policies can be iteratively refined by updating \( \phi \) along the direction:
+\begin{equation}\label{eq:deterministic-pg}
+    d_\phi = \mathbb E_{s_t \sim \mathbb P (\bullet)} \left[ \nabla_\phi Q(s_t, a_t)\vert_{a_t = \mu_\phi(s_t)} \right] = \mathbb E_{s_t \sim \mathbb P(\bullet)} \left[ \nabla_{a_t} Q(s_t, a_t) \vert_{a_t = \mu_\phi(s_t)} \cdot \nabla_\phi \mu(s_t) \right]
+\end{equation}
+Provably, \ref{eq:deterministic-pg} is the (deterministic) policy gradient of the policy \(\mu_\phi \)~\citep{silverDeterministicPolicyGradient2014}, so that updates \( \phi_{k+1}\leftarrow \phi_k + \alpha d_\phi \) are guaranteed to increase the (deterministic) cumulative discounted reward, \( J(\mu_\phi) \).
+~\citet{lillicrapContinuousControlDeep2019} demonstrated the use of deep learning for problems dealing with (1) high-dimensional unstructured observations and (2) continuous action spaces, introducing Deep Deterministic Policy Gradient (DDPG), an important algorithm RL and its applications to robotics.
+DDPG modifies the TD-target defined in~\ref{eq:TD-target} maintaining a policy network used to select actions, so that the TD-target becomes:
+\begin{equation}\label{eq:TD-target-ddpg}
+y_i = \mathbb E_{s_{t+1} \sim \mathbb P(\bullet \vert s_t, a_t)} \big[ r_t + \gamma Q_{\theta_{i-1}} (\stateplusone, \mu_\phi(\stateplusone)) \big] .
+\end{equation}
+
+Similarily to DQN, DDPG employs on the same replay buffer mechanism to increase sample efficiency, effectively reusing past transitions over training.
+Soft Actor-Critic (SAC)~\citep{haarnojaSoftActorCriticOffPolicy2018} is a variant of DDPG in the max-entropy (MaxEnt) framework, in which RL agents are tasked with \highlight{maximizing the discounted cumulative reward, while acting as randomly as possible}.
+MaxEnt RL~\citep{haarnojaReinforcementLearningDeep2017} has proven particularly robust thanks to the development of diverse behaviors, incentivized by its entropy-regularization formulation.
+In that, MaxEnt revisits the RL objective \( J (\pi) \) to specifically account for the policy entropy, yielding:
+\begin{align}
+    J(\pi) &= \sum_{t=0}^T \mathbb{E}_{(s_t, a_t) \sim \chi} \left[ r_t + \alpha \mathcal H(\pi (\bullet \vert s_t)) \right] \label{eq:J-soft}
+\end{align}
+This modified objective results in the soft-TD target:
+\begin{equation}\label{eq:soft-td-target}
+    y_i = \mathbb E_{s_{t+1} \sim \mathbb P( \bullet \vert s_t, a_t)} \left[ r_t + \gamma \left( Q_{\theta_{i-1}} (\stateplusone, a_{t+1}) - \alpha \log \pi_\phi(a_{t+1} \vert \stateplusone) \right) \right], \quad a_{t+1} \sim \pi_\phi(\bullet \vert s_t)
+\end{equation}
+Similarily to DDPG, SAC maintains an explicit policy as well, trained under the same MaxEnt framework for the maximization of \ref{eq:J-soft}, updated using:
+\begin{equation}\label{eq:sac-policy-update}
+    \pi_{k+1} \leftarrow \arg\min_{\pi^\prime \in \Pi} \text{D}_{\text{KL}} \left(\pi^\prime (\bullet \vert \state) \bigg\Vert \frac{\exp(Q_{\pi_k}(s_t, \bullet))}{Z_{\pi_k}(s_t)} \right)
+\end{equation}
+The update rule provided in \ref{eq:sac-policy-update} optimizes the policy~\citep{haarnojaReinforcementLearningDeep2017} while projecting it on a set \( \Pi \) of tractable distributions (e.g., Gaussians).
+Importantly, sampling \( \transition \) from the replay buffer \( D \) conveniently allows to approximate the previously introduced expectations for TD-target and TD-error through Monte-Carlo (MC) estimates.
+
+% SAC + prior data: RLPD
+The replay buffer \( D \) proves extremely useful in maintaining a history of previous transitions and using it for training, improving on sample efficiency.
+Furthermore, it also naturally provides an entry point to store offline trajectories recorded, for instance, by a human demonstrator, and to use this prior data during training.
+In Reinforcement Learning with Prior Data (RLPD),~\citet{ballEfficientOnlineReinforcement2023} derive an Offline-to-Online RL algorithm leveraging prior data to effectively accelerate the training of a SAC agent.
+Unlike previous works on Offline-to-Online RL, RLPD avoids any pre-training and instead uses the available offline data \( D_\text{offline} \) to improve online-learning from scratch.
+During each training loop, transitions from both the offline and online replay buffers are sampled in equal proportion, and used in the underlying SAC routine.
+
+% RLPD + reward classifier: SERL
+Despite the possibility to leverage offline for learning, the effectiveness of real-world RL training is still limited by the need to define a task-specific, hard-to-define reward function.
+Further, even assuming to have access to a well-defined reward function, typical robotics pipelines rely mostly on propioperception, augmented by camera streams of the environment.
+As such, even well-defined rewards would need to be derived from processed representations of unstructured observations, introducing brittleness.
+In their technical report,~\citet{luoSERLSoftwareSuite2025} empirically address the needs (1) to define a reward function and (2) to use it from image observations, by introducing a series of tools to allow for streamlined training of \emph{reward classifiers} \( c \) as well as (3) jointly learn forward-backward controllers to speed up real-world RL.
+Reward classifiers are particularly useful in treating complex tasks---e.g., folding a napkin---for which a precise reward formulation is arbitrarily complex to obtain, or that do require significant shaping and are more easily learned directly from demonstrations of successful (\(e^+\)) or failing (\(e^-\)) episodes for given \( s \in \statespace \), with a natural choice for the state-conditioned reward function \( r \mathcal S \mapsto \mathbb R \) in such cases being \( r(s) = \log c(e^+ \ vert s ) \).
+Lastly,~\citep{luoSERLSoftwareSuite2025} do demonstrate the benefits of learning forward (executing the task from initial state to completion) and backward (resetting the environment to the initial state from completion) controllers, learned as separate policies.
+[FROM HERE]
+Lastly, in order to improve on the robustness of the approach used 
+
+Importantly, SERL also presents
+
+% SERL + Human in the loop: HIL-SERL
+
+Building on off-policy deep Q-learning with replay buffers for sample-efficiency, entropy regularization for better exploration and performance, ingestion of prior data and expert demonstrations to guide learning, and a series of tools and recommendations for real-world training using reward classifiers,~\citet{luoPreciseDexterousRobotic2024} investigate the effects of allowing for human interactions over training, achieving near-optimal success rates while also 
 
 Recent work proposed a practical pathway to real-world training without simulators via \emph{Human-in-the-Loop, Sample-Efficient RL} (HIL-SERL)~\citep{luoPreciseDexterousRobotic2024}.
 
@@ -148,14 +253,16 @@ This design directly addresses the two central limitations above. Because data a
 
 Within \lerobot, we adopt these principles to make real-world RL practical by design: emphasize data reuse, allow human-in-the-loop corrections, and keep the training loop grounded in real data rather than simulators. This yields policies that are both sample-efficient and robustly deployable on the target platform.
 
-\subsubsection{Code Example: Training RL Policies with \lerobot}
-Outside of simulation environments, lerobot implements SERL
+[TO HERE]
+\subsubsection*{Code Example: Training RL Policies with \lerobot}
+Outside of simulation environments, lerobot implements HIL-SERL for real-world robotics
 
 coding example of how HIL-SERL works
 
 \subsubsection{Limitations of RL in Real-World Robotics: Simulators and Reward Design}
+[TO CHECK]
 High-fidelity simulators for real-world robotics are difficult to build and maintain, especially for contact-rich manipulation and tasks involving deformable or soft materials. Accurate modeling of contact dynamics, frictional phenomena, compliance, and wear requires numerous hard-to-measure parameters and careful calibration. Moreover, reproducing sensing stacks (e.g., camera pipelines with rolling shutter, lens distortions, exposure control, latency) and closed-loop perception is non-trivial~\citep{bekrisStateRobotMotion2024,sicilianoSpringerHandbookRobotics2016}. While domain randomization can improve robustness to modeling errors~\citep{akkayaSolvingRubiksCube2019}, and large-scale sim training has delivered impressive locomotion and loco-manipulation capabilities~\citep{hwangboLearningAgileDynamic2019,leeLearningQuadrupedalLocomotion2020,jiDribbleBotDynamicLegged2023}, the engineering effort remains substantial and task-specific.
 
-Reward design poses an additional source of brittleness. Dense shaping terms are often required to guide exploration in long-horizon problems, but poorly tuned terms can lead to specification gaming or local optima. Sparse rewards avoid shaping but exacerbate credit assignment and slow down learning. In practice, complex behaviors frequently require staged curricula or hierarchical decompositions to make rewards tractable~\citep{zhangWoCoCoLearningWholeBody2024,leeLearningQuadrupedalLocomotion2020}. Even then, small changes in hardware, sensing, or environment can invalidate previously tuned rewards and necessitate time-consuming redesign~\citep{tangDeepReinforcementLearning2025a}.
+Reward design poses an additional source of brittleness. Dense shaping terms are often required to guide exploration in long-horizon problems, but poorly tuned terms can lead to specification gaming or local optima. Sparse rewards avoid shaping but exacerbate credit assignment and slow down learning. In practice, complex behaviors frequently require staged curricula or hierarchical decompositions to make rewards tractable~\citep{zhangWoCoCoLearningWholeBody2024,leeLearningQuadrupedalLocomotion2020}. Even then, changes in hardware, sensing, or environment can invalidate previously tuned rewards and necessitate time-consuming redesign~\citep{tangDeepReinforcementLearning2025a}.
 
 These limitations collectively motivate data-driven real-world training pipelines that minimize dependency on high-fidelity simulators and reduce reward-engineering demands. Human-in-the-loop methods (e.g., HIL-SERL) and imitation-driven approaches provide precisely such a path: they leverage demonstrations and corrections to implicitly encode task structure, focus learning on relevant regions of the state space, and ultimately yield policies that transfer by construction because they are trained where they will be deployed.
