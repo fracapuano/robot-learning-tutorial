@@ -6,7 +6,7 @@ TODO:
 - [] 1.2 Scope and Contributions of this work
 - [] 1.3 Structure of the Report
 
-## 2. Classical Robotics Foundations
+## 2. Classical Robotics
 
 - [] 2.1 Artificial motion
 - [] 2.2 Different kinds of motion: locomotion, manipulation, and whole-body control
@@ -14,7 +14,7 @@ TODO:
     - [] 2.3.1 Overcoming estimation error via feedback loops (controller gains)
 - [] 2.4 Limitations: modeling is fragile, not scalable, and does not leverage growing data
 
-## 3. Learning-Based Approaches to Robotics
+## 3. Robot Learning
 
 - [] 3.1 Reinforcement Learning (RL) for Robotic Control
     - [] 3.1.1 Problem Formulation and Control Objectives
@@ -45,7 +45,7 @@ TODO:
 - [] 6.1 World Models for Robotics
     - [] 6.1.1 V-JEPA and V-JEPA2
     - [] 6.1.2 GENIE
-- [] 6.2 Post-Training and Policy Refinement for VLAs
+- [] 6.2 VLAs Post-Training
     - [] 6.2.1 EXPO
     - [] 6.2.2 From Imitation to Refinement
 
