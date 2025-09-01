@@ -17,7 +17,7 @@ Learning-based approaches to robotics are motivated by the need to (1) generaliz
 \end{figure}
 
 Robotics is concerned with producing artificial motion in the physical world in useful, reliable and safe fashion.
-Thus, robotics is an inherently multidisciplinar domain: producing autonomous motion in the physical world requires, to the very least, interfacing different software (motion planners) and hardware (motion executioners) components.
+Thus, robotics is an inherently multi-disciplinar domain: producing autonomous motion in the physical world requires, to the very least, interfacing different software (motion planners) and hardware (motion executioners) components.
 Further, knowledge of mechanical, electrical, and software engineering, as well as rigid-body mechanics and control theory have therefore proven quintessential in robotics since the field first developed in the 1950s.
 More recently, Machine Learning (ML) has also proved effective in robotics, complementing these more traditional disciplines~\citep{connellRobotLearning1993}.
 As a direct consequence of its multi-disciplinar nature, robotics has developed as a rather wide array of methods, all concerned with the main purpose of \highlight{producing artificial motion in the physical world}.
@@ -143,7 +143,7 @@ However, in the general case, one might not be able to solve this problem analyt
 \label{eq:ik_problem}
 \end{align}
 
-Analytical solutions are even less appealing when one considers the presence of obstacles in the robot's workspace, resulting in constraints on the possible values of \( q \in \mathcal Q \subset [-\pi, +\pi]^n \subset \mathbb R^n \) in the general case of \(n\)-links robots.
+Analytical solutions are even less appealing when one considers the presence of obstacles in the robot's workspace, resulting in constraints on the possible values of \( q \in \mathcal Q \subseteq [-\pi, +\pi]^n \subset \mathbb R^n \) in the general case of \(n\)-links robots.
 
 For instance, the robot in Figure~\ref{fig:planar-manipulator-floor} is (very naturally) obstacled by the presence of the surface upon which it rests: \( \theta_1 \) can now exclusively vary within \([0,  \pi] \), while possible variations in \( \theta_2 \) depend on \( \theta_1 \) (when \( \theta_1 \to 0 \) or \( \theta_1 \to \pi \), further downwards movements are restricted).
 Even for a simplified kinematic model, developing techniques to solve~\ref{eq:ik_problem} is in general non-trivial in the presence of constraints, particularly considering that the feasible set of solutions \( \mathcal Q \) may change across problems.
@@ -203,8 +203,6 @@ While essential in the early development of robotics, the aforementioned methods
     \caption{Dynamics-based approaches to robotics suffer from several limitations: (1) orchestrating multiple components poses integration challenges; (2) the need to develop custom processing pipelines for the sensing modalities and tasks considered hinders scalability; (3) simplified analytical models of physical phenomena (here friction at the gripper; credits to~\citet{antonovaReinforcementLearningPivoting2017}) limit real-world performance. Lastly, (4) dynamics-based methods overlook trends in the availability and growth of robotics data.}
     \label{fig:classical-limitations}
 \end{figure}
-
-Other limitations of dynamisc-based robotics follow.
 
 Dynamics-based robotics pipelines have historically been \highlight{developed sequentially, engineering the different blocks} now within most architectures for specific purposes.
 That is, sensing, state estimation, mapping, planning, (diff-)IK, and low-level control have been traditionally developed as distinct modules with fixed interfaces.
