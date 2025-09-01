@@ -1,7 +1,7 @@
-\epigraph{\textit{Specialization is for insects}}{Robert A. Heinlein}
+\section{Foundation Robotics Models}
+\label{sec:learning-bc-generalist}
 
-\section{Multi-Task Policies: Vision–Language–Action (VLA) Models in Robotics}
-\label{sec:multi}
+\epigraph{\textit{Specialization is for insects}}{Robert A. Heinlein}
 
 \subsection{Overview of Major Architectures: RT-1, RT-2, OpenVLA, $\pi_0$, $\pi_{0.5}$, SmolVLA}
 VLA models integrate perception, instruction following, and action generation within a unified network. RT-1 demonstrated large-scale, robot-collected datasets and transformer policies capable of executing hundreds of distinct manipulation tasks; RT-2 extended this idea by co-training with web-scale vision–language corpora and representing actions as discrete tokens, improving semantic generalization to novel objects and instructions. OpenVLA adopts an open 7B backbone that fuses pretrained vision encoders with a language model and trains on large, diverse robot demonstrations, reporting strong cross-embodiment performance and efficient fine-tuning. The $\pi_0$ family introduces flow-matching action heads atop a pretrained VLM to produce continuous, high-frequency motor commands for dexterous skills; $\pi_{0.5}$ augments co-training for broader open-world generalization. Complementing these, SmolVLA targets efficiency and accessibility with a compact (\(\sim\!4.5\times10^8\) parameters) architecture and an interleaved attention ``action expert'' for low-latency control.
