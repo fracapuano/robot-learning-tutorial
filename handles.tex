@@ -17,11 +17,14 @@
 \newcommand{\stateplusone}{s_{t+1}}
 \newcommand{\state}{s_t}
 \newcommand{\action}{a_t}
-\newcommand{\transition}{(\stateplusone, \state, \action)}
-\newcommand{\sars}{(\stateplusone, \state, \action, r_t)}
+\newcommand{\transition}{(\state, \action, \stateplusone)}
+\newcommand{\sars}{(\state, \action, r_t, \stateplusone)}
 \newcommand{\transitiongiven}{(\stateplusone \vert \state, \action)}
 \newcommand{\transitionprob}{\mathbb P \transitiongiven}
 \newcommand{\trajectory}{(s_0, a_0, r_0, s_1, a_1, r_1, \dots, s_{T-1}, a_{T-1}, r_{T-1}, s_T)}
+\newcommand{\Jpi}{J (\pi_\theta) }
+\newcommand{\qfunction}{\(Q\)-function}
+\newcommand{\qopt}{\( Q^* \)}
 
 % TL;DR boxes at the beginning of each chapter
 \newtcolorbox{callout}[2][]{
