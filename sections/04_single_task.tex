@@ -3,28 +3,92 @@
 
 \epigraph{\emph{The best material model for a cat is another, or preferably the same cat}}{Norbert Wiener}
 
+% Contents
+% - Introduce the need for BC considering the limitations of RL
+% - Derive the motivation for BC from: 
+% - Exploration: It is difficult to learn from sparse
+% rewards (unless data is cheap and you don’t care
+% about seeing lots of failures).
+% - Reward design: Hand-designing rewards aligned
+% with human objectives and preferences is hard.
+% - Success detection
+% - Resets
 
-\subsection{BC for Robotics}
-BC bypass the need for simulators learning starting from real-world data collected by human experts via teleoperation
-In visuomotor settings, demonstrations pair high-dimensional observations (RGB, depth, proprioception) with action sequences. 
-Policy learning reduces to supervised learning under covariate shift, necessitating strategies that mitigate compounding errors.
+% Finish arguing for the benefits of learning distributions over state-actions pairs instead of single actions, and that these distributions can be learned using generative modeling.
 
-\subsection{The \textit{LeRobotDataset} Format for Robotics Datasets}
-Structure of the dataset object
-Features stored
 
-\subsubsection{Code Example: Forwarding Batches of a (Streaming) Dataset}
+Learning from human demonstrations provides a pragmatic alternative to the reinforcement-learning pipeline discussed in Section~\ref{sec:learning-rl}.
+In real-world robotics, online exploration is typically \highlight{costly and potentially unsafe}, and (dense) reward design is \highlight{brittle and task-specific}.
+In general, success detection often may require bespoke instrumentation, and episodic training demands reliable resets---all factors that complicate training RL algorithms on hardware at scale.
+Behavioral Cloning (BC) sidesteps these constraints by casting control an imitation learning problem, leveraging previously collected expert demonstrations.
+In this way, the objectives, preferences, and success criteria are implicitly encoded in the data, obviating hand-crafted reward shaping and reducing early-stage exploratory failures.
+
+Formally, let \( \mathcal D = \{ \tau^{(i)} \}_{i=1}^N \) be a set of expert trajectories, with \( \tau^{(i)} = \{(o_t^{(i)}, a_t^{(i)})\}_{t=0}^{T_i} \), where \(o_t \in \obsspace \) denotes observations (e.g., images and proprioception), and \(a_t \in \actionspace \) the expert actions.
+Figure~\ref{fig:ch4-bc-trajectories} shows observations over sample trajectories for a dataset collected by a human demonstrating a manipulation task on the SO-100 arm, while Figure~\ref{fig:ch4-observation-action-mapping} shows \( (o_t, a_t) \)-pairs for the same dataset, with the actions commanded by the human expert illustrated alongside the corresponding observation.
+Note that differently from Section~\ref{sec:learning-rl}, in this context \( \mathcal D \) indicates an offline dataset (and not the dynamics), collecting \( N \) length-\( T_i \) \emph{reward-free} (expert) human trajectories \( \tau^{(i)} \) (and not the a trajectory for a given MDP).
+In principle, (expert) trajectories \( \tau^{(i)} \) can have different lengths since demonstrations might exhibit multi-modal strategies to attain the same goal, resulting in possibly multiple, different behaviors.
+
+Behavioral Cloning (BC)~\citep{pomerleauALVINNAutonomousLand1988a} aims at synthetizing these behaviors learning the mapping from observations to actions, and in its simplest formulation can be effectively be tackled as a \emph{supevised} learning problem, where one learns a mapping \( a_t = \mu(o_t) \) by solving
+\begin{equation}\label{eq:loss-minimization-SL}
+    \min_{\mu} \mathbb{E}_{(o_t, a_t) \sim \mathcal{D}^*} \mathcal L(a_t, \mu(o_t)),
+\end{equation}
+for a given risk function \( \mathcal L:  \mathcal A \times \mathcal A \mapsto \mathbb{R}, \ \mathcal L (a, a^\prime) \).
+The expert's joint observation-action distribution \( \mathcal D^* \) is typically assumed to be unknown, similarily to a typical Supervised Learning (SL) framework~\citep{shalev-shwartzUnderstandingMachineLearning2014}.
+However, differently from standard SL's assumptions, the samples collected in \( \mathcal D \) are \emph{not} typically i.i.d., as expert demonstrations are collected \emph{sequentially} in trajectories.
+In practice, this aspect can be partially mitigated by considering pairs in a non-sequential order---\emph{shuffling} the samples in \(\mathcal D \)---so that the expected risk under \( \mathcal D^* \) can be estimated using MC estimates, drawing \((o_t, a_t)\) from \( \mathcal D \), although estimates can in general be less accurate.
+
+The BC formulation affords several operational advantages in robotics.
+First, training happens offline and typically uses expert human demonstration data, hereby severily limiting risks.
+Second, reward design is unnecessary in BC, as demonstrations already reflect human intent and task completion, mitigating misalignment and the risk of specification gaming inherent in RL.
+Third, because expert trajectories encode terminal conditions, success detection and resets are implicit in the dataset.
+Finally, BC scales naturally with growing corpora of demonstrations collected across tasks, embodiments, and environments.
+
+However, point-estimate policies \( \mu : \obsspace \mapsto \actionspace \) learned by solving \ref{eq:loss-minimization-SL} have been observed to suffer from (1) compounding errors and (2) poor fit to multimodal distributions~\citep{florenceImplicitBehavioralCloning2022, keGraspingChopsticksCombating2020} (Figure~\ref{fig:ch4-issues-with-bc}).
+Besides sequentiality in \( \mathcal D \), compounding errors are due to \emph{covariate shift}, whereby even \( \epsilon \)-prediction errors \( 0 < \Vert \mu(o_t) - a_t \Vert \leq \epsilon \) can quickly drive the policy into out-of-distribution states, incuring in a higher risk value thus quickly compounding errors (Figure~\ref{fig:ch4-issues-with-bc}, left).
+Further, point-estimate policies fail to learn \emph{multimodal} (in the stastical sense) targets, common in robotics problems where multiple trajectories can be equally as good towards the realization of a given objective (e.g.,  symmetric grasps, Figure~\ref{fig:ch4-issues-with-bc}, left). 
+In particular, unimodal regressors tend to average across modes, yielding indecisive or even unsafe commands~\citep{florenceImplicitBehavioralCloning2022}.
+
+Addressing both limitations,~\citet{florenceImplicitBehavioralCloning2022} introduced learning the generative model underlying samples \( \mathcal D \).
+Instead of learning to predict point estimates \( \hat a_t = \mu(o_t) \),~\citet{florenceImplicitBehavioralCloning2022}  model \( p_\theta(a_t \mid \text{context}_t) \).
+Distributional policies have been found to flexibly learn from human-collected demonstrations, capturing the inherent ambiguity of learning multimodal distributions.
+
+
+\subsection{A (Concise) Introduction to Generative Modeling}
+
+% Generative Modeling
+What is generative modeling
+What are its premises
+
+% VAEs
+What is the intuition behind VAEs
+A derivation of the VAE loss
+Reconstruction and Regularization, why
+
+% Diffusion
+What is the intuition behind diffusion
+Deriving the diffusion loss
+
+% Flow Matching
+What is the intuition behind FM
+
 
 \subsection{Action Chunking with Transformers}
-\subsubsection{Model Architecture and Training Objectives}
-Action Chunking with Transformers (ACT) models short horizons of low-level actions as fixed-length ``chunks'' conditioned on recent observations and proprioception. A transformer parameterizes a distribution over action sequences, enabling parallel prediction of temporally coherent control signals. Supervised training on teleoperated demonstrations minimizes sequence-level losses (e.g., mean-squared error on joint velocities/torques), optionally with scheduled sampling or consistency regularization to improve rollout stability.
+Model Architecture
+Training Procedure
 
-\subsubsection{Practical Implementation in \texttt{LeRobot}}
-A practical ACT pipeline comprises (i) synchronized demonstration collection (vision and robot states) with precise timestamping, (ii) dataset serialization into a standardized episodic format, (iii) chunked windowing of action targets, (iv) transformer training with early stopping on validation rollouts, and (v) deployment with action-rate limiting and safety monitors. Careful calibration of control frequency and chunk length is critical for fine manipulation.
+\subsubsection{Code Example: Learning ACT}
+\todo{using act example}
 
-\subsection{Diffusion-Based Policy Models}
-\subsubsection{Generative Modeling for Action Sequences}
-Diffusion policies treat action generation as conditional denoising: starting from noise in action space, a learned score model iteratively refines to produce feasible control sequences conditioned on observations (and optionally goals or language). This formulation naturally captures multimodality (multiple valid strategies), scales to higher-dimensional actions, and supports receding-horizon execution.
+\subsection{Diffusion Policy}
+fill later
 
-\subsubsection{Practical Implementation}
-Training proceeds by corrupting ground-truth action sequences and fitting a time-indexed network to denoise under teacher forcing; inference uses a small number of reverse steps with horizon MPC-style rollouts. In practice, datasets benefit from action normalization, viewpoint augmentation, and careful tuning of denoising steps versus control latency. Within \texttt{LeRobot}, diffusion policy trainers can be paired with standardized dataset loaders and evaluation callbacks to track success rates and robustness under perturbations.
+\subsubsection{Code Example: Learning Diffusion Policies}
+\todo{using diffusion policy example}
+
+\subsection{Optimized Inference via Decoupling Action Prediction and Execution}
+Implicit World Modeling 
+Async inference tightens control loop
+Analyzing async inference
+
+\subsubsection{Code Example: Deploy Optimized Policies}
+\todo{async inference example}
