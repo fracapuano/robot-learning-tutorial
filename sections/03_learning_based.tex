@@ -274,7 +274,7 @@ This modified objective results in the \emph{soft} TD-target:
 \end{equation}
 Similarily to DDPG, SAC also maintains an explicit policy, trained under the same MaxEnt framework for the maximization of \ref{eq:J-soft}, and updated using:
 \begin{equation}\label{eq:sac-policy-update}
-    \pi_{k+1} \leftarrow \arg\min_{\pi^\prime \in \Pi} \text{D}_{\text{KL}} \left(\pi^\prime (\bullet \vert \state) \bigg\Vert \frac{\exp(Q_{\pi_k}(s_t, \bullet))}{Z_{\pi_k}(s_t)} \right)
+    \pi_{k+1} \leftarrow \arg\min_{\pi^\prime \in \Pi} \DKL \left(\pi^\prime (\bullet \vert \state) \bigg\Vert \frac{\exp(Q_{\pi_k}(s_t, \bullet))}{Z_{\pi_k}(s_t)} \right)
 \end{equation}
 The update rule provided in \ref{eq:sac-policy-update} optimizes the policy while projecting it on a set \( \Pi \) of tractable distributions (e.g., Gaussians,~\citet{haarnojaReinforcementLearningDeep2017}).
 
