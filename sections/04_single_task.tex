@@ -85,8 +85,8 @@ In particular, the lower bound on~\ref{eq:evidence-definition} (Evidence LOwer B
         - \DKL \big[ p_\theta(z \vert (o,a)_i) \Vert p(z) \big]
         \right) \label{eq:ELBO-intractable}
 \end{align}
-Intractable posteriors prevent from computing both the expectation and KL divergence terms in~\ref{eq:ELBO-intractable}.
-Instead,~\citet{kingmaAutoEncodingVariationalBayes2022} propose deriving the ELBO using an approximate posterior \( q_\phi(z \vert o,a) \), resulting in the final, tractable ELBO objective:
+The true, generally intractable posterior \( p_\theta (z \ vert o,a) \) prevents computing both the expectation and KL divergence terms in~\ref{eq:ELBO-intractable}.
+Crucially,~\citet{kingmaAutoEncodingVariationalBayes2022} propose deriving the ELBO using an \emph{approximate} posterior \( q_\phi(z \vert o,a) \), resulting in the final, tractable ELBO objective,
 \begin{align}
 \text{ELBO}_{\mathcal D}(\theta, \phi) = \sum_{i=0}^{N} \left(
             \mathbb{E}_{z \sim q_\phi(\cdot \vert (o,a)_i)} \big[ \log p_\theta((o,a)_i \vert z) \big]
@@ -111,18 +111,47 @@ In such cases, learning a GM partly corresponds to \emph{reconstructing} the exa
 Further, the second term in \( -\text{ELBO}_\mathcal D(\theta, \phi) \)---\( \mathbf{\mathbf{L^{\text{reg}}}(\phi)} \)---results in the regularization of the approximate posterior, under the common modeling choice \( p(z) \sim N(\mathbf{0}, \mathbf{I}) \), which limits the expressivity of \( q_\phi(z\vert o,a) \).
 
 % Diffusion
-What is the intuition behind diffusion
-Deriving the diffusion loss
+- What is the intuition behind diffusion
+- Deriving the diffusion loss
 
 % Flow Matching
-What is the intuition behind FM
-Deriving the FM loss
+- What is the intuition behind FM
+- Deriving the FM loss
 
 \subsection{Action Chunking with Transformers}
-- beta-CVAE
-- action chunking
+While GMs prove useful in learning complex, high-dimensional multi-modal distributions, they do not natively address the compouding errors problem characteristic of online, sequential predictions.
+In Action Chunking with Transformers (ACT),~\citet{zhaoLearningFineGrainedBimanual2023} present an application of VAEs to the problem of learning purely from offline trajectories, introduce a simple, yet effective method to mitigate error compounding, learning high-fidelity autonomous behaviors.
+Drawing inspiration from how humans plan to enact atomically sequences of the kind \( a_{t:t+k} \) instead of single actions \( a_t \),~\citet{zhaoLearningFineGrainedBimanual2023} propose learning a GM on a dataset of input demonstrations by modeling \emph{action chunks}.
+Besides contributions to learning high-performance autonomous behaviors,~\citet{zhaoLearningFineGrainedBimanual2023} also introduce hardware contributions in the form of a low-cost bimanual robot setup (ALOHA) capable of performing fine-grained manipulation tasks, such as opening a lid, slotting a battery in its allotment or even prepare tape for application.
 
-Training Procedure
+On the robot learning side of their contributions,~\citet{zhaoLearningFineGrainedBimanual2023} adopt transformers as the architectural backbone to learn a \emph{Conditional} VAE~\citep{sohnLearningStructuredOutput2015}. 
+Conditional VAEs are a variation of the more standard VAE formulation introducing a conditioning variable on sampling from the latent prior, allowing the modeling of \emph{one-to-many} relationships between latent and data samples.
+Further, in stark contrast with previous work~\citep{florenceImplicitBehavioralCloning2022,jannerPlanningDiffusionFlexible2022},~\citet{zhaoLearningFineGrainedBimanual2023} do not learn a full joint \( p_\theta(o,a) \) on observation and actions.
+While the \emph{policy} distribution \( p_\theta(a \vert o) \) can in principle be entirely described from its joint \( p_\theta(o,a) \), it is often the case that the conditional distribution is intractable when using function approximators, as \( p_\theta(a \vert o) = \tfrac{p_\theta(o,a)}{\int_\actionspace p_\theta(o,a)} \) and the integral in the denominator is typically intractable.
+Instead of modeling the full joint using a vanilla VAE,~\citet{zhaoLearningFineGrainedBimanual2023} propose learning a \emph{conditional} VAE modeling the policy distribution directly \( p (a \vert o) \).
+
+In practice, when learning from demonstrations adopting CVAEs results in a slight modification to the VAE objective in~\ref{eq:ELBO}, which is adapted to
+\begin{align}\label{eq:c-ELBO}
+    \text{ELBO}_{\mathcal D}(\theta, \phi, \omega) = \sum_{i=0}^{N} \left(
+            \mathbb{E}_{z \sim q_\phi(\cdot \vert o_i, a_i)} \big[ \log p_\theta(a_i \vert z, o_i) \big]
+        - \DKL \big[ q_\phi(z \vert o_i, a_i) \Vert p_\omega(z \vert o_i) \big]
+        \right)
+\end{align}
+Notice how in~\ref{eq:c-ELBO} we are now also learning a new set of parameters \( \omega \) for the prior distribution in the latent space.
+Effectively, this enables conditioning latent-space sampling (and thus reconstruction) during training, and potentially inference, providing useful when learning inherently conditional distributions like policies.
+Further, ACT is trained as a \( \beta\)-CVAE~\citep{higgins2017beta}, using a weight of the KL regularization term in~\ref{eq:c-ELBO} as an hyperparameter regulating the information condensed in the latent space, where higher \( \beta \) results in a less expressive latent space.
+
+In their work,~\citet{zhaoLearningFineGrainedBimanual2023} ablated using a GM to learn from human demonstrations compared to a simpler, supervised objective, \( \mathcal L_1(a,a^\prime) = \Vert a - a^\prime \Vert_1 \).
+Interestingly, they found the performance of these two approaches to be comparable when learning from \emph{scripted} demonstrations.
+That is, when learning from data collected rolling out a predetermined set of commands \( [q^c_0, q^c_1, \dots] \), GM did \emph{not} prove competitive compared to standard supervised learning.
+However, when learning from human demonstrations---i.e., from data collected executing commands coming from a human controller \( [q^h_0, q^h_1, \dots] \)---they found performance (success rate on a downstream task) to be severily (-33.3\%) hindered from adopting a standard supervised learning objective compared to a richer, potentially more complex to learn variational objective, in keeping with the multimodal nature of human demonstrations data and findings presented in~\citet{florenceImplicitBehavioralCloning2022}.
+The authors also ablate the action chunking paradigm, reporting significant performance gains for performing action chunking (1\% vs. 44\% success rate).
+To avoid acting openloop,~\citet{zhaoLearningFineGrainedBimanual2023} design an inference process consisting in performing inference at every timestep \( t \) and then aggregate overlapping chunks using chunks' exponential moving average.  
+
+In ACT (Figure~\ref{fig:ch4-act}), inference for a given observation \( o \in \mathcal O \) could be performed by (1) computing a prior \( p_\omega(z \vert o) \) for the latent and (2) decoding an action chunk from a sampled latent \( z \sim p_\omega(\bullet \vert o) \), similarily to how standard VAEs generate samples, with the exception that vanilla VAEs typically pose \( p(z\vert o) \equiv p(z) \sim N(\mathbf{0}, \mathbf{I}) \) and thus skip (1).
+However, the authors claim using a deterministic procedure to derive \( z \) may benefit policy evaluation, and thus avoid sampling from the conditional prior at all.
+At test time, instead, they simply use \( z = \mathbf{0} \), as the conditional prior on \( z \) used in training is set to be the unit Gaussian.
+At test time, conditioning on the observation \( o \) is instead achieved through explicitly feeding proprioperceptive and visual observations to the decoder, \( p_\theta(a \vert z, o) \), while during training \( z \) is indeed sampled from the approximate posterior distribution \(p_\phi(z \vert o, a)\), which, however, disregards image observations and exclusively uses proprioperceptive states to form \( o \) for efficiency reasons (as the posterior encoder \(q_\phi \) is completely disregarded at training time).
 
 \subsubsection{Code Example: Learning ACT}
 \todo{using act example}
