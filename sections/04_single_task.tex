@@ -111,12 +111,62 @@ In such cases, learning a GM partly corresponds to \emph{reconstructing} the exa
 Further, the second term in \( -\text{ELBO}_\mathcal D(\theta, \phi) \)---\( \mathbf{\mathbf{L^{\text{reg}}}(\phi)} \)---results in the regularization of the approximate posterior, under the common modeling choice \( p(z) \sim N(\mathbf{0}, \mathbf{I}) \), which limits the expressivity of \( q_\phi(z\vert o,a) \).
 
 % Diffusion
-- What is the intuition behind diffusion
-- Deriving the diffusion loss
+\paragraph{Diffusion Models}
+VAEs approximate probability distributions via a \emph{single} latent variable model, assuming the underlying unknown distribution samples are obtained from can be factored according to~\ref{eq:BC-latent-variable}, and solve the variational inference problem of jointly learning the likelihood \( p_\theta \) and (approximate) posterior \( q_\phi \) for such model.
+In that, the unknown data distribution \( p(o,a) \) is effectively approximated via \( \int_Z p(z) p_\theta(o,a \vert z) \), and the underlying generative process reproduced by (1) sampling a latent variable and (2) learning to decode it into a (ideally) high-likelihood sample under the (unknown) \( p(o,a) \).
+Diffusion Models (DMs)~\citep{hoDenoisingDiffusionProbabilistic2020} are another class of GMs which treat the similar problem of approximating an underlying unknown data distribution---\emph{variational inference}---by partially extending VAEs to the case where \emph{multiple} latent variables influence each other and the generative process underlying \(o,a\) itself.
+In particular, DMs posit the generative process can be decomposed to a series of piece-wise (Markovian) interactions between (latent) variables (Figure~\ref{fig:ch4-diffusion}), resulting in
+\begin{align}
+    p(\underbrace{o,a}_{= z_0}) &= \int_{\supp{Z_0}} \int_{\supp{Z_1}} \hdots \int_{\supp{Z_T}} p(z_0, z_1, \dots z_T) \label{eq:BC-multi-latent-model-1} \\ 
+    &= p(z_T) \prod_{t=0}^{T} p(z_{t-1} \vert z_t), \label{eq:BC-multi-latent-model-2}
+\end{align}
+where we explicitly showed the marginalization over the multiple latents in~\ref{eq:BC-multi-latent-model-1}, and used the law of conditional probability and Markov property in~\ref{eq:BC-multi-latent-model-2}.
+Similarily to VAEs, providing an exact interpretation for the latent variables is typically not possible.
+Still, one fairly reasonable application-driven intuition is that, by providing a model of the hierarchical, decoupled interaction of latent variables, DMs attempt to capture the different resolutions at which different conditioning intervene, so that, in a robotics application, one can naturally distinguish between early-stage trajectory planning (large \( t \)) and fine-grained adjustments (small \( t \)).
+DMs thus provide a framework to perform variational inference via multiple, sequential sampling steps from different higher level distributions instead of approximating the generative process with a single-latent variable model.
 
-% Flow Matching
-- What is the intuition behind FM
-- Deriving the FM loss
+Just like VAEs, DMs attemp to learn to reproduce an underlying data distribution \( p (o,a) \) given a collection of i.i.d. samples by means of approximating the model (~\ref{eq:BC-multi-latent-model-1}) posited to have generated the data in the first place.
+Similarily to VAEs, DMs approximate the process of sampling from the unknown \( p(o,a) \) (1) sampling from an easy-to-sample distribution (e.g., Gaussian) and (2) learning to reconstruct high-likelihood samples under the unknown distribution, while in stark contrast with VAEs the easy-to-sample distribution contains \emph{no mutual information} regarding the data distribution \( p(o,a) \).
+Crucially, as no information from the sample \( (o,a) \) (denoted as \( z_0 \equiv (o,a) \) for the sake of notation) is assumed to be propagated throughout the chain of latents, the \emph{approximation} \( q(z_t \vert z_{t-1} ) \) of the \emph{true} posterior \( p(z_t \vert z_{t-1})\) can assume a relatively easy structure, reducing complexity.
+The \emph{true} likelihood \( p(z_{t-1} \vert z_t) \) is instead typically approximated using the aforementioned parametrization, \(  p_\theta (z_{t-1} \vert z_t) \).
+In that, the information contained in the unknwon data distribution is \emph{reconstructed} via a process in which samples from a fixed distribution are turned into (ideally) high-likelihood samples under \( p(o,a) \) (\emph{denoising}).
+
+Under such model, we can express the log-likelihood of the \emph{denoised} sample as\footnote{Steps omitted for brevity. See Section A in~\citet{hoDenoisingDiffusionProbabilistic2020} for a complete derivation.
+% See~\ref{appendix:diffusion-derivation}
+}
+
+\begin{align}
+    \log p_\theta (\underbrace{o,a}_{= z_0}) &= \mathbb{E}_{z_1 \sim q(\bullet \vert z_0)} \log p_\theta (z_0 \vert z_1) \label{eq:diffusion-likelihood} \\
+    &- \mathbb{E}_{z_{T-1} \sim q(\bullet \vert z_0)} \big[ \DKL (q(z_T \vert z_{T-1}) \Vert p(z_T) ) \big] \notag \\ 
+    &- \sum_{t=1}^{T-1} \mathbb{E}_{(z_{t-1}, z_{t+1}) \sim q(\bullet \vert z_0)} \big[ \DKL (q(z_t \vert z_{t-1}) \Vert p_\theta(z_t \vert z_{t-1}) ) \big] \notag
+\end{align}
+providing an optimization target in the form of maximizing \( \log p_\theta(o,a) \) over \( \theta \) and the considered \emph{hierarchical Markov latent-variable model}.
+
+In their seminal work on using DMs for variational inference,~\citet{hoDenoisingDiffusionProbabilistic2020} introduce major contributions regarding solving \( \min_\theta \log p_\theta(o,a) \).
+In particular,~\citet{hoDenoisingDiffusionProbabilistic2020} exclusively adopt a fixed \emph{Gaussian} posterior, and in particular use \( q(z_t \vert z_{t-1}) \sim N(\sqrt{1-\beta_t}z_{t-1}, \beta_t \mathbf I) \).
+The choice of adopting Gaussians has profound implications on the generative process modeled itself because, under the (mild) assumption on the variance of the posterior being small \( \beta_t \leq \eta, \eta \in \mathbb R^+ \), then the \emph{true} likelihood \( p(z_{t-1} \vert z_t) \) is Gaussian too~\citep{sohl-dicksteinDeepUnsupervisedLearning2015}, allowing for the particularly convenient parametrization of the approximate likelihood---\( p_\theta (x_{t-1} \vert x_t) = N(\mu_\theta(x_t, t), \Sigma_\theta(x_t,t)), \ t \in [1,T] \)---and for closed-form tractability of the KL-divergence terms in~\ref{eq:diffusion-likelihood}.
+Further, the posterior's structure also admits an analytical description of the general distribution of the \( t\)-th latent variable, \( q(z_t \vert z_0) = N (\sqrt{\bar{\alpha}_t}z_0, (1-\bar{\alpha}_t) \mathbf{I}) \), with \( \alpha_t = 1-\beta_t, \ \bar \alpha_t = \prod_{k=1}^t \alpha_k \).
+~\citet{hoDenoisingDiffusionProbabilistic2020} also show they 
+
+Further, adopting Gaussian posteriors permits a particularly pleasing interpretation of the dynamics of training DMs~\citep{permenterInterpretingImprovingDiffusion2024}.
+By using Gaussian posteriors, the hierarchical latent variables effectively lose increasingly more information circa the original (unknown) distribution's sample, \( z_0 \), eventually distributing according to a standard Gaussian and thus containing no information at all (Figure~\ref{fig:diffusion-robot-actions}).
+Figure~\ref{fig:diffusion-robot-actions} illustrates this procedure on a simplified, bidimensional observation-action distribution, where we considered \( o=q_2\) and \( a=q^h_2\), with \( q_2 \) representing the robot's \emph{elbow flex} actuation and \( q^h_2 \) the human teleoperator's robot elbow flex. 
+Because the recorded behavior is teleoperated, measurements mostly distribute along the line \( a = o + \eta, \eta \sim N(0,1) \), with \( \eta \)-variability accouting for minor control inconsistencies.
+Using Gaussian posteriors---i.e., adding Gaussian noise---effectively simulates a Brownian motion for the elements in the distribution's support (in Figure~\ref{fig:diffusion-robot-actions}, \( \obsspace \times \actionspace \)), whereby information \emph{diffuses away} from the samples, and compare the diffused samples to the original data points, deriving an estimate of the total displacement induced by diffusion.
+Under the only---extremely reasonable---assumption that the likelihood of the diffused samples is low under the original unknown data distribution, then we can effectively approximate the unkwown distribution by learning to reverse such displacement.
+This key intuition allows to write a simplified training objective, taking benefit of the Brownian motion interpretation of diffusion, defined as~\citet{hoDenoisingDiffusionProbabilistic2020}:
+\begin{align}\label{eq:diffusion-simplified-loss}
+    \mathcal L(\theta) = \mathbb{E}_{t, z_0, \epsilon} \big[
+        \Vert \epsilon - \epsilon_\theta(\sqrt{\bar \alpha_t} z_0 + \epsilon \sqrt{1 - \bar \alpha_t}, t) \Vert^2 \big], \quad t \sim \mathcal{U}(\{1,\dots,T\}) \quad
+        z_0 \sim \mathcal{D} \quad
+        \epsilon \sim \mathcal{N}(\mathbf{0},\mathbf{I})
+\end{align}
+In this simplified (minimization) objective, the learning process differs from~\ref{eq:diffusion-likelihood} in that, rather than maxizing \( p_\theta \) directly, parameters are adjusted by learning to \emph{predict the total displacement} \( \epsilon \) for a randomly long (\( t \sim \mathcal{U}(\{1,\dots,T\} \))) diffusion process starting from a random sample of the target distribution.
+By learning the total displacement from a generally, uninformative corrupted sample obtained diffusing information and a sample from an unknown distribution---significant (\( \Vert \epsilon \Vert > 0 \)) whenever input and target distribution are sufficiently different---~\citet{hoDenoisingDiffusionProbabilistic2020} show that one can effectively learn the underlying distribution.
+Interestingly, under the hypothesis real-world data belongs to a single higher dimensional manifold (Manifold Hypothesis),~\citet{permenterInterpretingImprovingDiffusion2024} show diffusion learns the gradient of a distance function from any off-point manifold, such as perturbed samples, and the data manifold. 
+Following this gradient---i.e., \emph{denoising} a sample from an uninformative distribution---then equates to projecting back into the manifold, yielding a procedure to sample from unknown distributions by means of Euclidean projection.
+
+
 
 \subsection{Action Chunking with Transformers}
 While GMs prove useful in learning complex, high-dimensional multi-modal distributions, they do not natively address the compouding errors problem characteristic of online, sequential predictions.
