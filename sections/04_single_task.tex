@@ -114,8 +114,8 @@ Further, the second term in \( -\text{ELBO}_\mathcal D(\theta, \phi) \)---\( \ma
 \paragraph{Diffusion Models}
 VAEs approximate probability distributions via a \emph{single} latent variable model, assuming the underlying unknown distribution samples are obtained from can be factored according to~\ref{eq:BC-latent-variable}, and solve the variational inference problem of jointly learning the likelihood \( p_\theta \) and (approximate) posterior \( q_\phi \) for such model.
 In that, the unknown data distribution \( p(o,a) \) is effectively approximated via \( \int_Z p(z) p_\theta(o,a \vert z) \), and the underlying generative process reproduced by (1) sampling a latent variable and (2) learning to decode it into a (ideally) high-likelihood sample under the (unknown) \( p(o,a) \).
-Diffusion Models (DMs)~\citep{hoDenoisingDiffusionProbabilistic2020} are another class of GMs which treat the similar problem of approximating an underlying unknown data distribution---\emph{variational inference}---by partially extending VAEs to the case where \emph{multiple} latent variables influence each other and the generative process underlying \(o,a\) itself.
-In particular, DMs posit the generative process can be decomposed to a series of piece-wise (Markovian) interactions between (latent) variables (Figure~\ref{fig:ch4-diffusion}), resulting in
+Diffusion Models (DMs)~\citep{hoDenoisingDiffusionProbabilistic2020} are another class of GMs which treat the similar problem of approximating an underlying unknown data distribution---\emph{variational inference}---by \emph{partially} extending VAEs to the case where \emph{multiple} latent variables influence each other and the generative process underlying \(o,a\) itself.
+In particular, DMs posit the generative process can be decomposed to a series of piece-wise (Markovian) interactions between (latent) variables (Figure~\ref{fig:ch4-many-latents}), resulting in
 \begin{align}
     p(\underbrace{o,a}_{= z_0}) &= \int_{\supp{Z_0}} \int_{\supp{Z_1}} \hdots \int_{\supp{Z_T}} p(z_0, z_1, \dots z_T) \label{eq:BC-multi-latent-model-1} \\ 
     &= p(z_T) \prod_{t=0}^{T} p(z_{t-1} \vert z_t), \label{eq:BC-multi-latent-model-2}
@@ -131,14 +131,14 @@ Crucially, as no information from the sample \( (o,a) \) (denoted as \( z_0 \equ
 The \emph{true} likelihood \( p(z_{t-1} \vert z_t) \) is instead typically approximated using the aforementioned parametrization, \(  p_\theta (z_{t-1} \vert z_t) \).
 In that, the information contained in the unknwon data distribution is \emph{reconstructed} via a process in which samples from a fixed distribution are turned into (ideally) high-likelihood samples under \( p(o,a) \) (\emph{denoising}).
 
-Under such model, we can express the log-likelihood of the \emph{denoised} sample as\footnote{Steps omitted for brevity. See Section A in~\citet{hoDenoisingDiffusionProbabilistic2020} for a complete derivation.
+Under such model, we can express the log-likelihood of an arbitrary sample as\footnote{\( o,a = z_0 \) for the sake of notation. Steps omitted for brevity. See Section A in~\citet{hoDenoisingDiffusionProbabilistic2020} for a complete derivation.
 % See~\ref{appendix:diffusion-derivation}
 }
-
 \begin{align}
-    \log p_\theta (\underbrace{o,a}_{= z_0}) &= \mathbb{E}_{z_1 \sim q(\bullet \vert z_0)} \log p_\theta (z_0 \vert z_1) \label{eq:diffusion-likelihood} \\
-    &- \mathbb{E}_{z_{T-1} \sim q(\bullet \vert z_0)} \big[ \DKL (q(z_T \vert z_{T-1}) \Vert p(z_T) ) \big] \notag \\ 
-    &- \sum_{t=1}^{T-1} \mathbb{E}_{(z_{t-1}, z_{t+1}) \sim q(\bullet \vert z_0)} \big[ \DKL (q(z_t \vert z_{t-1}) \Vert p_\theta(z_t \vert z_{t-1}) ) \big] \notag
+    \log p_\theta (\underbrace{o,a}_{= z_0}) = 
+    &\mathbb{E}_{z_1 \sim q(\bullet \vert z_0)} \log p_\theta (z_0 \vert z_1) - \label{eq:diffusion-likelihood} \\
+    &\mathbb{E}_{z_{T-1} \sim q(\bullet \vert z_0)} \big[ \DKL (q(z_T \vert z_{T-1}) \Vert p(z_T) ) \big] - \notag \\ 
+    &\sum_{t=1}^{T-1} \mathbb{E}_{(z_{t-1}, z_{t+1}) \sim q(\bullet \vert z_0)} \big[ \DKL (q(z_t \vert z_{t-1}) \Vert p_\theta(z_t \vert z_{t-1}) ) \big] \notag
 \end{align}
 providing an optimization target in the form of maximizing \( \log p_\theta(o,a) \) over \( \theta \) and the considered \emph{hierarchical Markov latent-variable model}.
 
@@ -151,22 +151,26 @@ Further, the posterior's structure also admits an analytical description of the 
 Further, adopting Gaussian posteriors permits a particularly pleasing interpretation of the dynamics of training DMs~\citep{permenterInterpretingImprovingDiffusion2024}.
 By using Gaussian posteriors, the hierarchical latent variables effectively lose increasingly more information circa the original (unknown) distribution's sample, \( z_0 \), eventually distributing according to a standard Gaussian and thus containing no information at all (Figure~\ref{fig:diffusion-robot-actions}).
 Figure~\ref{fig:diffusion-robot-actions} illustrates this procedure on a simplified, bidimensional observation-action distribution, where we considered \( o=q_2\) and \( a=q^h_2\), with \( q_2 \) representing the robot's \emph{elbow flex} actuation and \( q^h_2 \) the human teleoperator's robot elbow flex. 
-Because the recorded behavior is teleoperated, measurements mostly distribute along the line \( a = o + \eta, \eta \sim N(0,1) \), with \( \eta \)-variability accouting for minor control inconsistencies.
+Because the recorded behavior is teleoperated, measurements mostly distribute along the line \( a = o + \eta, \eta \sim N(0,1) \), with \( \eta \)-variability accouting for minor control inconsistencies (Figure~\ref{fig:ch4-action-vs-observation-distribution}).
 Using Gaussian posteriors---i.e., adding Gaussian noise---effectively simulates a Brownian motion for the elements in the distribution's support (in Figure~\ref{fig:diffusion-robot-actions}, \( \obsspace \times \actionspace \)), whereby information \emph{diffuses away} from the samples, and compare the diffused samples to the original data points, deriving an estimate of the total displacement induced by diffusion.
 Under the only---extremely reasonable---assumption that the likelihood of the diffused samples is low under the original unknown data distribution, then we can effectively approximate the unkwown distribution by learning to reverse such displacement.
 This key intuition allows to write a simplified training objective, taking benefit of the Brownian motion interpretation of diffusion, defined as~\citet{hoDenoisingDiffusionProbabilistic2020}:
 \begin{align}\label{eq:diffusion-simplified-loss}
     \mathcal L(\theta) = \mathbb{E}_{t, z_0, \epsilon} \big[
-        \Vert \epsilon - \epsilon_\theta(\sqrt{\bar \alpha_t} z_0 + \epsilon \sqrt{1 - \bar \alpha_t}, t) \Vert^2 \big], \quad t \sim \mathcal{U}(\{1,\dots,T\}) \quad
-        z_0 \sim \mathcal{D} \quad
-        \epsilon \sim \mathcal{N}(\mathbf{0},\mathbf{I})
+        \Vert \epsilon - \epsilon_\theta(\sqrt{\bar \alpha_t} z_0 + \epsilon \sqrt{1 - \bar \alpha_t}, t) \Vert^2 \big], \quad t \sim \mathcal{U}(\{1,\dots,T\}), \quad
+        z_0 \sim \mathcal{D}, \quad
+        \epsilon \sim \mathcal{N}(\mathbf{0},\mathbf{I}).
 \end{align}
-In this simplified (minimization) objective, the learning process differs from~\ref{eq:diffusion-likelihood} in that, rather than maxizing \( p_\theta \) directly, parameters are adjusted by learning to \emph{predict the total displacement} \( \epsilon \) for a randomly long (\( t \sim \mathcal{U}(\{1,\dots,T\} \))) diffusion process starting from a random sample of the target distribution.
-By learning the total displacement from a generally, uninformative corrupted sample obtained diffusing information and a sample from an unknown distribution---significant (\( \Vert \epsilon \Vert > 0 \)) whenever input and target distribution are sufficiently different---~\citet{hoDenoisingDiffusionProbabilistic2020} show that one can effectively learn the underlying distribution.
-Interestingly, under the hypothesis real-world data belongs to a single higher dimensional manifold (Manifold Hypothesis),~\citet{permenterInterpretingImprovingDiffusion2024} show diffusion learns the gradient of a distance function from any off-point manifold, such as perturbed samples, and the data manifold. 
-Following this gradient---i.e., \emph{denoising} a sample from an uninformative distribution---then equates to projecting back into the manifold, yielding a procedure to sample from unknown distributions by means of Euclidean projection.
 
-
+In this simplified (minimization) objective, the optimization process differs from~\ref{eq:diffusion-likelihood} in that, rather than maxizing \( p_\theta \) directly, the parameters \( \theta \) of the pairwise likelihood \( p_\theta(z_{t-1} \vert z_t) \) are adjusted to \emph{predict the total displacement} \( \epsilon \) for a randomly long (\( t \sim \mathcal{U}(\{1,\dots,T\} \) )) diffusion process starting from a sample of the target distribution.
+By learning the total displacement from a generally, uninformative corrupted sample obtained diffusing information and a sample from an unknown distribution---significant (\( \Vert \epsilon \Vert > 0 \)) whenever input and target distribution are sufficiently different---~\citet{hoDenoisingDiffusionProbabilistic2020} show that one can effectively approximate the underlying distribution reversing the displacement. 
+Interestingly, under the hypothesis real-world data belongs to a single higher dimensional manifold (Manifold Hypothesis),~\citet{permenterInterpretingImprovingDiffusion2024} show that diffusion learns the gradient of a distance function from any off-point manifold, such as perturbed, uniformative samples, and the data manifold.
+Following this gradient---i.e., \emph{denoising} a sample from an uninformative distribution---corresponds to projecting back into the manifold, yielding a procedure to sample from unknown distributions by means of Euclidean projection.
+Indeed, under the assumption that \(p_\theta (z_{t-1} \vert z_t) \) is Gaussian, then sampling \(z_{t-1} \sim p_\theta(\bullet \vert z_{t}) \) corresponds to computing
+\begin{align}
+    z_{t-1} = \frac{1}{\sqrt{\alpha_t}} \left( z_t - \frac{\beta_t}{\sqrt{1 - \bar\alpha_t}} \epsilon_\theta(z_t, t) \right) + \sigma_t \epsilon, \quad \epsilon \sim \mathcal N(\mathbf{0}, \mathbf{I}), \label{eq:diffusion-denoising-definition}
+\end{align}
+thus showing that the lower-level latent variables in the diffusion process can be obtained by removing the noise added to the one-step higher order variable, \( \epsilon_\theta(z_t, t)\), which provides a direct target for optimizing \( \theta \).
 
 \subsection{Action Chunking with Transformers}
 While GMs prove useful in learning complex, high-dimensional multi-modal distributions, they do not natively address the compouding errors problem characteristic of online, sequential predictions.
@@ -178,7 +182,7 @@ On the robot learning side of their contributions,~\citet{zhaoLearningFineGraine
 Conditional VAEs are a variation of the more standard VAE formulation introducing a conditioning variable on sampling from the latent prior, allowing the modeling of \emph{one-to-many} relationships between latent and data samples.
 Further, in stark contrast with previous work~\citep{florenceImplicitBehavioralCloning2022,jannerPlanningDiffusionFlexible2022},~\citet{zhaoLearningFineGrainedBimanual2023} do not learn a full joint \( p_\theta(o,a) \) on observation and actions.
 While the \emph{policy} distribution \( p_\theta(a \vert o) \) can in principle be entirely described from its joint \( p_\theta(o,a) \), it is often the case that the conditional distribution is intractable when using function approximators, as \( p_\theta(a \vert o) = \tfrac{p_\theta(o,a)}{\int_\actionspace p_\theta(o,a)} \) and the integral in the denominator is typically intractable.
-Instead of modeling the full joint using a vanilla VAE,~\citet{zhaoLearningFineGrainedBimanual2023} propose learning a \emph{conditional} VAE modeling the policy distribution directly \( p (a \vert o) \).
+Instead of modeling the full joint using a vanilla VAE,~\citet{zhaoLearningFineGrainedBimanual2023} propose learning a \emph{conditional} VAE~\citep{sohnLearningStructuredOutput2015} modeling the policy distribution directly \( p (a \vert o) \).
 
 In practice, when learning from demonstrations adopting CVAEs results in a slight modification to the VAE objective in~\ref{eq:ELBO}, which is adapted to
 \begin{align}\label{eq:c-ELBO}
@@ -201,21 +205,136 @@ To avoid acting openloop,~\citet{zhaoLearningFineGrainedBimanual2023} design an 
 In ACT (Figure~\ref{fig:ch4-act}), inference for a given observation \( o \in \mathcal O \) could be performed by (1) computing a prior \( p_\omega(z \vert o) \) for the latent and (2) decoding an action chunk from a sampled latent \( z \sim p_\omega(\bullet \vert o) \), similarily to how standard VAEs generate samples, with the exception that vanilla VAEs typically pose \( p(z\vert o) \equiv p(z) \sim N(\mathbf{0}, \mathbf{I}) \) and thus skip (1).
 However, the authors claim using a deterministic procedure to derive \( z \) may benefit policy evaluation, and thus avoid sampling from the conditional prior at all.
 At test time, instead, they simply use \( z = \mathbf{0} \), as the conditional prior on \( z \) used in training is set to be the unit Gaussian.
-At test time, conditioning on the observation \( o \) is instead achieved through explicitly feeding proprioperceptive and visual observations to the decoder, \( p_\theta(a \vert z, o) \), while during training \( z \) is indeed sampled from the approximate posterior distribution \(p_\phi(z \vert o, a)\), which, however, disregards image observations and exclusively uses proprioperceptive states to form \( o \) for efficiency reasons (as the posterior encoder \(q_\phi \) is completely disregarded at training time).
+At test time, conditioning on the observation \( o \) is instead achieved through explicitly feeding proprioperceptive and visual observations to the decoder, \( p_\theta(a \vert z, o) \), while during training \( z \) is indeed sampled from the approximate posterior distribution \(p_\phi(z \vert o, a)\), which, however, disregards image observations and exclusively uses proprioperceptive states to form \( o \) for efficiency reasons (as the posterior \(q_\phi \) is completely disregarded at test time).
 
 \subsubsection{Code Example: Learning ACT}
 \todo{using act example}
 
 \subsection{Diffusion Policy}
-fill later
+DMs proved very effective in approximating complex highly dimensional distributions, such as distributions over images~\citep{hoDenoisingDiffusionProbabilistic2020} or videos~\citep{polyakMovieGenCast2025}, thanks to their inherent capability to deal with multimodal data and training stability.
+In Diffusion Policy (DP),~\citet{chiDiffusionPolicyVisuomotor2024} present an application of DMs the field of robot learning, leveraging diffusion to model human expert demonstrations in a variety of simulated and real-world tasks.
+Similarily to Action Chunking with Transformer~\citep{zhaoLearningFineGrainedBimanual2023},~\citet{chiDiffusionPolicyVisuomotor2024} (1) adopt a modified \emph{observation-conditioned target distribution} instead of the full joint \( p(o,a) \) and (2) predict multiple actions into the future instead of a single action.
+Besides the intractability of the observations' marginal \( p_\theta(o) \) given \(p_\theta(o,a) \), DP's rationale for modeling the data distribution via \( p_\theta(a \vert o) \) stems from the rather test-time compute intensive nature of diffusion, whereby generating actions \emph{alongside} observations is likely to result in higher complexity and thus a likely larger number of denoising operations, which would prove ultimately pointless considering robotics applications rely on the capability to generate controls rather than reproducing observations.
+
+In practice, conditioning on observation data is achieved conditioning the added noise regressor \( \epsilon_\theta \) introduced in~\ref{eq:diffusion-simplified-loss} on a stack of \( T_o \) observations, resulting in the \emph{conditional} simplified diffusion objective
+\begin{align}
+    \mathcal L(\theta) &= \mathbb{E}_{t, a_{t:t+H_a}, \epsilon} \big[
+        \Vert \epsilon - \epsilon_\theta(\sqrt{\bar \alpha_t} a_{t:t+T_a} + \epsilon \sqrt{1 - \bar \alpha_t}, t, o_{t-T_o:t}) \Vert^2 \big], \label{eq:diffusion-policy-objective} \\
+        & t \sim \mathcal{U}(\{1,\dots,T\}), \quad
+        a_{t:t+T_a}, o_{t-T_o:t} \sim \mathcal{D}, \quad
+        \epsilon \sim \mathcal{N}(\mathbf{0},\mathbf{I}). \notag 
+\end{align}
+Notice how in~\ref{eq:diffusion-policy-objective} the noise regressor is conditioned both on the latent variable rank \( t \) \emph{and} on a stack of previous observations \(o_{t-T_o:t} \).
+~\citet{chiDiffusionPolicyVisuomotor2024} claim the combination of (1) conditioning on a horizon of previous observations and (2) predicting multiple actions into the future allows DP to \emph{commit to specific modes} in the data at inference time, which proves essential for good performance and avoiding undecisiveness.
+
+Figure~\ref{fig:diffusion-policy-architecture} shows the convolution-based version of the architecture proposed by~\citet{chiDiffusionPolicyVisuomotor2024}, illustrating inference on a single sample from \( \mathcal D \) for simplicity.
+An arbitrarily noisy chunk of \( H_a \) actions \(\tilde a_{t:t+H_a} \) is mapped to a learned high-dimensional space. 
+Similarily, both image observations and poses are embedded before being aggregated to the action embeddings.
+Then, a U-Net~\citep{ronnebergerUNetConvolutionalNetworks2015} is trained to regress the noise added into \( \tilde a_{t:t+H_a} \), using observation conditioning information at every layer and seeking to optimize~\ref{eq:diffusion-policy-objective}.
+At inference time, the noise predictor is used to predict the quantity of noise at every \( t \in [T, \dots, 0 ] \) and iteratively subtract it from \(\tilde a_{t:t+T_a} \), reversing the diffusion process simulated in training conditioned on \(o_{t-T_o:t} \) to predict \(a_{t:t+T_a} \).
+
+Training using 50-150 demos (15-60 minutes of teleoperation data) DP achieves strong performance on a variety of simulated and real-world tasks, including dexterous and deformable manipulation tasks such as sauce pouring and mat unrolling.
+Notably, the authors ablated the relevance of using RGB camera streams as input to their policy, and observed how high frame-rate visual observations can be used to attain performance (measured as success rate) comparable to that of state-based policies, typically trained in simulation with priviledged information not directly available in real-world deployments.
+As high-frame rate RGB inputs naturally accomodate for dynamic, fast changing environments,~\citet{chiDiffusionPolicyVisuomotor2024}'s conclusion offers significant evidence for learning streamlined control policies directly from pixels.
+In their work,~\citet{chiDiffusionPolicyVisuomotor2024} also ablate the performance of DP against their baseline against the size of the dataset collected, showing that DP outperforms the considered baseline for every benchmark size considered.
+Further, to accelerate inference,~\citet{chiDiffusionPolicyVisuomotor2024} employ Denoising Diffusion Implicit Models~\citep{songDenoisingDiffusionImplicit2022}, a variant of Denoising Diffusion Probabilistic Models~\citep{hoDenoisingDiffusionProbabilistic2020} (DDPM) adopting a strictly deterministic denoising paradigm (differently from DDPM's natively stochastic one) inducing the same final distribution's as DDPM's, and yet resulting in 10 times less denoising steps at inference time~\citep{chiDiffusionPolicyVisuomotor2024}.
+Across a range of simulated and real-world tasks,~\citet{chiDiffusionPolicyVisuomotor2024} find DPs particularly performant when implementing a transformer-based network as \( \epsilon_\theta \), although the authors note the increased sensitivity of transformer networks to hyperparameters and thus explicitly recommend starting out with a simpler, convolution-based architecture for diffusion (Figure~\ref{fig:diffusion-policy-architecture}), which are however reported to be biased towards learning low-frequency components~\citep{tancikFourierFeaturesLet2020} and thus may prove more challenging to train with non-smooth action sequences.
+
 
 \subsubsection{Code Example: Learning Diffusion Policies}
 \todo{using diffusion policy example}
 
-\subsection{Optimized Inference via Decoupling Action Prediction and Execution}
-Implicit World Modeling 
-Async inference tightens control loop
-Analyzing async inference
+\subsection{Optimized Inference by Decoupling Action Prediction and Execution}
+Modern visuomotor policies output \emph{action chunks}--sequences \(\pi(o_t) = \actionchunk_t \) with \(\actionchunk_t = \bigl(a_t,a_{t+1},\dots,a_{t+H_a}\bigr) \) being a sequence of \(H_a \gg 1 \) low-level commands enqueued in an action queue, originating from an environment observation, \(o_t\).
+Predicting series of actions instead of single commands proved essential in learning complex, multi-modal behavior~\citep{zhaoLearningFineGrainedBimanual2023,chiDiffusionPolicyVisuomotor2024}.
 
-\subsubsection{Code Example: Deploy Optimized Policies}
+Typically, the robot executes the entire action chunk \(\actionchunk_t \), before a new observation \( o_{t+H_a} \) is passed to the policy \( \pi \) to predict the next chunk. 
+This results in open-loop inference in between observations captured every \( H_a \) timesteps.
+~\citet{zhaoLearningFineGrainedBimanual2023} adopts a different strategy whereby the robot controller interleaves chunk prediction \( \actionchunk_t \gets \pi(o_t) \) and chunk consumption \( a_t \gets \textsc{PopFront(\( \actionchunk_t \))} \), computing a new chunk of actions at every timestep \( t \) and aggregating the predicted chunks on overlapping sections.
+While adaptive---every observation at every timestep \( o_t\) is processed---such approaches rely on running inference continuously, which can be prohibitive in resource-constrained scenarios, such as edge deployments.
+
+A less resource-intensive approach is to entirely exhaust the chunk \( \actionchunk \) before predicting a new chunk of actions, a strategy we refer to as \textit{synchronous} (sync) inference. 
+Sync inference efficiently allocates computation every \( H_a \) timesteps, resulting in a reduced average computational burden at control time. 
+In contrast, it inherently hinders the responsiveness of robot systems, introducing blind lags due to the robot being \textit{idle} while computing \( \actionchunk \).
+
+We directly assess the lack of adaptiveness of robot systems due to acting open-loop, and the presence of lags at runtime by decoupling action chunk prediction \( \actionchunk \) from action execution \( a_t \gets \textsc{PopFront}(\actionchunk_t) \), developing an \textit{asynchronous} (async) inference stack (\ref{alg:async-inference}), whereby a \( \textsc{RobotClient} \) sends an observation \( o_t \) to a \( \textsc{PolicyServer} \), receiving an action chunk \( \actionchunk_t \) once inference is complete (\ref{fig:async-inference}).
+In this, we avoid execution lags by triggering chunk prediction while the control loop is still consuming a previously available queue, aggregating it with the newly incoming queue whenever available.
+In turn, async-inference tightens the loop between action prediction and action execution, by increasing the frequency at which observations are processed for chunk prediction. 
+Crucially, decoupling action prediction from action execution also directly allows to allocate more computational resources on a remote policy server sending actions to the robot client over networks, something which may prove very effective in resource-constrained scenarios such as low-power robots.
+
+\begin{figure}
+    \centering
+    \begin{minipage}[t]{\textwidth}
+        \centering
+        % \includegraphics[width=0.9\textwidth]{figures/ch4-async_inference.pdf}
+        \caption{\textbf{Asynchronous inference}. Illustration of the asynchronous inference stack. Note that the policy can be run on a remote server, possibly with GPUs.}
+        \label{fig:async-inference}
+    \end{minipage}
+    \vspace{-0.6cm}
+\end{figure}
+
+\begin{algorithm}
+  \caption{Asynchronous inference control-loop}
+  \label{alg:robotclient}
+  \begin{algorithmic}[1]
+    \State \textbf{Input:} horizon \( T \), chunk size \( H_a \), threshold \( g\in[0,1] \)
+    \State \textbf{Init:} capture \( o_0 \); send \( o_0 \) to \textsc{PolicyServer};
+           receive \( \actionchunk_0 \gets \pi(o_0) \)
+    \For{\( t \) \textbf{to} \( H_a \)}
+        \State \( a_t \gets \textsc{PopFront}(\actionchunk_t) \)
+        \State \textsc{Execute}(\( a_t \)) \Comment{execute action at step \( t \)}
+        \If{\( \tfrac{|\actionchunk_t|}{H_a} < g \)} \Comment{queue below threshold}
+            \State capture new observation, \( o_{t+1} \)
+            \If{\textsc{NeedsProcessing} \( (o_{t+1}) \) } \Comment{similarity filter, or triggers direct processing}
+                \State \texttt{async\_handle} \( \gets \textsc{AsyncInfer}(o_{t+1})\) 
+                \Comment{Trigger new chunk prediction (non blocking)}
+                \State \( \tilde{\actionchunk}_{t+1} \gets \pi(o_{t+1}) \) \Comment{New queue is predicted with the policy}
+                \State \( \actionchunk_{t+1} \gets f(\actionchunk_t,\tilde{\actionchunk}_{t+1}) \) \Comment{aggregate overlaps (if any)}
+                
+            \EndIf
+        \EndIf
+        \If {\textsc{NotCompleted}(\texttt{async\_handle})}
+            \State \( \actionchunk_{t+1} \gets \actionchunk_t \) \Comment{No update on queue (inference is not over just yet)}
+        \EndIf
+    \EndFor
+  \end{algorithmic}
+  \label{alg:async-inference}
+\end{algorithm}
+
+
+\paragraph{Implementation details}
+
+\textit{Async} inference (1) tightens the control loop by capturing observations more often, directly eliminates idle gaps at runtime, and (2) directly allows to run inference on more powerful computational resources than the ones typically available onboard autonomous robotic platforms.
+
+Algorithmically, we attain (1) on the \textsc{RobotClient}-side by consuming actions from a readily available queue until a threshold condition on the number of remaining actions in the queue (\(\vert \actionchunk_t \vert / H_a < g \)) is met. When this condition is triggered, a new observation of the environment is captured and sent to the (possibly remote) \textsc{PolicyServer}. 
+To avoid redundant server calls and erratic behavior at runtime observations are compared in joint-space, and near-duplicates are dropped.
+Two observations are considered near-duplicates if their distance in joint-space is under a predetermined threshold, \( \epsilon \in \mathbb R_+\).
+Importantly, when the queue available to robot client eventually becomes empty, the most recent observation is processed regardless of similarity.
+
+Interestingly, the behavior of async inference can be studied analytically. First, let \( \ell \) be a random variable modeling the time needed to receive an action chunk \( \actionchunk \) after sending an observation \( o \), i.e. the sum of (1) the time to send across the observation \( o \) between the \textsc{RobotClient} and \textsc{PolicyServer}, \( t_{C \to S}\) (2) the inference latency on the \textsc{PolicyServer}, \( \ell_S \) and (3) the time to send \( \actionchunk \) between the \textsc{PolicyServer} and \textsc{RobotClient}, \( t_{S \to C} \). Assuming independence, \( \mathbb E [\ell] = \mathbb E[t_{C \to S}] + \mathbb E[\ell_S] + \mathbb E[t_{S \to C}] \) which can be further simplified to \( \mathbb E[\ell] \simeq \mathbb E[\ell_S]  \), assuming communication time is (1) equal in both directions and (2) negligible with respect to the inference latency. Second, let \(\Delta t\) be the environment’s control cycle. With a real-world frame-rate of 30 frames per second, \(\Delta t=33\text{ms}\). Consequently, exhausted queues at runtime--i.e. being idle awaiting for a new chunk--are avoided for \( g \geq \frac{\mathbb E[\ell_S] / \Delta t}{H_a} \). In this, the queue threshold \( g \) plays a major role relatively to the availability of actions to the \textsc{RobotClient}.
+
+\Cref{fig:queues}(A) illustrates how the size of the action chunk \(\lvert \actionchunk_t \rvert\) evolves over time for three representative values of \(g\), detailing the following key scenarios:
+\begin{itemize}
+    \item \textbf{Sequential limit \((g=0)\).} The client drains the entire chunk before forwarding a new observation to the server. During the round-trip latency needed to compute the next chunk, the queue is empty, leaving the robot \emph{incapable of acting}.  This reproduces the behavior of a fully sequential deployment and results in an average of \( \mathbb E[\ell_S] \) idle seconds.
+    \item \textbf{Asynchronous inference \((g \in (0,1))\).} Allowing the client to consume \(1-g\) of its available queue \( \actionchunk_{t-1}\) before triggering inference for a new action queue \( \actionchunk_{t} \), amortizing computation while keeping the queue from emptying. The overlap between successive chunks provides a buffer against modeling errors without the full cost of the \(g=1\) regime. The updated queue \( \actionchunk_t\) is obtained aggregating queues on the overlapping timesteps between \( \actionchunk_{t-1}\) and the incoming \(\tilde{\actionchunk}_{t}\).
+    \item \textbf{Compute-intensive limit \((g=1)\).}  As an extreme case, and in keeping with \citet{zhaoLearningFineGrainedBimanual2023}, an observation is sent at \emph{every} timestep. The queue is therefore almost always filled, with only a minor saw-tooth due to \(\Delta t/\mathbb E[\ell_s] < 1\). While maximally reactive, this setting incurs one forward pass per control tick and can prove prohibitively expensive on limited hardware. Importantly, because the client is consuming actions while the server computes the next chunk, the available queue never gets filled again.
+\end{itemize}
+
+\begin{figure}
+    \centering
+    \begin{minipage}[t]{0.99\textwidth}
+        \centering
+        % \includegraphics[width=\textwidth]{figures/queues.pdf}
+        \caption{Action queue size evolution at runtime for various levels of \( g\) when (A) not filtering out observation based on joint-space similarity and (B) filtering out near-duplicates observation, measuring their similarity in joint-space.}
+        \label{fig:queues}
+    \end{minipage}
+    % \vspace{-0.6cm}
+\end{figure}
+
+\Cref{fig:queues}(A) emphasizes the trade-off governed by \(g\): small values place result in idle periods, whereas \(g\approx 1\) assumes a highly accurate model and pays a significant compute price. In practice, choosing \(g\in(0,1)\) allows to strike a balance between reactivity against resource budgets. 
+If not for the aforementioned similarity filter, the \textsc{RobotClient} would send observations for processing every \( (1 - g) H_a \cdot \Delta t\) seconds, receiving a new chunk of actions every \( (1 - g) H_a \cdot \Delta t + \mathbb E[\ell_S] \), on average. 
+The presence of the observation similarity filter dilates this processing time, and serves the scope of avoiding the robot stalling due to the queue being constantly integrated with an incoming, nearly identical, action chunk. 
+In particular, ~\Cref{fig:queues}(B) results in a queue which is filled with incoming actions \emph{unless} near-duplicate observations are filtered out from the processing pipeline. For clarity, the red arrow in \Cref{fig:queues}(B) highlights a timestep where the observation similarity mechanism is bypassed, forcing a (nearly identical) observation to be processed as the queue results empty.
+
+\subsubsection{Code Example: Using Async Inference}
 \todo{async inference example}
