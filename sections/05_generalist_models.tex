@@ -1,13 +1,40 @@
-\section{Foundation Models for Robotics}
+\section{Generalist Robotics Policies}
 \label{sec:learning-bc-generalist}
 
 \epigraph{\textit{Specialization is for insects}}{Robert A. Heinlein}
 
-\subsection{Overview of Major Architectures: RT-1, RT-2, OpenVLA, $\pi_0$, $\pi_{0.5}$, SmolVLA}
-VLA models integrate perception, instruction following, and action generation within a unified network. RT-1 demonstrated large-scale, robot-collected datasets and transformer policies capable of executing hundreds of distinct manipulation tasks; RT-2 extended this idea by co-training with web-scale vision–language corpora and representing actions as discrete tokens, improving semantic generalization to novel objects and instructions. OpenVLA adopts an open 7B backbone that fuses pretrained vision encoders with a language model and trains on large, diverse robot demonstrations, reporting strong cross-embodiment performance and efficient fine-tuning. The $\pi_0$ family introduces flow-matching action heads atop a pretrained VLM to produce continuous, high-frequency motor commands for dexterous skills; $\pi_{0.5}$ augments co-training for broader open-world generalization. Complementing these, SmolVLA targets efficiency and accessibility with a compact (\(\sim\!4.5\times10^8\) parameters) architecture and an interleaved attention ``action expert'' for low-latency control.
+The advent of large models trained on internet-scale datasets has drastically influenced fields like Computer Vision (CV) and Natural Language Processing (NLP), with recipes consisting of (1) an initial, task-agnostic large-scale pre-training stage followed by a (2) task-specific adjustment of a base model emerging as the standard in many applications.
+Such a paradigm largely replaced a more classic approach consisting of task-specific data collection, curation and model training, which inherently hindered cross-task scalability and is ultimately labor intensive, considering the impact both data curation and model training recipes have traditionally had on downstream performance.
+Factors including (1) the advancements in generalist models for advanced semantic-aware perception~\citep{oquabDINOv2LearningRobust2024} and (2) popularization of widespread, decentralized efforts to collect large-scale openly available datasets~\citep{OpenXEmbodimentRobotic,DROIDLargeScaleIntheWild} are increasingly pushing the field of robot learning towards a similar paradigm, surpassing the traditionally limited interplay between tasks in robotics by scaling the size and diversity of accessible human demonstrations~\citet{brohanRT1RoboticsTransformer2023}.
+While Section~\ref{sec:learning-bc-single} introduced BC methods for learning to perform tasks via \emph{single-task} policies such as ACT or Diffusion Policies, we here present advancements on developing \emph{robotics foundational models}. 
 
-\subsection*{5.3\quad Practical Implementation: Integrating VLAs with \texttt{LeRobot}}
-Integration typically follows three phases. \emph{Pretraining:} initialize the VLM backbone (e.g., SigLIP/DINOv2 features) and attach an action head (autoregressive, diffusion, or flow-matching) trained on heterogeneous demonstrations curated in a standardized format. \emph{Task adaptation:} fine-tune with instruction-augmented, robot-specific data using low-rank adaptation where possible; calibrate action scaling, control-rate chunking, and observation encodings. \emph{Deployment:} quantize or distill for on-robot inference; implement asynchronous inference stacks to decouple perception and control loops; add safety fallbacks and confidence gating. \texttt{LeRobot} dataset and model utilities simplify all three phases by providing consistent IO, evaluation tools, and model hosting.
+\subsection{Preliminaries: Large Datasets and Large Models}
+% The successes of transformers in NLP
 
-\subsection*{5.4\quad Experimental Evaluation}
-A principled evaluation protocol should measure (i) success rate across held-out tasks and objects, (ii) language grounding fidelity under paraphrases and compositional instructions, (iii) cross-embodiment transfer (train/test robot mismatch), and (iv) robustness to distribution shift (lighting, clutter, distractors). Where possible, report zero-shot and few-shot adaptation performance, ablate pretraining datasets and backbones, and include real-world trials with fixed seeds and video evidence. Public, diverse datasets and standardized success criteria are critical to comparable results.
+% The very small scale of robotics data compared to NLP datasets
+
+% Early attempts:
+- RT-1, RT-2
+- Open-X and RT-X
+- OpenVLA
+
+- Problems with (1) casting robot control as visual question answering and (2) using discrete action spaces
+
+\subsection{Using Action Experts}
+- Introducing action experts conditioned on semantic features extracted by large scale models
+
+\subsubsection{\( \pi_0 \)}
+- The architecture of PI0
+- Size of PI0
+- Challenging for low resource applications
+
+% \subsubsection{Train \( \pi_0 \)}
+\subsubsection{Use \( \pi_0 \)}
+
+\subsubsection{SmolVLA}
+- A compact model which adopts many optimizations
+- Modified action expert with CA/SA
+- Better than specialist models on certain tasks
+
+% \subsubsection{Train SmolVLA}
+\subsubsection{Use SmolVLA}
