@@ -79,7 +79,7 @@ Thus, given a finite set of \( N \) pairs \(\mathcal D = \{ (o,a)_i \}_{i=0}^N\)
 Likelihood-based learning provides a principled training objective to achieve both objectives, and it is thus extensively used in GM~\citep{prince2023understanding}.
 
 % VAEs
-\paragraph{Variational Auto-Encoders}
+\subsubsection{Variational Auto-Encoders}
 
 \begin{figure}
     \centering
@@ -163,7 +163,7 @@ Indeed, it is very common in practice to approximate from the learned likelihood
 In all such cases, learning a VAE corresponds to optimally \emph{reconstructing} the examples in \( \mathcal D \) by minimizing the L2-error---a very common \emph{supervised learning} objective for regression targets---while regularizing the information compression into the latent, as under the common modeling choice \( p(z) = \mathcal N (\mathbf{0}, \mathbf{I}) \)~\ref{eq:VAE-Lreg} regularizes the posterior limiting the expressivity of \( q_\phi(z\vert o,a) \).
 
 % Diffusion
-\paragraph{Diffusion Models}
+\subsubsection{Diffusion Models}
 VAEs approximate probability distributions via a \emph{single} latent variable model, assuming the underlying unknown distribution can be factored according to~\ref{eq:BC-latent-variable}, and solve the variational inference problem of jointly learning the likelihood \( p_\theta \) and (approximate) posterior \( q_\phi \) for such model.
 In that, the unknown data distribution \( p(o,a) \) is effectively approximated via \( \int_Z p(z) p_\theta(o,a \vert z) \), and the underlying generative process reproduced by (1) sampling a latent variable and (2) learning to decode it into a (ideally) high-likelihood sample under the (unknown) \( p(o,a) \).
 Diffusion Models (DMs)~\citep{hoDenoisingDiffusionProbabilistic2020} are another class of GMs which treat the similar problem of approximating an underlying unknown data distribution---\emph{variational inference}---by \emph{partially} extending VAEs to the case where \emph{multiple} latent variables influence each other and the generative process underlying \(o,a\) itself.
@@ -249,6 +249,47 @@ Indeed, under the assumption that \(p_\theta (z_{t-1} \vert z_t) \) is Gaussian,
     z_{t-1} = \frac{1}{\sqrt{\alpha_t}} \left( z_t - \frac{\beta_t}{\sqrt{1 - \bar\alpha_t}} \epsilon_\theta(z_t, t) \right) + \sigma_t \epsilon, \quad \epsilon \sim \mathcal N(\mathbf{0}, \mathbf{I}), \label{eq:diffusion-denoising-definition}
 \end{align}
 thus showing that the lower-level latent variables in a DM can be obtained by iteratively removing noise from the one-step higher order variable, using the noise regressor \( \epsilon_\theta(z_t, t)\) learned minimizing~\ref{eq:diffusion-simplified-loss}.
+
+\subsubsection{Flow Matching}
+% Note: I have purposefuly avoided redefining likelihood and optimization objective for FM models as (1) I am presenting them as a generalization of DM, for which the same concepts have been presented in enough detail and (2) the derivation of the objective in the FM paper is very clear and does not really need explanation or coverage.
+ 
+The posterior parametrization adopted by DMs proved traditionally effective, yet it raised concerns circa its efficiency at inference time, where a possibly large of compute-expensive denoising steps are needed in order to recover a sample from the target distribution. 
+Flow Matching (FM)~\citep{lipmanFlowMatchingGenerative2023} extends DMs to the general case of arbitrary, parametrized likelihood and posteriors, and in this defines a superseding class of GMs providing a unified framework for learning \emph{continuous transformations} between distributions, encompassing and generalizing DMs.
+Instead of a \emph{stochastic, discrete, multi-step} denoising process, FM aims to learn a \emph{deterministic, continuous, differentiable flow} \( \psi [0,1] \times Z \mapsto Z \), formalized starting from possibly time-dependent vector field \( v: [0,1] \times Z \mapsto Z \) transporting samples from a simple prior distribution \( p_0 \)---e.g., a standard Gaussian---to a more complex, potentially unknown data distribution \( p_1 \) over time.
+Note how FM models time \( t \in [0,1] \) to be varying continuously while moving away \emph{from} an easy-to-sample distribution \( p_0 \) \emph{towards} the unknown data-distribution, \( p_1 \). 
+This results in a continuous and deterministic trajectory for each sample, which can be more efficient to generate compared to the stochastic paths of DMs.
+Formally, FM can be fully characterized by an ordinary differential equation (ODE) relating instantaneous variations of flows with the underlying vector field, and hence providing complete trajectories over the distributions' support when integrating over time,
+\begin{align}
+    \frac{d}{dt} \psi(z, t) &= v(t, \psi(t, z)) \\
+    \psi(0, z) &= z
+\end{align}
+
+FM proved very effective in a variety of applications, ranging from image~\citep{esserScalingRectifiedFlow2024} and video generation~\citep{polyakMovieGenCast2025} to robotics control~\citep{black$p_0$VisionLanguageActionFlow2024}.
+Most notably, in their introductory work on FM for GM,~\citet{lipmanFlowMatchingGenerative2023} show how DMs can be seen as a specific instance of FM where the \emph{conditional} target vector field \( u \) approximated by the noise regressor corresponds to
+\begin{equation}\label{eq:fm-diffusion-vector-field}
+    u(t, z\vert z_0) = \frac{\frac{d}{dt}\alpha(1-t)}{1 - (\alpha(1-t))^2}(\alpha(1-t)z - z_0), \quad \alpha(t) = e^{-\frac12 \int_0^t \beta(s) ds}, \quad \forall z_0 \in \mathcal D
+\end{equation}
+Note that the traditional discrete-time noise-scheduler \( {\beta_t}_{t=0}^T \) is now generalized to a continuous map \( \beta : [0,1] \mapsto \mathbb R^+ \).
+Crucially,~\citet{lipmanFlowMatchingGenerative2023} prove that by exclusively optimizing the vector field for individual data points \( z_0 \in \mathcal D \) individually, one also retrieves the optimal flow to morph the entire support of the initial distribution \( p_0 \) into \( p_1 \ \text{s.t.} \mathcal D \sim p_1 \).
+
+While the noising schedule of DMs results in a stochastic process that resembles a random walk, FM allows for more general---potentially, deterministic---likelihood and posterior parametrization.
+In the FM literature the likelihood and posterior probabilty densities defined along a HMLV model are typically jointly referred to as a \emph{probability path}, where the distributions for successive adjacent transitions in the HMLV model are related by the (normalized) flow between them (Figure~\ref{fig:ch4-normalizing-flows}).
+The inherent flexibility of FM is one of their key advantages over DMs, as it opens up the possibility of \emph{learning} more efficient paths.
+For instance, one can design probability paths inspired by Optimal Transport (OT)---a subdiscipline studying the problem of finding the most efficient way to morph one probability distribution into another.
+Probability paths obtained through OT paths tend to be \emph{straighter} than diffusion paths (Figure~\ref{fig:ch4-diffusion-paths-versus-fm}), which can lead to faster and more stable training, as well as higher-quality sample generation with fewer steps at inference time.
+By avoiding unnecessary backtracking associated with the inherent stochastic nature of both the noising and denoising process in DMs, test-time compute is typically significantly reduced, while retaining comparable results~\citep{lipmanFlowMatchingGenerative2023}.
+
+In practice, FM can be applied to generative modeling by learning a vector field regressor \( v_\theta(z, t) \) to approximate a given target vector field \( u(t, z) \).
+In the particular case of DMs, \( u(t, z) \) is defined as in~\ref{eq:fm-diffusion-vector-field}, while in priciple the target vector field can be learned to induce a particular transportation, or fixed according to OT.
+Given a sample from the data distribution \( z_1 \sim p_1 \) and a sample from an easy-to-sample prior \( z_0 \sim p_0 \), CFM defines a simple path between them using \emph{linear interpolation} between samples \( z_t = (1-t)z_0 + t z_1 \), resulting in the target vector field \( u(t, z_t) = z_1 - z_0 \).
+Then, a FM model can be trained with the simple regression objective defined as
+\begin{align}\label{eq:flow-matching-objective}
+    \mathcal L(\theta) = \mathbb{E}_{t, z_0, z_1} \big[
+        \Vert v_\theta((1-t)z_0 + t z_1, t) - (z_1 - z_0) \Vert^2 \big], \quad t \sim \mathcal{U}([0,1]),
+\end{align}
+where \( z_0 \sim p_0(\bullet) \) and \( z_1 \sim p_1(\bullet) \). Note how in~\ref{eq:flow-matching-objective}---differently from~\ref{eq:diffusion-simplified-loss}---time is assumed to be varying continuously \( t \sim \mathcal U([0,1]) \) rather than discretely \( t \sim \mathcal U(\{0,1\}) \), a key property of flow-based models.
+The objective in~\ref{eq:flow-matching-objective} directly regresses the learned vector field onto the simple, straight path connecting a point from the prior and a point from the data, providing a simulation-free training procedure that is both stable and efficient.
+At inference time, samples are generated by starting with \( z_0 \sim p_0 \) and iteratively refined according to \( \frac{dz}{dt} = v_\theta(z_t, t) \) for \(t \in [0,1] \)---an operation that can be numerically carried out with standard ODE solvers (Figure~\ref{fig:ch4-flow-matching-inference}).
 
 \subsection{Action Chunking with Transformers}
 While GMs prove useful in learning complex, high-dimensional multi-modal distributions, they do not natively address the compouding errors problem characteristic of online, sequential predictions.
@@ -425,7 +466,7 @@ Interestingly, the behavior of async inference can be studied analytically. Firs
 \begin{itemize}
     \item \textbf{Sequential limit \((g=0)\).} The client drains the entire chunk before forwarding a new observation to the server. During the round-trip latency needed to compute the next chunk, the queue is empty, leaving the robot \emph{incapable of acting}.  This reproduces the behavior of a fully sequential deployment and results in an average of \( \mathbb E[\ell_S] \) idle seconds.
     \item \textbf{Asynchronous inference \((g \in (0,1))\).} Allowing the client to consume \(1-g\) of its available queue \( \actionchunk_{t-1}\) before triggering inference for a new action queue \( \actionchunk_{t} \), amortizing computation while keeping the queue from emptying. The overlap between successive chunks provides a buffer against modeling errors without the full cost of the \(g=1\) regime. The updated queue \( \actionchunk_t\) is obtained aggregating queues on the overlapping timesteps between \( \actionchunk_{t-1}\) and the incoming \(\tilde{\actionchunk}_{t}\).
-    \item \textbf{Compute-intensive limit \((g=1)\).}  As an extreme case, and in keeping with \citet{zhaoLearningFineGrainedBimanual2023}, an observation is sent at \emph{every} timestep. The queue is therefore almost always filled, with only a minor saw-tooth due to \(\Delta t/\mathbb E[\ell_s] < 1\). While maximally reactive, this setting incurs one forward pass per control tick and can prove prohibitively expensive on limited hardware. Importantly, because the client is consuming actions while the server computes the next chunk, the available queue never gets filled again.
+    \item \textbf{Compute-intensive limit \((g=1)\).}  As an extreme case, and in keeping with \citet{zhaoLearningFineGrainedBimanual2023}, an observation is sent at \emph{every} timestep. The queue is therefore almost always filled, with only a minor saw-tooth due to\(\Delta t/\mathbb E[\ell_s] < 1\). While maximally reactive, this setting incurs one forward pass per control tick and can prove prohibitively expensive on limited hardware. Importantly, because the client is consuming actions while the server computes the next chunk, the available queue never gets filled again.
 \end{itemize}
 
 \begin{figure}
