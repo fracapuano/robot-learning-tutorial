@@ -3,38 +3,108 @@
 
 \epigraph{\textit{Specialization is for insects}}{Robert A. Heinlein}
 
-The advent of large models trained on internet-scale datasets has drastically influenced fields like Computer Vision (CV) and Natural Language Processing (NLP), with recipes consisting of (1) an initial, task-agnostic large-scale pre-training stage followed by a (2) task-specific adjustment of a base model emerging as the standard in many applications.
-Such a paradigm largely replaced a more classic approach consisting of task-specific data collection, curation and model training, which inherently hindered cross-task scalability and is ultimately labor intensive, considering the impact both data curation and model training recipes have traditionally had on downstream performance.
-Factors including (1) the advancements in generalist models for advanced semantic-aware perception~\citep{oquabDINOv2LearningRobust2024} and (2) popularization of widespread, decentralized efforts to collect large-scale openly available datasets~\citep{OpenXEmbodimentRobotic,DROIDLargeScaleIntheWild} are increasingly pushing the field of robot learning towards a similar paradigm, surpassing the traditionally limited interplay between tasks in robotics by scaling the size and diversity of accessible human demonstrations~\citet{brohanRT1RoboticsTransformer2023}.
-While Section~\ref{sec:learning-bc-single} introduced BC methods for learning to perform tasks via \emph{single-task} policies such as ACT or Diffusion Policies, we here present advancements on developing \emph{robotics foundational models}. 
+The advent of large models trained on internet-scale datasets has drastically influenced fields like Computer Vision (CV) and Natural Language Processing (NLP), shifting the paradigm towards combining (1) an initial, task-agnostic large-scale pre-training stage and a (2) task-specific, adjustment phase.
+The pre-training/adaptation paradigm has now largely replaced more classic approaches consisting of task-specific data collection, curation and model training in many subdomains within CV and NLP, motivated by the main drawback of limited scalability for \emph{task-specific approaches}, traditionally labor intensive.
+Factors including (1) the advancements in generalist models learned with self-supervision for perception~\citep{oquabDINOv2LearningRobust2024} or semantic understanding~\citep{devlinBERTPretrainingDeep2019} and (2) the popularization collective efforts to aggregate large-scale openly available datasets~\citep{OpenXEmbodimentRobotic,DROIDLargeScaleIntheWild} are increasingly pushing the field of robot learning towards the pre-train-and-adapt paradigm.
+This shift taps into the long-standing challenge of developing generalist robot policies, and holds the premise to surpass traditionally siloed approaches to robotics problems and develop a \emph{foundation robotics model}.
+While Section~\ref{sec:learning-bc-single} introduced methods for learning \emph{single-task policies} such as ACT or Diffusion Policy, in this section we present advancements in developing \emph{generalist, multi-task, policies}, capable of performing a wide range of tasks across different environments and embodiments, and guided by unstructured instructions given via natural language.
 
-\subsection{Preliminaries: Large Datasets and Large Models}
-% The successes of transformers in NLP
+\subsection{Preliminaries: Models and Data}
+The remarkable success of foundation models in NLP and CV is predicated on two core principles: architectural innovation and joint data-compute scaling.
+The transformer architecture proved instrumental in capturing long-range dependencies in sequential data such as text, and its stability and expressivity made it the \emph{de facto} standard for modern large-scale models trained on internet-scale amounts of data.
+In stark contrast with popular NLP~\citep{raffelExploringLimitsTransfer2023} and CV~\citep{ImageNet_VSS09} general-purpose datasets, the field of robotics has historically developed around task-specific datasets which hinders scalability across problems, resulting in a concrete data deficit for general-purpose robot learning.
+Unlike the wealth of relatively readily available text and images on the internet, robotics data is intrinsically embodied---datasets collected for a manipulation robot typically differ entirely from locomotion datasets.
+Further, datasets consisting of expert demonstrations are (1) intrinsically expensive to collect (2) and notoriously heterogeneous---different human experts may perform the same task optimally yet in very different ways.
+In particular, since each expert trajectory is tied to a specific robot platform and the operating conditions of its environment and task, data heterogeneity has long posed a \emph{methodological} challenge for scaling robotics datasets via aggregation. 
+Beyond this, heterogeneity also raises \emph{conceptual} issues: naively mixing data across embodiments can induce negative transfer, as control strategies developed in isolation for different robot systems in different environments may even conflict when combined.
+Thus, the high degree of fragmentation of robotics datasets and tasks has traditionally led to the development of \emph{specialist} policies, trained on small, task-specific datasets, and which excel at their designated task but fail to generalize to new situations (Figure~\ref{fig:ch5-ml-vs-robotics-foundation}).
 
-% The very small scale of robotics data compared to NLP datasets
+Motivated by the pursuit of generalist robot policies, the research community started investigating what and how to integrate from other domains within ML.
+Figure~\ref{fig:ch5-generalist-policies-timeline} shows a timeline of some of the most popular contributions attempting at developing generalist policies.
+Starting from BC-Zero, a latent variable model trained on 25K+ demonstrations, the field has now evolved into \( \pi_0 \), a transformer-based model trained on 10M+ demonstrations and exhibiting strong few-shot capabilities across tasks and embodiments.
+For starters, Robotics Transformer 1 (RT-1)~\citep{brohanRT1RoboticsTransformer2023} represented a significant step in the direction of developing a generalist robot policies over prior work including (1) BC-Zero~\citep{jangBCZZeroShotTask2022} and (2) Gato~\citep{reedGeneralistAgent2022}, in that~\citet{brohanRT1RoboticsTransformer2023} uses a much larger and diverse set of training tasks compared to both BC-Zero and Gato.
+In particular, RT-1 uses a transformer architecture, and is trained on as many as 130k human-recorded trajectories collected over 13 robots in the span on 17 months.
+RT-1 learns to process a history of camera images and a natural language instruction, and feeds the resulting sequence of high-dimensional tokens to a transformer, trained using a \emph{classification loss on a discretized actions space} consisting of 6 256 bins, each for each joint of a 6-dof robotic arm.
 
-% Early attempts:
-- RT-1, RT-2
-- Open-X and RT-X
-- OpenVLA
+Perhaps motivated by the contemporary successes of the transformer architecture in both CV and NLP, the same group of authors investigated using a discrete output space to model---inherently continuous---quantities such as actions, leveraging a (1) more powerful architecture and (2) scaling up the dataset used~\citep[RT-2]{brohanRT2VisionLanguageActionModels2023}. 
+In RT-2,~\citet{brohanRT2VisionLanguageActionModels2023} propose inheriting internet-scale semantic knowledge from large-scale multi-modal datasets to learn a single, \emph{unified model} for robotics control.
+Such a model, termed \emph{Vision-Language-Action} (VLA) in the original RT-2 paper, effectively casts robot control as a language modeling problem, and in particular as a Visual Question-Answering (VQ\&A) task, whereby the output token space used to represent \emph{string} tokens  is shared with the \emph{8-bits tokens} used to represent the 256 actuation levels of a 6-dof robot joint.
+In their work,~\citet{brohanRT2VisionLanguageActionModels2023} propose co-fine-tuning then-leading large-scale VLMs such as PaLIX~\citep{chenPaLIXScalingMultilingual2023} or PaLM-E~\citep{driessPaLMEEmbodiedMultimodal2023} on a mix of web and robotics data, thus complementing VQ\&A training with robotics-specific signal, learning to directly output robot actions in a shared token space for visual and language inputs.
+Using large models trained on internet-scale data as backbones for VLAs allows models to tap into the rich semantic knowledge embedded in the VLM's parameters, interpret new commands as well as recognize unseen objects by connecting them to concepts acquired while pre-training.
+For instance,~\citet{brohanRT2VisionLanguageActionModels2023} show that while RT-2 has never been explicitly trained to repurpose tools for a hammering task, it can still combine its semantic understanding of images, so that when asked which object between (1) a piece of paper, (2) a pair of headphones or (3) a rock may be used instead of a hammer, it answers correctly, (3).
 
-- Problems with (1) casting robot control as visual question answering and (2) using discrete action spaces
+Traditionally, research involved not only training the model but also collecting the underlying data, a costly and time-consuming process—for instance, \citet{jangBCZZeroShotTask2022} gathered 25K+ trajectories before training, while RT-1 required 130K+.
+In turn, the data used in robot learning research efforts have traditionally proved rather fragmented, tailored to the specific task considered by the specific group of researchers who collected it, ultimately hindering integration.
+The Open X-Embodiment project~\citep{OpenXEmbodimentRobotic} was a landmark effort to address the data fragmentation problem, curating the aggregation of 60 \emph{existing} robotics datasets from 22 different robot embodiments and 21 institutions, resulting in a total 1.4M of cross-embodiments, cross-tasks, openly-available trajectories.
+Besides the contribution of an aggregate, large scale dataset,~\citet{OpenXEmbodimentRobotic} also demonstrated significant positive transfer \emph{across tasks and embodiments}, showing that a single model trained on multi-embodiment data can outperform specialist models trained on their respective single-embodiment datasets.
+The Distributed Robot Interaction Dataset (DROID)~\citep{DROIDLargeScaleIntheWild} represents another significant step towards addressing the problem of scarse and disaggregated data in robot learning, providing a unique dataset consisting of 75K+ human demonstrations collected in realistic (\emph{in-the-wild}) manipulation settings, providing another cornerstone for building general-purpose robot policies.
+Recently, foundational datasets curated through large, centralized efforts, are increasingly complemented by decentralized, community-driven collection of robotics data.
+Software libraries as \lerobot~have been instrumental in enabling decentralized collection of large amounts of data, providing the infrastructure for researchers and practitioners to easily contribute trajectories from range of embodiments, democratizing data access via distributed collection.
+
+The success of large, proprietary models like RT-1 and RT-2, highlighted a growing accessibility gap in robotics research, as training and deploying large-scale models requires computational resources simply unattainable for most research institutions. 
+The OpenVLA project~\citep{kimOpenVLAOpenSourceVisionLanguageAction2024} emerged in direct contrast of closed-source counterparts, as a community-driven effort to create powerful, openly available VLAs.
+In particular,~\citet{kimOpenVLAOpenSourceVisionLanguageAction2024} trained OpenVLA by exclusively leveraging openly available data (970K+ from the Open-X dataset), and share training recipes alongside the model weights.
+Architecturally, OpenVLA integrates a pre-trained vision encoder to project visual tokens into the embedding space of Llama2-7B~\citep{touvronLlama2Open2023} language model backbone.
+The language model backbone is then used to predict \emph{discrete, action} tokens over 256 activation levels.  
+
+Figure~\ref{fig:ch5-trends} illustrates graphically the two most relevant trends in modern robot learning.
+As datasets collected via centralized, cross-institutions cooperation of increasing size are made available for the research community, decentralized datasets collected by individual researchers and practitioners have also gained traction recently, closing the gap with academic benchmarks thanks to community-contributed datasets.
+Further, models used across tasks and embodiments are also becoming much more compute-efficient, and as a result the models' size has been consistently reducing over time, with consequent gains for autonomous robots in real-world, resource-constrained environments.
 
 \subsection{Using Action Experts}
-- Introducing action experts conditioned on semantic features extracted by large scale models
+The core idea behind using action experts is to decompose the problem of visuomotor control into two distinct parts: (1) high-level semantic and spatial understanding of the scene and instruction, and (2) low-level generation of continuous, high-frequency motor commands.
+This architecture leverages the strengths of different model types: a large, pre-trained VLM provides a rich, multi-modal embedding of the scene, conditioned on a language command, while a smaller, specialized "action expert" or "policy head" decodes this embedding into a sequence of precise robot actions.
+Conceptually, the VLM acts as a powerful information bottleneck, processing high-dimensional, unstructured sensory inputs (images and text) and compressing them into a low-dimensional, semantically rich latent representation. The action expert's role is to decompress this latent plan into a high-dimensional, temporally coherent action sequence.
+
+This decoupled approach offers several advantages.
+First, it fully capitalizes on the vast world knowledge and reasoning capabilities of state-of-the-art VLMs.
+Instead of requiring the robotics model to learn visual and linguistic concepts from scratch from comparatively small robotics datasets, it inherits this knowledge.
+Second, it delegates the complex task of motor control to a dedicated module that can be specifically designed for this purpose.
+This action expert does not need to understand language or recognize a wide variety of objects; its sole responsibility is to translate a dense, semantically rich representation into a physically plausible action sequence.
+This separation of concerns allows the expert to be trained efficiently on robotics data to produce smooth, continuous control signals, avoiding the pitfalls of action discretization.
+This paradigm forms the basis of some of the most capable generalist policies developed to date.
 
 \subsubsection{\( \pi_0 \)}
-- The architecture of PI0
-- Size of PI0
-- Challenging for low resource applications
+The \( \pi_0 \) (pronounced pi-zero) model~\citep{black$p_0$VisionLanguageActionFlow2024} is a prime example of the action expert architecture.
+It is designed as a modular system that combines powerful, pre-trained foundation models for perception and reasoning with a dedicated action generation module.
+The architecture of \( \pi_0 \) consists of three main components: a vision encoder, a vision-language model, and an action head.
 
-% \subsubsection{Train \( \pi_0 \)}
+The vision encoder is a DINOv2~\citep{oquabDINOv2LearningRobust2024} model, a state-of-the-art Visual Transformer (ViT) pre-trained using self-supervised learning on a massive, curated dataset of 142 million images.
+This provides \( \pi_0 \) with a highly robust and general-purpose visual feature extractor whose learned features are remarkably invariant to cosmetic factors like lighting and viewpoint, a crucial property for real-world robotics.
+The VLM component is a Llama-2 model~\citep{touvronLlamaOpenFoundation2023}, a powerful large language model that processes the visual features from DINOv2 alongside a text-based instruction.
+The fusion of vision and language allows the model to perform sophisticated reasoning, grounding the language command in the visual context of the robot's environment.
+
+The final and most critical component is the action head.
+This is a relatively small Transformer-based decoder that takes the rich, contextualized token embeddings from the Llama-2 model as input. Crucially, the action head in \( \pi_0 \) is not a simple regressor but a conditional generative model itself, specifically a diffusion model trained via flow matching. This allows it to capture complex, multi-modal action distributions, which is essential for tasks that can be solved in multiple valid ways.
+Its task is to decode the high-level representation from the VLM into a continuous, multi-step action sequence for the robot.
+By conditioning on the powerful features from the VLM, the action head can generate nuanced behaviors that are appropriate to the instruction and the scene, while the generative formulation provides the expressive capacity to model diverse physical skills.
+
+The sheer scale of \( \pi_0 \) is a testament to the "bigger is better" paradigm.
+With its foundation model backbones, the full model can have tens of billions of parameters, endowing it with formidable generalization capabilities.
+However, this size also presents its primary challenge: the immense computational resources required for inference.
+Running a model of this magnitude demands a cluster of high-end GPUs (e.g., multiple A100s or H100s), making it infeasible for deployment on the resource-constrained onboard computers of most robots.
+This necessitates a remote inference setup, where observations are sent over a network to a powerful server for processing, and the resulting actions are sent back to the robot.
+While effective, this introduces network latency and reliance on external infrastructure, motivating the research and development of more compact and efficient generalist models.
+
 \subsubsection{Use \( \pi_0 \)}
+\todo{add code example}
 
 \subsubsection{SmolVLA}
-- A compact model which adopts many optimizations
-- Modified action expert with CA/SA
-- Better than specialist models on certain tasks
+SmolVLA~\citep{shukorSmolVLAVisionLanguageActionModel2025} was developed as a direct answer to the computational challenges posed by massive models like \( \pi_0 \).
+It is a compact Vision-Language-Action model designed to deliver a significant portion of the performance of larger models but in a package small and efficient enough to run directly on-robot or on consumer-grade hardware.
+This is achieved through a series of deliberate architectural choices and optimizations aimed at reducing parameter count and computational load without sacrificing critical performance, effectively distilling the principles of large VLAs into a practical form factor.
 
-% \subsubsection{Train SmolVLA}
+First, SmolVLA replaces the large DINOv2 vision encoder with a more efficient SigLIP model~\citep{zhaiSigmoidLossLanguageImage2023}, which is designed to provide high-quality visual representations at a lower computational cost.
+Second, it employs a smaller, more efficient language model backbone than Llama-2.
+The most significant innovation, however, lies in its modified action expert.
+Instead of a standard Transformer decoder, SmolVLA uses a sophisticated architecture that leverages both Cross-Attention and Self-Attention mechanisms for more efficient feature fusion and temporal modeling.
+Cross-attention is used to explicitly fuse the visual tokens from the image encoder with the linguistic tokens from the language prompt, creating a unified, multi-modal representation that grounds the action plan in the current state and instruction.
+This representation is then processed by a temporal self-attention module, which models the dependencies across the action sequence, allowing the model to generate smooth and coherent multi-step behaviors.
+
+The results are compelling.
+Despite its significantly smaller size, SmolVLA has been shown to outperform larger, specialist policies on a range of manipulation tasks.
+This suggests a point of diminishing returns for pure model scaling and highlights the importance of targeted architectural improvements. Through careful design, it is possible to create generalist policies that strike a more favorable balance between broad generalization and practical efficiency.
+By distilling the key capabilities of massive VLAs into a compact form factor, SmolVLAs represents a critical step towards deploying advanced, language-driven robotic autonomy in real-world, resource-constrained environments.
+
 \subsubsection{Use SmolVLA}
+\todo{add code example}
