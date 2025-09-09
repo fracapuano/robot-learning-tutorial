@@ -40,7 +40,7 @@ This tutorial solves this: a unified entry point to the field of robot learning,
     - [ ] 5.1.1 Overview of Major Architectures: Pi0, SmolVLA
     - [ ] 5.1.2 Practical Implementation: Using VLA in lerobot
 
-## 6. (Emerging) Directions in Robot Learning
+## 6. Some Emerging Directions in Robot Learning
 - [ ] 6.1 VLAs Post-Training
     - [ ] 6.1.1 From Imitation to Refinement
     - [ ] 6.1.2 EXPO

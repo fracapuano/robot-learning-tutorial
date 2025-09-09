@@ -158,6 +158,7 @@
 \RequirePackage{tocloft}
 
 % Make sure the section titles in TOC are in Manrope
+\renewcommand{\cfttoctitlefont}{\sffamily}
 \renewcommand{\cftsecfont}{\sffamily}
 \renewcommand{\cftsubsecfont}{\sffamily}
 \renewcommand{\cftsubsubsecfont}{\sffamily}
