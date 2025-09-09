@@ -251,6 +251,7 @@ Indeed, under the assumption that \(p_\theta (z_{t-1} \vert z_t) \) is Gaussian,
 thus showing that the lower-level latent variables in a DM can be obtained by iteratively removing noise from the one-step higher order variable, using the noise regressor \( \epsilon_\theta(z_t, t)\) learned minimizing~\ref{eq:diffusion-simplified-loss}.
 
 \subsubsection{Flow Matching}
+\label{sec:ch4-flow-matching}
 % Note: I have purposefuly avoided redefining likelihood and optimization objective for FM models as (1) I am presenting them as a generalization of DM, for which the same concepts have been presented in enough detail and (2) the derivation of the objective in the FM paper is very clear and does not really need explanation or coverage.
  
 The posterior parametrization adopted by DMs proved traditionally effective, yet it raised concerns circa its efficiency at inference time, where a possibly large of compute-expensive denoising steps are needed in order to recover a sample from the target distribution. 
@@ -272,12 +273,27 @@ Most notably, in their introductory work on FM for GM,~\citet{lipmanFlowMatching
 Note that the traditional discrete-time noise-scheduler \( {\beta_t}_{t=0}^T \) is now generalized to a continuous map \( \beta : [0,1] \mapsto \mathbb R^+ \).
 Crucially,~\citet{lipmanFlowMatchingGenerative2023} prove that by exclusively optimizing the vector field for individual data points \( z_0 \in \mathcal D \) individually, one also retrieves the optimal flow to morph the entire support of the initial distribution \( p_0 \) into \( p_1 \ \text{s.t.} \mathcal D \sim p_1 \).
 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/ch4/ch4-normalizing-flows.png}
+    \caption{Probability distributions can be modified applying vector fields resulting in a flow of mass in the support. When acting over time, vector fields can effectively change the distribution's structure.}
+    \label{fig:ch4-normalizing-flows}
+\end{figure}
+
 While the noising schedule of DMs results in a stochastic process that resembles a random walk, FM allows for more general---potentially, deterministic---likelihood and posterior parametrization.
 In the FM literature the likelihood and posterior probabilty densities defined along a HMLV model are typically jointly referred to as a \emph{probability path}, where the distributions for successive adjacent transitions in the HMLV model are related by the (normalized) flow between them (Figure~\ref{fig:ch4-normalizing-flows}).
 The inherent flexibility of FM is one of their key advantages over DMs, as it opens up the possibility of \emph{learning} more efficient paths.
 For instance, one can design probability paths inspired by Optimal Transport (OT)---a subdiscipline studying the problem of finding the most efficient way to morph one probability distribution into another.
 Probability paths obtained through OT paths tend to be \emph{straighter} than diffusion paths (Figure~\ref{fig:ch4-diffusion-paths-versus-fm}), which can lead to faster and more stable training, as well as higher-quality sample generation with fewer steps at inference time.
 By avoiding unnecessary backtracking associated with the inherent stochastic nature of both the noising and denoising process in DMs, test-time compute is typically significantly reduced, while retaining comparable results~\citep{lipmanFlowMatchingGenerative2023}.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{figures/ch4/ch4-diffusion-vs-flowmatching.png}
+    \caption{Compared to diffusion, flow matching distorts distribution along a less randomic pattern, resulting in a clearer interpolation between soruce and target distribution. The visualization shows an example comparison between these two methods on joint distribution of robot observations and actions over \( T=50 \) steps.}
+    \label{fig:ch4-diffusion-paths-versus-fm}
+\end{figure}
+
 
 In practice, FM can be applied to generative modeling by learning a vector field regressor \( v_\theta(z, t) \) to approximate a given target vector field \( u(t, z) \).
 In the particular case of DMs, \( u(t, z) \) is defined as in~\ref{eq:fm-diffusion-vector-field}, while in priciple the target vector field can be learned to induce a particular transportation, or fixed according to OT.
@@ -289,7 +305,7 @@ Then, a FM model can be trained with the simple regression objective defined as
 \end{align}
 where \( z_0 \sim p_0(\bullet) \) and \( z_1 \sim p_1(\bullet) \). Note how in~\ref{eq:flow-matching-objective}---differently from~\ref{eq:diffusion-simplified-loss}---time is assumed to be varying continuously \( t \sim \mathcal U([0,1]) \) rather than discretely \( t \sim \mathcal U(\{0,1\}) \), a key property of flow-based models.
 The objective in~\ref{eq:flow-matching-objective} directly regresses the learned vector field onto the simple, straight path connecting a point from the prior and a point from the data, providing a simulation-free training procedure that is both stable and efficient.
-At inference time, samples are generated by starting with \( z_0 \sim p_0 \) and iteratively refined according to \( \frac{dz}{dt} = v_\theta(z_t, t) \) for \(t \in [0,1] \)---an operation that can be numerically carried out with standard ODE solvers (Figure~\ref{fig:ch4-flow-matching-inference}).
+At inference time, samples are generated by starting with \( z_0 \sim p_0 \) and iteratively refined according to \( \frac{dz}{dt} = v_\theta(z_t, t) \) for \(t \in [0,1] \)---an operation that can be numerically carried out with standard ODE solvers.
 
 \subsection{Action Chunking with Transformers}
 While GMs prove useful in learning complex, high-dimensional multi-modal distributions, they do not natively address the compouding errors problem characteristic of online, sequential predictions.
@@ -394,6 +410,7 @@ Across a range of simulated and real-world tasks,~\citet{chiDiffusionPolicyVisuo
 \todo{using diffusion policy example}
 
 \subsection{Optimized Inference by Decoupling Action Prediction and Execution}
+\label{sec:ch4-async-inference}
 Modern visuomotor policies output \emph{action chunks}--sequences \(\pi(o_t) = \actionchunk_t \) with \(\actionchunk_t = \bigl(a_t,a_{t+1},\dots,a_{t+H_a}\bigr) \) being a sequence of \(H_a \gg 1 \) low-level commands enqueued in an action queue, originating from an environment observation, \(o_t\).
 Predicting series of actions instead of single commands proved essential in learning complex, multi-modal behavior~\citep{zhaoLearningFineGrainedBimanual2023,chiDiffusionPolicyVisuomotor2024}.
 
