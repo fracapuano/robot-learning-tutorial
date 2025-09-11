@@ -112,8 +112,34 @@
 \definecolor{olmoYellow}{HTML}{ffbb00}
 \definecolor{olmoOrange}{HTML}{ff9100}
 
-
 \newcommand{\nol}[1]{{\color{purple} [nol]: #1}}
+
+% Code snippets definitions
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mycodestyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mycodestyle}
 
 
 \usepackage{setspace}
@@ -128,6 +154,35 @@
 \belowrulesep=0pt
 
 \newcommand{\orr}[1]{\textcolor{red}{[OZ:#1]}}
+
+\tcbuselibrary{minted}
+\usemintedstyle{colorful}
+
+\setminted[python]{
+  linenos,
+  breaklines,
+  fontsize=\footnotesize,
+  xleftmargin=2em
+}
+\crefname{tcb@cnt@pbox}{code}{code}
+\Crefname{tcb@cnt@pbox}{Code}{Code}
+\crefname{assumption}{assumption}{assumption}
+\Crefname{assumption}{Assumption}{Assumptions}
+
+
+
+\newtcolorbox[auto counter]{pbox}[2][]{
+  colback=white,
+  title=Code~\thetcbcounter: #2,
+  #1,fonttitle=\sffamily,
+  fontupper=\sffamily,
+  arc=10pt,
+  colframe=hf4,
+  coltitle=metafg,
+  colbacktitle=hf4,
+  toptitle=0.25cm,
+  bottomtitle=0.125cm
+}
 
 \input{preamble}
 \input{math_commands}
@@ -170,19 +225,19 @@ Robot Learning: A Tutorial
 \newpage
 \input{sections/01_introduction}
 
-\input{sections/02_classic_robotics}
+% \input{sections/02_classic_robotics}
 
-\newpage
-\input{sections/03_reinforcement_learning.tex}
+% \newpage
+% % \input{sections/03_reinforcement_learning.tex}
 
-\newpage
-\input{sections/04_imitation_learning.tex}
+% \newpage
+% \input{sections/04_imitation_learning.tex}
 
-\newpage
-\input{sections/05_foundation_models.tex}
+% \newpage
+% \input{sections/05_foundation_models.tex}
 
-\newpage
-\input{sections/07_conclusions.tex}
+% \newpage
+% \input{sections/07_conclusions.tex}
 
 \bibliographystyle{hfstyle/plainnat}
 \bibliography{main}

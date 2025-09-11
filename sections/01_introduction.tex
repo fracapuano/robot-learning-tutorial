@@ -7,23 +7,24 @@
     \label{fig:figure1}
 \end{figure}
 
-Autonomous robotics holds the premise of relieving humans from repetitive, tiring or dangerous manual tasks. 
+Autonomous robotics holds the premise of relieving humans from repetitive, tiring or dangerous manual tasks.
 Consequently, the field of robotics has been widely studied since its first inception in the 1950s.
-Lately, advancements in Machine Learning (ML) have sparked the development of a relatively new class of methods used to tackle robotics problems, leveraging large amounts of computation and data rather than human expertise and modeling to develop autonomous systems.
+Lately, advancements in Machine Learning (ML) have sparked the development of a relatively new class of methods used to tackle robotics problems, leveraging large amounts of data and computation rather than human expertise and modeling skills to develop autonomous systems.
 
-Robotics in 2025 sits is increasingly moving away from classical model-based control paradigm, embracing the advancements made in ML, thus unlocking (1) monolithic perception-to-action action pipelines and (2) multi-modal data-driven feature extraction strategies, together with (3) reduced reliance on precise models of the world and (4) a better positioning to benefit from the growing availability of robotics data openly available.
-While central problems in manipulation, locomotion and whole-body control demand knowledge of rigid-body dynamics, contact modeling, planning under uncertainty, recent results seem to indicate learning can prove as effective as explicit modeling, sparking interest in the field of \emph{robot learning}.
+The frontier of robotics research is indeed increasingly moving away from classical model-based control paradigm, embracing the advancements made in ML, aiming to unlock (1) monolithic perception-to-action control pipelines and (2) multi-modal data-driven feature extraction strategies, together with (3) reduced reliance on precise models of the world and (4) a better positioning to benefit from the growing availability of open robotics data.
+While central problems in manipulation, locomotion and whole-body control demand knowledge of rigid-body dynamics, contact modeling, planning under uncertainty, recent results seem to indicate learning can prove just as effective as explicit modeling, sparking interest in the field of \emph{robot learning}.
 This interest can be largely justified considering the significant challenges related to deriving accurate models of robot-environment interactions.
-Also, because end-to-end learning on large and increasing amounts of data produced \emph{foundation models} capable to semantically reason over multiple input modalities (images, text, audio, etc.), deriving methods for robotics based on learning seems particularly promising, given the current trends related to the growth of openly available datasets.
 
-At its core, robotics is also an inherently multi-disciplinary field, to the very least considering the diverse skills required in terms of \emph{software} and \emph{hardware}.
-Integrating learning-based techniques increases the heterogeneity of skills needed to tackle robotics, whether in applications or research.
-\lerobot is an open-source library end-to-end integrated with the entire robotics stack.
-With a strong focus on accessible, real-world robots, \highlight{(1) \lerobot supports many, openly available, robotic platforms} for manipulation, locomotion and even whole-body control. 
-\lerobot's \highlight{(2) unified, low-level approach to reading/writing robot configurations} also allows to extend support for other robots relatively easily. 
-The library also supports \highlight{(3) a native robotics dataset's format}---\texttt{LeRobotDataset}---that is used to efficiently share datasets. 
+Also, because end-to-end learning on large and increasing amounts of text and image data has historically been at the core of the development of \emph{foundation models} capable to semantically reason over multiple input modalities (images, text, audio, etc.), deriving methods for robotics that are based on learning seems particularly consequential, as the number of openly available datasets continues increasing.
+
+Robotics is, at its core, an inherently multidisciplinary field, requiring a wide range of expertise in both \emph{software} and \emph{hardware}.
+The integration of learning-based techniques further broadens this spectrum of skills, raising the bar for both research and practical applications.
+\lerobot~is an open-source library designed to integrate end-to-end with the entire robotics stack.
+With a strong focus on accessible, real-world robots, \highlight{(1) \lerobot supports many, openly available, robotic platforms} for manipulation, locomotion and even whole-body control.
+\lerobot's \highlight{(2) unified, low-level approach to reading/writing robot configurations} also allows to extend support for other robot platforms with relatively low effort. 
+The library also introduces \highlight{(3) a native robotics dataset's format}---\texttt{LeRobotDataset}---currently being used by the community to efficiently record and share datasets. 
 \lerobot also supports many state-of-the-art (SOTA) algorithms in robot learning---Reinforcement Learning (RL) and Behavioral Cloning (BC)---with efficient implementations in Pytorch and extended support to experimentation and experiments tracking.
-Lastly, \lerobot defines a custom, optimized inference stack for robotic policies decoupling action planning from action execution, proving effective in guaranteeing more adaptability at runtime.
+Lastly, \lerobot~defines a custom, optimized inference stack for robotic policies decoupling action planning from action execution, proving effective in guaranteeing more adaptability at runtime.
 
 This tutorial serves the double purpose of providing useful references for the science and practical use of common robot learning techniques.
 To this aim, we strike to provide rigorous yet concise overviews of the core concepts behind the techniques presented, paired with practical examples of how to use these in applications, for practitioners and researchers in the field of robot learning.
@@ -38,9 +39,59 @@ This tutorial is structured as follows:
 
 We complement our presentation of the most common and recent approaches in robot learning with practical code implementations using \lerobot.
 
-% If time permits.
-% \subsection{The \textit{LeRobotDataset} Format for Robotics Datasets}
-% Structure of the dataset object
-% Features stored
+\subsection{The Dataset Format}
 
-% \subsubsection{Code Example: Forwarding Batches of a (Streaming) Dataset}
+\lerobotdataset is a standardized dataset format designed to address the specific needs of robot learning research. 
+In this, it provides a unified and convenient access to robotics data across modalities, including sensorimotor readings, multiple camera feeds and teleoperation status. 
+\lerobotdataset also stores general information regarding the data collected, like the task being performed by the teleoperator, the kind of robot used and measurement details like the frames per second at which the recording of both image and robot state's streams are proceeding. 
+
+Therefore, \lerobotdataset provides a unified interface for handling multi-modal, time-series data, and it integrates seamlessly with the PyTorch and Hugging Face ecosystems. 
+\lerobotdataset is designed to be easily extensible and customizable by users, and it already supports openly available data coming from a variety of embodiments, ranging from manipulator platforms like the SO-100 and ALOHA-2, to real-world humanoid data, simulation datasets and self-driving car datasets.
+This dataset format is built to be both efficient for training and flexible enough to accommodate the diverse data types encountered in robotics, while promoting reproducibility and ease of use for users. 
+
+\subsubsection{Dataset design}
+
+A core design choice behind \lerobotdataset is separating the underlying data storage from the user-facing API.
+This allows for efficient serialization and storage while presenting the data in an intuitive, ready-to-use format.
+A dataset is always organized into three main components:
+\begin{itemize}
+\item \textbf{Tabular Data}: Low-dimensional, high-frequency data such as joint states, and actions are stored in efficient Parquet, memory mapped, files, and typically offloaded to the more mature \texttt{datasets} library, providing fast, memory-mapped access.
+\item \textbf{Visual Data}: To handle large volumes of camera data, frames are concatenated and encoded into MP4 files. Frames from the same episode are always grouped together into the same video, and multiple videos are grouped together by camera. To reduce stress on the file system, groups of videos for the same camera view are also broke into multiple sub-directories, after a given threshold number.
+\item \textbf{Metadata} A collection of JSON files which describes the dataset's structure in terms of its metadata, serving as the relational counterpart to both the tabular and visual dimensions of data. Metadata include the different feature schema, frame rates, normalization statistics, and episode boundaries.
+\end{itemize}
+
+For scalability, and to support datasets with potentially millions of trajectories resulting in hundreds of millions or billions of individual camera frames, we merge data from different episodes into the same high-level structure.
+Concretely, this means that any given tabular collection and video will not typically contain information about one episode only, but rather a concatenation of the information available in multiple episodes.
+This keeps the pressure on the file system, both locally and on remote storage providers like Hugging Face, manageable, at the expense of leveraging more heavily the metadata part of the data, e.g. used to reconstruct information relative to at which position a given episode starts or ends.
+An example struture for a given \lerobotdataset would appear as follows:
+
+\begin{itemize}
+\item \texttt{meta/info.json}: This is the central metadata file. It contains the complete dataset schema, defining all features (e.g., \texttt{observation.state}, \texttt{action}), their shapes, and data types. It also stores crucial information like the dataset's frames-per-second (\texttt{fps}), codebase version, and the path templates used to locate data and video files.
+\item \texttt{meta/stats.json}: This file stores aggregated statistics (mean, std, min, max) for each feature across the entire dataset. These are used for data normalization and are accessible via \texttt{dataset.meta.stats}.
+\item \texttt{meta/tasks.jsonl}: Contains the mapping from natural language task descriptions to integer task indices, which are used for task-conditioned policy training.
+\item \texttt{meta/episodes/*} This directory contains metadata about each individual episode, such as its length, corresponding task, and pointers to where its data is stored. For scalability, this information is stored in chunked Parquet files rather than a single large JSON file.
+\item \texttt{data/*}: Contains the core frame-by-frame tabular data in Parquet files. To improve performance and handle large datasets, data from multiple episodes are concatenated into larger files. These files are organized into chunked subdirectories to keep file sizes manageable. Therefore, a single file typically contains data for more than one episode.
+\item \texttt{videos/*}: Contains the MP4 video files for all visual observation streams. Similar to the \texttt{data/} directory, video footage from multiple episodes is concatenated into single MP4 files. This strategy significantly reduces the number of files in the dataset, which is more efficient for modern filesystems. The path structure allows the data loader to locate the correct video file and then seek to the precise timestamp for a given frame.
+\end{itemize}
+
+\subsection{Code Example: Batching a (Streaming) Dataset}
+
+This section provides an overview of how to access datasets hosted on Hugging Face using the \lerobotdataset class. 
+Every dataset on the Hugging Face Hub containing the three main pillars presented above (Tabular and Visual Data, as well as relational Metadata) can be assessed with a single line.
+Most reinforcement learning (RL) and behavioral cloning (BC) algorithms tend to operate on stack of observation and actions.
+For instance, RL algorithms typically use a history of previous observations \(o_{t-H_o:t} \) to mitigate partial observability.
+BC cloning algorithms are instead typically trained to regress chunks of multiple actions rather than single controls.
+To accommodate for the specifics of robot learning training, \lerobotdataset provides a native windowing operation, whereby we can use the \emph{seconds} before and after any given observation using \texttt{delta\_timestemps}. 
+Non available frames is opportunely padded, with a padding mask released to provide support in this.
+Notably, this all happens within the \lerobotdataset and is entirely transparent to higher level wrappers such as \texttt{torch.utils.data.DataLoader}.
+
+Conveniently, by using \lerobotdataset with a Pytorch \texttt{DataLoader} one can automatically collate the individual sample dictionaries from the dataset into a single dictionary of batched tensors.
+\lerobotdataset also natively supports streaming mode. 
+Users can also stream data from a large dataset hosted on the Hugging Face Hub, with a one-line change in their code.
+Streaming datasets supports high-performance batch processing (ca. 80-100 it/s, varying on connectivity) and high levels of frames randomization: a key feature for behavioral cloning algorithms otherwise operating on highly non-i.i.d. data.
+This feature is designed to improve on accessibility so that large datasets can be processed by users without requiring large amounts of disk or memory/compute.
+
+
+\begin{pbox}[label={ex:dataset-batching}]{Batching a (Streaming) Dataset \\ \url{flow_matching/examples/standalone_discrete_flow_matching.ipynb}}
+\inputminted{python}{snippets/01_1_datasets.py}
+\end{pbox}

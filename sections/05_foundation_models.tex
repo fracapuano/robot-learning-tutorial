@@ -108,7 +108,7 @@ Smaller and faster VLMs have thus become quintessential for developing responsiv
 \subsection{\( \pi_0 \)}
 
 \pizero~\citep{black$p_0$VisionLanguageActionFlow2024} introduce a VLA consisting of a MoE architecture consisting of (1) a pre-trained VLM backbone (Gemma 2.6B~\citep{teamGemma2Improving2024}) and (2) a dedicated action expert used to generate continuous actions via flow matching.
-Images and language are embedded with a late-fusion VLM (PaliGemma), while proprioceptive state and actions chunks are routed to a smaller action expert expert, initialized from scratch.
+Images and language are embedded with a late-fusion VLM (PaliGemma), while proprioceptive state and actions chunks are routed to a smaller action expert, initialized from scratch.
 The two separate experts communicate via self-attention layers, but maintain disjoint weights to obtain query, key and values matrices at each layer, maintaining specialization while efficiently allocating computation.
 
 \begin{figure}
