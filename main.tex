@@ -24,7 +24,7 @@
 \usepackage{tabularray}
 \usepackage{wrapfig}
 \usepackage{caption}
-% \usepackage{subcaption}  % Commented out - add back when using subfigures
+\usepackage{subcaption}
 \usepackage{makecell}
 \usepackage{adjustbox}
 
@@ -158,6 +158,8 @@
 \tcbuselibrary{minted}
 \usemintedstyle{colorful}
 
+\renewcommand{\theFancyVerbLine}{\color{olmoBlue}\footnotesize\arabic{FancyVerbLine}}
+
 \setminted[python]{
   linenos,
   breaklines,
@@ -173,12 +175,12 @@
 
 \newtcolorbox[auto counter]{pbox}[2][]{
   colback=white,
-  title=Code~\thetcbcounter: #2,
+  title=\textbf{Code~\thetcbcounter: #2},
   #1,fonttitle=\sffamily,
   fontupper=\sffamily,
   arc=10pt,
   colframe=hf4,
-  coltitle=metafg,
+  coltitle=hf3,
   colbacktitle=hf4,
   toptitle=0.25cm,
   bottomtitle=0.125cm

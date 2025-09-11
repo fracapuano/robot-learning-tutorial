@@ -1,3 +1,4 @@
+import torch
 from lerobot.datasets.lerobot_dataset import LeRobotDataset
 from lerobot.datasets.streaming_dataset import StreamingLeRobotDataset
 
@@ -13,7 +14,7 @@ dataset = LeRobotDataset(
 
 # Streams frames from the Hugging Face Hub without loading into memory
 streaming_dataset = StreamingLeRobotDataset(
-    "lerobot/svla_so101_pickplace"
+    "lerobot/svla_so101_pickplace",
     delta_timestamps=delta_timestamps
 )
 
@@ -41,9 +42,9 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 for epoch in range(num_epochs):
     for batch in data_loader:
         # Move data to the appropriate device (e.g., GPU)
-        observations = batch['observation.state'].to(device)
-        actions = batch['action'].to(device)
-        images = batch['observation.images.wrist_camera'].to(device)
+        observations = batch["observation.state"].to(device)
+        actions = batch["action"].to(device)
+        images = batch["observation.images.wrist_camera"].to(device)
 
         # Next, you can do amazing_model.forward(batch)
         ...
