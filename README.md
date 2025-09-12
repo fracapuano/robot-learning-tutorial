@@ -9,6 +9,8 @@ This tutorial solves this: a unified entry point to the field of robot learning,
 ## 1. Introduction
 - [x] 1.1 Motivation
 - [x] 1.2 Structure of the Report
+- [x] 1.1 Motivation
+- [x] 1.2 Structure of the Report
 
 ## 2. Classical Robotics
 - [x] 2.1 Different kinds of motion

@@ -1,22 +1,136 @@
-\begin{thebibliography}{8}
+\begin{thebibliography}{53}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
 
-\bibitem[Lipman et~al.(2024)Lipman, Havasi, Holderrieth, Shaul, Le, Karrer, Chen, {Lopez-Paz}, {Ben-Hamu}, and Gat]{lipmanFlowMatchingGuide2024}
-Yaron Lipman, Marton Havasi, Peter Holderrieth, Neta Shaul, Matt Le, Brian Karrer, Ricky T.~Q. Chen, David {Lopez-Paz}, Heli {Ben-Hamu}, and Itai Gat.
-\newblock Flow {{Matching Guide}} and {{Code}}, December 2024.
+\bibitem[DRO()]{DROIDLargeScaleIntheWild}
+{{DROID}}: {{A Large-Scale In-the-Wild Robot Manipulation Dataset}}.
+\newblock https://droid-dataset.github.io/.
 
-\bibitem[Nakkiran et~al.(2024)Nakkiran, Bradley, Zhou, and Advani]{nakkiranStepbyStepDiffusionElementary2024}
-Preetum Nakkiran, Arwen Bradley, Hattie Zhou, and Madhu Advani.
-\newblock Step-by-{{Step Diffusion}}: {{An Elementary Tutorial}}, June 2024.
+\bibitem[Ope()]{OpenXEmbodimentRobotic}
+Open {{X-Embodiment}}: {{Robotic Learning Datasets}} and {{RT-X Models}}.
+\newblock https://robotics-transformer-x.github.io/.
 
-\bibitem[Prince(2023)]{prince2023understanding}
-Simon~J.D. Prince.
-\newblock \emph{Understanding Deep Learning}.
-\newblock The MIT Press, 2023.
+\bibitem[Achiam(2018)]{SpinningUp2018}
+Joshua Achiam.
+\newblock Spinning up in deep reinforcement learning.
+\newblock 2018.
+
+\bibitem[{AgiBot-World-Contributors} et~al.(2025){AgiBot-World-Contributors}, Bu, Cai, Chen, Cui, Ding, Feng, Gao, He, Hu, Huang, Jiang, Jiang, Jing, Li, Li, Liu, Liu, Lu, Luo, Luo, Mu, Niu, Pan, Pang, Qiao, Ren, Ruan, Shan, Shen, Shi, Shi, Shi, Sima, Song, Wang, Wang, Wei, Xie, Xu, Yan, Yang, Yang, Yang, Yao, Zeng, Zhang, Zhang, Zhao, Zhao, Zhao, and Zhu]{agibot-world-contributorsAgiBotWorldColosseo2025}
+{AgiBot-World-Contributors}, Qingwen Bu, Jisong Cai, Li~Chen, Xiuqi Cui, Yan Ding, Siyuan Feng, Shenyuan Gao, Xindong He, Xuan Hu, Xu~Huang, Shu Jiang, Yuxin Jiang, Cheng Jing, Hongyang Li, Jialu Li, Chiming Liu, Yi~Liu, Yuxiang Lu, Jianlan Luo, Ping Luo, Yao Mu, Yuehan Niu, Yixuan Pan, Jiangmiao Pang, Yu~Qiao, Guanghui Ren, Cheng Ruan, Jiaqi Shan, Yongjian Shen, Chengshi Shi, Mingkang Shi, Modi Shi, Chonghao Sima, Jianheng Song, Huijie Wang, Wenhao Wang, Dafeng Wei, Chengen Xie, Guo Xu, Junchi Yan, Cunbiao Yang, Lei Yang, Shukai Yang, Maoqing Yao, Jia Zeng, Chi Zhang, Qinglin Zhang, Bin Zhao, Chengyue Zhao, Jiaqi Zhao, and Jianchao Zhu.
+\newblock {{AgiBot World Colosseo}}: {{A Large-scale Manipulation Platform}} for {{Scalable}} and {{Intelligent Embodied Systems}}, August 2025.
+
+\bibitem[Agrawal()]{agrawalComputationalSensorimotorLearning}
+Pulkit Agrawal.
+\newblock Computational {{Sensorimotor Learning}}.
+
+\bibitem[Akkaya et~al.(2019)Akkaya, Andrychowicz, Chociej, Litwin, McGrew, Petron, Paino, Plappert, Powell, Ribas, Schneider, Tezak, Tworek, Welinder, Weng, Yuan, Zaremba, and Zhang]{akkayaSolvingRubiksCube2019}
+Ilge Akkaya, Marcin Andrychowicz, Maciek Chociej, Mateusz Litwin, Bob McGrew, Arthur Petron, Alex Paino, Matthias Plappert, Glenn Powell, Raphael Ribas, Jonas Schneider, Nikolas Tezak, Jerry Tworek, Peter Welinder, Lilian Weng, Qiming Yuan, Wojciech Zaremba, and Lei Zhang.
+\newblock Solving {{Rubik}}'s {{Cube}} with a {{Robot Hand}}, October 2019.
+
+\bibitem[Alayrac et~al.(2022)Alayrac, Donahue, Luc, Miech, Barr, Hasson, Lenc, Mensch, Millican, Reynolds, Ring, Rutherford, Cabi, Han, Gong, Samangooei, Monteiro, Menick, Borgeaud, Brock, Nematzadeh, Sharifzadeh, Binkowski, Barreira, Vinyals, Zisserman, and Simonyan]{alayracFlamingoVisualLanguage2022}
+Jean-Baptiste Alayrac, Jeff Donahue, Pauline Luc, Antoine Miech, Iain Barr, Yana Hasson, Karel Lenc, Arthur Mensch, Katie Millican, Malcolm Reynolds, Roman Ring, Eliza Rutherford, Serkan Cabi, Tengda Han, Zhitao Gong, Sina Samangooei, Marianne Monteiro, Jacob Menick, Sebastian Borgeaud, Andrew Brock, Aida Nematzadeh, Sahand Sharifzadeh, Mikolaj Binkowski, Ricardo Barreira, Oriol Vinyals, Andrew Zisserman, and Karen Simonyan.
+\newblock Flamingo: A {{Visual Language Model}} for {{Few-Shot Learning}}, November 2022.
+
+\bibitem[Aldaco et~al.()Aldaco, Armstrong, Baruch, Bingham, Chan, Dwibedi, Finn, Florence, Goodrich, Gramlich, Herzog, Hoech, Nguyen, Storz, Tabanpour, Tompson, Wahid, Wahrburg, Xu, Yaroshenko, and Zhao]{aldacoALOHA2Enhanced}
+Jorge Aldaco, Travis Armstrong, Robert Baruch, Jeff Bingham, Sanky Chan, Debidatta Dwibedi, Chelsea Finn, Pete Florence, Spencer Goodrich, Wayne Gramlich, Alexander Herzog, Jonathan Hoech, Thinh Nguyen, Ian Storz, Baruch Tabanpour, Jonathan Tompson, Ayzaan Wahid, Ted Wahrburg, Sichun Xu, Sergey Yaroshenko, and Tony~Z Zhao.
+\newblock {{ALOHA}} 2: {{An Enhanced Low-Cost Hardware}} for {{Bimanual Teleoperation}}.
+
+\bibitem[Alizadeh and Zhu(2024)]{alizadehComprehensiveSurveySpace2024}
+Mohammad Alizadeh and Zheng~H. Zhu.
+\newblock A comprehensive survey of space robotic manipulators for on-orbit servicing.
+\newblock \emph{Frontiers in Robotics and AI}, 11, October 2024.
+\newblock ISSN 2296-9144.
+\newblock \doi{10.3389/frobt.2024.1470950}.
+
+\bibitem[Antonova et~al.(2017)Antonova, Cruciani, Smith, and Kragic]{antonovaReinforcementLearningPivoting2017}
+Rika Antonova, Silvia Cruciani, Christian Smith, and Danica Kragic.
+\newblock Reinforcement {{Learning}} for {{Pivoting Task}}, March 2017.
+
+\bibitem[Ball et~al.(2023)Ball, Smith, Kostrikov, and Levine]{ballEfficientOnlineReinforcement2023}
+Philip~J. Ball, Laura Smith, Ilya Kostrikov, and Sergey Levine.
+\newblock Efficient {{Online Reinforcement Learning}} with {{Offline Data}}, May 2023.
+
+\bibitem[Bekris et~al.(2024)Bekris, Doerr, Meng, and Tangirala]{bekrisStateRobotMotion2024}
+Kostas~E. Bekris, Joe Doerr, Patrick Meng, and Sumanth Tangirala.
+\newblock The {{State}} of {{Robot Motion Generation}}, October 2024.
+
+\bibitem[Bellemare et~al.(2020)Bellemare, Candido, Castro, Gong, Machado, Moitra, Ponda, and Wang]{bellemareAutonomousNavigationStratospheric2020}
+Marc~G. Bellemare, Salvatore Candido, Pablo~Samuel Castro, Jun Gong, Marlos~C. Machado, Subhodeep Moitra, Sameera~S. Ponda, and Ziyu Wang.
+\newblock Autonomous navigation of stratospheric balloons using reinforcement learning.
+\newblock \emph{Nature}, 588\penalty0 (7836):\penalty0 77--82, December 2020.
+\newblock ISSN 1476-4687.
+\newblock \doi{10.1038/s41586-020-2939-8}.
+
+\bibitem[Bellman(1957)]{bellmanMarkovianDecisionProcess1957}
+Richard Bellman.
+\newblock A {{Markovian Decision Process}}.
+\newblock \emph{Journal of Mathematics and Mechanics}, 6\penalty0 (5):\penalty0 679--684, 1957.
+\newblock ISSN 0095-9057.
+
+\bibitem[Black et~al.(2024)Black, Brown, Driess, Esmail, Equi, Finn, Fusai, Groom, Hausman, Ichter, Jakubczak, Jones, Ke, Levine, {Li-Bell}, Mothukuri, Nair, Pertsch, Shi, Tanner, Vuong, Walling, Wang, and Zhilinsky]{black$p_0$VisionLanguageActionFlow2024}
+Kevin Black, Noah Brown, Danny Driess, Adnan Esmail, Michael Equi, Chelsea Finn, Niccolo Fusai, Lachy Groom, Karol Hausman, Brian Ichter, Szymon Jakubczak, Tim Jones, Liyiming Ke, Sergey Levine, Adrian {Li-Bell}, Mohith Mothukuri, Suraj Nair, Karl Pertsch, Lucy~Xiaoyang Shi, James Tanner, Quan Vuong, Anna Walling, Haohuan Wang, and Ury Zhilinsky.
+\newblock \${$\pi\_$}0\$: {{A Vision-Language-Action Flow Model}} for {{General Robot Control}}, October 2024.
+
+\bibitem[Brown et~al.(2020)Brown, Mann, Ryder, Subbiah, Kaplan, Dhariwal, Neelakantan, Shyam, Sastry, Askell, Agarwal, {Herbert-Voss}, Krueger, Henighan, Child, Ramesh, Ziegler, Wu, Winter, Hesse, Chen, Sigler, Litwin, Gray, Chess, Clark, Berner, McCandlish, Radford, Sutskever, and Amodei]{brownLanguageModelsAre2020}
+Tom~B. Brown, Benjamin Mann, Nick Ryder, Melanie Subbiah, Jared Kaplan, Prafulla Dhariwal, Arvind Neelakantan, Pranav Shyam, Girish Sastry, Amanda Askell, Sandhini Agarwal, Ariel {Herbert-Voss}, Gretchen Krueger, Tom Henighan, Rewon Child, Aditya Ramesh, Daniel~M. Ziegler, Jeffrey Wu, Clemens Winter, Christopher Hesse, Mark Chen, Eric Sigler, Mateusz Litwin, Scott Gray, Benjamin Chess, Jack Clark, Christopher Berner, Sam McCandlish, Alec Radford, Ilya Sutskever, and Dario Amodei.
+\newblock Language {{Models}} are {{Few-Shot Learners}}, July 2020.
+
+\bibitem[Chebotar et~al.(2019)Chebotar, Handa, Makoviychuk, Macklin, Issac, Ratliff, and Fox]{chebotar2019closing}
+Yevgen Chebotar, Ankur Handa, Viktor Makoviychuk, Miles Macklin, Jan Issac, Nathan Ratliff, and Dieter Fox.
+\newblock Closing the sim-to-real loop: {{Adapting}} simulation randomization with real world experience.
+\newblock In \emph{2019 International Conference on Robotics and Automation ({{ICRA}})}, pages 8973--8979. IEEE, 2019.
+
+\bibitem[Chi et~al.(2024)Chi, Xu, Feng, Cousineau, Du, Burchfiel, Tedrake, and Song]{chiDiffusionPolicyVisuomotor2024}
+Cheng Chi, Zhenjia Xu, Siyuan Feng, Eric Cousineau, Yilun Du, Benjamin Burchfiel, Russ Tedrake, and Shuran Song.
+\newblock Diffusion {{Policy}}: {{Visuomotor Policy Learning}} via {{Action Diffusion}}, March 2024.
+
+\bibitem[Connell and Mahadevan(1993)]{connellRobotLearning1993}
+Jonathan~H. Connell and Sridhar Mahadevan, editors.
+\newblock \emph{Robot {{Learning}}}.
+\newblock Springer US, Boston, MA, 1993.
+\newblock ISBN 978-1-4613-6396-5 978-1-4615-3184-5.
+\newblock \doi{10.1007/978-1-4615-3184-5}.
+
+\bibitem[Degrave et~al.(2022)Degrave, Felici, Buchli, Neunert, Tracey, Carpanese, Ewalds, Hafner, Abdolmaleki, {de las Casas}, Donner, Fritz, Galperti, Huber, Keeling, Tsimpoukelli, Kay, Merle, Moret, Noury, Pesamosca, Pfau, Sauter, Sommariva, Coda, Duval, Fasoli, Kohli, Kavukcuoglu, Hassabis, and Riedmiller]{degraveMagneticControlTokamak2022}
+Jonas Degrave, Federico Felici, Jonas Buchli, Michael Neunert, Brendan Tracey, Francesco Carpanese, Timo Ewalds, Roland Hafner, Abbas Abdolmaleki, Diego {de las Casas}, Craig Donner, Leslie Fritz, Cristian Galperti, Andrea Huber, James Keeling, Maria Tsimpoukelli, Jackie Kay, Antoine Merle, Jean-Marc Moret, Seb Noury, Federico Pesamosca, David Pfau, Olivier Sauter, Cristian Sommariva, Stefano Coda, Basil Duval, Ambrogio Fasoli, Pushmeet Kohli, Koray Kavukcuoglu, Demis Hassabis, and Martin Riedmiller.
+\newblock Magnetic control of tokamak plasmas through deep reinforcement learning.
+\newblock \emph{Nature}, 602\penalty0 (7897):\penalty0 414--419, February 2022.
+\newblock ISSN 1476-4687.
+\newblock \doi{10.1038/s41586-021-04301-9}.
+
+\bibitem[Fujita et~al.(2020)Fujita, Soda, Murata, and Tsuhari]{fujitaDevelopmentRobotsNuclear2020}
+Jun Fujita, Daisuke Soda, Chotaro Murata, and Hiroyuki Tsuhari.
+\newblock Development of {{Robots}} for {{Nuclear Power Plants}} and {{Their Application}} to {{New Fields}}.
+\newblock 57\penalty0 (4), 2020.
+
+\bibitem[Griffin et~al.(2017)Griffin, Wiedebach, Bertrand, Leonessa, and Pratt]{griffinWalkingStabilizationUsing2017}
+Robert~J. Griffin, Georg Wiedebach, Sylvain Bertrand, Alexander Leonessa, and Jerry Pratt.
+\newblock Walking {{Stabilization Using Step Timing}} and {{Location Adjustment}} on the {{Humanoid Robot}}, {{Atlas}}.
+\newblock In \emph{2017 {{IEEE}}/{{RSJ International Conference}} on {{Intelligent Robots}} and {{Systems}} ({{IROS}})}, pages 667--673, September 2017.
+\newblock \doi{10.1109/IROS.2017.8202223}.
+
+\bibitem[Haarnoja et~al.(2017)Haarnoja, Tang, Abbeel, and Levine]{haarnojaReinforcementLearningDeep2017}
+Tuomas Haarnoja, Haoran Tang, Pieter Abbeel, and Sergey Levine.
+\newblock Reinforcement {{Learning}} with {{Deep Energy-Based Policies}}, July 2017.
+
+\bibitem[Haarnoja et~al.(2018)Haarnoja, Zhou, Abbeel, and Levine]{haarnojaSoftActorCriticOffPolicy2018}
+Tuomas Haarnoja, Aurick Zhou, Pieter Abbeel, and Sergey Levine.
+\newblock Soft {{Actor-Critic}}: {{Off-Policy Maximum Entropy Deep Reinforcement Learning}} with a {{Stochastic Actor}}, August 2018.
+
+\bibitem[Hansen et~al.(2022)Hansen, Wang, and Su]{hansenTemporalDifferenceLearning2022}
+Nicklas Hansen, Xiaolong Wang, and Hao Su.
+\newblock Temporal {{Difference Learning}} for {{Model Predictive Control}}, July 2022.
+
+\bibitem[Ji et~al.(2023)Ji, Margolis, and Agrawal]{jiDribbleBotDynamicLegged2023}
+Yandong Ji, Gabriel~B. Margolis, and Pulkit Agrawal.
+\newblock {{DribbleBot}}: {{Dynamic Legged Manipulation}} in the {{Wild}}, April 2023.
+
+\bibitem[Knight et~al.()Knight, Kooijmans, Wolf, Alibert, Aractingi, Aubakirova, Zouitine, Martino, Palma, Pascal, and Cadene]{knightStandardOpenSO100}
+Rob Knight, Pepijn Kooijmans, Thomas Wolf, Simon Alibert, Michel Aractingi, Dana Aubakirova, Adil Zouitine, Russi Martino, Steven Palma, Caroline Pascal, and Remi Cadene.
+\newblock Standard {{Open SO-100}} \& {{SO-101 Arms}}.
 
 \bibitem[{Shalev-Shwartz} and {Ben-David}(2014)]{shalev-shwartzUnderstandingMachineLearning2014}
 Shai {Shalev-Shwartz} and Shai {Ben-David}.
@@ -25,6 +139,57 @@ Shai {Shalev-Shwartz} and Shai {Ben-David}.
 \newblock ISBN 978-1-107-05713-5 978-1-107-29801-9.
 \newblock \doi{10.1017/CBO9781107298019}.
 
+\bibitem[Lee et~al.(2024)Lee, Wang, Etukuru, Kim, Shafiullah, and Pinto]{leeBehaviorGenerationLatent2024}
+Seungjae Lee, Yibin Wang, Haritheja Etukuru, H.~Jin Kim, Nur Muhammad~Mahi Shafiullah, and Lerrel Pinto.
+\newblock Behavior {{Generation}} with {{Latent Actions}}, June 2024.
+
+\bibitem[Lillicrap et~al.(2019)Lillicrap, Hunt, Pritzel, Heess, Erez, Tassa, Silver, and Wierstra]{lillicrapContinuousControlDeep2019}
+Timothy~P. Lillicrap, Jonathan~J. Hunt, Alexander Pritzel, Nicolas Heess, Tom Erez, Yuval Tassa, David Silver, and Daan Wierstra.
+\newblock Continuous control with deep reinforcement learning, July 2019.
+
+\bibitem[Luo et~al.(2024)Luo, Xu, Wu, and Levine]{luoPreciseDexterousRobotic2024}
+Jianlan Luo, Charles Xu, Jeffrey Wu, and Sergey Levine.
+\newblock Precise and {{Dexterous Robotic Manipulation}} via {{Human-in-the-Loop Reinforcement Learning}}, October 2024.
+
+\bibitem[Luo et~al.(2025)Luo, Hu, Xu, Tan, Berg, Sharma, Schaal, Finn, Gupta, and Levine]{luoSERLSoftwareSuite2025}
+Jianlan Luo, Zheyuan Hu, Charles Xu, You~Liang Tan, Jacob Berg, Archit Sharma, Stefan Schaal, Chelsea Finn, Abhishek Gupta, and Sergey Levine.
+\newblock {{SERL}}: {{A Software Suite}} for {{Sample-Efficient Robotic Reinforcement Learning}}, March 2025.
+
+\bibitem[Lynch and Park(2017)]{lynchModernRoboticsMechanics2017}
+Kevin~M. Lynch and Frank~C. Park.
+\newblock \emph{Modern {{Robotics}}: {{Mechanics}}, {{Planning}}, and {{Control}}}.
+\newblock Cambridge University Press, 1 edition, May 2017.
+\newblock ISBN 978-1-316-66123-9 978-1-107-15630-2 978-1-316-60984-2.
+\newblock \doi{10.1017/9781316661239}.
+
+\bibitem[Margolis et~al.(2022)Margolis, Yang, Paigwar, Chen, and Agrawal]{margolisRapidLocomotionReinforcement2022}
+Gabriel~B. Margolis, Ge~Yang, Kartik Paigwar, Tao Chen, and Pulkit Agrawal.
+\newblock Rapid {{Locomotion}} via {{Reinforcement Learning}}, May 2022.
+
+\bibitem[McCormac et~al.(2016)McCormac, Handa, Davison, and Leutenegger]{mccormacSemanticFusionDense3D2016}
+John McCormac, Ankur Handa, Andrew Davison, and Stefan Leutenegger.
+\newblock {{SemanticFusion}}: {{Dense 3D Semantic Mapping}} with {{Convolutional Neural Networks}}, September 2016.
+
+\bibitem[Mnih et~al.(2013)Mnih, Kavukcuoglu, Silver, Graves, Antonoglou, Wierstra, and Riedmiller]{mnihPlayingAtariDeep2013}
+Volodymyr Mnih, Koray Kavukcuoglu, David Silver, Alex Graves, Ioannis Antonoglou, Daan Wierstra, and Martin Riedmiller.
+\newblock Playing {{Atari}} with {{Deep Reinforcement Learning}}, December 2013.
+
+\bibitem[Sanneman et~al.(2020)Sanneman, Fourie, and Shah]{sannemanStateIndustrialRobotics2020}
+Lindsay Sanneman, Christopher Fourie, and Julie~A. Shah.
+\newblock The {{State}} of {{Industrial Robotics}}: {{Emerging Technologies}}, {{Challenges}}, and {{Key Research Directions}}, October 2020.
+
+\bibitem[Schulman et~al.(2017{\natexlab{a}})Schulman, Levine, Moritz, Jordan, and Abbeel]{schulmanTrustRegionPolicy2017}
+John Schulman, Sergey Levine, Philipp Moritz, Michael~I. Jordan, and Pieter Abbeel.
+\newblock Trust {{Region Policy Optimization}}, April 2017{\natexlab{a}}.
+
+\bibitem[Schulman et~al.(2017{\natexlab{b}})Schulman, Wolski, Dhariwal, Radford, and Klimov]{schulmanProximalPolicyOptimization2017}
+John Schulman, Filip Wolski, Prafulla Dhariwal, Alec Radford, and Oleg Klimov.
+\newblock Proximal {{Policy Optimization Algorithms}}, August 2017{\natexlab{b}}.
+
+\bibitem[Shukor et~al.(2025)Shukor, Aubakirova, Capuano, Kooijmans, Palma, Zouitine, Aractingi, Pascal, Russi, Marafioti, Alibert, Cord, Wolf, and Cadene]{shukorSmolVLAVisionLanguageActionModel2025}
+Mustafa Shukor, Dana Aubakirova, Francesco Capuano, Pepijn Kooijmans, Steven Palma, Adil Zouitine, Michel Aractingi, Caroline Pascal, Martino Russi, Andres Marafioti, Simon Alibert, Matthieu Cord, Thomas Wolf, and Remi Cadene.
+\newblock {{SmolVLA}}: {{A Vision-Language-Action Model}} for {{Affordable}} and {{Efficient Robotics}}, June 2025.
+
 \bibitem[Siciliano and Khatib(2016)]{sicilianoSpringerHandbookRobotics2016}
 Bruno Siciliano and Oussama Khatib, editors.
 \newblock \emph{Springer {{Handbook}} of {{Robotics}}}.
@@ -32,11 +197,27 @@ Bruno Siciliano and Oussama Khatib, editors.
 \newblock ISBN 978-3-319-32550-7 978-3-319-32552-1.
 \newblock \doi{10.1007/978-3-319-32552-1}.
 
+\bibitem[Silver et~al.(2014)Silver, Lever, Heess, Degris, Wierstra, and Riedmiller]{silverDeterministicPolicyGradient2014}
+David Silver, Guy Lever, Nicolas Heess, Thomas Degris, Daan Wierstra, and Martin Riedmiller.
+\newblock Deterministic {{Policy Gradient Algorithms}}.
+\newblock In \emph{Proceedings of the 31st {{International Conference}} on {{Machine Learning}}}, pages 387--395. PMLR, January 2014.
+
 \bibitem[Sutton and Barto(2018)]{suttonReinforcementLearningIntroduction2018}
 Richard~S. Sutton and Andrew~G. Barto.
 \newblock \emph{Reinforcement Learning: An Introduction}.
 \newblock Adaptive Computation and Machine Learning Series. The MIT Press, Cambridge, Massachusetts, second edition edition, 2018.
 \newblock ISBN 978-0-262-03924-6.
+
+\bibitem[Tang et~al.(2024)Tang, Abbatematteo, Hu, Chandra, {Mart{\'i}n-Mart{\'i}n}, and Stone]{tangDeepReinforcementLearning2024}
+Chen Tang, Ben Abbatematteo, Jiaheng Hu, Rohan Chandra, Roberto {Mart{\'i}n-Mart{\'i}n}, and Peter Stone.
+\newblock Deep {{Reinforcement Learning}} for {{Robotics}}: {{A Survey}} of {{Real-World Successes}}, September 2024.
+
+\bibitem[Tang et~al.(2023)Tang, Zhao, Wang, Zhang, Sun, Zheng, Du, Qian, and Kurths]{tangPerceptionNavigationAutonomous2023}
+Yang Tang, Chaoqiang Zhao, Jianrui Wang, Chongzhen Zhang, Qiyu Sun, Weixing Zheng, Wenli Du, Feng Qian, and Juergen Kurths.
+\newblock Perception and {{Navigation}} in {{Autonomous Systems}} in the {{Era}} of {{Learning}}: {{A Survey}}.
+\newblock \emph{IEEE Transactions on Neural Networks and Learning Systems}, 34\penalty0 (12):\penalty0 9604--9624, December 2023.
+\newblock ISSN 2162-237X, 2162-2388.
+\newblock \doi{10.1109/TNNLS.2022.3167688}.
 
 \bibitem[Tedrake({\natexlab{a}})]{tedrakeRoboticManipulationPerception}
 Russ Tedrake.
@@ -45,5 +226,25 @@ Russ Tedrake.
 \bibitem[Tedrake({\natexlab{b}})]{tedrakeUnderactuatedRoboticsAlgorithms}
 Russ Tedrake.
 \newblock Underactuated {{Robotics}}. {{Algorithms}} for {{Walking}}, {{Running}}, {{Swimming}}, {{Flying}}, and {{Manipulation}}, {\natexlab{b}}.
+
+\bibitem[Tiboni et~al.(2023)Tiboni, Arndt, and Kyrki]{tiboniDROPOSimtoRealTransfer2023}
+Gabriele Tiboni, Karol Arndt, and Ville Kyrki.
+\newblock {{DROPO}}: {{Sim-to-Real Transfer}} with {{Offline Domain Randomization}}, January 2023.
+
+\bibitem[Tiboni et~al.(2024)Tiboni, Klink, Peters, Tommasi, D'Eramo, and Chalvatzaki]{tiboniDomainRandomizationEntropy2024}
+Gabriele Tiboni, Pascal Klink, Jan Peters, Tatiana Tommasi, Carlo D'Eramo, and Georgia Chalvatzaki.
+\newblock Domain {{Randomization}} via {{Entropy Maximization}}, March 2024.
+
+\bibitem[Tobin et~al.(2017)Tobin, Fong, Ray, Schneider, Zaremba, and Abbeel]{tobinDomainRandomizationTransferring2017}
+Josh Tobin, Rachel Fong, Alex Ray, Jonas Schneider, Wojciech Zaremba, and Pieter Abbeel.
+\newblock Domain {{Randomization}} for {{Transferring Deep Neural Networks}} from {{Simulation}} to the {{Real World}}, March 2017.
+
+\bibitem[Zhang et~al.(2024)Zhang, Xiao, He, and Shi]{zhangWoCoCoLearningWholeBody2024}
+Chong Zhang, Wenli Xiao, Tairan He, and Guanya Shi.
+\newblock {{WoCoCo}}: {{Learning Whole-Body Humanoid Control}} with {{Sequential Contacts}}, November 2024.
+
+\bibitem[Zhao et~al.(2023)Zhao, Kumar, Levine, and Finn]{zhaoLearningFineGrainedBimanual2023}
+Tony~Z. Zhao, Vikash Kumar, Sergey Levine, and Chelsea Finn.
+\newblock Learning {{Fine-Grained Bimanual Manipulation}} with {{Low-Cost Hardware}}, April 2023.
 
 \end{thebibliography}

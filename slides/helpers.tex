@@ -1,0 +1,27 @@
+% Elements
+\newcommand{\lerobotdataset}{\texttt{LeRobotDataset}}
+\newcommand{\lerobot}{\texttt{lerobot}}
+
+% Robotics
+\newcommand{\FK}{\text{FK}}
+\newcommand{\targetvel}{\dot {p}^*}
+\newcommand{\targetpos}{p^*}
+
+% RL
+\newcommand{\statespace}{\mathcal S}
+\newcommand{\actionspace}{\mathcal A}
+\newcommand{\dynamics}{\mathcal D}
+\newcommand{\stateplusone}{s_{t+1}}
+\newcommand{\state}{s_t}
+\newcommand{\myaction}{a_t}
+\newcommand{\transition}{(\state, \myaction, \stateplusone)}
+\newcommand{\sars}{(\state, \myaction, r_t, \stateplusone)}
+\newcommand{\transitiongiven}{(\stateplusone \vert \state, \myaction)}
+\newcommand{\transitionprob}{\mathbb P \transitiongiven}
+\newcommand{\trajectory}{(s_0, a_0, r_0, s_1, a_1, r_1, \dots, s_{T-1}, a_{T-1}, r_{T-1}, s_T)}
+\newcommand{\Jpi}{J (\pi_\theta)}
+\newcommand{\qfunction}{\(Q\)-function}
+\newcommand{\qopt}{\( Q^* \)}
+
+% Behavioral Cloning
+\newcommand{\obsspace}{\mathcal O}

@@ -1,0 +1,76 @@
+
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{animate}
+\usepackage{media9}
+\usepackage{adjustbox}
+
+\usepackage{multirow}       % For multi-row cells in tables
+\usepackage{booktabs}       % (Optional) For better table aesthetics
+\usepackage{natbib}
+\usepackage{pifont}
+\usepackage{xcolor}         % needed if you define custom colors
+\usepackage[normalem]{ulem}
+\usepackage{subcaption}
+
+
+\usetheme{Madrid}
+\definecolor{myprimary}{HTML}{FF9D00}
+\definecolor{mysecondary}{HTML}{FF8360}
+
+
+\setbeamercolor{structure}{fg=myprimary}
+\setbeamercolor{title}{fg=white,bg=myprimary}
+\setbeamercolor{subtitle}{fg=myprimary}
+\setbeamercolor{frametitle}{fg=white,bg=myprimary!85}
+\setbeamercolor{block title}{fg=white,bg=myprimary!75}
+\setbeamercolor{block body}{bg=myprimary!10, fg=black}
+\setbeamercolor{itemize item}{fg=myprimary}
+\setbeamercolor{itemize subitem}{fg=myprimary}
+\setbeamercolor{alerted text}{fg=red!80!black}
+
+\setbeamertemplate{page number in head/foot}[totalframenumber]
+
+\newcommand{\redify}[1]{\textcolor{myprimary}{\textbf{#1}}}
+\newcommand{\highlight}[1]{\textcolor{myprimary}{#1}}
+\newcommand{\highlights}[1]{\textcolor{mysecondary}{#1}}
+
+\newcommand{\notebox}[1]{\colorbox{myprimary!30}{#1}}
+\newcommand{\problembox}[1]{\colorbox{mysecondary!30}{#1}}
+
+
+\AtBeginSection[]
+{
+  \begin{frame}
+    \frametitle{Table of Contents}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+
+\newcommand{\cmark}{\ding{51}}
+\newcommand{\xmark}{\ding{55}}
+
+
+\newcommand{\circled}[1]{%
+  \tikz[baseline=(char.base)]\node[draw=myprimary,circle,inner sep=1pt,thick,text=myprimary](char){\textbf{#1}};%
+}
+
+
+\input{helpers.tex}
+
+\title{Robot Learning with \lerobot}
+
+\author[Francesco Capuano]{Francesco Capuano$^{1}$}
+
+\institute[]{
+  \inst{1} \adjustbox{valign=c}{\includegraphics[height=0.5cm]{../logos/hf.pdf}} LeRobot Team, \highlight{Hugging Face}
+}
+
+\date{\today}
+
+\titlegraphic{
+    \includegraphics[width=3cm]{../logos/lerobot.png}
+}
