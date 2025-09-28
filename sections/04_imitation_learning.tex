@@ -7,76 +7,84 @@
 Behavioral Cloning provides a natural platform to learn from real-world interactions without the need to design any reward function, and generative models prove more effective than point-wise policies at dealing with multimodal demonstration datasets.
 \end{tldr}
 
+% \paragraph{A Change in Notation}
+% The reinforcement learning and generative modeling communities have developed largely in parallel, leading to notable differences in notation. To keep this tutorial approachable as an entry point to both literatures, we follow the conventions commonly used within each field. As a result, some symbols may appear with more than one meaning. Table~\ref{tab:notation-change} summarizes these cases and provides disambiguation.
+
+% \input{tables/ch4/01_notation_change.tex}
+
 \begin{figure}
     \centering
     \includegraphics[width=0.8\textwidth]{figures/ch4/ch4-bc-trajectories.png}
-    \caption{(A) Average (with standard deviation) evolution of the actuation levels over the first 5 recorded episodes in \url{lerobot/svla_so101_pickplace}. Proprioperceptive state provide invaluable to determine the robot's state during an episode. (B) Camera frames are also recorded alongside measurements on the robot's state, capturing information about the robot's interaction with its environment.}
+    \caption{(A) Average (with standard deviation) evolution of the actuation levels over the first 5 recorded episodes in \url{lerobot/svla_so101_pickplace}. Proprioperceptive states provide invaluable to determine the robot's state during an episode. (B) Camera frames are also recorded alongside measurements on the robot's state, capturing information about the robot's interaction with its environment.}
     \label{fig:ch4-bc-trajectories}
 \end{figure}
 
-Learning from human demonstrations provides a pragmatic alternative to the reinforcement-learning pipeline discussed in Section~\ref{sec:learning-rl}.
-Indeed, in real-world robotics online exploration is typically \highlight{costly and potentially unsafe}, and designing (dense) reward signals is a \highlight{brittle and task-specific} process.
-In general, success detection itself may often require bespoke instrumentation, while episodic training demands reliable resets---all factors complicating training RL algorithms on hardware at scale.
-Behavioral Cloning (BC) sidesteps these constraints by casting control an imitation learning problem, leveraging previously collected expert demonstrations.
-Most notably, by learning to imitate autonomous systems naturally adhere to the objectives, preferences, and success criteria implicitly encoded in the data, which obviates reduces early-stage exploratory failures and obviates hand-crafted reward shaping altogether.
+Learning from human demonstrations provides a pragmatic alternative to the RL pipeline discussed in Section~\ref{sec:learning-rl}.
+Indeed, especially in real-world robotics, online exploration is typically \highlight{costly and potentially unsafe}, and designing (dense) reward signals is a \highlight{brittle and task-specific} process.
+Further, even success detection itself often requires bespoke instrumentation, while episodic training demands reliable resets---all factors complicating training RL algorithms on hardware at scale.
+Behavioral Cloning (BC) sidesteps these constraints by \highlight{casting control an imitation learning problem}, leveraging previously collected expert demonstrations to anchor the learned autonomous behavior.
+Most notably, by \emph{learning-to-imitate}, autonomous systems naturally adhere to the objectives, preferences, and success criteria implicitly encoded in the data, which reduces early-stage exploratory failures and obviates hand-crafted reward shaping altogether.
 
-Formally, let \( \mathcal D = \{ \tau^{(i)} \}_{i=1}^N \) be a set of expert trajectories, with \( \tau^{(i)} = \{(o_t^{(i)}, a_t^{(i)})\}_{t=0}^{T_i} \) representing the \(i\)-th trajectory in \( \mathcal D \), \(o_t \in \obsspace \) denoting observations (e.g., images and proprioception altogether), and \(a_t \in \actionspace \) the expert actions.
+Formally, let \( \mathcal D = \{ \tau^{(i)} \}_{i=1}^N \) be a set of expert trajectories, with \( \tau^{(i)} = \{(o_t^{(i)}, a_t^{(i)})\}_{t=0}^{T_i} \) representing the \(i\)-th length-\(T_i\) trajectory in \( \mathcal D \), \(o_t \in \obsspace \) denoting observations (e.g., images and proprioception altogether), and \(a_t \in \actionspace \) the expert actions.
 Typically, observations \( o \in \obsspace \) consist of both image and proprioperceptive information, while actions \( a \in \actionspace \) represent control specifications for the robot to execute, e.g. a joint configuration.
 Note that differently from Section~\ref{sec:learning-rl}, in the imitation learning context \( \mathcal D \) denotes an offline dataset collecting \( N \) length-\( T_i \) reward-free (expert) human trajectories \( \tau^{(i)} \), and \emph{not} the environment dynamics.
 Similarily, in this section \( \tau^{(i)} \) represent a length-\(T_i\) trajectory of observation-action pairs, which crucially \emph{omits entirely any reward} information.
-Figure~\ref{fig:ch4-bc-trajectories} graphically shows trajectories in terms of the average evolution of the actuation on the 6 joints over a group of teleoperated episodes for the SO-100 manipulator.
-Notice how proprioperceptive states are captured jointly with camera frames over the course of the recorded episodes, providing a unified high-frame rate collection of teleoperation data.
-Figure~\ref{fig:ch4-observation-action-mapping} shows \( (o_t, a_t) \)-pairs for the same dataset, with the actions performed by the human expert illustrated just alongside the corresponding observation.
-In principle, (expert) trajectories \( \tau^{(i)} \) can have different lengths since demonstrations might exhibit multi-modal strategies to attain the same goal, resulting in possibly multiple, different behaviors.
+Figure~\ref{fig:ch4-bc-trajectories} graphically shows trajectories in terms of the average evolution of the actuation on the 6 joints of a teleoperated SO-100 manipulator.
+Notice how proprioperceptive states are captured jointly with camera frames over the course of the recorded episodes, providing a unified high-frame rate collection of both image and joint teleoperation data.
+Figure~\ref{fig:ch4-observation-action-mapping} shows \( (o_t, a_t) \)-pairs for the same dataset, with the actions performed by the human expert illustrated alongside the corresponding observation.
+In principle, (expert) trajectories \( \tau^{(i)} \) can have different lengths since demonstrations might exhibit multi-modal strategies to attain the same goal, resulting in multiple, different behaviors.
 
-% NOTE(fracapuano): maybe change RL notation to T for transitions and eta for trajectories to avoid specifying difference of notation in here?
+
 \begin{figure}
     \centering
     \includegraphics[width=0.9\textwidth]{figures/ch4/ch4-observation-action-mapping.png}
-    \caption{Sample observations and action pairs over the course of a given trajectory recorded in \url{lerobot/svla_so101_pickplace}. Observations, comprising of both proprioperceptive and visual information, are recorded alongside the configuration of a second, leader robot controlled by a human expert, providing complete information for regressing actions given observation.}
+    \caption{Sample observations and action pairs over the course of a given trajectory recorded in \url{lerobot/svla_so101_pickplace}. Observations, comprising of both proprioperceptive and visual information, are recorded alongside the configuration of a second, leader robot controlled by a human expert, providing complete information for regressing actions given observations.}
     \label{fig:ch4-observation-action-mapping}
 \end{figure}
 
-Behavioral Cloning (BC)~\citep{pomerleauALVINNAutonomousLand1988a} aims at synthetizing synthetic behaviors by learning the mapping from observations to actions, and in its most natural formulation can be effectively tackled as a \emph{supevised} learning problem, consisting of learning the (deterministic) mapping \(f: \obsspace \mapsto \actionspace, \ a_t = f(o_t) \) by solving
+Behavioral Cloning (BC)~\citep{pomerleauALVINNAutonomousLand1988a} aims at producing synthetic behaviors by learning the mapping from observations to actions, and in its most natural formulation can be effectively tackled as a \emph{supevised} learning problem, consisting of learning the (deterministic) mapping \(f: \obsspace \mapsto \actionspace, \ a_t = f(o_t) \) by solving
 \begin{equation}\label{eq:loss-minimization-SL}
     \min_{f} \mathbb{E}_{(o_t, a_t) \sim p(\bullet)} \mathcal L(a_t, f(o_t)),
 \end{equation}
-for a given risk function \( \mathcal L:  \mathcal A \times \mathcal A \mapsto \mathbb{R}, \ \mathcal L (a, a^\prime) \).
+given an arbitrary risk function \( \mathcal L:  \mathcal A \times \mathcal A \mapsto \mathbb{R}, \ \mathcal L (a, a^\prime) \).
 
-Typically, the expert's joint observation-action distribution \( p: \obsspace \times \actionspace \mapsto [0,1] \) such that \( (o,a) \sim p(\bullet) \) is assumed to be unknown, in keeping with a classic Supervised Learning (SL) framework\footnote{Throughout, we will adopt the terminology and notation for SL introduced in~\citet{shalev-shwartzUnderstandingMachineLearning2014}}.
-However, differently from standard SL's assumptions, the samples collected in \( \mathcal D \), correspoding to observations of the underlying \( p \) are \emph{not} i.i.d., as expert demonstrations are collected \emph{sequentially} in trajectories.
-In practice, this aspect can be partially mitigated by considering pairs in a non-sequential order---\emph{shuffling} the samples in \(\mathcal D \)---so that the expected risk under \( p \) can be approximated using MC estimates, although estimates may in general be less accurate.
-Another strategy to mitigate the impact of regressing over non-i.i.d. samples relies on the possibility of interleaving BC and data collection~\citep{rossReductionImitationLearning2011}, aggregating multiple datasets iteratively.
-However, because we only consider the case where a single offline dataset \( \mathcal D \) of (expert) trajectories is already available, dataset aggregation falls out of scope.
+Typically, the expert's joint observation-action distribution \( p: \obsspace \times \actionspace \mapsto [0,1] \) is assumed to be unknown, in keeping with a classic Supervised Learning (SL) framework\footnote{Throughout, we will adopt the terminology and notation for SL used in~\citet{shalev-shwartzUnderstandingMachineLearning2014}}.
+However, differently from standard SL assumptions, the samples collected in \( \mathcal D \)---realizations of the underlying \( p \)---are \emph{not} i.i.d., as expert demonstrations are collected \emph{sequentially} in the form of trajectories.
+In practice, this aspect can be partially mitigated by considering pairs in a non-sequential order---\emph{shuffling} the samples in \(\mathcal D \)---so that the expected risk under \( p \) can be approximated using MC estimates, although these estimates may in general be less accurate.
+Another strategy to mitigate the impact of regressing over non-i.i.d. samples relies on the possibility of interleaving BC and data collection~\citep[DAgger]{rossReductionImitationLearning2011}, aggregating multiple datasets iteratively.
+However, because we only consider the case where a single offline dataset \( \mathcal D \) of trajectories is available and no more data can be collected, DAgger falls out of our scope.
 
-Despite the inherent challenges of learning on non-i.i.d. data, the BC formulation affords several operational advantages in robotics.
-First, training happens offline and typically uses expert human demonstration data, hereby severily limiting exploration risks by preventing the robot from performing dangerous actions altogether.
-Second, reward design is entirely unnecessary in BC, as demonstrations already reflect human intent and task completion.
-This also mitigates the risk of misalignment and specification gaming (\emph{reward hacking}), otherwise inherent in purely reward-based RL~\citep{heessEmergenceLocomotionBehaviours2017}.
+Despite the inherent challenges of learning from non-i.i.d. data, the BC formulation presents several operational advantages in robotics.
+First, training happens offline and naturally accomodates for expert, demonstration data, hereby severily limiting exploration risks by preventing the robot from performing dangerous actions altogether, by anchoring action in imitation.
+Second, reward design is entirely unnecessary in BC, as demonstrations already reflect human intent.
+The absence of rewards also prevents the risk of misalignment and specification gaming (\emph{reward hacking}), otherwise inherent in purely reward-based RL~\citep{heessEmergenceLocomotionBehaviours2017}.
 Third, because expert trajectories encode terminal conditions, success detection and resets are implicit in the dataset.
-Finally, BC scales naturally with growing corpora of demonstrations collected across tasks, embodiments, and environments.
-However, BC can in principle only learn behaviors that are, at most, as good as the one exhibited by the demonstrator, and thus critically provides no mitigation for the suboptimal decision making that might be enaced by humans.
-Still, while problematic in sequential-decision making problems for which expert demonstrations are not generally available---data migth be expensive to collect, or human performance may be inherently suboptimal---many robotics applications benefit from relative cheap pipelines to acquire high-quality trajectories generated by humans, thus justifying BC approaches.
+Finally, empirical evidence suggests the performance of BC scales naturally with growing corpora of demonstrations collected across tasks, embodiments, and environments.
+Nonetheless, BC can, in principle, only reproduce behaviors that are at best as good as those of the demonstrator, and therefore offers no remedy for the suboptimal decisions that humans may enact.
+This limitation is particularly problematic in sequential decision-making tasks where expert demonstrations are scarce--—either because data collection is costly or because human performance is inherently suboptimal. 
+Yet, many robotics applications still benefit from relatively inexpensive pipelines for collecting high-quality human-generated trajectories, justifying the use of BC in such settings.
 
 \begin{figure}
     \centering
     \includegraphics[width=0.8\textwidth]{figures/ch4/ch4-issues-with-bc.png}
-    \caption{Point-wise policies suffer from limitations due to (A) covariate shifts and poor approximation of (B) multimodal demonstrations. (A) Initially small errors may drive the policy out of distribution, incuring in a vicious circle ultimately resulting in failure. (B) Both modes of reaching for a target object in a scene, either left or right-first, are equally as good and thus equally as likely to be present in a dataset of human demonstrations, ultimately resulting in multimodal demonstrations.}
+    \caption{Point-wise policies suffer from limitations due to (A) covariate shifts and (B) poor approximation of multimodal demonstrations. (A) Small errors may drive the policy out of distribution, incuring in a vicious circle ultimately resulting in failure. (B) Both modes of reaching for a target object in the scene---either left or right-first---are equally as good and thus equally as likely to be present in a dataset of human demonstrations, ultimately resulting in multimodal demonstrations.}
     \label{fig:ch4-issues-with-bc}
 \end{figure}
 
-While conceptually elegant, point-estimate policies \( f : \obsspace \mapsto \actionspace \) learned by solving \ref{eq:loss-minimization-SL} have been observed to suffer from (1) compounding errors~\citep{rossReductionImitationLearning2011} and (2) poor fit to multimodal distributions~\citep{florenceImplicitBehavioralCloning2022, keGraspingChopsticksCombating2020}.
+While conceptually elegant, \emph{point-estimate policies} \( f : \obsspace \mapsto \actionspace \) learned by solving eq.~\ref{eq:loss-minimization-SL} have been observed to suffer from (1) compounding errors~\citep{rossReductionImitationLearning2011} and (2) poor fit to multimodal distributions~\citep{florenceImplicitBehavioralCloning2022, keGraspingChopsticksCombating2020}.
 Figure~\ref{fig:ch4-issues-with-bc} illustrates these two key issues related to learning \emph{explicit policies}~\citep{florenceImplicitBehavioralCloning2022}.
-Besides sequentiality in \( \mathcal D \), compounding errors due to \emph{covariate shift} may also prove catastrophic, as even small \( \epsilon \)-prediction errors \( 0 < \Vert \mu(o_t) - a_t \Vert \leq \epsilon \) can quickly drive the policy into out-of-distribution states, incuring in less confident generations and thus errors compounding (Figure~\ref{fig:ch4-issues-with-bc}, left).Moreover, point-estimate policies typically fail to learn \emph{multimodal} targets, which are very common in human demonstrations solving robotics problems, since multiple trajectories can be equally as good towards the accomplishment of a goal (e.g., symmetric grasps, Figure~\ref{fig:ch4-issues-with-bc}, right).
+Besides sequentiality in \( \mathcal D \), compounding errors due to \emph{covariate shift} may also prove catastrophic, as even small \( \epsilon \)-prediction errors \( 0 < \Vert \mu(o_t) - a_t \Vert \leq \epsilon \) can quickly drive the policy into out-of-distribution states, incuring in less confident generations and thus compounding errors (Figure~\ref{fig:ch4-issues-with-bc}, left).
+Moreover, point-estimate policies typically fail to learn \emph{multimodal} targets, which are very common in human demonstrations solving real-world robotics problems, as multiple trajectories can be equally as good towards the accomplishment of a goal (e.g., symmetric grasps, Figure~\ref{fig:ch4-issues-with-bc}, right).
 In particular, unimodal regressors tend to average across modes, yielding indecisive or even unsafe commands~\citep{florenceImplicitBehavioralCloning2022}.
-To address poor multimodal fitting,~\citet{florenceImplicitBehavioralCloning2022} propose learning the generative model \( p(o, a) \) underlying the samples in \( \mathcal D \), rather than an explicitly learning a prediction function \( f(o) = a \).
+To address poor multimodal fitting,~\citet{florenceImplicitBehavioralCloning2022} propose learning the \emph{generative model} \( p(o, a) \) underlying the samples in \( \mathcal D \), rather than explicitly learning a prediction function \( f: a = f(o) \).
 
 \subsection{A (Concise) Introduction to Generative Models}
 % Generative Modeling
 Generative Models (GMs) aim to learn the stochastic process underlying the very generation of the data collected, and typically do so by fitting a probability distribution that approximates the unknown \emph{data distribution}, \( p \).
-In the case of BC, this unknown data distribution \( p \) represents the expert's joint distribution over \( (o, a) \)-pairs.
-Thus, given a finite set of \( N \) pairs \(\mathcal D = \{ (o,a)_i \}_{i=0}^N\) used as an imitation learning target (and thus assumed to be i.i.d.), GM seeks to learn a \emph{parametric} distribution \( p_\theta(o,a) \) such that (1) new samples \( (o,a) \sim p_\theta(\bullet) \) resemble those stored in \( \mathcal D \), and (2) high likelihood is assigned to the observed regions of the unobservable \( p \).
-Likelihood-based learning provides a principled training objective to achieve both objectives, and it is thus extensively used in GM~\citep{prince2023understanding}.
+In keeping with the GM literature, \( p(x) \leftarrow \mathbb P(x), x \sim p \).
+In the case of BC, the unknown data distribution \( p \) may represent the expert's joint distribution over \( (o, a) \)-pairs.
+Thus, given a finite set of \( N \) pairs \(\mathcal D = \{ (o,a)_i \}_{i=0}^N\) available as an imitation learning target (and thus assumed to be i.i.d.), GMs seek to learn a \emph{parametric} distribution \( p_\theta(o,a) \) such that (1) new samples \( (o,a) \sim p_\theta(\bullet) \) resemble those stored in \( \mathcal D \), and (2) high likelihood is assigned to the \emph{observed} regions of the \emph{unobservable} \( p \).
+Likelihood-based learning provides a principled training objective to achieve both goals, and it is thus extensively used in GMs~\citep{prince2023understanding}.
 
 % VAEs
 \subsubsection{Variational Auto-Encoders}
@@ -88,17 +96,17 @@ Likelihood-based learning provides a principled training objective to achieve bo
     \label{fig:ch4-task-effect-on-pairs}
 \end{figure}
 
-A common inductive bias used in GM posits samples \( (o,a) \) are influenced from an unobservable latent variable \( z \in Z \), resulting in
+A common inductive bias used in GM posits samples \( (o,a) \) are influenced from an unobservable latent variable \( z \in Z \), resulting in:
 \begin{equation}\label{eq:BC-latent-variable}
     p (o,a) = \int_{\supp{Z}} p(o,a \vert z) p(z)
 \end{equation}
-Intuitively, in the case of observation-action pairs \( (o, a) \) for a robotics application, \( z \) could be some high level representation of the underlying task being performed by the human demonstrator.
+Intuitively, in the case of observation-action pairs \( (o, a) \) for a robotics application, \( z \) could be interpreted as some high level representation of the underlying task being performed by the human demonstrator.
 In such case, treating \( p(o,a) \) as a marginalization over \( \supp{Z} \) of the complete joint distribution \( p(o,a,z) \) natively captures the effect different tasks have on the likelihood of observation-action pairs.
 Figure~\ref{fig:ch4-task-effect-on-pairs} graphically illustrates this concept in the case of a (A) picking and (B) pushing task, for which, nearing the target object, the likelihood of actions resulting in opening the gripper---the higher \( q_6 \), the wider the gripper's opening---should intuitively be (A) high or (B) low, depending on the task performed.
-While the latent space \( Z \) typically has a much richer structure than the set of all actual tasks performed,~\ref{eq:BC-latent-variable} still provides a solid framework to learn joint distribution conditioned on unobservable yet relevant factors.
-Figure~\ref{fig:ch4-latent-variable-model} represents this framework of latent-variable for a robotics application: the true, \( z \)-conditioned generative process on assigns \emph{likelihood} \( p((o,a) \vert z) \) to the single \( (o,a) \)-pair.
+While the latent space \( Z \) typically has a much richer structure than the set of all actual tasks performed, eq.~\ref{eq:BC-latent-variable} still provides a solid framework to learn joint distribution conditioned on unobservable yet relevant factors.
+Figure~\ref{fig:ch4-latent-variable-model} represents this latent-variable framework in the context of a robotics application: the true, \( z \)-conditioned generative process assigns \emph{likelihood} \( p((o,a) \vert z) \) to the single \( (o,a) \)-pair.
 Using Bayes' theorem, one can reconstruct the \emph{posterior} distribution on \( \supp{Z} \), \( q_\theta(z \vert o,a) \) from the likelihood \( p_\theta(o,a \vert z) \), \emph{prior} \( p_\theta(z) \) and \emph{evidence} \( p_\theta(o,a) \).
-VAEs approximate the latent variable model presented in~\ref{eq:BC-latent-variable}) using an \emph{approximate posterior} \(q_\phi(z \vert o,a) \) while regressing parameters for a parametric likelihood, \( p_\theta(o,a \vert z) \) (Figure~\ref{fig:ch4-latent-variable-model}).
+VAEs approximate the latent variable model presented in eq.~\ref{eq:BC-latent-variable} using an \emph{approximate posterior} \(q_\phi(z \vert o,a) \) while regressing parameters for a parametric likelihood, \( p_\theta(o,a \vert z) \) (Figure~\ref{fig:ch4-latent-variable-model}).
 
 \begin{figure}
     \centering
@@ -107,72 +115,74 @@ VAEs approximate the latent variable model presented in~\ref{eq:BC-latent-variab
     \label{fig:ch4-latent-variable-model}
 \end{figure}
 
-Given a dataset \( \mathcal D \) consisting of \( N \) i.i.d. observation-action pairs, the log-likelihood of all datapoints under \( \theta \) (in Bayesian terms, the \emph{evidence} \( p_\theta(\mathcal D)\)) can thus be written as:
+Given a dataset \( \mathcal D \) consisting of \( N \) i.i.d. observation-action pairs, the log-likelihood of all datapoints under \( \theta \) (in Bayesian terms, the \emph{evidence} \( p_\theta(\mathcal D)\)) can be written as:
 \begin{align}
     \log p_\theta(\mathcal D) &= \log \sum_{i=0}^N p_\theta ((o,a)_i) \label{eq:evidence-definition-1}\\
                               &= \log \sum_{i=0}^N \int_{\supp{Z}} p_\theta((o,a)_i \vert z) p(z) \label{eq:evidence-definition-2}\\
                               &= \log \sum_{i=0}^N \int_{\supp{Z}} \frac{q_\theta(z \vert (o,a)_i)}{q_\theta(z \vert (o,a)_i)} \cdot p_\theta((o,a)_i \vert z) p(z) \label{eq:evidence-definition-3}\\
-                              &= \log \sum_{i=0}^N \mathbb E_{z \sim p_\theta(\bullet \vert (o,a)_i)} \left[ \frac{p(z)}{q_\theta(z \vert (o,a)_i)} \cdot p_\theta((o,a)_i \vert z) \right], \label{eq:evidence-definition}
+                              &= \log \sum_{i=0}^N \mathbb E_{z \sim q_\theta(\bullet \vert (o,a)_i)} \left[ \frac{p(z)}{q_\theta(z \vert (o,a)_i)} \cdot p_\theta((o,a)_i \vert z) \right], \label{eq:evidence-definition}
 \end{align}
-where we used~\ref{eq:BC-latent-variable} in~\ref{eq:evidence-definition-1}, multiplied by \(1 = \frac{q_\theta(z \vert (o,a)_i)}{q_\theta(z \vert (o,a)_i)} \) in~\ref{eq:evidence-definition-2}, and used the definition of expected value in~\ref{eq:evidence-definition}.
+where we used eq.~\ref{eq:BC-latent-variable} in eq.~\ref{eq:evidence-definition-1}, multiplied by \(1 = \frac{q_\theta(z \vert (o,a)_i)}{q_\theta(z \vert (o,a)_i)} \) in eq.~\ref{eq:evidence-definition-2}, and used the definition of expected value in eq.~\ref{eq:evidence-definition}.
 
 In the special case where one assumes distributions to be tractable, \( p_\theta (\mathcal D) \) is typically tractable too, and \(\max_\theta \log p_\theta(\mathcal D) \) provides a natural target for (point-wise) infering the unknown parameters \( \theta \) of the generative model.
-Unfortunately,~\ref{eq:evidence-definition} is rarely tractable when the distribution \( p \) is modeled with approximators such as neural networks, especially for high-dimensional, unstructured data.
+Unfortunately, eq.~\ref{eq:evidence-definition} is rarely tractable when the distribution \( p \) is modeled with approximators such as neural networks, especially for high-dimensional, unstructured data.
 
-In their seminal work on Variational Auto-Encoders (VAEs),~\citet{kingmaAutoEncodingVariationalBayes2022} present two major contributions to learn complex latent-variable GMs on unstructured data, proposing (1) a tractable, variational lower-bound to \ref{eq:evidence-definition} as an optimization target to jointly learn likelihood and posterior and (2) high-capacity function approximators to model the likelihood \(p_\theta(o,a\vert z)\) and (approximate) posterior distribution \( q_\phi(z \vert o,a) \approx q_\theta(z \vert o,a) \).
+In their seminal work on Variational Auto-Encoders (VAEs),~\citet{kingmaAutoEncodingVariationalBayes2022} present two major contributions to learn complex latent-variable GMs from unstructured data, proposing (1) a tractable, variational lower-bound to eq.~\ref{eq:evidence-definition} as an optimization target to jointly learn likelihood and posterior and (2) using high-capacity function approximators to model the likelihood \(p_\theta(o,a\vert z)\) and (approximate) posterior distribution \( q_\phi(z \vert o,a) \approx q_\theta(z \vert o,a) \).
 
-In particular, the lower bound on~\ref{eq:evidence-definition} (Evidence LOwer Bound, \emph{ELBO}) can be derived from~\ref{eq:evidence-definition} applying Jensen's inequality---\(\log \mathbb{E}[\bullet] \geq \mathbb{E} [\log (\bullet)] \)---yielding:
+In particular, the lower bound on eq.~\ref{eq:evidence-definition} (Evidence LOwer Bound, \emph{ELBO}) can be derived from eq.~\ref{eq:evidence-definition} applying Jensen's inequality---\(\log \mathbb{E}[\bullet] \geq \mathbb{E} [\log (\bullet)] \)---yielding:
 \begin{align}
     \log p_\theta(\mathcal D) &\geq \sum_{i=0}^{N} \left(
-            \mathbb{E}_{z \sim p_\theta(\cdot \vert (o,a)_i)} \big[ \log p_\theta((o,a)_i \vert z) \big]
-            + \mathbb{E}_{z \sim p_\theta(\cdot \vert (o,a)_i)} \left[ \log \left( \frac{p(z)}{q_\theta(z \vert (o,a)_i)} \right) \right]
+            \mathbb{E}_{z \sim q_\theta(\bullet \vert (o,a)_i)} \big[ \log p_\theta((o,a)_i \vert z) \big]
+            + \mathbb{E}_{z \sim q_\theta(\bullet \vert (o,a)_i)} \left[ \log \left( \frac{p(z)}{q_\theta(z \vert (o,a)_i)} \right) \right]
         \right) \\
         &= \sum_{i=0}^{N} \left(
-            \mathbb{E}_{z \sim p_\theta(\cdot \vert (o,a)_i)} \big[ \log p_\theta((o,a)_i \vert z) \big]
+            \mathbb{E}_{z \sim q_\theta(\bullet \vert (o,a)_i)} \big[ \log p_\theta((o,a)_i \vert z) \big]
         - \DKL \big[ q_\theta(z \vert (o,a)_i) \Vert p(z) \big]
         \right) \label{eq:ELBO-intractable}
 \end{align}
-The true, generally intractable posterior \( p_\theta (z \vert o,a) \) prevents computing both the expectation and KL divergence terms in~\ref{eq:ELBO-intractable}, and therefore~\citet{kingmaAutoEncodingVariationalBayes2022} propose deriving the ELBO using an \emph{approximate} posterior \( q_\phi(z \vert o,a) \), resulting in the final, tractable ELBO objective,
+
+The true, generally intractable, posterior \( q_\theta (z \vert o,a) \) prevents computing both the expectation and KL divergence terms in eq.~\ref{eq:ELBO-intractable}, and therefore~\citet{kingmaAutoEncodingVariationalBayes2022} propose deriving the ELBO using an \emph{approximate} posterior \( q_\phi(z \vert o,a) \), resulting in the final, tractable, ELBO objective,
 \begin{align}
 \text{ELBO}_{\mathcal D}(\theta, \phi) = \sum_{i=0}^{N} \left(
-            \mathbb{E}_{z \sim q_\phi(\cdot \vert (o,a)_i)} \big[ \log p_\theta((o,a)_i \vert z) \big]
+            \mathbb{E}_{z \sim q_\phi(\bullet \vert (o,a)_i)} \big[ \log p_\theta((o,a)_i \vert z) \big]
         - \DKL \big[ q_\phi(z \vert (o,a)_i) \Vert p(z) \big]
         \right)
         \label{eq:ELBO}
 \end{align}
 From Jensen's inequality, maximizing ELBO results in maximizing the log-likelihood of the data too, thus providing a natural, tractable optimization target.
-Indeed, expectations can be estimated using MC estimates from the learned distributions in~\ref{eq:ELBO}, while the KL-divergence term can typically be computed in closed-form (1) modeling  \(q_\phi \) as a Gaussian \(q_\phi(z \vert o,a) = \mathcal N\big(\mu_\phi(o,a), \Sigma_\phi(o,a) \big) \) and (2) imposing a standard Gaussian prior on the latent space, \( p(z) = \mathcal N(\mathbf{0}, \mathbf{I}) \).
+Indeed, expectations can be estimated using MC estimates from the learned distributions in eq.~\ref{eq:ELBO}, while the KL-divergence term can typically be computed in closed-form (1) modeling  \(q_\phi \) as a Gaussian \(q_\phi(z \vert o,a) = \mathcal N\big(\mu_\phi(o,a), \Sigma_\phi(o,a) \big) \) with learned mean vector \( \mu_\phi(o,a) \) and learned variance-covariance matrix \( \Sigma_\phi(o,a) \) and (2) imposing a standard Gaussian prior on the latent space, \( p(z) = \mathcal N(\mathbf{0}, \mathbf{I}) \).
 
-An intuitive explanation of the learning dynamics of VAEs can be given considering the equivalent case of \emph{minimizing the negative ELBO}, which admits a particularly interpretable factorization
-
+An intuitive explanation of the learning dynamics of VAEs can be given considering the equivalent case of \emph{minimizing the negative ELBO}, which admits the particularly interpretable factorization (considering, without loss of generality, only one \( (o,a) \sim \mathcal D \)):
 \begin{align}
-\min_{\theta, \phi} - \text{ELBO}_{\mathcal (o,a) \sim \mathcal D}(\theta, \phi) &= \min_{\theta, \phi}\mathbf{L^{\text{rec}}}(\theta) + \mathbf{L^{\text{reg}}}(\phi) \label{eq:VAE-min-neg-ELBO}\\
-\mathbf{L^{\text{rec}}}(\theta) &= \mathbb{E}_{z \sim q_\phi(\cdot \vert o,a} \big[ \log p_\theta(o,a \vert z) \big] \label{eq:VAE-Lrec} \\
-\mathbf{L^{\text{reg}}}(\phi) &= \DKL \big[ q_\phi(z \vert o,a) \Vert p(z) \big] \label{eq:VAE-Lreg}
+\min_{\theta, \phi} - \text{ELBO}_{\mathcal (o,a) \sim \mathcal D}(\theta, \phi) &= \min_{\theta, \phi}\mathbf{L^{\text{rec}}}(\theta) + \mathbf{L^{\text{reg}}}(\phi), \label{eq:VAE-min-neg-ELBO}\\
+\mathbf{L^{\text{rec}}}(\theta) &= \mathbb{E}_{z \sim q_\phi(\bullet \vert o,a}) \big[ \log p_\theta(o,a \vert z) \big] \label{eq:VAE-Lrec} \\
+\mathbf{L^{\text{reg}}}(\phi) &= \DKL \big[ q_\phi(z \vert o,a) \Vert p(z) \big]. \label{eq:VAE-Lreg}
 \end{align}
 
-For any given \((o,a) \) pair, the expected value term of~\ref{eq:VAE-Lrec} is typically computed via MC estimates, resulting in
+For any given \((o,a) \) pair, the expected value term in eq.~\ref{eq:VAE-Lrec} is typically computed via MC estimates, resulting in
 \[ 
 -\mathbb{E}_{z \sim q_\phi(\bullet \vert o,a)} \big[ \log p_\theta(o,a \vert z) \big] = \mathbf{L^{\text{rec}}} \approx - \frac{1}{n} \sum_{i=0}^n \log p_\theta(o,a \vert z_i).
 \]
-Assuming \( p_\theta(o,a \vert z) \) is parametrized as an isotropic Gaussian distribution with mean \(\mu_\theta (z) \in \mathbb R^d \) and variance \( \sigma^2 \), the log-likelihood thus simplifies to:
+Assuming \( p_\theta(o,a \vert z) \) to be parametrized with an isotropic Gaussian distribution with mean \(\mu_\theta (z) \in \mathbb R^d \) and variance \( \sigma^2 \), the log-likelihood thus simplifies to:
 \[
 \log p(o,a \vert z_i) = -\frac{1}{2\sigma^{2}} \big \Vert (o,a)-\mu_\theta(z_i) \big\Vert_2^2 -\frac{d}{2}\log(2\pi \sigma^{2}) \implies \mathbf{L^\text{rec}} \approx \frac {1}{n} \sum_{i=0}^n \big\Vert (o,a) - \mu_\theta(z_i) \big \Vert^2_2
 \]
-Indeed, it is very common in practice to approximate from the learned likelihood \( p_\theta(o,a \vert z) \) as a parametric distribution (e.g. Gaussians) parametrized by some learned vector of coefficients derived from \(\mu_\theta (z), \ z \sim p (\bullet) \).
-In all such cases, learning a VAE corresponds to optimally \emph{reconstructing} the examples in \( \mathcal D \) by minimizing the L2-error---a very common \emph{supervised learning} objective for regression targets---while regularizing the information compression into the latent, as under the common modeling choice \( p(z) = \mathcal N (\mathbf{0}, \mathbf{I}) \)~\ref{eq:VAE-Lreg} regularizes the posterior limiting the expressivity of \( q_\phi(z\vert o,a) \).
+In practice, it is common to approximate the learned likelihood \( p_\theta(o,a \vert z) \) with a parametric distribution (e.g., Gaussian) whose parameters are given by a learned coefficient vector derived from \( \mu_\theta(z), \ z \sim p(\bullet) \). 
+Under this formulation, learning a VAE amounts to (1) \emph{reconstructing} the examples in \( \mathcal{D} \) by minimizing (1) the reconstruction loss \( \mathbf{L^{\text{rec}}}\)---a standard \emph{supervised learning} objective for regression---while (2) \emph{regularizing} the latent representation by minimizing \( \mathbf{L^{\text{reg}}} \). 
+The latter enforces information compression, since with the common prior choice \( p(z) = \mathcal{N}(\mathbf{0}, \mathbf{I})\) in eq.~\ref{eq:VAE-Lreg}, the regularizer constrains the posterior and thereby limits the expressivity of \( q_\phi(z \vert o,a) \).
 
 % Diffusion
 \subsubsection{Diffusion Models}
-VAEs approximate probability distributions via a \emph{single} latent variable model, assuming the underlying unknown distribution can be factored according to~\ref{eq:BC-latent-variable}, and solve the variational inference problem of jointly learning the likelihood \( p_\theta \) and (approximate) posterior \( q_\phi \) for such model.
-In that, the unknown data distribution \( p(o,a) \) is effectively approximated via \( \int_Z p(z) p_\theta(o,a \vert z) \), and the underlying generative process reproduced by (1) sampling a latent variable and (2) learning to decode it into a (ideally) high-likelihood sample under the (unknown) \( p(o,a) \).
+VAEs approximate probability distributions via a \emph{single} latent variable model, assuming the underlying unknown distribution can be factored according to eq.~\ref{eq:BC-latent-variable}, and solve the variational-inference problem of jointly learning the likelihood \( p_\theta \) and (approximate) posterior \( q_\phi \) for such model.
+In that, the unknown data distribution \( p(o,a) \) is effectively approximated via \( \int_Z p(z) p_\theta(o,a \vert z) \), and the underlying generative process reproduced by (1) sampling a latent variable and (2) learning to decode it into a high-likelihood sample under the (unknown) \( p(o,a) \).
 Diffusion Models (DMs)~\citep{hoDenoisingDiffusionProbabilistic2020} are another class of GMs which treat the similar problem of approximating an underlying unknown data distribution---\emph{variational inference}---by \emph{partially} extending VAEs to the case where \emph{multiple} latent variables influence each other and the generative process underlying \(o,a\) itself.
 In particular, DMs posit the generative process can be decomposed to a series of piece-wise (Markovian) interactions between (latent) variables (Figure~\ref{fig:ch4-many-latents}), resulting in
 \begin{align}
     p(\underbrace{o,a}_{= z_0}) &= \int_{\supp{Z_0}} \int_{\supp{Z_1}} \hdots \int_{\supp{Z_T}} p(z_0, z_1, \dots z_T) \label{eq:BC-multi-latent-model-1} \\ 
-    p(z_0, z_1, \dots z_T) &= p(z_T) \prod_{t=0}^{T} p(z_{t-1} \vert z_t), \label{eq:BC-multi-latent-model-2}
+    p(z_0, z_1, \dots z_T) &= p(z_T) \prod_{t=1}^{T} p(z_{t-1} \vert z_t), \label{eq:BC-multi-latent-model-2}
 \end{align}
-where we explicitly showed the marginalization over the multiple latents in~\ref{eq:BC-multi-latent-model-1}, and used the law of conditional probability and Markov property in~\ref{eq:BC-multi-latent-model-2}.
+where we explicitly showed the marginalization over the multiple latents in eq.~\ref{eq:BC-multi-latent-model-1}, and used the law of conditional probability and Markov property in eq.~\ref{eq:BC-multi-latent-model-2}.
+Also, for ease of notation, we will refer to observation-action pairs \( o,a \) as \( z_0 \).
 
 \begin{figure}
     \centering
@@ -181,34 +191,60 @@ where we explicitly showed the marginalization over the multiple latents in~\ref
     \label{fig:ch4-many-latents}
 \end{figure}
 
-Similarily to VAEs, providing an exact interpretation for the latent variables is typically not possible.
-Still, one fairly reasonable application-driven intuition is that, by providing a model of the hierarchical, decoupled interaction of latent variables, Hierarchical Markov Latent Variable (HMLV) models attempt to capture the different resolutions at which different conditioning factors intervene, so that in a robotics application for instance, one could naturally distinguish between early-stage trajectory planning (\( t \to T\)) and fine-grained adjustments (\( t \to 0 \)).
+Similar to VAEs, it is generally not possible to assign an \emph{exact} interpretation to the latent variables. 
+Nevertheless, a reasonable application-driven intuition is that Hierarchical Markov Latent Variable (HMLV) models, by capturing hierarchical and decoupled interactions among latent variables, can reflect the different resolutions at which conditioning factors intervene. 
+For example, in a robotics setting, one might naturally distinguish between high-level trajectory planning (higher up in the hierarchy, \(t \to T\)) and fine-grained motion adjustments (closer to empirical observations, \(t \to 0\)).
 In that, HMLV models thus provide a framework to perform variational inference via multiple, sequential sampling steps from different higher level distributions instead of approximating the generative process with a single-latent variable model.
-DMs are a particular instantiation of HMLV models for which the posterior \( q( z_t \vert z_{t-1}) = \mathcal N(z_t \sqrt{1-\beta_t}, \beta_t \mathbf{I}) \) for a given \( \beta_t \in \mathbb R^+ \), thereby iteratively reducing the signal-to-noise ratio as \( \beta_t \) increases along the latents hierarchy.
+DMs are a particular instantiation of HMLV models for which the posterior is fixed to \( q( z_t \vert z_{t-1}) = \mathcal N(z_t \sqrt{1-\beta_t}, \beta_t \mathbf{I}) \), for a given \( \beta_t \in \mathbb R^+ \). 
+In practice, \( \beta_t \) is used to iteratively reduce the signal-to-noise ratio along the latents' hierarchy, similarily to how a diffusion process influences the information of a physical system.
 
-Just like VAEs, DMs attemp to learn to reproduce an underlying data distribution \( p (o,a) \) given a collection of i.i.d. samples approximating the model posited to have generated the data in the first place (~\ref{eq:BC-multi-latent-model-1}).
-Similarily to VAEs, DMs approximate the process of sampling from the unknown \( p(o,a) \) (1) sampling from an easy-to-sample distribution (e.g., Gaussian) and (2) learning to reconstruct high-likelihood samples under the unknown distribution.
+Just like VAEs, DMs attemp to learn to reproduce an underlying data distribution \( p (o,a) \) given a collection of i.i.d. samples approximating the model posited to have generated the data in the first place (eq.~\ref{eq:BC-multi-latent-model-1}).
+Similarily to VAEs, DMs approximate the process of sampling from the unknown \( p(o,a) \) by (1) sampling from an easy-to-sample distribution (e.g., Gaussian) and (2) learning to reconstruct high-likelihood samples under the unknown distribution.
 However, in stark contrast with VAEs, the easy-to-sample distribution contains \emph{no mutual information} regarding the data distribution \( p(o,a) \).
-Crucially, as no information from the sample \( (o,a) \) (denoted as \( z_0 \equiv (o,a) \) for the sake of notation) is assumed to be propagated throughout the chain of latents, the posterior \( q(z_t \vert z_{t-1})\) assumes a relatively amicable structure in DMs, reducing complexity.
+Crucially, as no information from the sample \( (o,a) \) (denoted as \( z_0 \equiv (o,a) \) for simplicity of notation) is assumed to be propagated throughout the chain of latents, the posterior \( q(z_t \vert z_{t-1})\) assumes a relatively amicable structure in DMs, reducing complexity.
 The \emph{true} likelihood \( p(z_{t-1} \vert z_t) \) is instead typically approximated using the parametrization \(  p_\theta (z_{t-1} \vert z_t) \).
-In that, the information contained in the unknwon data distribution is \emph{reconstructed} via a process in which samples from a fixed distribution are turned into (ideally) high-likelihood samples under \( p(o,a) \)---a process referred to as \emph{denoising}.
+In that, the information contained in the unknwon data distribution is \emph{reconstructed} via a process in which samples from a fixed distribution are iteratively turned into (ideally) high-likelihood samples under \( p(o,a) \)---a process referred to as \emph{denoising}.
 
-Under such model, we can express the log-likelihood of an arbitrary sample as\footnote{\( o,a = z_0 \) for the sake of notation. Steps omitted for brevity. See Section A in~\citet{hoDenoisingDiffusionProbabilistic2020} for a complete derivation.
-% See~\ref{appendix:diffusion-derivation}
-}
+Under such model, we can express the log-likelihood of an arbitrary sample \( z_0 \) as:
 \begin{align}
-    \log p_\theta (\underbrace{o,a}_{= z_0}) = 
-    &\mathbb{E}_{z_1 \sim q(\bullet \vert z_0)} \log p_\theta (z_0 \vert z_1) - \label{eq:diffusion-likelihood} \\
-    &\mathbb{E}_{z_{T-1} \sim q(\bullet \vert z_0)} \big[ \DKL (q(z_T \vert z_{T-1}) \Vert p(z_T) ) \big] - \notag \\ 
-    &\sum_{t=1}^{T-1} \mathbb{E}_{(z_{t-1}, z_{t+1}) \sim q(\bullet \vert z_0)} \big[ \DKL (q(z_t \vert z_{t-1}) \Vert p_\theta(z_t \vert z_{t-1}) ) \big], \notag
+    \log p_\theta (z_0) &= \log \int_{\supp{Z_1} \times \supp{Z_2} \times \dots \times \supp{Z_T}} p_\theta(\underbrace{z_0, z_1, z_2, \dots z_T}_{z_{0:T}}) \\
+    &= \log \int_{\supp{Z_{1:T}}} \frac{p_\theta(z_{0:T}) \cdot q(z_{1:T} \vert z_0)}{q(z_{1:T} \vert z_0)} \label{eq:diffusion-1} \\
+    &= \log \mathbb{E}_{z_{1:T} \sim q(\bullet \vert z_0)} \bigg[ \frac{p_\theta(z_{0:T})}{q(z_{1:T} \vert z_0)} \bigg] \\
+    &\geq \mathbb{E}_{z_{1:T} \sim q(\bullet \vert z_0)} \bigg[ \log \frac{p_\theta(z_{0:T})}{q(z_{1:T} \vert z_0)} \bigg] \label{eq:diffusion-jensen} \\
+    &= \mathbb{E}_{z_{1:T} \sim q(\bullet \vert z_0)} \bigg[ \log \frac{p(z_T) \prod_{t=1}^{T} p_\theta (z_{t-1} \vert z_t)}{\prod_{t=1}^T q(z_t \vert z_{t-1})} \bigg] \label{eq:diffusion-2} \\
+    &= \mathbb{E}_{z_{1:T} \sim q(\bullet \vert z_0)} \bigg[ \log \frac{p(z_T) \cdot p_\theta (z_0 \vert z_1) \prod_{t=2}^{T} p_\theta (z_{t-1} \vert z_t)}{q(z_T \vert z_{T-1}) \prod_{t=1}^{T-1} q(z_t \vert z_{t-1})} \bigg] \label{eq:diffusion-3} \\
+    &= \mathbb{E}_{z_{1:T} \sim q(\bullet \vert z_0)} \bigg[ \log \frac{p(z_T) \cdot p_\theta (z_0 \vert z_1) \prod_{t=1}^{T-1} p_\theta (z_{t} \vert z_{t+1})}{q(z_T \vert z_{T-1}) \prod_{t=1}^{T-1} q(z_t \vert z_{t-1})} \bigg] \label{eq:diffusion-4} \\
+    &= 
+        \mathbb{E}_{z_{1:T} \sim q(\bullet \vert z_0)} \bigg[ \log \frac{p(z_T) \cdot p_\theta (z_0 \vert z_1)}{q(z_t \vert z_{t-1})} \bigg] + 
+        \mathbb{E}_{z_{1:T} \sim q(\bullet \vert z_0)} \bigg[ \log \prod_{t=1}^{T-1} \frac{p_\theta (z_{t} \vert z_{t+1})}{q(z_t \vert z_{t-1})}\bigg]
+    \label{eq:diffusion-5} \\
+    &=
+        \mathbb{E}_{z_{1:T} \sim q(\bullet \vert z_0)} \big[ \log  p_\theta (z_0 \vert z_1) \big] + 
+        \mathbb{E}_{z_{1:T} \sim q(\bullet \vert z_0)} \bigg[ \log \frac{p (z_T)}{q(z_T \vert z_{T-1})} \bigg] +
+        \sum_{t=1}^{T-1} \mathbb{E}_{z_{1:T} \sim q(\bullet \vert z_0)} \bigg[ \log \frac{p_\theta (z_{t} \vert z_{t+1})}{q(z_t \vert z_{t-1})}\bigg]
+    \label{eq:diffusion-6} \\
+    &= 
+        \mathbb{E}_{z_1 \sim q(\bullet \vert z_0)} \big[ \log  p_\theta (z_0 \vert z_1) \big] + 
+        \mathbb{E}_{z_{T-1:T} \sim q(\bullet \vert z_0)} \bigg[ \log \frac{p (z_T)}{q(z_T \vert z_{T-1})} \bigg] +
+        \sum_{t=1}^{T-1} \mathbb{E}_{z_{t-1:t+1} \sim q(\bullet \vert z_0)} \bigg[ \log \frac{p_\theta (z_{t} \vert z_{t+1})}{q(z_t \vert z_{t-1})}\bigg]
+    \label{eq:diffusion-expectation-indices} \\
+    &= \mathbb{E}_{z_1 \sim q(\bullet \vert z_0)} \log p_\theta (z_0 \vert z_1) - \mathbb{E}_{z_{T-1} \sim q(\bullet \vert z_0)} \big[ \DKL (q(z_T \vert z_{T-1}) \Vert p(z_T) ) \big] \label{eq:diffusion-likelihood} \\
+    &- \sum_{t=1}^{T-1} \mathbb{E}_{(z_{t-1}, z_{t+1}) \sim q(\bullet \vert z_0)} \big[ \DKL (q(z_t \vert z_{t-1}) \Vert p_\theta(z_t \vert z_{t+1}) ) \big], \notag
 \end{align}
-providing an optimization target in the form of \( \max_\theta \log p_\theta (\mathcal D) \).
+where we: used eq.~\ref{eq:BC-multi-latent-model-1} and multiplied by \( 1 = \tfrac{q(z_{1:T} \vert z_0)}{q(z_{1:T} \vert z_0)} \) in eq.~\ref{eq:diffusion-1}; used Jensen's inequality in eq.~\ref{eq:diffusion-jensen}; used the law of conditional probability for both numerator and denominator in eq.~\ref{eq:diffusion-2}; stepped forward and backward the products in the numerator and denominator products in eq.~\ref{eq:diffusion-3}, respectively; reindexed the product terms in eq.~\ref{eq:diffusion-4}; removed out-of-expectation variables in eq.~\ref{eq:diffusion-expectation-indices}; used the defintion of KL-divergence in eq.~\ref{eq:diffusion-likelihood}.
+In turn, eq.~\ref{eq:diffusion-likelihood} provides an optimization target to \emph{learn} \( p_\theta \) solving \( \max_\theta \log p_\theta (\mathcal D) \).
 
-In their seminal work on using DMs for variational inference,~\citet{hoDenoisingDiffusionProbabilistic2020} introduce major contributions regarding solving \( \min_\theta -\log p_\theta(o,a) \).
-In particular,~\citet{hoDenoisingDiffusionProbabilistic2020} exclusively adopt a fixed \emph{Gaussian} posterior in the form of \( q(z_t \vert z_{t-1}) = \mathcal{N}(\sqrt{1-\beta_t}z_{t-1}, \beta_t \mathbf I) \).
+In their seminal work on using DMs for variational inference,~\citet{hoDenoisingDiffusionProbabilistic2020} introduce major contributions regarding solving \( \min_\theta -\log p_\theta(z_0) \).
+In particular,~\citet{hoDenoisingDiffusionProbabilistic2020} exclusively adopt a \emph{fixed, isotropic Gaussian posterior} in the form of \( q(z_t \vert z_{t-1}) = \mathcal{N}(\sqrt{1-\beta_t}z_{t-1}, \beta_t \mathbf I) \).
 The choice of adopting Gaussians has profound implications on the generative process modeled. 
-Indeed, under the (mild) assumption that the variance is sufficiently small \( \beta_t \leq \eta, \eta \in \mathbb R^+ \),~\citet{sohl-dicksteinDeepUnsupervisedLearning2015} proved that the likelihood \( p(z_{t-1} \vert z_t) \) is Gaussian as well, which allows for the particularly convenient parametrization of the approximate likelihood \( p_\theta (x_{t-1} \vert x_t) = \mathcal N(\mu_\theta(x_t, t), \Sigma_\theta(x_t,t)), \ t \in [1,T] \), as well as for closed-form tractability of the KL-divergence terms in~\ref{eq:diffusion-likelihood}.
-Further, the posterior's structure also enables an analytical description for the distribution of the \( t\)-th latent variable, \( q(z_t \vert z_0) = \mathcal N (\sqrt{\bar{\alpha}_t}z_0, (1-\bar{\alpha}_t) \mathbf{I}) \), with \( \alpha_t = 1-\beta_t, \ \bar \alpha_t = \prod_{k=1}^t \alpha_k \), which conveniently prevents iterative posterior sampling.
+Indeed, under the (mild) assumption that the variance is sufficiently small \( \beta_t \leq \eta, \eta \in \mathbb R^+ \),~\citet{sohl-dicksteinDeepUnsupervisedLearning2015} proved that the likelihood \( p(z_{t-1} \vert z_t) \) is Gaussian as well, which allows for the particularly convenient parametrization of the approximate likelihood \( p_\theta (z_{t-1} \vert z_t) = \mathcal N(\mu_\theta(z_t, t), \Sigma_\theta(z_t,t)), \ t \in [1,T] \), as well as for closed-form tractability of the KL-divergence terms in eq.~\ref{eq:diffusion-likelihood}.
+Further, the posterior's structure also enables the analytical description of the distribution of the \( t\)-th latent variable, \( q(z_t \vert z_0) = \mathcal N (\sqrt{\bar{\alpha}_t}z_0, (1-\bar{\alpha}_t) \mathbf{I}) \), with \( \alpha_t = 1-\beta_t, \ \bar \alpha_t = \prod_{k=1}^t \alpha_k \), conveniently preventing iterative posterior sampling simplifying computing eq.~\ref{eq:diffusion-likelihood}.
+It follows:
+\begin{align}
+    \nabla_\theta \log p_\theta (z_0) = \mathbb E_{z_1 \sim q(\bullet \vert z_0)} \nabla_\theta \log p_\theta (z_0 \vert z_1) - \sum_{t=1}^{T-1} \mathbb E_{z_{t-1}, z_{t+1} \sim q(\bullet \vert z_0)} \nabla_\theta \DKL (q(z_t \vert z_{t-1}) \Vert p_\theta(z_t \vert z_{t+1}), \label{eq:diffusion-likelihood-gradient}
+\end{align}
+where the former term is equivalent to the reconstruction term in eq.~\ref{eq:VAE-min-neg-ELBO} and the latter term can be obtained in closed form.
+
 
 \begin{figure}
     \centering
@@ -217,21 +253,14 @@ Further, the posterior's structure also enables an analytical description for th
     \label{fig:diffusion-robot-actions}
 \end{figure}
 
-Finally, adopting Gaussian posteriors permits a particularly pleasing interpretation of the dynamics of training DMs~\citep{permenterInterpretingImprovingDiffusion2024}.
-By using Gaussian posteriors, the hierarchical latent variables effectively lose increasingly more information circa the original (unknown) distribution's sample, \( z_0 \), increasingly distributing according to a standard Gaussian and thus containing no information at all (Figure~\ref{fig:diffusion-robot-actions}).
-Figure~\ref{fig:diffusion-robot-actions} illustrates this procedure on a simplified, bidimensional observation-action distribution, where we considered \( o=q_2\) and \( a=q^h_2\), with \( q_2 \) representing the robot's \emph{elbow flex} actuation and \( q^h_2 \) the human teleoperator's robot elbow flex.
-
-\begin{figure}
-    \centering
-    \includegraphics[width=0.3\textwidth]{figures/ch4/ch4-action-vs-observation-distribution.png}
-    \caption{A joint action-observation distribution, in the simplified case where the observation is the elbow-flex actuation in a SO-100, and the action is the recorded position for the same joint in the teleoperator arm. The motion recorded being teleoperated, the points distribute along a the diagonal.}
-    \label{fig:ch4-action-vs-observation-distribution}
-\end{figure}
-
+Besides mathematical tractability of eq.~\ref{eq:diffusion-likelihood-gradient}, adopting Gaussian posteriors allows for a particularly intuitive interpretation of the training dynamics of DMs~\citep{permenterInterpretingImprovingDiffusion2024}. 
+As the hierarchical latent variables are repeatedly corrupted by applying increasingly more Gaussian noise, they progressively lose information about the original (unknown) sample \( z_0 \), converging toward a standard Gaussian which eventually contains no information at all (Figure~\ref{fig:diffusion-robot-actions}).
+Figure~\ref{fig:diffusion-robot-actions} illustrates this process on a simplified, bidimensional observation-action distribution, where we considered \( o=q_2 \) and \( a=q^h_2 \), with \( q_2 \) denoting the robot's \emph{elbow flex} actuation and \( q^h_2 \) the corresponding human teleoperator's elbow flex.
 Because the recorded behavior is teleoperated, measurements mostly distribute along the line \( a = o + \eta, \eta \sim N(0,1) \), with \( \eta \)-variability accouting for minor control inconsistencies (Figure~\ref{fig:ch4-action-vs-observation-distribution}).
-Using Gaussian posteriors---i.e., adding Gaussian noise---effectively simulates a \emph{Brownian motion} for the elements in the distribution's support (in Figure~\ref{fig:diffusion-robot-actions}, \( \obsspace \times \actionspace \)), whereby information \emph{diffuses away} from the samples, and comparing the diffused samples to the original data points one can derive an estimate of the total displacement induced by diffusion.
-Under the only assumption that the likelihood of the diffused samples is low under the original unknown data distribution, then one can effectively approximate the unkwown distribution by learning to \emph{reverse} such displacement.
-This key intuition allows to write a simplified training objective:
+Notice how corrupted samples distribute differently from the most reasonable structure \( a \simeq o \), further underscoring how diffusion corrupts both the individual samples and the global distribution (Figure~\ref{fig:diffusion-robot-actions}, left and center).
+In this, using Gaussian posteriors---i.e., adding Gaussian noise---effectively simulates a \emph{Brownian motion} for the elements in the distribution's support (in Figure~\ref{fig:diffusion-robot-actions}, \( \obsspace \times \actionspace \)), whereby information \emph{diffuses away} from the samples.
+Comparing the diffused samples to the original data points, one can derive an estimate of the total displacement induced by the diffusion process, and, under the assumption that the likelihood of the totally diffused samples is low under the original unknown data distribution, one can effectively approximate the unkwown distribution by \emph{learning to reverse} such displacement.
+This key intuition allows to write a simplified training objective\footnote{See~\citet["Three equivalent interpretations"]{luoUnderstandingDiffusionModels2022} for a complete derivation}:
 \begin{align}\label{eq:diffusion-simplified-loss}
     \mathcal L(\theta) = \mathbb{E}_{t, z_0, \epsilon} \big[
         \Vert \epsilon - \epsilon_\theta(\sqrt{\bar \alpha_t} z_0 + \epsilon \sqrt{1 - \bar \alpha_t}, t) \Vert^2 \big], \quad t \sim \mathcal{U}(\{1,\dots,T\}), \quad
@@ -239,16 +268,23 @@ This key intuition allows to write a simplified training objective:
         \epsilon \sim \mathcal{N}(\mathbf{0},\mathbf{I}).
 \end{align}
 
-In this simplified (minimization) objective, the optimization process differs from~\ref{eq:diffusion-likelihood} in that, rather than maxizing \( p_\theta \) directly, the parameters \( \theta \) of the pairwise likelihood \( p_\theta(z_{t-1} \vert z_t) \) are adjusted to \emph{predict the total displacement} \( \epsilon \) for a randomly long (\( t \sim \mathcal{U}(\{1,\dots,T\} \) )) diffusion process starting from a sample of the target distribution.
+\begin{figure}
+    \centering
+    \includegraphics[width=0.3\textwidth]{figures/ch4/ch4-action-vs-observation-distribution.png}
+    \caption{A joint action-observation distribution, in the simplified case where the observation is the elbow-flex actuation in a SO-100, and the action is the recorded position for the same joint from the teleoperator arm. The motion recorded being teleoperated, the points distribute along a the diagonal.}
+    \label{fig:ch4-action-vs-observation-distribution}
+\end{figure}
 
-By learning the total displacement from a generally, uninformative corrupted sample obtained diffusing information and a sample from an unknown distribution---significant (\( \Vert \epsilon \Vert > 0 \)) whenever input and target distribution are sufficiently different---~\citet{hoDenoisingDiffusionProbabilistic2020} show that one can approximate the underlying distribution reversing the displacement, \emph{denoising} samples.
-Interestingly, under the hypothesis real-world data belongs to a single higher dimensional manifold (Manifold Hypothesis),~\citet{permenterInterpretingImprovingDiffusion2024} show that diffusion learns the gradient of a distance function from any off-point manifold (such as perturbed, uniformative samples), and the data manifold itself.
+In this simplified (minimization) objective, the optimization process differs from eq.~\ref{eq:diffusion-likelihood} in that, rather than maxizing \( p_\theta \) directly, the parameters \( \theta \) of the pairwise likelihood \( p_\theta(z_{t-1} \vert z_t) \) are adjusted to \emph{predict the total displacement} \( \epsilon \) for a randomly long (\( t \sim \mathcal{U}(\{1,\dots,T\}) \)) diffusion process starting from a sample of the target distribution.
+
+By learning the total displacement from a generally, uninformative corrupted sample obtained diffusing information and a sample from an unknown distribution~\citet{hoDenoisingDiffusionProbabilistic2020} show that one can approximate the underlying distribution reversing the displacement, \emph{denoising} samples.
+Interestingly, under the hypothesis that real-world data belongs to a single, higher-dimensional manifold (Manifold Hypothesis),~\citet{permenterInterpretingImprovingDiffusion2024} show that diffusion learns the gradient of a distance function from any off-point manifold (such as perturbed, uniformative samples), and the data manifold itself.
 Following this gradient---i.e., denoising a sample from an uninformative distribution---corresponds to projecting back into the manifold, yielding a procedure to sample from unknown distributions by means of Euclidean projection.
-Indeed, under the assumption that \(p_\theta (z_{t-1} \vert z_t) \) is Gaussian, then sampling \(z_{t-1} \sim p_\theta(\bullet \vert z_{t}) \) corresponds to computing
+Indeed, under the assumption that \(p_\theta (z_{t-1} \vert z_t) \) is Gaussian, sampling \(z_{t-1} \sim p_\theta(\bullet \vert z_{t}) \) corresponds to computing:
 \begin{align}
     z_{t-1} = \frac{1}{\sqrt{\alpha_t}} \left( z_t - \frac{\beta_t}{\sqrt{1 - \bar\alpha_t}} \epsilon_\theta(z_t, t) \right) + \sigma_t \epsilon, \quad \epsilon \sim \mathcal N(\mathbf{0}, \mathbf{I}), \label{eq:diffusion-denoising-definition}
 \end{align}
-thus showing that the lower-level latent variables in a DM can be obtained by iteratively removing noise from the one-step higher order variable, using the noise regressor \( \epsilon_\theta(z_t, t)\) learned minimizing~\ref{eq:diffusion-simplified-loss}.
+thus showing that the lower-level latent variables in a DM can be obtained by iteratively removing noise from the one-step higher order variable, using the noise regressor \( \epsilon_\theta(z_t, t)\) learned minimizing eq.~\ref{eq:diffusion-simplified-loss}.
 
 \subsubsection{Flow Matching}
 \label{sec:ch4-flow-matching}
