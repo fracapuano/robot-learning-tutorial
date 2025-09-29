@@ -290,38 +290,41 @@ thus showing that the lower-level latent variables in a DM can be obtained by it
 \label{sec:ch4-flow-matching}
 % Note: I have purposefuly avoided redefining likelihood and optimization objective for FM models as (1) I am presenting them as a generalization of DM, for which the same concepts have been presented in enough detail and (2) the derivation of the objective in the FM paper is very clear and does not really need explanation or coverage.
  
-The posterior parametrization adopted by DMs proved traditionally effective, yet it raised concerns circa its efficiency at inference time, where a possibly large of compute-expensive denoising steps are needed in order to recover a sample from the target distribution. 
-Flow Matching (FM)~\citep{lipmanFlowMatchingGenerative2023} extends DMs to the general case of arbitrary, parametrized likelihood and posteriors, and in this defines a superseding class of GMs providing a unified framework for learning \emph{continuous transformations} between distributions, encompassing and generalizing DMs.
-Instead of a \emph{stochastic, discrete, multi-step} denoising process, FM aims to learn a \emph{deterministic, continuous, differentiable flow} \( \psi [0,1] \times Z \mapsto Z \), formalized starting from possibly time-dependent vector field \( v: [0,1] \times Z \mapsto Z \) transporting samples from a simple prior distribution \( p_0 \)---e.g., a standard Gaussian---to a more complex, potentially unknown data distribution \( p_1 \) over time.
-Note how FM models time \( t \in [0,1] \) to be varying continuously while moving away \emph{from} an easy-to-sample distribution \( p_0 \) \emph{towards} the unknown data-distribution, \( p_1 \). 
-This results in a continuous and deterministic trajectory for each sample, which can be more efficient to generate compared to the stochastic paths of DMs.
+The posterior parametrization adopted by DMs proved traditionally effective, yet it raised concerns circa its \emph{efficiency} at inference time, where a possibly large number (hundreds) of compute-expensive denoising steps are needed in order to recover a sample from the target distribution.
+Flow Matching (FM)~\citep{lipmanFlowMatchingGenerative2023} extends DMs to the general case of arbitrary likelihood and posteriors, and in this defines a superseding class of GMs providing a unified framework for learning \emph{continuous transformations} between distributions, encompassing and generalizing DMs.
+Instead of a \emph{stochastic, discrete, multi-step} denoising process, FM aims to learn a \emph{deterministic, continuous, differentiable flow} \( \psi: [0,1] \times Z \mapsto Z \), formalized starting from a (possibly time-dependent) vector field \( v: [0,1] \times Z \mapsto Z \) \emph{transporting over time} samples from a simple prior distribution \( p_0 \)---e.g., a standard Gaussian---to a more complex, typically unknown data distribution \( p_1 \).
+In this, FM accomodates for arbitrary intermediate distributions, breaking free from the particular case where posterior and likelihood are exclusively Gaussians.
+Note also how FM models time \( t \in [0,1] \) to be varying continuously while moving away \emph{from} an easy-to-sample distribution \( p_0 \) \emph{towards} the unknown data-distribution, \( p_1 \).
+This results in a continuous (and deterministic) trajectory at inference, which is in practice more efficient compared to following stochastic paths like in DMs.
 Formally, FM can be fully characterized by an ordinary differential equation (ODE) relating instantaneous variations of flows with the underlying vector field, and hence providing complete trajectories over the distributions' support when integrating over time,
 \begin{align}
-    \frac{d}{dt} \psi(z, t) &= v(t, \psi(t, z)) \\
-    \psi(0, z) &= z
+    \frac{d}{dt} \psi(z, t) &= v(t, \psi(t, z)), \\
+    \psi(0, z) &= z .
 \end{align}
+In practice, flow models learn to approximate these dynamics by estimating a vector field \( v \) that matches the true, unknown \( u \), so that the induced flows \( \psi \) can approximate the ideal trajectories \( \psi^* \).
 
 FM proved very effective in a variety of applications, ranging from image~\citep{esserScalingRectifiedFlow2024} and video generation~\citep{polyakMovieGenCast2025} to robotics control~\citep{black$p_0$VisionLanguageActionFlow2024}.
-Most notably, in their introductory work on FM for GM,~\citet{lipmanFlowMatchingGenerative2023} show how DMs can be seen as a specific instance of FM where the \emph{conditional} target vector field \( u \) approximated by the noise regressor corresponds to
+Most notably, in their introductory work on FM for GM,~\citet{lipmanFlowMatchingGenerative2023} show how DMs can be seen as a specific instance of FM where the \emph{conditional} target vector field \( v \) learned by the noise regressor \( \eps_\theta \) corresponds to:
 \begin{equation}\label{eq:fm-diffusion-vector-field}
-    u(t, z\vert z_0) = \frac{\frac{d}{dt}\alpha(1-t)}{1 - (\alpha(1-t))^2}(\alpha(1-t)z - z_0), \quad \alpha(t) = e^{-\frac12 \int_0^t \beta(s) ds}, \quad \forall z_0 \in \mathcal D
+    u(t, z\vert z_0) = \frac{\frac{d}{dt}\alpha(1-t)}{1 - (\alpha(1-t))^2}(\alpha(1-t)z - z_0), \quad \alpha(t) = e^{-\frac12 \int_0^t \beta(s) ds}, \quad \forall z_0 \in \mathcal D.
 \end{equation}
-Note that the traditional discrete-time noise-scheduler \( {\beta_t}_{t=0}^T \) is now generalized to a continuous map \( \beta : [0,1] \mapsto \mathbb R^+ \).
-Crucially,~\citet{lipmanFlowMatchingGenerative2023} prove that by exclusively optimizing the vector field for individual data points \( z_0 \in \mathcal D \) individually, one also retrieves the optimal flow to morph the entire support of the initial distribution \( p_0 \) into \( p_1 \ \text{s.t.} \mathcal D \sim p_1 \).
+Conditional vector fields are defined not only over their argument \( z \) and time \( t\), but do also vary with respect to an auxiliary variable \( z_0 \), thereby extending the standard notion of a vector field to incorporate additional conditioning.
+Note that the traditional discrete-time noise-scheduler \( \{\beta_t\}_{t=0}^T \) is now generalized to a continuous map \( \beta : [0,1] \mapsto \mathbb R^+ \).
+Crucially,~\citet{lipmanFlowMatchingGenerative2023} prove that by exclusively optimizing the vector field for individual data points \( z_0 \in \mathcal D \), one also retrieves the optimal flow to morph the entire support of the initial distribution \( p_0 \) into \( p_1 \ \text{s.t.} \mathcal D \sim p_1 \).
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.8\textwidth]{figures/ch4/ch4-normalizing-flows.png}
-    \caption{Probability distributions can be modified applying vector fields resulting in a flow of mass in the support. When acting over time, vector fields can effectively change the distribution's structure.}
+    \includegraphics[width=0.6\textwidth]{figures/ch4/ch4-normalizing-flows.png}
+    \caption{Probability distributions can be modified by applying vector fields, which induce a flow of mass across their support. Evolving over time, these fields can reshape the structure of a distribution. FM models learn to approximate a target vector field, thereby producing the desired transformation of an initial distribution.}
     \label{fig:ch4-normalizing-flows}
 \end{figure}
 
-While the noising schedule of DMs results in a stochastic process that resembles a random walk, FM allows for more general---potentially, deterministic---likelihood and posterior parametrization.
-In the FM literature the likelihood and posterior probabilty densities defined along a HMLV model are typically jointly referred to as a \emph{probability path}, where the distributions for successive adjacent transitions in the HMLV model are related by the (normalized) flow between them (Figure~\ref{fig:ch4-normalizing-flows}).
+While the noising schedule of DMs results in a stochastic resembling a random (Brownian) walk, FM allows for more general---potentially, deterministic---likelihood and posterior parametrization.
+In the FM literature the likelihood and posterior probabilty densities defined along a HMLV model are typically referred to as a \emph{probability path}, where the distributions for successive adjacent transitions in the HMLV model are related by the (normalized) flow between them (Figure~\ref{fig:ch4-normalizing-flows}).
 The inherent flexibility of FM is one of their key advantages over DMs, as it opens up the possibility of \emph{learning} more efficient paths.
-For instance, one can design probability paths inspired by Optimal Transport (OT)---a subdiscipline studying the problem of finding the most efficient way to morph one probability distribution into another.
-Probability paths obtained through OT paths tend to be \emph{straighter} than diffusion paths (Figure~\ref{fig:ch4-diffusion-paths-versus-fm}), which can lead to faster and more stable training, as well as higher-quality sample generation with fewer steps at inference time.
-By avoiding unnecessary backtracking associated with the inherent stochastic nature of both the noising and denoising process in DMs, test-time compute is typically significantly reduced, while retaining comparable results~\citep{lipmanFlowMatchingGenerative2023}.
+For instance, one can design probability paths inspired by Optimal Transport (OT), a mathematical framework concerned with characterizing the most efficient morphings between probability distributions.
+Probability paths obtained through OT paths tend to be \emph{straighter} than diffusion paths (Figure~\ref{fig:ch4-diffusion-paths-versus-fm}), which can lead to faster and more stable training, as well as empirically result in higher-quality generations with fewer denoising steps at inference time.
+In particular, by avoiding unnecessary backtracking associated with the inherent stochastic nature of both the noising and denoising process in DMs, test-time compute is typically significantly reduced in FM, while retaining comparable results~\citep{lipmanFlowMatchingGenerative2023}.
 
 \begin{figure}
     \centering
@@ -332,16 +335,17 @@ By avoiding unnecessary backtracking associated with the inherent stochastic nat
 
 
 In practice, FM can be applied to generative modeling by learning a vector field regressor \( v_\theta(z, t) \) to approximate a given target vector field \( u(t, z) \).
-In the particular case of DMs, \( u(t, z) \) is defined as in~\ref{eq:fm-diffusion-vector-field}, while in priciple the target vector field can be learned to induce a particular transportation, or fixed according to OT.
-Given a sample from the data distribution \( z_1 \sim p_1 \) and a sample from an easy-to-sample prior \( z_0 \sim p_0 \), CFM defines a simple path between them using \emph{linear interpolation} between samples \( z_t = (1-t)z_0 + t z_1 \), resulting in the target vector field \( u(t, z_t) = z_1 - z_0 \).
-Then, a FM model can be trained with the simple regression objective defined as
+In the particular case of DMs, \( u(t, z) \) is defined as in eq.~\ref{eq:fm-diffusion-vector-field}, while in priciple the target vector field can be learned to induce an arbitrary mass displacement, or fixed according to OT.
+Given a sample from the data distribution \( z_1 \sim p_1 \) and a sample from an easy-to-sample prior \( z_0 \sim p_0 \), Conditional FM (CFM) defines a simple path between them using \emph{linear interpolation} between samples \( z_t = (1-t)z_0 + t z_1 \), which in turn results in the target vector field \( u(t, z_t) = z_1 - z_0 \).
+FM models can then be trained with a simple regression objective defined as:
 \begin{align}\label{eq:flow-matching-objective}
     \mathcal L(\theta) = \mathbb{E}_{t, z_0, z_1} \big[
         \Vert v_\theta((1-t)z_0 + t z_1, t) - (z_1 - z_0) \Vert^2 \big], \quad t \sim \mathcal{U}([0,1]),
 \end{align}
-where \( z_0 \sim p_0(\bullet) \) and \( z_1 \sim p_1(\bullet) \). Note how in~\ref{eq:flow-matching-objective}---differently from~\ref{eq:diffusion-simplified-loss}---time is assumed to be varying continuously \( t \sim \mathcal U([0,1]) \) rather than discretely \( t \sim \mathcal U(\{0,1\}) \), a key property of flow-based models.
-The objective in~\ref{eq:flow-matching-objective} directly regresses the learned vector field onto the simple, straight path connecting a point from the prior and a point from the data, providing a simulation-free training procedure that is both stable and efficient.
-At inference time, samples are generated by starting with \( z_0 \sim p_0 \) and iteratively refined according to \( \frac{dz}{dt} = v_\theta(z_t, t) \) for \(t \in [0,1] \)---an operation that can be numerically carried out with standard ODE solvers.
+where \( z_0 \sim p_0(\bullet) \) and \( z_1 \sim p_1(\bullet) \). 
+Note how in eq.~\ref{eq:flow-matching-objective}---differently from eq.~\ref{eq:diffusion-simplified-loss}---time is assumed to be varying continuously \( t \sim \mathcal U([0,1]) \) rather than discretely \( t \sim \mathcal U(\{0, \Delta t, 2 \Delta t, \dots, 1 \})\), a key property of flow-based models.
+Therefore, the objective in eq.~\ref{eq:flow-matching-objective} directly regresses the learned vector field onto the simple, straight path connecting a point from the prior and a point from the data, providing a simulation-free training procedure that is both stable and efficient.
+At inference time, samples are generated by starting with \( z_0 \sim p_0 \) and iteratively refined according to \( \frac{dz}{dt} = v_\theta(z_t, t) \) for \(t \in [0,1] \)---an operation that can be numerically carried out with standard ODE solvers, and that in practice is often carried out numerically via forward-Euler integrating over tens of denoising steps.
 
 \subsection{Action Chunking with Transformers}
 While GMs prove useful in learning complex, high-dimensional multi-modal distributions, they do not natively address the compouding errors problem characteristic of online, sequential predictions.
