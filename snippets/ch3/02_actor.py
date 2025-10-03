@@ -2,6 +2,7 @@ import multiprocessing as mp
 from queue import Empty
 
 import torch
+from pathlib import Path
 
 from lerobot.envs.configs import HILSerlRobotEnvConfig
 from lerobot.policies.sac.modeling_sac import SACPolicy
@@ -21,7 +22,6 @@ def make_policy_obs(obs, device: torch.device = "cpu"):
         },
     }
 
-
 def run_actor(
     transitions_queue: mp.Queue,
     parameters_queue: mp.Queue,
@@ -30,6 +30,7 @@ def run_actor(
     reward_classifier: Classifier,
     env_cfg: HILSerlRobotEnvConfig,
     device: torch.device = "mps",
+    output_directory: Path | None = None
 ):
     """The actor process - interacts with environment and collects data.
     The policy is frozen and only the parameters are updated, popping the most recent ones from a queue."""
@@ -121,4 +122,8 @@ def run_actor(
             env.robot.disconnect()
         if teleop_device and hasattr(teleop_device, "disconnect"):
             teleop_device.disconnect()
+        if output_directory is not None:
+            policy_actor.save_pretrained(output_directory)
+            print(f"[ACTOR] Latest actor policy saved at: {output_directory}")
+        
         print("[ACTOR] Actor process finished")

@@ -1,6 +1,7 @@
 import multiprocessing as mp
 import signal
 from typing import Callable
+from pathlib import Path
 
 from lerobot.datasets.lerobot_dataset import LeRobotDataset
 from lerobot.datasets.utils import hw_to_dataset_features
@@ -20,6 +21,8 @@ run_actor: Callable = ...
 """Main function - coordinates actor and learner processes."""
 
 device = "mps"  # or "cuda" or "cpu"
+output_directory = Path("outputs/robot_learning_tutorial/hil_serl")
+output_directory.mkdir(parents=True, exist_ok=True)
 
 # find ports using lerobot-find-port
 follower_port = ...
@@ -110,6 +113,7 @@ actor_process = mp.Process(
         policy_actor,
         reward_classifier,
         env_cfg,
+        output_directory,
     ),
     kwargs={"device": "cpu"},  # actor is frozen, can run on CPU or accelerate for inference
 )
