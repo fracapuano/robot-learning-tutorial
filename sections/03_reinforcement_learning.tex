@@ -319,12 +319,45 @@ Empirically, HIL-SERL attains near-perfect success rates (99\%+) on diverse mani
 
 \subsubsection{Code Example: Real-world RL}
 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/ch3/ch3-hil-serl-architecture.png}
+    \caption{HIL-SERL is a SOTA RL algorithm for training control policies directly in the real-world. Its implementation in \lerobot~relies on a decoupled actor-learner architecture, communicating over processes (and possibly networks) with queues used to share (1) transitions \( \sars \) and (2) parameters \( \theta \).}
+    \label{fig:ch3-hil-serl-architecture}
+\end{figure}
+
+This example shows how to use the HIL-SERL implementation supported by \lerobot.
+This code example is organized into four parts: we first show how to train a reward classifier from a custom set of demonstrations, then define the \texttt{Actor} and \texttt{Learner} components, and finally, we bring them together in a complete script showing how to use HIL-SERL in practice.
+
+At a higher level, the HIL-SERL architecture (Figure~\ref{fig:ch3-hil-serl-architecture}) relies on two main components:
+\begin{itemize}
+    \item An \texttt{Actor}, running a frozen policy network used to interact with the environment and obtain observations. Observations are used to both condition the frozen actor in selecting the action to enact, and to form \( \sars \) transitions that are shared with the \texttt{Learner}. Rewards are inferred using a custom, learned reward classifier trained on a dataset of offline demonstrations.
+    %
+    \item A \texttt{Learner}, used to optimize the policy's parameters \( \theta \) for maximum expected return. The learner samples batches of offline data from online and offline buffers in equal proportion~\citep{ballEfficientOnlineReinforcement2023}, and shares updated parameters with the \texttt{Actor}.
+\end{itemize}
+
+The HIL-SERL architecture presented in this example can be exclusively run locally, but the implementation in \lerobot~also allows the \texttt{Actor} and \texttt{Learner} to run on two separate machines connected by the network.
+
+% \paragraph{Learning a Reward Classifier}
+\begin{pbox}[label={ex:train_reward_classifier}]{Training a Reward Classifier}
+    \inputminted{python}{snippets/ch3/01_reward_classifier.py}
+\end{pbox}
+
+% \paragraph{Defining the \texttt{Actor}}
+\begin{pbox}[label={ex:hil_serl_defining_actor}]{Defining the \texttt{Actor}}
+    \inputminted{python}{snippets/ch3/02_actor.py}
+\end{pbox}
 
 
+% \paragraph{Defining the \texttt{Learner}}
+\begin{pbox}[label={ex:hil_serl_defining_learner}]{Defining the \texttt{Learner}}
+    \inputminted{python}{snippets/ch3/03_learner.py}
+\end{pbox}
 
-\paragraph{Learning a Reward Classifier}
-
-\paragraph{Training with a Actor-Learner Schema}
+% \paragraph{Using HIL-SERL}
+\begin{pbox}[label={ex:hil_serl_full}]{Using HIL-SERL}
+    \inputminted{python}{snippets/ch3/04_hil_serl.py}
+\end{pbox}
 
 
 \subsubsection{Limitations of RL in Real-World Robotics: Simulators and Reward Design}
