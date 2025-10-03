@@ -312,10 +312,11 @@ Conditional vector fields are defined not only over their argument \( z \) and t
 Note that the traditional discrete-time noise-scheduler \( \{\beta_t\}_{t=0}^T \) is now generalized to a continuous map \( \beta : [0,1] \mapsto \mathbb R^+ \).
 Crucially,~\citet{lipmanFlowMatchingGenerative2023} prove that by exclusively optimizing the vector field for individual data points \( z_0 \in \mathcal D \), one also retrieves the optimal flow to morph the entire support of the initial distribution \( p_0 \) into \( p_1 \ \text{s.t.} \mathcal D \sim p_1 \).
 
+
 \begin{figure}
     \centering
-    \includegraphics[width=0.6\textwidth]{figures/ch4/ch4-normalizing-flows.png}
-    \caption{Probability distributions can be modified by applying vector fields, which induce a flow of mass across their support. Evolving over time, these fields can reshape the structure of a distribution. FM models learn to approximate a target vector field, thereby producing the desired transformation of an initial distribution.}
+    \includegraphics[width=0.9\textwidth]{figures/ch4/ch4-normalizing-flows.png}
+    \caption{Probability distributions can be modified differently by applying different vector fields, inducing different flows of mass across the same support (top versus bottom, using two different time-invariant 2D-fields \( u_1(x,y) = (x,0) \) and \( u_2(x,y) = (x/\sqrt{2}, y/\sqrt{2}) \)). Notice time flows \emph{continuously} in \( [0,1] \). FM models learn to approximate a target vector field, thereby producing arbitrary (goal) transformations of an easy-to-sample initial distribution.}
     \label{fig:ch4-normalizing-flows}
 \end{figure}
 
