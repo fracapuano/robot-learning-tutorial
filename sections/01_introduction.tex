@@ -42,7 +42,8 @@ We complement our presentation of the most common and recent approaches in robot
 
 \subsection{\lerobotdataset}
 
-\lerobotdataset~is a standardized dataset format designed to address the specific needs of robot learning research, and it provides a unified and convenient access to robotics data across modalities, including sensorimotor readings, multiple camera feeds and teleoperation status.
+\lerobotdataset~is one of the most impactful features of \lerobot, developed in keeping with the observation that robotics data is increasingly central in robot learning. 
+Thus, \lerobot~defines a standardized dataset format designed to address the specific needs of robot learning research, providing a unified and convenient access to robotics data across modalities, including sensorimotor readings, multiple camera feeds and teleoperation status.
 \lerobotdataset~also accommodates for storing general information regarding the data being collected, including textual descriptions of the task being performed by the teleoperator, the kind of robot used, and relevant measurement specifics like the frames per second at which the recording of both image and robot state's streams are proceeding.
 
 In this, \lerobotdataset~provides a unified interface for handling multi-modal, time-series data, and it is designed to seamlessly integrate with the PyTorch and Hugging Face ecosystems.
@@ -95,7 +96,7 @@ This feature is designed to improve on accessibility so that large datasets can 
 \begin{pbox}[label={ex:dataset-batching}]{Batching a (Streaming) Dataset 
     %\\ \url{flow_matching/examples/standalone_discrete_flow_matching.ipynb}
 }
-\inputminted{python}{snippets/ch1/01_dataset.py}
+\inputminted{python}{snippets/ch1/01_datasets.py}
 \end{pbox}
 
 \subsection{Code Example: Collecting Data}
