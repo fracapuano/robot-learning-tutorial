@@ -127,7 +127,7 @@ where we used eq.~\ref{eq:BC-latent-variable} in eq.~\ref{eq:evidence-definition
 In the special case where one assumes distributions to be tractable, \( p_\theta (\mathcal D) \) is typically tractable too, and \(\max_\theta \log p_\theta(\mathcal D) \) provides a natural target for (point-wise) infering the unknown parameters \( \theta \) of the generative model.
 Unfortunately, eq.~\ref{eq:evidence-definition} is rarely tractable when the distribution \( p \) is modeled with approximators such as neural networks, especially for high-dimensional, unstructured data.
 
-In their seminal work on Variational Auto-Encoders (VAEs),~\citet{kingmaAutoEncodingVariationalBayes2022} present two major contributions to learn complex latent-variable GMs from unstructured data, proposing (1) a tractable, variational lower-bound to eq.~\ref{eq:evidence-definition} as an optimization target to jointly learn likelihood and posterior and (2) using high-capacity function approximators to model the likelihood \(p_\theta(o,a\vert z)\) and (approximate) posterior distribution \( q_\phi(z \vert o,a) \approx q_\theta(z \vert o,a) \).
+In their seminal work on Variational Auto-Encoders (VAEs),~\citet{kingma2013auto} present two major contributions to learn complex latent-variable GMs from unstructured data, proposing (1) a tractable, variational lower-bound to eq.~\ref{eq:evidence-definition} as an optimization target to jointly learn likelihood and posterior and (2) using high-capacity function approximators to model the likelihood \(p_\theta(o,a\vert z)\) and (approximate) posterior distribution \( q_\phi(z \vert o,a) \approx q_\theta(z \vert o,a) \).
 
 In particular, the lower bound on eq.~\ref{eq:evidence-definition} (Evidence LOwer Bound, \emph{ELBO}) can be derived from eq.~\ref{eq:evidence-definition} applying Jensen's inequality---\(\log \mathbb{E}[\bullet] \geq \mathbb{E} [\log (\bullet)] \)---yielding:
 \begin{align}
@@ -141,7 +141,7 @@ In particular, the lower bound on eq.~\ref{eq:evidence-definition} (Evidence LOw
         \right) \label{eq:ELBO-intractable}
 \end{align}
 
-The true, generally intractable, posterior \( q_\theta (z \vert o,a) \) prevents computing both the expectation and KL divergence terms in eq.~\ref{eq:ELBO-intractable}, and therefore~\citet{kingmaAutoEncodingVariationalBayes2022} propose deriving the ELBO using an \emph{approximate} posterior \( q_\phi(z \vert o,a) \), resulting in the final, tractable, ELBO objective,
+The true, generally intractable, posterior \( q_\theta (z \vert o,a) \) prevents computing both the expectation and KL divergence terms in eq.~\ref{eq:ELBO-intractable}, and therefore~\citet{kingma2013auto} propose deriving the ELBO using an \emph{approximate} posterior \( q_\phi(z \vert o,a) \), resulting in the final, tractable, ELBO objective,
 \begin{align}
 \text{ELBO}_{\mathcal D}(\theta, \phi) = \sum_{i=0}^{N} \left(
             \mathbb{E}_{z \sim q_\phi(\bullet \vert (o,a)_i)} \big[ \log p_\theta((o,a)_i \vert z) \big]
