@@ -1,0 +1,98 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{multiprocessing}\PYG{+w}{ }\PYG{k}{as}\PYG{+w}{ }\PYG{n+nn}{mp}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{queue}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{Empty}\PYG{p}{,} \PYG{n}{Full}
+
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{torch}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{torch}\PYG{n+nn}{.}\PYG{n+nn}{optim}\PYG{+w}{ }\PYG{k}{as}\PYG{+w}{ }\PYG{n+nn}{optim}
+
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{lerobot}\PYG{n+nn}{.}\PYG{n+nn}{policies}\PYG{n+nn}{.}\PYG{n+nn}{sac}\PYG{n+nn}{.}\PYG{n+nn}{modeling\PYGZus{}sac}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{SACPolicy}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{lerobot}\PYG{n+nn}{.}\PYG{n+nn}{rl}\PYG{n+nn}{.}\PYG{n+nn}{buffer}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{ReplayBuffer}
+
+\PYG{n}{LOG\PYGZus{}EVERY} \PYG{o}{=} \PYG{l+m+mi}{10}
+\PYG{n}{SEND\PYGZus{}EVERY} \PYG{o}{=} \PYG{l+m+mi}{10}
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{run\PYGZus{}learner}\PYG{p}{(}
+    \PYG{n}{transitions\PYGZus{}queue}\PYG{p}{:} \PYG{n}{mp}\PYG{o}{.}\PYG{n}{Queue}\PYG{p}{,}
+    \PYG{n}{parameters\PYGZus{}queue}\PYG{p}{:} \PYG{n}{mp}\PYG{o}{.}\PYG{n}{Queue}\PYG{p}{,}
+    \PYG{n}{shutdown\PYGZus{}event}\PYG{p}{:} \PYG{n}{mp}\PYG{o}{.}\PYG{n}{Event}\PYG{p}{,}
+    \PYG{n}{policy\PYGZus{}learner}\PYG{p}{:} \PYG{n}{SACPolicy}\PYG{p}{,}
+    \PYG{n}{online\PYGZus{}buffer}\PYG{p}{:} \PYG{n}{ReplayBuffer}\PYG{p}{,}
+    \PYG{n}{offline\PYGZus{}buffer}\PYG{p}{:} \PYG{n}{ReplayBuffer}\PYG{p}{,}
+    \PYG{n}{lr}\PYG{p}{:} \PYG{n+nb}{float} \PYG{o}{=} \PYG{l+m+mf}{3e\PYGZhy{}4}\PYG{p}{,}
+    \PYG{n}{batch\PYGZus{}size}\PYG{p}{:} \PYG{n+nb}{int} \PYG{o}{=} \PYG{l+m+mi}{32}\PYG{p}{,}
+    \PYG{n}{device}\PYG{p}{:} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{device} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{mps}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+\PYG{p}{)}\PYG{p}{:}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}The learner process \PYGZhy{} trains SAC policy on transitions streamed from the actor, updating parameters}
+\PYG{l+s+sd}{    for the actor to adopt.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n}{policy\PYGZus{}learner}\PYG{o}{.}\PYG{n}{train}\PYG{p}{(}\PYG{p}{)}
+    \PYG{n}{policy\PYGZus{}learner}\PYG{o}{.}\PYG{n}{to}\PYG{p}{(}\PYG{n}{device}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} Create Adam optimizer from scratch \PYGZhy{} simple and clean}
+    \PYG{n}{optimizer} \PYG{o}{=} \PYG{n}{optim}\PYG{o}{.}\PYG{n}{Adam}\PYG{p}{(}\PYG{n}{policy\PYGZus{}learner}\PYG{o}{.}\PYG{n}{parameters}\PYG{p}{(}\PYG{p}{)}\PYG{p}{,} \PYG{n}{lr}\PYG{o}{=}\PYG{n}{lr}\PYG{p}{)}
+
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{[LEARNER] Online buffer capacity: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{online\PYGZus{}buffer}\PYG{o}{.}\PYG{n}{capacity}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{[LEARNER] Offline buffer capacity: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{offline\PYGZus{}buffer}\PYG{o}{.}\PYG{n}{capacity}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{n}{training\PYGZus{}step} \PYG{o}{=} \PYG{l+m+mi}{0}
+
+    \PYG{k}{while} \PYG{o+ow}{not} \PYG{n}{shutdown\PYGZus{}event}\PYG{o}{.}\PYG{n}{is\PYGZus{}set}\PYG{p}{(}\PYG{p}{)}\PYG{p}{:}
+        \PYG{c+c1}{\PYGZsh{} retrieve incoming transitions from the actor process}
+        \PYG{k}{try}\PYG{p}{:}
+            \PYG{n}{transitions} \PYG{o}{=} \PYG{n}{transitions\PYGZus{}queue}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{n}{timeout}\PYG{o}{=}\PYG{l+m+mf}{0.1}\PYG{p}{)}
+            \PYG{k}{for} \PYG{n}{transition} \PYG{o+ow}{in} \PYG{n}{transitions}\PYG{p}{:}
+                \PYG{c+c1}{\PYGZsh{} HIL\PYGZhy{}SERL: Add ALL transitions to online buffer}
+                \PYG{n}{online\PYGZus{}buffer}\PYG{o}{.}\PYG{n}{add}\PYG{p}{(}\PYG{o}{*}\PYG{o}{*}\PYG{n}{transition}\PYG{p}{)}
+
+                \PYG{c+c1}{\PYGZsh{} HIL\PYGZhy{}SERL: Add ONLY human intervention transitions to offline buffer}
+                \PYG{n}{is\PYGZus{}intervention} \PYG{o}{=} \PYG{n}{transition}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{complementary\PYGZus{}info}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{p}{\PYGZob{}}\PYG{p}{\PYGZcb{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{is\PYGZus{}intervention}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{k+kc}{False}\PYG{p}{)}
+                \PYG{k}{if} \PYG{n}{is\PYGZus{}intervention}\PYG{p}{:}
+                    \PYG{n}{offline\PYGZus{}buffer}\PYG{o}{.}\PYG{n}{add}\PYG{p}{(}\PYG{o}{*}\PYG{o}{*}\PYG{n}{transition}\PYG{p}{)}
+                    \PYG{n+nb}{print}\PYG{p}{(}
+                        \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{[LEARNER] Human intervention detected!}\PYG{l+s+s2}{\PYGZdq{}}
+                        \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Added to offline buffer (now }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{offline\PYGZus{}buffer}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ transitions)}\PYG{l+s+s2}{\PYGZdq{}}
+                    \PYG{p}{)}
+
+        \PYG{k}{except} \PYG{n}{Empty}\PYG{p}{:}
+            \PYG{k}{pass}  \PYG{c+c1}{\PYGZsh{} No transitions available, continue}
+
+        \PYG{c+c1}{\PYGZsh{} Train if we have enough data}
+        \PYG{k}{if} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{online\PYGZus{}buffer}\PYG{p}{)} \PYG{o}{\PYGZgt{}}\PYG{o}{=} \PYG{n}{policy\PYGZus{}learner}\PYG{o}{.}\PYG{n}{config}\PYG{o}{.}\PYG{n}{online\PYGZus{}step\PYGZus{}before\PYGZus{}learning}\PYG{p}{:}
+            \PYG{c+c1}{\PYGZsh{} Sample from online buffer (autonomous + human data)}
+            \PYG{n}{online\PYGZus{}batch} \PYG{o}{=} \PYG{n}{online\PYGZus{}buffer}\PYG{o}{.}\PYG{n}{sample}\PYG{p}{(}\PYG{n}{batch\PYGZus{}size} \PYG{o}{/}\PYG{o}{/} \PYG{l+m+mi}{2}\PYG{p}{)}
+
+            \PYG{c+c1}{\PYGZsh{} Sample from offline buffer (human demonstrations only, either precollected or at runtime)}
+            \PYG{n}{offline\PYGZus{}batch} \PYG{o}{=} \PYG{n}{offline\PYGZus{}buffer}\PYG{o}{.}\PYG{n}{sample}\PYG{p}{(}\PYG{n}{batch\PYGZus{}size} \PYG{o}{/}\PYG{o}{/} \PYG{l+m+mi}{2}\PYG{p}{)}
+
+            \PYG{c+c1}{\PYGZsh{} Combine batches \PYGZhy{} this is the key HIL\PYGZhy{}SERL mechanism!}
+            \PYG{n}{batch} \PYG{o}{=} \PYG{p}{\PYGZob{}}\PYG{p}{\PYGZcb{}}
+            \PYG{k}{for} \PYG{n}{key} \PYG{o+ow}{in} \PYG{n}{online\PYGZus{}batch}\PYG{o}{.}\PYG{n}{keys}\PYG{p}{(}\PYG{p}{)}\PYG{p}{:}
+                \PYG{k}{if} \PYG{n}{key} \PYG{o+ow}{in} \PYG{n}{offline\PYGZus{}batch}\PYG{p}{:}
+                    \PYG{n}{batch}\PYG{p}{[}\PYG{n}{key}\PYG{p}{]} \PYG{o}{=} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{cat}\PYG{p}{(}\PYG{p}{[}\PYG{n}{online\PYGZus{}batch}\PYG{p}{[}\PYG{n}{key}\PYG{p}{]}\PYG{p}{,} \PYG{n}{offline\PYGZus{}batch}\PYG{p}{[}\PYG{n}{key}\PYG{p}{]}\PYG{p}{]}\PYG{p}{,} \PYG{n}{dim}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{)}
+                \PYG{k}{else}\PYG{p}{:}
+                    \PYG{n}{batch}\PYG{p}{[}\PYG{n}{key}\PYG{p}{]} \PYG{o}{=} \PYG{n}{online\PYGZus{}batch}\PYG{p}{[}\PYG{n}{key}\PYG{p}{]}
+
+            \PYG{n}{loss}\PYG{p}{,} \PYG{n}{\PYGZus{}} \PYG{o}{=} \PYG{n}{policy\PYGZus{}learner}\PYG{o}{.}\PYG{n}{forward}\PYG{p}{(}\PYG{n}{batch}\PYG{p}{)}
+
+            \PYG{n}{optimizer}\PYG{o}{.}\PYG{n}{zero\PYGZus{}grad}\PYG{p}{(}\PYG{p}{)}
+            \PYG{n}{loss}\PYG{o}{.}\PYG{n}{backward}\PYG{p}{(}\PYG{p}{)}
+            \PYG{n}{optimizer}\PYG{o}{.}\PYG{n}{step}\PYG{p}{(}\PYG{p}{)}
+            \PYG{n}{training\PYGZus{}step} \PYG{o}{+}\PYG{o}{=} \PYG{l+m+mi}{1}
+
+            \PYG{k}{if} \PYG{n}{training\PYGZus{}step} \PYG{o}{\PYGZpc{}} \PYG{n}{LOG\PYGZus{}EVERY} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{:}
+                \PYG{n+nb}{print}\PYG{p}{(}
+                    \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{[LEARNER] Training step }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{training\PYGZus{}step}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{, Loss: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{loss}\PYG{o}{.}\PYG{n}{item}\PYG{p}{(}\PYG{p}{)}\PYG{l+s+si}{:}\PYG{l+s+s2}{.4f}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{, }\PYG{l+s+s2}{\PYGZdq{}}
+                    \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Buffers: Online=}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{online\PYGZus{}buffer}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{, Offline=}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{offline\PYGZus{}buffer}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}
+                \PYG{p}{)}
+
+            \PYG{c+c1}{\PYGZsh{} Send updated parameters to actor every 10 training steps}
+            \PYG{k}{if} \PYG{n}{training\PYGZus{}step} \PYG{o}{\PYGZpc{}} \PYG{n}{SEND\PYGZus{}EVERY} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{:}
+                \PYG{k}{try}\PYG{p}{:}
+                    \PYG{n}{state\PYGZus{}dict} \PYG{o}{=} \PYG{p}{\PYGZob{}}\PYG{n}{k}\PYG{p}{:} \PYG{n}{v}\PYG{o}{.}\PYG{n}{cpu}\PYG{p}{(}\PYG{p}{)} \PYG{k}{for} \PYG{n}{k}\PYG{p}{,} \PYG{n}{v} \PYG{o+ow}{in} \PYG{n}{policy\PYGZus{}learner}\PYG{o}{.}\PYG{n}{state\PYGZus{}dict}\PYG{p}{(}\PYG{p}{)}\PYG{o}{.}\PYG{n}{items}\PYG{p}{(}\PYG{p}{)}\PYG{p}{\PYGZcb{}}
+                    \PYG{n}{parameters\PYGZus{}queue}\PYG{o}{.}\PYG{n}{put\PYGZus{}nowait}\PYG{p}{(}\PYG{n}{state\PYGZus{}dict}\PYG{p}{)}
+                    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{[LEARNER] Sent updated parameters to actor}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+                \PYG{k}{except} \PYG{n}{Full}\PYG{p}{:}
+                    \PYG{c+c1}{\PYGZsh{} Missing write due to queue not being consumed (should happen rarely)}
+                    \PYG{k}{pass}
+
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{[LEARNER] Learner process finished}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+\end{MintedVerbatim}

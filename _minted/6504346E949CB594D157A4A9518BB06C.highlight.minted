@@ -1,0 +1,131 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{multiprocessing}\PYG{+w}{ }\PYG{k}{as}\PYG{+w}{ }\PYG{n+nn}{mp}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{queue}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{Empty}
+
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{torch}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{pathlib}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{Path}
+
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{lerobot}\PYG{n+nn}{.}\PYG{n+nn}{envs}\PYG{n+nn}{.}\PYG{n+nn}{configs}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{HILSerlRobotEnvConfig}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{lerobot}\PYG{n+nn}{.}\PYG{n+nn}{policies}\PYG{n+nn}{.}\PYG{n+nn}{sac}\PYG{n+nn}{.}\PYG{n+nn}{modeling\PYGZus{}sac}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{SACPolicy}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{lerobot}\PYG{n+nn}{.}\PYG{n+nn}{policies}\PYG{n+nn}{.}\PYG{n+nn}{sac}\PYG{n+nn}{.}\PYG{n+nn}{reward\PYGZus{}model}\PYG{n+nn}{.}\PYG{n+nn}{modeling\PYGZus{}classifier}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{Classifier}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{lerobot}\PYG{n+nn}{.}\PYG{n+nn}{rl}\PYG{n+nn}{.}\PYG{n+nn}{gym\PYGZus{}manipulator}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{make\PYGZus{}robot\PYGZus{}env}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{lerobot}\PYG{n+nn}{.}\PYG{n+nn}{teleoperators}\PYG{n+nn}{.}\PYG{n+nn}{utils}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{TeleopEvents}
+
+\PYG{n}{MAX\PYGZus{}EPISODES} \PYG{o}{=} \PYG{l+m+mi}{5}
+\PYG{n}{MAX\PYGZus{}STEPS\PYGZus{}PER\PYGZus{}EPISODE} \PYG{o}{=} \PYG{l+m+mi}{20}
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{make\PYGZus{}policy\PYGZus{}obs}\PYG{p}{(}\PYG{n}{obs}\PYG{p}{,} \PYG{n}{device}\PYG{p}{:} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{device} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{cpu}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}\PYG{p}{:}
+    \PYG{k}{return} \PYG{p}{\PYGZob{}}
+        \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{observation.state}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{:} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{from\PYGZus{}numpy}\PYG{p}{(}\PYG{n}{obs}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{agent\PYGZus{}pos}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{]}\PYG{p}{)}\PYG{o}{.}\PYG{n}{float}\PYG{p}{(}\PYG{p}{)}\PYG{o}{.}\PYG{n}{unsqueeze}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{)}\PYG{o}{.}\PYG{n}{to}\PYG{p}{(}\PYG{n}{device}\PYG{p}{)}\PYG{p}{,}
+        \PYG{o}{*}\PYG{o}{*}\PYG{p}{\PYGZob{}}
+            \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{observation.image.}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{k}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{:} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{from\PYGZus{}numpy}\PYG{p}{(}\PYG{n}{obs}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{pixels}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{]}\PYG{p}{[}\PYG{n}{k}\PYG{p}{]}\PYG{p}{)}\PYG{o}{.}\PYG{n}{float}\PYG{p}{(}\PYG{p}{)}\PYG{o}{.}\PYG{n}{unsqueeze}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{)}\PYG{o}{.}\PYG{n}{to}\PYG{p}{(}\PYG{n}{device}\PYG{p}{)}
+            \PYG{k}{for} \PYG{n}{k} \PYG{o+ow}{in} \PYG{n}{obs}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{pixels}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{]}
+        \PYG{p}{\PYGZcb{}}\PYG{p}{,}
+    \PYG{p}{\PYGZcb{}}
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{run\PYGZus{}actor}\PYG{p}{(}
+    \PYG{n}{transitions\PYGZus{}queue}\PYG{p}{:} \PYG{n}{mp}\PYG{o}{.}\PYG{n}{Queue}\PYG{p}{,}
+    \PYG{n}{parameters\PYGZus{}queue}\PYG{p}{:} \PYG{n}{mp}\PYG{o}{.}\PYG{n}{Queue}\PYG{p}{,}
+    \PYG{n}{shutdown\PYGZus{}event}\PYG{p}{:} \PYG{n}{mp}\PYG{o}{.}\PYG{n}{Event}\PYG{p}{,}
+    \PYG{n}{policy\PYGZus{}actor}\PYG{p}{:} \PYG{n}{SACPolicy}\PYG{p}{,}
+    \PYG{n}{reward\PYGZus{}classifier}\PYG{p}{:} \PYG{n}{Classifier}\PYG{p}{,}
+    \PYG{n}{env\PYGZus{}cfg}\PYG{p}{:} \PYG{n}{HILSerlRobotEnvConfig}\PYG{p}{,}
+    \PYG{n}{device}\PYG{p}{:} \PYG{n}{torch}\PYG{o}{.}\PYG{n}{device} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{mps}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+    \PYG{n}{output\PYGZus{}directory}\PYG{p}{:} \PYG{n}{Path} \PYG{o}{|} \PYG{k+kc}{None} \PYG{o}{=} \PYG{k+kc}{None}
+\PYG{p}{)}\PYG{p}{:}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}The actor process \PYGZhy{} interacts with environment and collects data.}
+\PYG{l+s+sd}{    The policy is frozen and only the parameters are updated, popping the most recent ones from a queue.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n}{policy\PYGZus{}actor}\PYG{o}{.}\PYG{n}{eval}\PYG{p}{(}\PYG{p}{)}
+    \PYG{n}{policy\PYGZus{}actor}\PYG{o}{.}\PYG{n}{to}\PYG{p}{(}\PYG{n}{device}\PYG{p}{)}
+
+    \PYG{n}{reward\PYGZus{}classifier}\PYG{o}{.}\PYG{n}{eval}\PYG{p}{(}\PYG{p}{)}
+    \PYG{n}{reward\PYGZus{}classifier}\PYG{o}{.}\PYG{n}{to}\PYG{p}{(}\PYG{n}{device}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} Create robot environment inside the actor process}
+    \PYG{n}{env}\PYG{p}{,} \PYG{n}{teleop\PYGZus{}device} \PYG{o}{=} \PYG{n}{make\PYGZus{}robot\PYGZus{}env}\PYG{p}{(}\PYG{n}{env\PYGZus{}cfg}\PYG{p}{)}
+
+    \PYG{k}{try}\PYG{p}{:}
+        \PYG{k}{for} \PYG{n}{episode} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{MAX\PYGZus{}EPISODES}\PYG{p}{)}\PYG{p}{:}
+            \PYG{k}{if} \PYG{n}{shutdown\PYGZus{}event}\PYG{o}{.}\PYG{n}{is\PYGZus{}set}\PYG{p}{(}\PYG{p}{)}\PYG{p}{:}
+                \PYG{k}{break}
+
+            \PYG{n}{obs}\PYG{p}{,} \PYG{n}{\PYGZus{}info} \PYG{o}{=} \PYG{n}{env}\PYG{o}{.}\PYG{n}{reset}\PYG{p}{(}\PYG{p}{)}
+            \PYG{n}{episode\PYGZus{}reward} \PYG{o}{=} \PYG{l+m+mf}{0.0}
+            \PYG{n}{step} \PYG{o}{=} \PYG{l+m+mi}{0}
+            \PYG{n}{episode\PYGZus{}transitions} \PYG{o}{=} \PYG{p}{[}\PYG{p}{]}
+
+            \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{[ACTOR] Starting episode }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{episode}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+            \PYG{k}{while} \PYG{n}{step} \PYG{o}{\PYGZlt{}} \PYG{n}{MAX\PYGZus{}STEPS\PYGZus{}PER\PYGZus{}EPISODE} \PYG{o+ow}{and} \PYG{o+ow}{not} \PYG{n}{shutdown\PYGZus{}event}\PYG{o}{.}\PYG{n}{is\PYGZus{}set}\PYG{p}{(}\PYG{p}{)}\PYG{p}{:}
+                \PYG{k}{try}\PYG{p}{:}
+                    \PYG{n}{new\PYGZus{}params} \PYG{o}{=} \PYG{n}{parameters\PYGZus{}queue}\PYG{o}{.}\PYG{n}{get\PYGZus{}nowait}\PYG{p}{(}\PYG{p}{)}
+                    \PYG{n}{policy\PYGZus{}actor}\PYG{o}{.}\PYG{n}{load\PYGZus{}state\PYGZus{}dict}\PYG{p}{(}\PYG{n}{new\PYGZus{}params}\PYG{p}{)}
+                    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{[ACTOR] Updated policy parameters from learner}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+                \PYG{k}{except} \PYG{n}{Empty}\PYG{p}{:}  \PYG{c+c1}{\PYGZsh{} No new updated parameters available from learner, waiting}
+                    \PYG{k}{pass}
+
+                \PYG{c+c1}{\PYGZsh{} Get action from policy}
+                \PYG{n}{policy\PYGZus{}obs} \PYG{o}{=} \PYG{n}{make\PYGZus{}policy\PYGZus{}obs}\PYG{p}{(}\PYG{n}{obs}\PYG{p}{,} \PYG{n}{device}\PYG{o}{=}\PYG{n}{device}\PYG{p}{)}
+                \PYG{n}{action\PYGZus{}tensor} \PYG{o}{=} \PYG{n}{policy\PYGZus{}actor}\PYG{o}{.}\PYG{n}{select\PYGZus{}action}\PYG{p}{(}\PYG{n}{policy\PYGZus{}obs}\PYG{p}{)}  \PYG{c+c1}{\PYGZsh{} predicts a single action}
+                \PYG{n}{action} \PYG{o}{=} \PYG{n}{action\PYGZus{}tensor}\PYG{o}{.}\PYG{n}{squeeze}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{)}\PYG{o}{.}\PYG{n}{cpu}\PYG{p}{(}\PYG{p}{)}\PYG{o}{.}\PYG{n}{numpy}\PYG{p}{(}\PYG{p}{)}
+
+                \PYG{c+c1}{\PYGZsh{} Step environment}
+                \PYG{n}{next\PYGZus{}obs}\PYG{p}{,} \PYG{n}{\PYGZus{}env\PYGZus{}reward}\PYG{p}{,} \PYG{n}{terminated}\PYG{p}{,} \PYG{n}{truncated}\PYG{p}{,} \PYG{n}{\PYGZus{}info} \PYG{o}{=} \PYG{n}{env}\PYG{o}{.}\PYG{n}{step}\PYG{p}{(}\PYG{n}{action}\PYG{p}{)}
+                \PYG{n}{done} \PYG{o}{=} \PYG{n}{terminated} \PYG{o+ow}{or} \PYG{n}{truncated}
+
+                \PYG{c+c1}{\PYGZsh{} Predict reward}
+                \PYG{n}{policy\PYGZus{}next\PYGZus{}obs} \PYG{o}{=} \PYG{n}{make\PYGZus{}policy\PYGZus{}obs}\PYG{p}{(}\PYG{n}{next\PYGZus{}obs}\PYG{p}{,} \PYG{n}{device}\PYG{o}{=}\PYG{n}{device}\PYG{p}{)}
+                \PYG{n}{reward} \PYG{o}{=} \PYG{n}{reward\PYGZus{}classifier}\PYG{o}{.}\PYG{n}{predict\PYGZus{}reward}\PYG{p}{(}\PYG{n}{policy\PYGZus{}next\PYGZus{}obs}\PYG{p}{)}
+
+                \PYG{k}{if} \PYG{n}{reward} \PYG{o}{\PYGZgt{}}\PYG{o}{=} \PYG{l+m+mf}{1.0}\PYG{p}{:}  \PYG{c+c1}{\PYGZsh{} success detected! halt episode}
+                    \PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{done}\PYG{p}{:}
+                        \PYG{n}{terminated} \PYG{o}{=} \PYG{k+kc}{True}
+                        \PYG{n}{done} \PYG{o}{=} \PYG{k+kc}{True}
+
+                \PYG{c+c1}{\PYGZsh{} In HIL\PYGZhy{}SERL, human interventions come from the teleop device}
+                \PYG{n}{is\PYGZus{}intervention} \PYG{o}{=} \PYG{k+kc}{False}
+                \PYG{k}{if} \PYG{n+nb}{hasattr}\PYG{p}{(}\PYG{n}{teleop\PYGZus{}device}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{get\PYGZus{}teleop\PYGZus{}events}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}\PYG{p}{:}
+                    \PYG{c+c1}{\PYGZsh{} Real intervention detection from teleop device}
+                    \PYG{n}{teleop\PYGZus{}events} \PYG{o}{=} \PYG{n}{teleop\PYGZus{}device}\PYG{o}{.}\PYG{n}{get\PYGZus{}teleop\PYGZus{}events}\PYG{p}{(}\PYG{p}{)}
+                    \PYG{n}{is\PYGZus{}intervention} \PYG{o}{=} \PYG{n}{teleop\PYGZus{}events}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{n}{TeleopEvents}\PYG{o}{.}\PYG{n}{IS\PYGZus{}INTERVENTION}\PYG{p}{,} \PYG{k+kc}{False}\PYG{p}{)}
+
+                \PYG{c+c1}{\PYGZsh{} Store transition with intervention metadata}
+                \PYG{n}{transition} \PYG{o}{=} \PYG{p}{\PYGZob{}}
+                    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{state}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{:} \PYG{n}{policy\PYGZus{}obs}\PYG{p}{,}
+                    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{action}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{:} \PYG{n}{action}\PYG{p}{,}
+                    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{reward}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{:} \PYG{n+nb}{float}\PYG{p}{(}\PYG{n}{reward}\PYG{p}{)} \PYG{k}{if} \PYG{n+nb}{hasattr}\PYG{p}{(}\PYG{n}{reward}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{item}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)} \PYG{k}{else} \PYG{n}{reward}\PYG{p}{,}
+                    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{next\PYGZus{}state}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{:} \PYG{n}{policy\PYGZus{}next\PYGZus{}obs}\PYG{p}{,}
+                    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{done}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{:} \PYG{n}{done}\PYG{p}{,}
+                    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{truncated}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{:} \PYG{n}{truncated}\PYG{p}{,}
+                    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{complementary\PYGZus{}info}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{:} \PYG{p}{\PYGZob{}}
+                        \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{is\PYGZus{}intervention}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{:} \PYG{n}{is\PYGZus{}intervention}\PYG{p}{,}
+                    \PYG{p}{\PYGZcb{}}\PYG{p}{,}
+                \PYG{p}{\PYGZcb{}}
+
+                \PYG{n}{episode\PYGZus{}transitions}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{transition}\PYG{p}{)}
+
+                \PYG{n}{episode\PYGZus{}reward} \PYG{o}{+}\PYG{o}{=} \PYG{n}{reward}
+                \PYG{n}{step} \PYG{o}{+}\PYG{o}{=} \PYG{l+m+mi}{1}
+
+                \PYG{n}{obs} \PYG{o}{=} \PYG{n}{next\PYGZus{}obs}
+
+                \PYG{k}{if} \PYG{n}{done}\PYG{p}{:}
+                    \PYG{k}{break}
+
+            \PYG{c+c1}{\PYGZsh{} Send episode transitions to learner}
+            \PYG{n}{transitions\PYGZus{}queue}\PYG{o}{.}\PYG{n}{put\PYGZus{}nowait}\PYG{p}{(}\PYG{n}{episode\PYGZus{}transitions}\PYG{p}{)}
+
+    \PYG{k}{except} \PYG{n+ne}{KeyboardInterrupt}\PYG{p}{:}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{[ACTOR] Interrupted by user}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+    \PYG{k}{finally}\PYG{p}{:}
+        \PYG{c+c1}{\PYGZsh{} Clean up}
+        \PYG{k}{if} \PYG{n+nb}{hasattr}\PYG{p}{(}\PYG{n}{env}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{robot}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)} \PYG{o+ow}{and} \PYG{n}{env}\PYG{o}{.}\PYG{n}{robot}\PYG{o}{.}\PYG{n}{is\PYGZus{}connected}\PYG{p}{:}
+            \PYG{n}{env}\PYG{o}{.}\PYG{n}{robot}\PYG{o}{.}\PYG{n}{disconnect}\PYG{p}{(}\PYG{p}{)}
+        \PYG{k}{if} \PYG{n}{teleop\PYGZus{}device} \PYG{o+ow}{and} \PYG{n+nb}{hasattr}\PYG{p}{(}\PYG{n}{teleop\PYGZus{}device}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{disconnect}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}\PYG{p}{:}
+            \PYG{n}{teleop\PYGZus{}device}\PYG{o}{.}\PYG{n}{disconnect}\PYG{p}{(}\PYG{p}{)}
+        \PYG{k}{if} \PYG{n}{output\PYGZus{}directory} \PYG{o+ow}{is} \PYG{o+ow}{not} \PYG{k+kc}{None}\PYG{p}{:}
+            \PYG{n}{policy\PYGZus{}actor}\PYG{o}{.}\PYG{n}{save\PYGZus{}pretrained}\PYG{p}{(}\PYG{n}{output\PYGZus{}directory}\PYG{p}{)}
+            \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{[ACTOR] Latest actor policy saved at: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{output\PYGZus{}directory}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{[ACTOR] Actor process finished}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+\end{MintedVerbatim}

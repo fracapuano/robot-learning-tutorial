@@ -25,7 +25,7 @@ Lastly, learning for robotics (\emph{robot learning}) is naturally well posed to
 Being a field at its relative nascent stages, no prevalent technique(s) proves distinctly better than any other in the domain of robot learning.
 Still, two major classes of methods gained prominence: \highlight{Reinforcement Learning (RL)} and \highlight{Behavioral Cloning (BC)} (Figure~\ref{fig:robot-learning-atlas}).
 In this section, we provide a conceptual overview of applications of RL to robotics, as well as introduce practical examples of how to use RL within \lerobot.
-We then introduce the major limitations RL suffers from, to introduce BC techniques in Section~\ref{sec:learning-bc-single} and Section~{sec:learning-foundation}.
+We then introduce the major limitations RL suffers from, to introduce BC techniques in Section~\ref{sec:learning-imitation} and Section~{sec:learning-foundation}.
 
 \begin{wrapfigure}[23]{r}{0.3\textwidth}
     \vspace{-\intextsep}
@@ -143,7 +143,7 @@ A variety of algorithms have been developed in RL attempting to find (approximat
 
 Popular approaches to continuous state and action space---such as those studied within robotics---include~\citet[TRPO]{schulmanTrustRegionPolicy2017},~\citet[PPO]{ schulmanProximalPolicyOptimization2017} and~\citet[SAC]{ haarnojaSoftActorCriticOffPolicy2018}.
 Across manipulation~\citep{akkayaSolvingRubiksCube2019} and locomotion problems~\citep{leeLearningQuadrupedalLocomotion2020}, RL proved extremely effective in providing a platform to (1) leverage a unified, streamlined perception-to-action pipeline, (2) natively integrate propioperception with multi-modal high-dimensional sensory streams  (3) disregard a description of the environment dynamics, by focusing on observed interaction data rather than modeling, and (4) anchor policies in the experience collected and stored in datasets.
-For a more complete survey of applications of RL to robotics, we refer the reader to~\citet{koberReinforcementLearningRobotics,tangDeepReinforcementLearning2024}.
+For a more complete survey of applications of RL to robotics, we refer the reader to~\citet{koberReinforcementLearningRobotics,tangDeepReinforcementLearning2025}.
 
 \subsection{Real-world RL for Robotics}
 Streamlined end-to-end control pipelines, data-driven feature extraction and a disregard for explicit modeling in favor of interaction data are all features of RL for robotics.
@@ -191,7 +191,7 @@ Consequently, the research community investigated approaches to automatically se
 While effective, AutoDR requires significant tuning---the bounds are widened by a fixed, pre-specified amount \( \Delta \) along---and may disregard data when performance \emph{does not} improve after a distribution update~\citep{tiboniDomainRandomizationEntropy2024}. \citet{tiboniDomainRandomizationEntropy2024} propose a similar method to AutoDR (DORAEMON) to evolve \( \Xi \) based on the training signal, but with the key difference of explicitly maximizing the entropy of a parametric Beta distribution---inherently more flexible than uniform distributions---with learned updates instead of fixed \( \Delta \).
 In this, DORAEMON proves particularly effective at dynamically increasing the entropy levels of the training distribution by employing an outer-loop max-entropy objective, tackled under performance constraints in the inner-loop RL problem.
 Other approaches to automatically perform DR consist in specifically tuning \( \Xi \) to align as much as possible the simulation and real-world domains.
-For instance, ~\citet{chebotar2019closing} interleave in-simulation policy training with repeated real-world policy rollouts used to adjust \( \Xi \) based on real-world data, while ~\citet{tiboniDROPOSimtoRealTransfer2023} leverage a single, pre-collected set of real-world trajectories and tune \( \Xi \) under a simple likelihood objective.
+For instance,~\citet{chebotarClosingSimtorealLoop2019} interleave in-simulation policy training with repeated real-world policy rollouts used to adjust \( \Xi \) based on real-world data, while~\citet{tiboniDROPOSimtoRealTransfer2023} leverage a single, pre-collected set of real-world trajectories and tune \( \Xi \) under a simple likelihood objective.
 
 While DR has shown promise, it does not address the main limitation that, even under the assumption that an ideal distribution \( \Xi \) was available, many robotics problems \highlight{cannot be simulated with high-enough fidelity under practical computational constraints}.
 Simulating contact-rich manipulation of possibly deformable or soft materials---i.e., \emph{folding a piece of clothing}---can prove time-intensive, limiting the benefits of in-simulation training.
@@ -248,12 +248,12 @@ Crucially, \( \chi \) can in principle be different from the policy being follow
 
 While effective in handling large, unstructured state spaces for discrete action-space problems, DQN's application to continous control problems proved challenging.
 Indeed, in the case of high-capacity function approximators such as neural networks, solving \( \max_{a_t \in \mathcal A} Q_\theta(s_t, a_t) \) at each timestep is simply unfeasible due to the (1) continous nature of the action space (\( \actionspace \subset \mathbb R^n \) for some \( n \)) and (2) impossibility to express the policy with a cheap (ideally, even closed-form) formulation, so that \( \max Q_\theta \) could be solved analytically.
-\citet{silverDeterministicPolicyGradient2014} tackle these fundamental challenges by using a \emph{deterministic} function of the state \( s_t \) as policy, \( \mu_\phi(s_t) = a_t \), parametrized by \( \phi \). Thus, policies can be iteratively refined updating \( \phi \) along the direction:
+\citet{pmlr-v32-silver14} tackle these fundamental challenges by using a \emph{deterministic} function of the state \( s_t \) as policy, \( \mu_\phi(s_t) = a_t \), parametrized by \( \phi \). Thus, policies can be iteratively refined updating \( \phi \) along the direction:
 \begin{equation}\label{eq:deterministic-pg}
     d_\phi = \mathbb E_{s_t \sim \mathbb P (\bullet)} \left[ \nabla_\phi Q(s_t, a_t)\vert_{a_t = \mu_\phi(s_t)} \right] = \mathbb E_{s_t \sim \mathbb P(\bullet)} \left[ \nabla_{a_t} Q(s_t, a_t) \vert_{a_t = \mu_\phi(s_t)} \cdot \nabla_\phi \mu(s_t) \right]
 \end{equation}
-Provably, eq.~\ref{eq:deterministic-pg} is the \emph{deterministic policy gradient} (DPG) of the policy \(\mu_\phi \)~\citep{silverDeterministicPolicyGradient2014}, so that updates \( \phi_{k+1}\leftarrow \phi_k + \alpha d_\phi \) are guaranteed to increase the (deterministic) cumulative discounted reward, \( J(\mu_\phi) \).
-~\citet{lillicrapContinuousControlDeep2019} extended DPG to the case of (1) high-dimensional unstructured observations and (2) continuous action spaces, introducing Deep Deterministic Policy Gradient (DDPG), an important algorithm in RL and its applications to robotics.
+Provably, eq.~\ref{eq:deterministic-pg} is the \emph{deterministic policy gradient} (DPG) of the policy \(\mu_\phi \)~\citep{pmlr-v32-silver14}, so that updates \( \phi_{k+1}\leftarrow \phi_k + \alpha d_\phi \) are guaranteed to increase the (deterministic) cumulative discounted reward, \( J(\mu_\phi) \).
+~\citet{lillicrapContinuousControlDeep2019a} extended DPG to the case of (1) high-dimensional unstructured observations and (2) continuous action spaces, introducing Deep Deterministic Policy Gradient (DDPG), an important algorithm in RL and its applications to robotics.
 DDPG adopts a modified TD-target compared to eq.~\ref{eq:TD-target}, by maintaining a policy network used to select actions, yielding
 \begin{equation}\label{eq:TD-target-ddpg}
 y_i = \mathbb E_{s_{t+1} \sim \mathbb P(\bullet \vert s_t, a_t)} \big[ r_t + \gamma Q_{\theta_{i-1}} (\stateplusone, \mu_\phi(\stateplusone)) \big] .
@@ -261,7 +261,7 @@ y_i = \mathbb E_{s_{t+1} \sim \mathbb P(\bullet \vert s_t, a_t)} \big[ r_t + \ga
 Similarily to DQN, DDPG also employs the same replay buffer mechanism, reusing past transitions over training for increased sample efficiency and estimate the loss function via MC-estimates.
 
 Soft Actor-Critic (SAC)~\citep{haarnojaSoftActorCriticOffPolicy2018} is a derivation of DDPG in the max-entropy (MaxEnt) RL framework, in which RL agents are tasked with \highlight{maximizing the discounted cumulative reward, while acting as randomly as possible}.
-MaxEnt RL~\citep{haarnojaReinforcementLearningDeep2017} has proven particularly robust thanks to the development of diverse behaviors, incentivized by its entropy-regularization formulation.
+MaxEnt RL~\citep{haarnojaReinforcementLearningDeep2017b} has proven particularly robust thanks to the development of diverse behaviors, incentivized by its entropy-regularization formulation.
 In that, MaxEnt revisits the RL objective \( J (\pi) \) to specifically account for the policy entropy \( \mathcal H(\pi (\bullet \vert s_t)) \),
 \begin{align}
     J(\pi) &= \sum_{t=0}^T \mathbb{E}_{(s_t, a_t) \sim \chi} \left[ r_t + \alpha \mathcal H(\pi (\bullet \vert s_t)) \right].
@@ -275,7 +275,7 @@ Similarily to DDPG, SAC also maintains an explicit policy, trained under the sam
 \begin{equation}\label{eq:sac-policy-update}
     \pi_{k+1} \leftarrow \arg\min_{\pi^\prime \in \Pi} \DKL \left(\pi^\prime (\bullet \vert \state) \bigg\Vert \frac{\exp(Q_{\pi_k}(s_t, \bullet))}{Z_{\pi_k}(s_t)} \right)
 \end{equation}
-The update rule provided in eq.~\ref{eq:sac-policy-update} optimizes the policy while projecting it on a set \( \Pi \) of tractable distributions (e.g., Gaussians,~\citet{haarnojaReinforcementLearningDeep2017}).
+The update rule provided in eq.~\ref{eq:sac-policy-update} optimizes the policy while projecting it on a set \( \Pi \) of tractable distributions (e.g., Gaussians,~\citet{haarnojaReinforcementLearningDeep2017b}).
 
 % SAC + prior data: RLPD
 \paragraph{Sample-efficient, data-driven RL}

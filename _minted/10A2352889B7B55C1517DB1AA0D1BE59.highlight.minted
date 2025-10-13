@@ -1,0 +1,114 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{You can also use the CLI to record data. To see the required arguments, run:}
+\PYG{l+s+sd}{lerobot\PYGZhy{}record \PYGZhy{}\PYGZhy{}help}
+\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{lerobot}\PYG{n+nn}{.}\PYG{n+nn}{cameras}\PYG{n+nn}{.}\PYG{n+nn}{opencv}\PYG{n+nn}{.}\PYG{n+nn}{configuration\PYGZus{}opencv}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{OpenCVCameraConfig}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{lerobot}\PYG{n+nn}{.}\PYG{n+nn}{datasets}\PYG{n+nn}{.}\PYG{n+nn}{lerobot\PYGZus{}dataset}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{LeRobotDataset}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{lerobot}\PYG{n+nn}{.}\PYG{n+nn}{datasets}\PYG{n+nn}{.}\PYG{n+nn}{utils}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{hw\PYGZus{}to\PYGZus{}dataset\PYGZus{}features}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{lerobot}\PYG{n+nn}{.}\PYG{n+nn}{robots}\PYG{n+nn}{.}\PYG{n+nn}{so100\PYGZus{}follower}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{SO100Follower}\PYG{p}{,} \PYG{n}{SO100FollowerConfig}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{lerobot}\PYG{n+nn}{.}\PYG{n+nn}{teleoperators}\PYG{n+nn}{.}\PYG{n+nn}{so100\PYGZus{}leader}\PYG{n+nn}{.}\PYG{n+nn}{config\PYGZus{}so100\PYGZus{}leader}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{SO100LeaderConfig}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{lerobot}\PYG{n+nn}{.}\PYG{n+nn}{teleoperators}\PYG{n+nn}{.}\PYG{n+nn}{so100\PYGZus{}leader}\PYG{n+nn}{.}\PYG{n+nn}{so100\PYGZus{}leader}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{SO100Leader}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{lerobot}\PYG{n+nn}{.}\PYG{n+nn}{utils}\PYG{n+nn}{.}\PYG{n+nn}{control\PYGZus{}utils}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{init\PYGZus{}keyboard\PYGZus{}listener}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{lerobot}\PYG{n+nn}{.}\PYG{n+nn}{utils}\PYG{n+nn}{.}\PYG{n+nn}{utils}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{log\PYGZus{}say}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{lerobot}\PYG{n+nn}{.}\PYG{n+nn}{utils}\PYG{n+nn}{.}\PYG{n+nn}{visualization\PYGZus{}utils}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{init\PYGZus{}rerun}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{lerobot}\PYG{n+nn}{.}\PYG{n+nn}{scripts}\PYG{n+nn}{.}\PYG{n+nn}{lerobot\PYGZus{}record}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{record\PYGZus{}loop}
+
+\PYG{n}{NUM\PYGZus{}EPISODES} \PYG{o}{=} \PYG{l+m+mi}{5}
+\PYG{n}{FPS} \PYG{o}{=} \PYG{l+m+mi}{30}
+\PYG{n}{EPISODE\PYGZus{}TIME\PYGZus{}SEC} \PYG{o}{=} \PYG{l+m+mi}{60}
+\PYG{n}{RESET\PYGZus{}TIME\PYGZus{}SEC} \PYG{o}{=} \PYG{l+m+mi}{10}
+\PYG{n}{TASK\PYGZus{}DESCRIPTION} \PYG{o}{=} \PYG{o}{.}\PYG{o}{.}\PYG{o}{.}  \PYG{c+c1}{\PYGZsh{} provide a task description}
+
+\PYG{n}{HF\PYGZus{}USER} \PYG{o}{=} \PYG{o}{.}\PYG{o}{.}\PYG{o}{.}  \PYG{c+c1}{\PYGZsh{} provide your Hugging Face username}
+
+\PYG{n}{follower\PYGZus{}port} \PYG{o}{=} \PYG{o}{.}\PYG{o}{.}\PYG{o}{.}  \PYG{c+c1}{\PYGZsh{} find your ports running: lerobot\PYGZhy{}find\PYGZhy{}port}
+\PYG{n}{leader\PYGZus{}port} \PYG{o}{=} \PYG{o}{.}\PYG{o}{.}\PYG{o}{.}
+\PYG{n}{follower\PYGZus{}id} \PYG{o}{=} \PYG{o}{.}\PYG{o}{.}\PYG{o}{.}  \PYG{c+c1}{\PYGZsh{} to load the calibration file}
+\PYG{n}{leader\PYGZus{}id} \PYG{o}{=} \PYG{o}{.}\PYG{o}{.}\PYG{o}{.}
+
+\PYG{c+c1}{\PYGZsh{} Create the robot and teleoperator configurations}
+\PYG{n}{camera\PYGZus{}config} \PYG{o}{=} \PYG{p}{\PYGZob{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{front}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{:} \PYG{n}{OpenCVCameraConfig}\PYG{p}{(}
+    \PYG{n}{index\PYGZus{}or\PYGZus{}path}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{width}\PYG{o}{=}\PYG{l+m+mi}{640}\PYG{p}{,} \PYG{n}{height}\PYG{o}{=}\PYG{l+m+mi}{480}\PYG{p}{,} \PYG{n}{fps}\PYG{o}{=}\PYG{n}{FPS}\PYG{p}{)}
+\PYG{p}{\PYGZcb{}}
+\PYG{n}{robot\PYGZus{}config} \PYG{o}{=} \PYG{n}{SO100FollowerConfig}\PYG{p}{(}
+    \PYG{n}{port}\PYG{o}{=}\PYG{n}{follower\PYGZus{}port}\PYG{p}{,}
+    \PYG{n+nb}{id}\PYG{o}{=}\PYG{n}{follower\PYGZus{}id}\PYG{p}{,}
+    \PYG{n}{cameras}\PYG{o}{=}\PYG{n}{camera\PYGZus{}config}
+\PYG{p}{)}
+\PYG{n}{teleop\PYGZus{}config} \PYG{o}{=} \PYG{n}{SO100LeaderConfig}\PYG{p}{(}
+    \PYG{n}{port}\PYG{o}{=}\PYG{n}{leader\PYGZus{}port}\PYG{p}{,} 
+\PYG{n+nb}{id}\PYG{o}{=}\PYG{n}{leader\PYGZus{}id}
+\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} Initialize the robot and teleoperator}
+\PYG{n}{robot} \PYG{o}{=} \PYG{n}{SO100Follower}\PYG{p}{(}\PYG{n}{robot\PYGZus{}config}\PYG{p}{)}
+\PYG{n}{teleop} \PYG{o}{=} \PYG{n}{SO100Leader}\PYG{p}{(}\PYG{n}{teleop\PYGZus{}config}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} Configure the dataset features}
+\PYG{n}{action\PYGZus{}features} \PYG{o}{=} \PYG{n}{hw\PYGZus{}to\PYGZus{}dataset\PYGZus{}features}\PYG{p}{(}\PYG{n}{robot}\PYG{o}{.}\PYG{n}{action\PYGZus{}features}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{action}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+\PYG{n}{obs\PYGZus{}features} \PYG{o}{=} \PYG{n}{hw\PYGZus{}to\PYGZus{}dataset\PYGZus{}features}\PYG{p}{(}\PYG{n}{robot}\PYG{o}{.}\PYG{n}{observation\PYGZus{}features}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{observation}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+\PYG{n}{dataset\PYGZus{}features} \PYG{o}{=} \PYG{p}{\PYGZob{}}\PYG{o}{*}\PYG{o}{*}\PYG{n}{action\PYGZus{}features}\PYG{p}{,} \PYG{o}{*}\PYG{o}{*}\PYG{n}{obs\PYGZus{}features}\PYG{p}{\PYGZcb{}}
+
+\PYG{c+c1}{\PYGZsh{} Create the dataset where to store the data}
+\PYG{n}{dataset} \PYG{o}{=} \PYG{n}{LeRobotDataset}\PYG{o}{.}\PYG{n}{create}\PYG{p}{(}
+    \PYG{n}{repo\PYGZus{}id}\PYG{o}{=}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{HF\PYGZus{}USER}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{/robot\PYGZhy{}learning\PYGZhy{}tutorial\PYGZhy{}data}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+    \PYG{n}{fps}\PYG{o}{=}\PYG{n}{FPS}\PYG{p}{,}
+    \PYG{n}{features}\PYG{o}{=}\PYG{n}{dataset\PYGZus{}features}\PYG{p}{,}
+    \PYG{n}{robot\PYGZus{}type}\PYG{o}{=}\PYG{n}{robot}\PYG{o}{.}\PYG{n}{name}\PYG{p}{,}
+    \PYG{n}{use\PYGZus{}videos}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,}
+    \PYG{n}{image\PYGZus{}writer\PYGZus{}threads}\PYG{o}{=}\PYG{l+m+mi}{4}\PYG{p}{,}
+\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} Initialize the keyboard listener and rerun visualization}
+\PYG{n}{\PYGZus{}}\PYG{p}{,} \PYG{n}{events} \PYG{o}{=} \PYG{n}{init\PYGZus{}keyboard\PYGZus{}listener}\PYG{p}{(}\PYG{p}{)}
+\PYG{n}{init\PYGZus{}rerun}\PYG{p}{(}\PYG{n}{session\PYGZus{}name}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{recording}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} Connect the robot and teleoperator}
+\PYG{n}{robot}\PYG{o}{.}\PYG{n}{connect}\PYG{p}{(}\PYG{p}{)}
+\PYG{n}{teleop}\PYG{o}{.}\PYG{n}{connect}\PYG{p}{(}\PYG{p}{)}
+
+\PYG{n}{episode\PYGZus{}idx} \PYG{o}{=} \PYG{l+m+mi}{0}
+\PYG{k}{while} \PYG{n}{episode\PYGZus{}idx} \PYG{o}{\PYGZlt{}} \PYG{n}{NUM\PYGZus{}EPISODES} \PYG{o+ow}{and} \PYG{o+ow}{not} \PYG{n}{events}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{stop\PYGZus{}recording}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{]}\PYG{p}{:}
+    \PYG{n}{log\PYGZus{}say}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Recording episode }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{episode\PYGZus{}idx}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ of }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{NUM\PYGZus{}EPISODES}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{n}{record\PYGZus{}loop}\PYG{p}{(}
+        \PYG{n}{robot}\PYG{o}{=}\PYG{n}{robot}\PYG{p}{,}
+        \PYG{n}{events}\PYG{o}{=}\PYG{n}{events}\PYG{p}{,}
+        \PYG{n}{fps}\PYG{o}{=}\PYG{n}{FPS}\PYG{p}{,}
+        \PYG{n}{teleop}\PYG{o}{=}\PYG{n}{teleop}\PYG{p}{,}
+        \PYG{n}{dataset}\PYG{o}{=}\PYG{n}{dataset}\PYG{p}{,}
+        \PYG{n}{control\PYGZus{}time\PYGZus{}s}\PYG{o}{=}\PYG{n}{EPISODE\PYGZus{}TIME\PYGZus{}SEC}\PYG{p}{,}
+        \PYG{n}{single\PYGZus{}task}\PYG{o}{=}\PYG{n}{TASK\PYGZus{}DESCRIPTION}\PYG{p}{,}
+        \PYG{n}{display\PYGZus{}data}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,}
+    \PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} Reset the environment if not stopping or re\PYGZhy{}recording}
+    \PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{events}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{stop\PYGZus{}recording}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{]} \PYG{o+ow}{and} \PYG{p}{(}\PYG{n}{episode\PYGZus{}idx} \PYG{o}{\PYGZlt{}} \PYG{n}{NUM\PYGZus{}EPISODES} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1} \PYG{o+ow}{or} \PYG{n}{events}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{rerecord\PYGZus{}episode}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{]}\PYG{p}{)}\PYG{p}{:}
+        \PYG{n}{log\PYGZus{}say}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Reset the environment}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{record\PYGZus{}loop}\PYG{p}{(}
+            \PYG{n}{robot}\PYG{o}{=}\PYG{n}{robot}\PYG{p}{,}
+            \PYG{n}{events}\PYG{o}{=}\PYG{n}{events}\PYG{p}{,}
+            \PYG{n}{fps}\PYG{o}{=}\PYG{n}{FPS}\PYG{p}{,}
+            \PYG{n}{teleop}\PYG{o}{=}\PYG{n}{teleop}\PYG{p}{,}
+            \PYG{n}{control\PYGZus{}time\PYGZus{}s}\PYG{o}{=}\PYG{n}{RESET\PYGZus{}TIME\PYGZus{}SEC}\PYG{p}{,}
+            \PYG{n}{single\PYGZus{}task}\PYG{o}{=}\PYG{n}{TASK\PYGZus{}DESCRIPTION}\PYG{p}{,}
+            \PYG{n}{display\PYGZus{}data}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,}
+        \PYG{p}{)}
+
+    \PYG{k}{if} \PYG{n}{events}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{rerecord\PYGZus{}episode}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{]}\PYG{p}{:}
+        \PYG{n}{log\PYGZus{}say}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Re\PYGZhy{}recording episode}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{events}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{rerecord\PYGZus{}episode}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{]} \PYG{o}{=} \PYG{k+kc}{False}
+        \PYG{n}{events}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{exit\PYGZus{}early}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{]} \PYG{o}{=} \PYG{k+kc}{False}
+        \PYG{n}{dataset}\PYG{o}{.}\PYG{n}{clear\PYGZus{}episode\PYGZus{}buffer}\PYG{p}{(}\PYG{p}{)}
+        \PYG{k}{continue}
+
+    \PYG{n}{dataset}\PYG{o}{.}\PYG{n}{save\PYGZus{}episode}\PYG{p}{(}\PYG{p}{)}
+    \PYG{n}{episode\PYGZus{}idx} \PYG{o}{+}\PYG{o}{=} \PYG{l+m+mi}{1}
+
+\PYG{c+c1}{\PYGZsh{} Clean up}
+\PYG{n}{log\PYGZus{}say}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Stop recording}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+\PYG{n}{robot}\PYG{o}{.}\PYG{n}{disconnect}\PYG{p}{(}\PYG{p}{)}
+\PYG{n}{teleop}\PYG{o}{.}\PYG{n}{disconnect}\PYG{p}{(}\PYG{p}{)}
+\PYG{n}{dataset}\PYG{o}{.}\PYG{n}{push\PYGZus{}to\PYGZus{}hub}\PYG{p}{(}\PYG{p}{)}
+\end{MintedVerbatim}
