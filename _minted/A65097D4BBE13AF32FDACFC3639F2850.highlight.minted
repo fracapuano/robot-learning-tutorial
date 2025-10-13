@@ -1,0 +1,60 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{threading}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{lerobot}\PYG{n+nn}{.}\PYG{n+nn}{robots}\PYG{n+nn}{.}\PYG{n+nn}{so100\PYGZus{}follower}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{SO100FollowerConfig}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{lerobot}\PYG{n+nn}{.}\PYG{n+nn}{cameras}\PYG{n+nn}{.}\PYG{n+nn}{opencv}\PYG{n+nn}{.}\PYG{n+nn}{configuration\PYGZus{}opencv}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{OpenCVCameraConfig}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{lerobot}\PYG{n+nn}{.}\PYG{n+nn}{async\PYGZus{}inference}\PYG{n+nn}{.}\PYG{n+nn}{configs}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{RobotClientConfig}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{lerobot}\PYG{n+nn}{.}\PYG{n+nn}{async\PYGZus{}inference}\PYG{n+nn}{.}\PYG{n+nn}{robot\PYGZus{}client}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{RobotClient}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{lerobot}\PYG{n+nn}{.}\PYG{n+nn}{async\PYGZus{}inference}\PYG{n+nn}{.}\PYG{n+nn}{helpers}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{visualize\PYGZus{}action\PYGZus{}queue\PYGZus{}size}
+
+\PYG{c+c1}{\PYGZsh{} these cameras must match the ones expected by the policy \PYGZhy{} find your cameras with lerobot\PYGZhy{}find\PYGZhy{}cameras}
+\PYG{c+c1}{\PYGZsh{} check the config.json on the Hub for the policy you are using to see the expected camera specs}
+\PYG{n}{camera\PYGZus{}cfg} \PYG{o}{=} \PYG{p}{\PYGZob{}}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{top}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{:} \PYG{n}{OpenCVCameraConfig}\PYG{p}{(}\PYG{n}{index\PYGZus{}or\PYGZus{}path}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{width}\PYG{o}{=}\PYG{l+m+mi}{640}\PYG{p}{,} \PYG{n}{height}\PYG{o}{=}\PYG{l+m+mi}{480}\PYG{p}{,} \PYG{n}{fps}\PYG{o}{=}\PYG{l+m+mi}{30}\PYG{p}{)}\PYG{p}{,}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{side}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{:} \PYG{n}{OpenCVCameraConfig}\PYG{p}{(}\PYG{n}{index\PYGZus{}or\PYGZus{}path}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{width}\PYG{o}{=}\PYG{l+m+mi}{640}\PYG{p}{,} \PYG{n}{height}\PYG{o}{=}\PYG{l+m+mi}{480}\PYG{p}{,} \PYG{n}{fps}\PYG{o}{=}\PYG{l+m+mi}{30}\PYG{p}{)}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+c1}{\PYGZsh{} \PYGZsh{} find ports using lerobot\PYGZhy{}find\PYGZhy{}port}
+\PYG{n}{follower\PYGZus{}port} \PYG{o}{=} \PYG{o}{.}\PYG{o}{.}\PYG{o}{.}  \PYG{c+c1}{\PYGZsh{} something like \PYGZdq{}/dev/tty.usbmodem58760431631\PYGZdq{}}
+
+\PYG{c+c1}{\PYGZsh{} \PYGZsh{} the robot ids are used the load the right calibration files}
+\PYG{n}{follower\PYGZus{}id} \PYG{o}{=} \PYG{o}{.}\PYG{o}{.}\PYG{o}{.}  \PYG{c+c1}{\PYGZsh{} something like \PYGZdq{}follower\PYGZus{}so100\PYGZdq{}}
+
+\PYG{n}{robot\PYGZus{}cfg} \PYG{o}{=} \PYG{n}{SO100FollowerConfig}\PYG{p}{(}
+  \PYG{n}{port}\PYG{o}{=}\PYG{n}{follower\PYGZus{}port}\PYG{p}{,}
+  \PYG{n+nb}{id}\PYG{o}{=}\PYG{n}{follower\PYGZus{}id}\PYG{p}{,}
+  \PYG{n}{cameras}\PYG{o}{=}\PYG{n}{camera\PYGZus{}cfg}
+\PYG{p}{)}
+
+\PYG{n}{server\PYGZus{}address} \PYG{o}{=} \PYG{o}{.}\PYG{o}{.}\PYG{o}{.}  \PYG{c+c1}{\PYGZsh{} something like 127.0.0.1:8080 if using localhost}
+
+\PYG{c+c1}{\PYGZsh{} 3. Create client configuration}
+\PYG{n}{client\PYGZus{}cfg} \PYG{o}{=} \PYG{n}{RobotClientConfig}\PYG{p}{(}
+    \PYG{n}{robot}\PYG{o}{=}\PYG{n}{robot\PYGZus{}cfg}\PYG{p}{,}
+    \PYG{n}{server\PYGZus{}address}\PYG{o}{=}\PYG{n}{server\PYGZus{}address}\PYG{p}{,}
+    \PYG{n}{policy\PYGZus{}device}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{mps}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+    \PYG{n}{policy\PYGZus{}type}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{smolvla}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+    \PYG{n}{pretrained\PYGZus{}name\PYGZus{}or\PYGZus{}path}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{fracapuano/smolvla\PYGZus{}async}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+    \PYG{n}{chunk\PYGZus{}size\PYGZus{}threshold}\PYG{o}{=}\PYG{l+m+mf}{0.5}\PYG{p}{,}  \PYG{c+c1}{\PYGZsh{} g}
+    \PYG{n}{actions\PYGZus{}per\PYGZus{}chunk}\PYG{o}{=}\PYG{l+m+mi}{50}\PYG{p}{,}  \PYG{c+c1}{\PYGZsh{} make sure this is less than the max actions of the policy}
+\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} 4. Create and start client}
+\PYG{n}{client} \PYG{o}{=} \PYG{n}{RobotClient}\PYG{p}{(}\PYG{n}{client\PYGZus{}cfg}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} 5. Provide a textual description of the task}
+\PYG{n}{task} \PYG{o}{=} \PYG{o}{.}\PYG{o}{.}\PYG{o}{.}  
+
+\PYG{k}{if} \PYG{n}{client}\PYG{o}{.}\PYG{n}{start}\PYG{p}{(}\PYG{p}{)}\PYG{p}{:}
+    \PYG{c+c1}{\PYGZsh{} Start action receiver thread}
+    \PYG{n}{action\PYGZus{}receiver\PYGZus{}thread} \PYG{o}{=} \PYG{n}{threading}\PYG{o}{.}\PYG{n}{Thread}\PYG{p}{(}\PYG{n}{target}\PYG{o}{=}\PYG{n}{client}\PYG{o}{.}\PYG{n}{receive\PYGZus{}actions}\PYG{p}{,} \PYG{n}{daemon}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+    \PYG{n}{action\PYGZus{}receiver\PYGZus{}thread}\PYG{o}{.}\PYG{n}{start}\PYG{p}{(}\PYG{p}{)}
+
+    \PYG{k}{try}\PYG{p}{:}
+        \PYG{c+c1}{\PYGZsh{} Run the control loop}
+        \PYG{n}{client}\PYG{o}{.}\PYG{n}{control\PYGZus{}loop}\PYG{p}{(}\PYG{n}{task}\PYG{p}{)}
+    \PYG{k}{except} \PYG{n+ne}{KeyboardInterrupt}\PYG{p}{:}
+        \PYG{n}{client}\PYG{o}{.}\PYG{n}{stop}\PYG{p}{(}\PYG{p}{)}
+        \PYG{n}{action\PYGZus{}receiver\PYGZus{}thread}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{p}{)}
+        \PYG{c+c1}{\PYGZsh{} (Optionally) plot the action queue size}
+        \PYG{n}{visualize\PYGZus{}action\PYGZus{}queue\PYGZus{}size}\PYG{p}{(}\PYG{n}{client}\PYG{o}{.}\PYG{n}{action\PYGZus{}queue\PYGZus{}size}\PYG{p}{)}
+\end{MintedVerbatim}

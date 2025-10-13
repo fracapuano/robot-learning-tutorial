@@ -42,7 +42,7 @@ In principle, (expert) trajectories \( \tau^{(i)} \) can have different lengths 
     \label{fig:ch4-observation-action-mapping}
 \end{figure}
 
-Behavioral Cloning (BC)~\citep{pomerleauALVINNAutonomousLand1988a} aims at producing synthetic behaviors by learning the mapping from observations to actions, and in its most natural formulation can be effectively tackled as a \emph{supevised} learning problem, consisting of learning the (deterministic) mapping \(f: \obsspace \mapsto \actionspace, \ a_t = f(o_t) \) by solving
+Behavioral Cloning (BC)~\citep{pomerleauALVINNAutonomousLand1988} aims at producing synthetic behaviors by learning the mapping from observations to actions, and in its most natural formulation can be effectively tackled as a \emph{supevised} learning problem, consisting of learning the (deterministic) mapping \(f: \obsspace \mapsto \actionspace, \ a_t = f(o_t) \) by solving
 \begin{equation}\label{eq:loss-minimization-SL}
     \min_{f} \mathbb{E}_{(o_t, a_t) \sim p(\bullet)} \mathcal L(a_t, f(o_t)),
 \end{equation}
@@ -237,7 +237,7 @@ In turn, eq.~\ref{eq:diffusion-likelihood} provides an optimization target to \e
 In their seminal work on using DMs for variational inference,~\citet{hoDenoisingDiffusionProbabilistic2020} introduce major contributions regarding solving \( \min_\theta -\log p_\theta(z_0) \).
 In particular,~\citet{hoDenoisingDiffusionProbabilistic2020} exclusively adopt a \emph{fixed, isotropic Gaussian posterior} in the form of \( q(z_t \vert z_{t-1}) = \mathcal{N}(\sqrt{1-\beta_t}z_{t-1}, \beta_t \mathbf I) \).
 The choice of adopting Gaussians has profound implications on the generative process modeled. 
-Indeed, under the (mild) assumption that the variance is sufficiently small \( \beta_t \leq \eta, \eta \in \mathbb R^+ \),~\citet{sohl-dicksteinDeepUnsupervisedLearning2015} proved that the likelihood \( p(z_{t-1} \vert z_t) \) is Gaussian as well, which allows for the particularly convenient parametrization of the approximate likelihood \( p_\theta (z_{t-1} \vert z_t) = \mathcal N(\mu_\theta(z_t, t), \Sigma_\theta(z_t,t)), \ t \in [1,T] \), as well as for closed-form tractability of the KL-divergence terms in eq.~\ref{eq:diffusion-likelihood}.
+Indeed, under the (mild) assumption that the variance is sufficiently small \( \beta_t \leq \eta, \eta \in \mathbb R^+ \),~\citet{sohnLearningStructuredOutput2015} proved that the likelihood \( p(z_{t-1} \vert z_t) \) is Gaussian as well, which allows for the particularly convenient parametrization of the approximate likelihood \( p_\theta (z_{t-1} \vert z_t) = \mathcal N(\mu_\theta(z_t, t), \Sigma_\theta(z_t,t)), \ t \in [1,T] \), as well as for closed-form tractability of the KL-divergence terms in eq.~\ref{eq:diffusion-likelihood}.
 Further, the posterior's structure also enables the analytical description of the distribution of the \( t\)-th latent variable, \( q(z_t \vert z_0) = \mathcal N (\sqrt{\bar{\alpha}_t}z_0, (1-\bar{\alpha}_t) \mathbf{I}) \), with \( \alpha_t = 1-\beta_t, \ \bar \alpha_t = \prod_{k=1}^t \alpha_k \), conveniently preventing iterative posterior sampling simplifying computing eq.~\ref{eq:diffusion-likelihood}.
 It follows:
 \begin{align}

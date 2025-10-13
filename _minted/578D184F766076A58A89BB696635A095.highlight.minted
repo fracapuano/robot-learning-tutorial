@@ -1,0 +1,13 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{lerobot}\PYG{n+nn}{.}\PYG{n+nn}{async\PYGZus{}inference}\PYG{n+nn}{.}\PYG{n+nn}{configs}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{PolicyServerConfig}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{lerobot}\PYG{n+nn}{.}\PYG{n+nn}{async\PYGZus{}inference}\PYG{n+nn}{.}\PYG{n+nn}{policy\PYGZus{}server}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{serve}
+
+\PYG{n}{host} \PYG{o}{=} \PYG{o}{.}\PYG{o}{.}\PYG{o}{.}  \PYG{c+c1}{\PYGZsh{} something like \PYGZdq{}127.0.0.1\PYGZdq{} if you\PYGZsq{}re exposing to localhost}
+\PYG{n}{port} \PYG{o}{=} \PYG{o}{.}\PYG{o}{.}\PYG{o}{.}  \PYG{c+c1}{\PYGZsh{} something like 8080}
+
+\PYG{n}{config} \PYG{o}{=} \PYG{n}{PolicyServerConfig}\PYG{p}{(}
+    \PYG{n}{host}\PYG{o}{=}\PYG{n}{host}\PYG{p}{,}
+    \PYG{n}{port}\PYG{o}{=}\PYG{n}{port}\PYG{p}{,}
+\PYG{p}{)}
+\PYG{n}{serve}\PYG{p}{(}\PYG{n}{config}\PYG{p}{)}
+\end{MintedVerbatim}
