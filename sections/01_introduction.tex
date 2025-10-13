@@ -93,15 +93,15 @@ Users can stream data of a large dataset hosted on the Hugging Face Hub, with a 
 Streaming datasets supports high-performance batch processing (ca. 80-100 it/s, varying on connectivity) and high levels of frames randomization, key features for practical BC algorithms which otherwise may be slow or operating on highly non-i.i.d. data.
 This feature is designed to improve on accessibility so that large datasets can be processed by users without requiring large amounts of memory and storage.
 
-\begin{pbox}[label={ex:dataset-batching}]{Batching a (Streaming) Dataset 
-    %\\ \url{flow_matching/examples/standalone_discrete_flow_matching.ipynb}
-}
-\input{snippets/ch1/01_datasets.tex}
-\end{pbox}
+% \begin{pbox}[label={ex:dataset-batching}]{Batching a (Streaming) Dataset 
+%     %\\ \url{flow_matching/examples/standalone_discrete_flow_matching.ipynb}
+% }
+% \input{snippets/ch1/01_datasets.tex}
+% \end{pbox}
+
+\lstinputlisting[language=python]{snippets/ch1/01_datasets.py}
 
 \subsection{Code Example: Collecting Data}
 \label{paragraph:collecting-data}
 
-\begin{pbox}[label={ex:record_data}]{Recording Expert Data}
-\input{snippets/ch1/02_record_data.tex}
-\end{pbox}
+\lstinputlisting[language=python]{snippets/ch1/02_record_data.py}
