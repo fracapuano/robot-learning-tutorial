@@ -1,4 +1,3 @@
-\begin{minted}{python}
 """
 You can also use the CLI to record data. To see the required arguments, run:
 lerobot-record --help
@@ -84,7 +83,8 @@ while episode_idx < NUM_EPISODES and not events["stop_recording"]:
     )
 
     # Reset the environment if not stopping or re-recording
-    if not events["stop_recording"] and (episode_idx < NUM_EPISODES - 1 or events["rerecord_episode"]):
+    if (not events["stop_recording"]) and \
+        (episode_idx < NUM_EPISODES - 1 or events["rerecord_episode"]):
         log_say("Reset the environment")
         record_loop(
             robot=robot,
@@ -111,4 +111,3 @@ log_say("Stop recording")
 robot.disconnect()
 teleop.disconnect()
 dataset.push_to_hub()
-\end{minted}

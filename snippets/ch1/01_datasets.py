@@ -1,4 +1,3 @@
-\begin{minted}{python}
 import torch
 from lerobot.datasets.lerobot_dataset import LeRobotDataset
 from lerobot.datasets.streaming_dataset import StreamingLeRobotDataset
@@ -49,4 +48,3 @@ for epoch in range(num_epochs):
 
         # Next, you can do amazing_model.forward(batch)
         ...
-\end{minted}
