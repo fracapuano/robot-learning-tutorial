@@ -32,7 +32,7 @@ follower_id = ...  # something like "follower_so100"
 
 # Robot and environment configuration
 # Camera keys must match the name and resolutions of the ones used for training!
-# You can check the camera keys expected by a model in the info.json card on the model card on the Hub
+# You can check the camera keys expected by a model in the info.json card on the Hub
 camera_config = {
     "side": OpenCVCameraConfig(index_or_path=1, width=640, height=480, fps=30),
     "up": OpenCVCameraConfig(index_or_path=1, width=640, height=480, fps=30),

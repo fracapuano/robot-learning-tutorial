@@ -3,7 +3,8 @@ from lerobot.datasets.lerobot_dataset import LeRobotDataset
 from lerobot.datasets.streaming_dataset import StreamingLeRobotDataset
 
 delta_timestamps = {
-    "observation.images.wrist_camera": [-0.2, -0.1, 0.0]  # 0.2, and 0.1 seconds *before* each frame
+    # 0.2, and 0.1 seconds *before* each frame
+    "observation.images.wrist_camera": [-0.2, -0.1, 0.0]
 }
 
 # Optionally, use StreamingLeRobotDataset to avoid downloading the dataset

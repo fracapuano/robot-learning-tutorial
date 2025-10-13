@@ -21,8 +21,8 @@ def run_learner(
     batch_size: int = 32,
     device: torch.device = "mps",
 ):
-    """The learner process - trains SAC policy on transitions streamed from the actor, updating parameters
-    for the actor to adopt."""
+    """The learner process - trains SAC policy on transitions streamed from the actor, 
+    updating parameters for the actor to adopt."""
     policy_learner.train()
     policy_learner.to(device)
 
@@ -43,7 +43,8 @@ def run_learner(
                 online_buffer.add(**transition)
 
                 # HIL-SERL: Add ONLY human intervention transitions to offline buffer
-                is_intervention = transition.get("complementary_info", {}).get("is_intervention", False)
+                is_intervention = \
+                    transition.get("complementary_info", {}).get("is_intervention", False)
                 if is_intervention:
                     offline_buffer.add(**transition)
                     print(
@@ -59,7 +60,7 @@ def run_learner(
             # Sample from online buffer (autonomous + human data)
             online_batch = online_buffer.sample(batch_size // 2)
 
-            # Sample from offline buffer (human demonstrations only, either precollected or at runtime)
+            # Sample from offline buffer (human demonstrations only)
             offline_batch = offline_buffer.sample(batch_size // 2)
 
             # Combine batches - this is the key HIL-SERL mechanism!

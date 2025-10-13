@@ -27,7 +27,8 @@ optimizer = config.get_optimizer_preset().build(policy.parameters())
 preprocessor, _ = make_pre_post_processors(policy_cfg=config, dataset_stats=dataset.meta.stats)
 
 
-classifier_id = "lerobot/reward_classifier_hil_serl_example"  # your HF username and model repo id for the reward classifier
+# your HF username and model repo id for the reward classifier
+classifier_id = "lerobot/reward_classifier_hil_serl_example"
 
 # Instantiate a dataloader
 dataloader = torch.utils.data.DataLoader(dataset, batch_size=16, shuffle=True)
@@ -54,7 +55,9 @@ for epoch in range(num_epochs):
 
     avg_loss = total_loss / len(dataloader)
     avg_accuracy = total_accuracy / len(dataloader)
-    print(f"Epoch {epoch + 1}/{num_epochs}, Loss: {avg_loss:.4f}, Accuracy: {avg_accuracy:.2f}%")
+    print(
+        f"Epoch {epoch + 1}/{num_epochs}, Loss: {avg_loss:.4f}, Accuracy: {avg_accuracy:.2f}%"
+    )
 
 print("Training finished!")
 

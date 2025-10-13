@@ -34,7 +34,9 @@ input_features = {key: ft for key, ft in features.items() if key not in output_f
 
 cfg = ACTConfig(input_features=input_features, output_features=output_features)
 policy = ACTPolicy(cfg)
-preprocessor, postprocessor = make_pre_post_processors(cfg, dataset_stats=dataset_metadata.stats)
+preprocessor, postprocessor = make_pre_post_processors(
+    cfg, dataset_stats=dataset_metadata.stats
+)
 
 policy.train()
 policy.to(device)
@@ -46,7 +48,8 @@ delta_timestamps = {
 
 # add image features if they are present
 delta_timestamps |= {
-    k: make_delta_timestamps(cfg.observation_delta_indices, dataset_metadata.fps) for k in cfg.image_features
+    k: make_delta_timestamps(cfg.observation_delta_indices, dataset_metadata.fps)
+    for k in cfg.image_features
 }
 
 # Instantiate the dataset

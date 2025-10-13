@@ -15,7 +15,9 @@ model = ACTPolicy.from_pretrained(model_id)
 dataset_id = "lerobot/svla_so101_pickplace"
 # This only downloads the metadata for the dataset, ~10s of MB even for large-scale datasets
 dataset_metadata = LeRobotDatasetMetadata(dataset_id)
-preprocess, postprocess = make_pre_post_processors(model.config, dataset_stats=dataset_metadata.stats)
+preprocess, postprocess = make_pre_post_processors(
+    model.config, dataset_stats=dataset_metadata.stats
+)
 
 # # find ports using lerobot-find-port
 follower_port = ...  # something like "/dev/tty.usbmodem58760431631"
@@ -28,7 +30,7 @@ MAX_STEPS_PER_EPISODE = 20
 
 # Robot and environment configuration
 # Camera keys must match the name and resolutions of the ones used for training!
-# You can check the camera keys expected by a model in the info.json card on the model card on the Hub
+# You can check the camera keys expected by a model in the info.json card on the Hub
 camera_config = {
     "side": OpenCVCameraConfig(index_or_path=1, width=640, height=480, fps=30),
     "up": OpenCVCameraConfig(index_or_path=1, width=640, height=480, fps=30),

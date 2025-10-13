@@ -31,7 +31,7 @@ follower_id = ...  # something like "follower_so100"
 
 # Robot and environment configuration
 # Camera keys must match the name and resolutions of the ones used for training!
-# You can check the camera keys expected by a model in the info.json card on the model card on the Hub
+# You can check the camera keys expected by a model in the info.json card on the Hub
 camera_config = {
     "camera1": OpenCVCameraConfig(index_or_path=0, width=640, height=480, fps=30),
     "camera2": OpenCVCameraConfig(index_or_path=1, width=640, height=480, fps=30),
@@ -52,7 +52,9 @@ dataset_features = {**action_features, **obs_features}
 for _ in range(MAX_EPISODES):
     for _ in range(MAX_STEPS_PER_EPISODE):
         obs = robot.get_observation()
-        obs_frame = build_inference_frame(obs, dataset_features, device, task=task, robot_type=robot_type)
+        obs_frame = build_inference_frame(
+            obs, dataset_features, device, task=task, robot_type=robot_type
+        )
 
         obs = preprocess(obs_frame)
 

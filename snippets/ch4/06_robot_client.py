@@ -5,7 +5,7 @@ from lerobot.async_inference.configs import RobotClientConfig
 from lerobot.async_inference.robot_client import RobotClient
 from lerobot.async_inference.helpers import visualize_action_queue_size
 
-# these cameras must match the ones expected by the policy - find your cameras with lerobot-find-cameras
+# these cameras must match the ones expected by the policy (use lerobot-find-cameras)
 # check the config.json on the Hub for the policy you are using to see the expected camera specs
 camera_cfg = {
     "top": OpenCVCameraConfig(index_or_path=0, width=640, height=480, fps=30),

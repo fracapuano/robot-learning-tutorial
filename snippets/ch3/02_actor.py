@@ -17,7 +17,8 @@ def make_policy_obs(obs, device: torch.device = "cpu"):
     return {
         "observation.state": torch.from_numpy(obs["agent_pos"]).float().unsqueeze(0).to(device),
         **{
-            f"observation.image.{k}": torch.from_numpy(obs["pixels"][k]).float().unsqueeze(0).to(device)
+            f"observation.image.{k}": 
+                torch.from_numpy(obs["pixels"][k]).float().unsqueeze(0).to(device)
             for k in obs["pixels"]
         },
     }
@@ -33,7 +34,8 @@ def run_actor(
     output_directory: Path | None = None
 ):
     """The actor process - interacts with environment and collects data.
-    The policy is frozen and only the parameters are updated, popping the most recent ones from a queue."""
+    The policy is frozen and only the parameters are updated, popping the most recent ones 
+    from a queue."""
     policy_actor.eval()
     policy_actor.to(device)
 
@@ -65,7 +67,8 @@ def run_actor(
 
                 # Get action from policy
                 policy_obs = make_policy_obs(obs, device=device)
-                action_tensor = policy_actor.select_action(policy_obs)  # predicts a single action
+                # predicts a single action, not a chunk of actions!
+                action_tensor = policy_actor.select_action(policy_obs)
                 action = action_tensor.squeeze(0).cpu().numpy()
 
                 # Step environment
