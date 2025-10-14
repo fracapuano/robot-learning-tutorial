@@ -1,208 +1,18 @@
-\documentclass[table]{hfstyle/hf}
+\documentclass[table]{article}
+\usepackage{tutorial}
 
-% Basic packages
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{graphicx}
-\usepackage{booktabs}
-\usepackage{url}
-\usepackage{lineno}
-\usepackage{enumitem}
-\usepackage{listings}
-
-% Math and symbols
-\usepackage{amsmath}
-\usepackage{amsfonts}
-\usepackage{amssymb}
-\usepackage{nicefrac}
-\usepackage{siunitx}
-
-% Tables and figures
-\usepackage{multirow}
-\usepackage{bigdelim}
-\usepackage{longtable}
-\usepackage{tabularray}
-\usepackage{wrapfig}
-\usepackage{caption}
-\usepackage{subcaption}
-\usepackage{makecell}
-\usepackage{adjustbox}
-
-% Color, boxes and tables
-\usepackage[most]{tcolorbox}
-\usepackage[table,xcdraw,dvipsnames]{xcolor}
-
-% Text and formatting
-\usepackage{xspace}
-\usepackage{soul}
-\usepackage{csquotes}
-\usepackage{arydshln}
-
-% Bibliography and references
-\usepackage{natbib}
-
-% Special packages
-\usepackage{todonotes}
-\usepackage[absolute]{textpos}
-\usepackage{pifont}
-\usepackage{bold-extra}
-\usepackage{pgf-pie}
-\usepackage{epigraph}
-
-% Algorithms
-\usepackage{algorithm}
-\usepackage{algpseudocode}
-
-% Hyperref (load last)
-\usepackage{hyperref}
-\definecolor{linkcolor}{RGB}{0, 0, 128}
-\hypersetup{
-     colorlinks   = true,
-     citecolor    = linkcolor,
-     linkcolor    = linkcolor,
-     urlcolor     = linkcolor,
-}
 
 % Custom commands
-\newcommand{\cmark}{\ding{51}}%
-\newcommand{\xmark}{\ding{55}}%
-
-\setlist[itemize]{leftmargin=*,itemsep=0em,parsep=0.3em,topsep=0.3em}
-
-\DeclareUnicodeCharacter{2212}{\ensuremath{-}}
-
-\addtolength{\extrarowheight}{\belowrulesep}
-\aboverulesep=0pt
-\belowrulesep=0pt
-
-\definecolor{maroon}{HTML}{F26035}
-\definecolor{yellow}{HTML}{FDBC42}
-\definecolor{lavender}{HTML}{734f96}
-\definecolor{darkergrey}{HTML}{444444}
-\definecolor{midgrey}{HTML}{e6eded}
-
-\definecolor{neutralEight}{HTML}{343434}
-\definecolor{neutralFive}{HTML}{838383}
-\definecolor{neutralThree}{HTML}{bebebe}
-\definecolor{neutralOne}{HTML}{dedede}
-\definecolor{lightgrey}{HTML}{fafcfc}
-
-\usepackage{tikz}
-\newcommand{\cblock}[3]{
-  \hspace{-1.5mm}
-  \begin{tikzpicture}
-    [
-    node/.style={square, minimum size=10mm, thick, line width=0pt},
-    ]
-    \node[fill={rgb,255:red,#1;green,#2;blue,#3}] () [] {};
-  \end{tikzpicture}%
-}
-
-\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
-
-\definecolor{maroon}{HTML}{F26035}
-\definecolor{yellow}{HTML}{FDBC42}
-\definecolor{darkred}{RGB}{156, 39, 33}
-\definecolor{darkblue}{RGB}{31, 90, 153}
-\definecolor{forestgreen}{rgb}{0.13, 0.55, 0.13}
-\definecolor{olmoDarkBlue}{HTML}{012e59}
-\definecolor{olmoBlue}{HTML}{265ed4}
-\definecolor{olmoLightBlue}{HTML}{012e59}
-\definecolor{olmoTeal}{HTML}{00d5ff}
-\definecolor{olmoYellow}{HTML}{ffbb00}
-\definecolor{olmoOrange}{HTML}{ff9100}
-
-\newcommand{\nol}[1]{{\color{purple} [nol]: #1}}
-
-% Code snippets definitions
-\definecolor{codegreen}{rgb}{0,0.6,0}
-\definecolor{codegray}{rgb}{0.5,0.5,0.5}
-\definecolor{codepurple}{rgb}{0.58,0,0.82}
-\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
-
-\lstdefinestyle{mycodestyle}{
-    backgroundcolor=\color{backcolour},   
-    commentstyle=\color{codegreen},
-    keywordstyle=\color{magenta},
-    numberstyle=\tiny\color{codegray},
-    stringstyle=\color{codepurple},
-    basicstyle=\ttfamily\footnotesize,
-    breakatwhitespace=false,         
-    breaklines=true,                 
-    captionpos=b,                    
-    keepspaces=true,                 
-    numbers=left,                    
-    numbersep=5pt,                  
-    showspaces=false,                
-    showstringspaces=false,
-    showtabs=false,                  
-    tabsize=2
-}
-
-\lstset{style=mycodestyle}
-
-
-\usepackage{setspace}
-
-\usepackage{nicematrix}
-\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
-\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
-\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
-\newcolumntype{P}[1]{>{\centering\let\newline\\\arraybackslash\columncolor{ai2lightpink}}m{#1}}
-\addtolength{\extrarowheight}{\belowrulesep}
-\aboverulesep=0pt
-\belowrulesep=0pt
-
-\newcommand{\orr}[1]{\textcolor{red}{[OZ:#1]}}
-
-
-\tcbuselibrary{minted}
-\usemintedstyle{colorful}
-
-\renewcommand{\theFancyVerbLine}{\color{olmoBlue}\footnotesize\arabic{FancyVerbLine}}
-
-\setminted[python]{
-  linenos,
-  breaklines,
-  fontsize=\footnotesize,
-  xleftmargin=2em
-}
-\crefname{tcb@cnt@pbox}{code}{code}
-\Crefname{tcb@cnt@pbox}{Code}{Code}
-\crefname{assumption}{assumption}{assumption}
-\Crefname{assumption}{Assumption}{Assumptions}
-
-
-
-\newtcolorbox[auto counter]{pbox}[2][]{
-  breakable,
-  colback=white,
-  title=\textbf{Code~\thetcbcounter: #2},
-  #1,fonttitle=\sffamily,
-  fontupper=\sffamily,
-  arc=10pt,
-  colframe=hf4,
-  coltitle=hf3,
-  colbacktitle=hf4,
-  toptitle=0.25cm,
-  bottomtitle=0.125cm
-}
-
-\input{preamble}
-\input{math_commands}
-\input{handles}
-\input{snippets/code_specs}
-
-\title{
-Robot Learning: A Tutorial
-}
-
 \newcommand{\huggingface}{\raisebox{-1.5pt}{\includegraphics[height=1.05em]{logos/hf.pdf}}\xspace}
 \newcommand{\coreContrib}{\raisebox{.33em}{\hspace{.05em}\includegraphics[height=.5em]{logos/core.png}}\xspace}
 
 \newcommand{\hf}{\raisebox{.28em}{\hspace{.05em}\includegraphics[height=1em]{logos/hf.pdf}}\xspace}
 \newcommand{\ensps}{\raisebox{.3em}{\hspace{.05em}\includegraphics[height=.65em]{logos/ensps_logo.pdf}}\xspace}
 \newcommand{\oxford}{\raisebox{.3em}{\hspace{.05em}\includegraphics[height=1em]{logos/oxford_logo.png}}\xspace}
+
+\title{
+Robot Learning: A Tutorial
+}
 
 \authorOne[]{Francesco Capuano \oxford \hf}
 \authorOne[]{Caroline Pascal\hf}
@@ -220,7 +30,6 @@ Robot Learning: A Tutorial
 }
 
 \begin{document}
-
 
 \maketitle
 

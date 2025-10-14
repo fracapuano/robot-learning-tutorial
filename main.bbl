@@ -1,22 +1,415 @@
-\begin{thebibliography}{8}
+\begin{thebibliography}{120}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
 
+\bibitem[Achiam(2018)]{SpinningUp2018}
+Joshua Achiam.
+\newblock Spinning up in deep reinforcement learning.
+\newblock 2018.
+
+\bibitem[Agrawal()]{agrawalComputationalSensorimotorLearning}
+Pulkit Agrawal.
+\newblock Computational {{Sensorimotor Learning}}.
+
+\bibitem[Akkaya et~al.(2019)Akkaya, Andrychowicz, Chociej, Litwin, McGrew, Petron, Paino, Plappert, Powell, Ribas, Schneider, Tezak, Tworek, Welinder, Weng, Yuan, Zaremba, and Zhang]{akkayaSolvingRubiksCube2019}
+Ilge Akkaya, Marcin Andrychowicz, Maciek Chociej, Mateusz Litwin, Bob McGrew, Arthur Petron, Alex Paino, Matthias Plappert, Glenn Powell, Raphael Ribas, Jonas Schneider, Nikolas Tezak, Jerry Tworek, Peter Welinder, Lilian Weng, Qiming Yuan, Wojciech Zaremba, and Lei Zhang.
+\newblock Solving {{Rubik}}'s {{Cube}} with a {{Robot Hand}}, October 2019.
+
+\bibitem[Alayrac et~al.(2022)Alayrac, Donahue, Luc, Miech, Barr, Hasson, Lenc, Mensch, Millican, Reynolds, Ring, Rutherford, Cabi, Han, Gong, Samangooei, Monteiro, Menick, Borgeaud, Brock, Nematzadeh, Sharifzadeh, Binkowski, Barreira, Vinyals, Zisserman, and Simonyan]{alayracFlamingoVisualLanguage2022}
+Jean-Baptiste Alayrac, Jeff Donahue, Pauline Luc, Antoine Miech, Iain Barr, Yana Hasson, Karel Lenc, Arthur Mensch, Katie Millican, Malcolm Reynolds, Roman Ring, Eliza Rutherford, Serkan Cabi, Tengda Han, Zhitao Gong, Sina Samangooei, Marianne Monteiro, Jacob Menick, Sebastian Borgeaud, Andrew Brock, Aida Nematzadeh, Sahand Sharifzadeh, Mikolaj Binkowski, Ricardo Barreira, Oriol Vinyals, Andrew Zisserman, and Karen Simonyan.
+\newblock Flamingo: A {{Visual Language Model}} for {{Few-Shot Learning}}, November 2022.
+
+\bibitem[Aldaco et~al.()Aldaco, Armstrong, Baruch, Bingham, Chan, Dwibedi, Finn, Florence, Goodrich, Gramlich, Herzog, Hoech, Nguyen, Storz, Tabanpour, Tompson, Wahid, Wahrburg, Xu, Yaroshenko, and Zhao]{aldacoALOHA2Enhanced}
+Jorge Aldaco, Travis Armstrong, Robert Baruch, Jeff Bingham, Sanky Chan, Debidatta Dwibedi, Chelsea Finn, Pete Florence, Spencer Goodrich, Wayne Gramlich, Alexander Herzog, Jonathan Hoech, Thinh Nguyen, Ian Storz, Baruch Tabanpour, Jonathan Tompson, Ayzaan Wahid, Ted Wahrburg, Sichun Xu, Sergey Yaroshenko, and Tony~Z Zhao.
+\newblock {{ALOHA}} 2: {{An Enhanced Low-Cost Hardware}} for {{Bimanual Teleoperation}}.
+
+\bibitem[Alizadeh and Zhu(2024)]{alizadehComprehensiveSurveySpace2024}
+Mohammad Alizadeh and Zheng~H. Zhu.
+\newblock A comprehensive survey of space robotic manipulators for on-orbit servicing.
+\newblock \emph{Frontiers in Robotics and AI}, 11, October 2024.
+\newblock ISSN 2296-9144.
+\newblock \doi{10.3389/frobt.2024.1470950}.
+
+\bibitem[Allal et~al.(2025)Allal, Lozhkov, Bakouch, Bl{\'a}zquez, Penedo, Tunstall, Marafioti, Kydl{\'i}{\v c}ek, Lajar{\'i}n, Srivastav, Lochner, Fahlgren, Nguyen, Fourrier, Burtenshaw, Larcher, Zhao, Zakka, Morlon, Raffel, von Werra, and Wolf]{allalSmolLM2WhenSmol2025}
+Loubna~Ben Allal, Anton Lozhkov, Elie Bakouch, Gabriel~Mart{\'i}n Bl{\'a}zquez, Guilherme Penedo, Lewis Tunstall, Andr{\'e}s Marafioti, Hynek Kydl{\'i}{\v c}ek, Agust{\'i}n~Piqueres Lajar{\'i}n, Vaibhav Srivastav, Joshua Lochner, Caleb Fahlgren, Xuan-Son Nguyen, Cl{\'e}mentine Fourrier, Ben Burtenshaw, Hugo Larcher, Haojun Zhao, Cyril Zakka, Mathieu Morlon, Colin Raffel, Leandro von Werra, and Thomas Wolf.
+\newblock {{SmolLM2}}: {{When Smol Goes Big}} -- {{Data-Centric Training}} of a {{Small Language Model}}, February 2025.
+
+\bibitem[Antonova et~al.(2017)Antonova, Cruciani, Smith, and Kragic]{antonovaReinforcementLearningPivoting2017}
+Rika Antonova, Silvia Cruciani, Christian Smith, and Danica Kragic.
+\newblock Reinforcement {{Learning}} for {{Pivoting Task}}, March 2017.
+
+\bibitem[Bai et~al.(2025)Bai, Chen, Liu, Wang, Ge, Song, Dang, Wang, Wang, Tang, Zhong, Zhu, Yang, Li, Wan, Wang, Ding, Fu, Xu, Ye, Zhang, Xie, Cheng, Zhang, Yang, Xu, and Lin]{bai2025qwen25vl}
+Shuai Bai, Keqin Chen, Xuejing Liu, Jialin Wang, Wenbin Ge, Sibo Song, Kai Dang, Peng Wang, Shijie Wang, Jun Tang, Humen Zhong, Yuanzhi Zhu, Mingkun Yang, Zhaohai Li, Jianqiang Wan, Pengfei Wang, Wei Ding, Zheren Fu, Yiheng Xu, Jiabo Ye, Xi~Zhang, Tianbao Xie, Zesen Cheng, Hang Zhang, Zhibo Yang, Haiyang Xu, and Junyang Lin.
+\newblock Qwen2.5-{{VL}} technical report, 2025.
+
+\bibitem[Ball et~al.(2023)Ball, Smith, Kostrikov, and Levine]{ballEfficientOnlineReinforcement2023}
+Philip~J. Ball, Laura Smith, Ilya Kostrikov, and Sergey Levine.
+\newblock Efficient {{Online Reinforcement Learning}} with {{Offline Data}}, May 2023.
+
+\bibitem[Bekris et~al.(2024)Bekris, Doerr, Meng, and Tangirala]{bekrisStateRobotMotion2024}
+Kostas~E. Bekris, Joe Doerr, Patrick Meng, and Sumanth Tangirala.
+\newblock The {{State}} of {{Robot Motion Generation}}, October 2024.
+
+\bibitem[Bellemare et~al.(2020)Bellemare, Candido, Castro, Gong, Machado, Moitra, Ponda, and Wang]{bellemareAutonomousNavigationStratospheric2020}
+Marc~G. Bellemare, Salvatore Candido, Pablo~Samuel Castro, Jun Gong, Marlos~C. Machado, Subhodeep Moitra, Sameera~S. Ponda, and Ziyu Wang.
+\newblock Autonomous navigation of stratospheric balloons using reinforcement learning.
+\newblock \emph{Nature}, 588\penalty0 (7836):\penalty0 77--82, December 2020.
+\newblock ISSN 1476-4687.
+\newblock \doi{10.1038/s41586-020-2939-8}.
+
+\bibitem[Bellman(1957)]{bellmanMarkovianDecisionProcess1957}
+Richard Bellman.
+\newblock A {{Markovian Decision Process}}.
+\newblock \emph{Journal of Mathematics and Mechanics}, 6\penalty0 (5):\penalty0 679--684, 1957.
+\newblock ISSN 0095-9057.
+
+\bibitem[Bjorck et~al.(2025)Bjorck, Casta{\~n}eda, Cherniadev, Da, Ding, Fan, Fang, Fox, Hu, Huang, Jang, Jiang, Kautz, Kundalia, Lao, Li, Lin, Lin, Liu, Llontop, Magne, Mandlekar, Narayan, Nasiriany, Reed, Tan, Wang, Wang, Wang, Wang, Xiang, Xie, Xu, Xu, Ye, Yu, Zhang, Zhang, Zhao, Zheng, and Zhu]{bjorckGR00TN1Open2025}
+Johan Bjorck, Fernando Casta{\~n}eda, Nikita Cherniadev, Xingye Da, Runyu Ding, Linxi~"Jim" Fan, Yu~Fang, Dieter Fox, Fengyuan Hu, Spencer Huang, Joel Jang, Zhenyu Jiang, Jan Kautz, Kaushil Kundalia, Lawrence Lao, Zhiqi Li, Zongyu Lin, Kevin Lin, Guilin Liu, Edith Llontop, Loic Magne, Ajay Mandlekar, Avnish Narayan, Soroush Nasiriany, Scott Reed, You~Liang Tan, Guanzhi Wang, Zu~Wang, Jing Wang, Qi~Wang, Jiannan Xiang, Yuqi Xie, Yinzhen Xu, Zhenjia Xu, Seonghyeon Ye, Zhiding Yu, Ao~Zhang, Hao Zhang, Yizhou Zhao, Ruijie Zheng, and Yuke Zhu.
+\newblock {{GR00T N1}}: {{An Open Foundation Model}} for {{Generalist Humanoid Robots}}, March 2025.
+
+\bibitem[Black et~al.(2024)Black, Brown, Driess, Esmail, Equi, Finn, Fusai, Groom, Hausman, Ichter, Jakubczak, Jones, Ke, Levine, {Li-Bell}, Mothukuri, Nair, Pertsch, Shi, Tanner, Vuong, Walling, Wang, and Zhilinsky]{black$p_0$VisionLanguageActionFlow2024}
+Kevin Black, Noah Brown, Danny Driess, Adnan Esmail, Michael Equi, Chelsea Finn, Niccolo Fusai, Lachy Groom, Karol Hausman, Brian Ichter, Szymon Jakubczak, Tim Jones, Liyiming Ke, Sergey Levine, Adrian {Li-Bell}, Mohith Mothukuri, Suraj Nair, Karl Pertsch, Lucy~Xiaoyang Shi, James Tanner, Quan Vuong, Anna Walling, Haohuan Wang, and Ury Zhilinsky.
+\newblock \${$\pi\_$}0\$: {{A Vision-Language-Action Flow Model}} for {{General Robot Control}}, October 2024.
+
+\bibitem[Brohan et~al.(2023{\natexlab{a}})Brohan, Brown, Carbajal, Chebotar, Chen, Choromanski, Ding, Driess, Dubey, Finn, Florence, Fu, Arenas, Gopalakrishnan, Han, Hausman, Herzog, Hsu, Ichter, Irpan, Joshi, Julian, Kalashnikov, Kuang, Leal, Lee, Lee, Levine, Lu, Michalewski, Mordatch, Pertsch, Rao, Reymann, Ryoo, Salazar, Sanketi, Sermanet, Singh, Singh, Soricut, Tran, Vanhoucke, Vuong, Wahid, Welker, Wohlhart, Wu, Xia, Xiao, Xu, Xu, Yu, and Zitkovich]{brohanRT2VisionLanguageActionModels2023}
+Anthony Brohan, Noah Brown, Justice Carbajal, Yevgen Chebotar, Xi~Chen, Krzysztof Choromanski, Tianli Ding, Danny Driess, Avinava Dubey, Chelsea Finn, Pete Florence, Chuyuan Fu, Montse~Gonzalez Arenas, Keerthana Gopalakrishnan, Kehang Han, Karol Hausman, Alexander Herzog, Jasmine Hsu, Brian Ichter, Alex Irpan, Nikhil Joshi, Ryan Julian, Dmitry Kalashnikov, Yuheng Kuang, Isabel Leal, Lisa Lee, Tsang-Wei~Edward Lee, Sergey Levine, Yao Lu, Henryk Michalewski, Igor Mordatch, Karl Pertsch, Kanishka Rao, Krista Reymann, Michael Ryoo, Grecia Salazar, Pannag Sanketi, Pierre Sermanet, Jaspiar Singh, Anikait Singh, Radu Soricut, Huong Tran, Vincent Vanhoucke, Quan Vuong, Ayzaan Wahid, Stefan Welker, Paul Wohlhart, Jialin Wu, Fei Xia, Ted Xiao, Peng Xu, Sichun Xu, Tianhe Yu, and Brianna Zitkovich.
+\newblock {{RT-2}}: {{Vision-Language-Action Models Transfer Web Knowledge}} to {{Robotic Control}}, July 2023{\natexlab{a}}.
+
+\bibitem[Brohan et~al.(2023{\natexlab{b}})Brohan, Brown, Carbajal, Chebotar, Dabis, Finn, Gopalakrishnan, Hausman, Herzog, Hsu, Ibarz, Ichter, Irpan, Jackson, Jesmonth, Joshi, Julian, Kalashnikov, Kuang, Leal, Lee, Levine, Lu, Malla, Manjunath, Mordatch, Nachum, Parada, Peralta, Perez, Pertsch, Quiambao, Rao, Ryoo, Salazar, Sanketi, Sayed, Singh, Sontakke, Stone, Tan, Tran, Vanhoucke, Vega, Vuong, Xia, Xiao, Xu, Xu, Yu, and Zitkovich]{brohanRT1RoboticsTransformer2023}
+Anthony Brohan, Noah Brown, Justice Carbajal, Yevgen Chebotar, Joseph Dabis, Chelsea Finn, Keerthana Gopalakrishnan, Karol Hausman, Alex Herzog, Jasmine Hsu, Julian Ibarz, Brian Ichter, Alex Irpan, Tomas Jackson, Sally Jesmonth, Nikhil~J. Joshi, Ryan Julian, Dmitry Kalashnikov, Yuheng Kuang, Isabel Leal, Kuang-Huei Lee, Sergey Levine, Yao Lu, Utsav Malla, Deeksha Manjunath, Igor Mordatch, Ofir Nachum, Carolina Parada, Jodilyn Peralta, Emily Perez, Karl Pertsch, Jornell Quiambao, Kanishka Rao, Michael Ryoo, Grecia Salazar, Pannag Sanketi, Kevin Sayed, Jaspiar Singh, Sumedh Sontakke, Austin Stone, Clayton Tan, Huong Tran, Vincent Vanhoucke, Steve Vega, Quan Vuong, Fei Xia, Ted Xiao, Peng Xu, Sichun Xu, Tianhe Yu, and Brianna Zitkovich.
+\newblock {{RT-1}}: {{Robotics Transformer}} for {{Real-World Control}} at {{Scale}}, August 2023{\natexlab{b}}.
+
+\bibitem[Brown et~al.(2020)Brown, Mann, Ryder, Subbiah, Kaplan, Dhariwal, Neelakantan, Shyam, Sastry, Askell, Agarwal, {Herbert-Voss}, Krueger, Henighan, Child, Ramesh, Ziegler, Wu, Winter, Hesse, Chen, Sigler, Litwin, Gray, Chess, Clark, Berner, McCandlish, Radford, Sutskever, and Amodei]{brownLanguageModelsAre2020}
+Tom~B. Brown, Benjamin Mann, Nick Ryder, Melanie Subbiah, Jared Kaplan, Prafulla Dhariwal, Arvind Neelakantan, Pranav Shyam, Girish Sastry, Amanda Askell, Sandhini Agarwal, Ariel {Herbert-Voss}, Gretchen Krueger, Tom Henighan, Rewon Child, Aditya Ramesh, Daniel~M. Ziegler, Jeffrey Wu, Clemens Winter, Christopher Hesse, Mark Chen, Eric Sigler, Mateusz Litwin, Scott Gray, Benjamin Chess, Jack Clark, Christopher Berner, Sam McCandlish, Alec Radford, Ilya Sutskever, and Dario Amodei.
+\newblock Language {{Models}} are {{Few-Shot Learners}}, July 2020.
+
+\bibitem[Byeon et~al.(2022)Byeon, Park, Kim, Lee, Baek, and Kim]{kakaobrain2022coyo700m}
+Minwoo Byeon, Beomhee Park, Haecheon Kim, Sungjun Lee, Woonhyuk Baek, and Saehoon Kim.
+\newblock {{COYO-700M}}: {{Image-text}} pair dataset, 2022.
+
+\bibitem[Chebotar et~al.(2019)Chebotar, Handa, Makoviychuk, Macklin, Issac, Ratliff, and Fox]{chebotarClosingSimtorealLoop2019}
+Yevgen Chebotar, Ankur Handa, Viktor Makoviychuk, Miles Macklin, Jan Issac, Nathan Ratliff, and Dieter Fox.
+\newblock Closing the sim-to-real loop: {{Adapting}} simulation randomization with real world experience.
+\newblock In \emph{2019 {{International Conference}} on {{Robotics}} and {{Automation}} ({{ICRA}})}, pages 8973--8979. IEEE, 2019.
+
+\bibitem[Chen et~al.(2023)Chen, Djolonga, Padlewski, Mustafa, Changpinyo, Wu, Ruiz, Goodman, Wang, Tay, Shakeri, Dehghani, Salz, Lucic, Tschannen, Nagrani, Hu, Joshi, Pang, Montgomery, Pietrzyk, Ritter, Piergiovanni, Minderer, Pavetic, Waters, Li, Alabdulmohsin, Beyer, Amelot, Lee, Steiner, Li, Keysers, Arnab, Xu, Rong, Kolesnikov, Seyedhosseini, Angelova, Zhai, Houlsby, and Soricut]{chenPaLIXScalingMultilingual2023}
+Xi~Chen, Josip Djolonga, Piotr Padlewski, Basil Mustafa, Soravit Changpinyo, Jialin Wu, Carlos~Riquelme Ruiz, Sebastian Goodman, Xiao Wang, Yi~Tay, Siamak Shakeri, Mostafa Dehghani, Daniel Salz, Mario Lucic, Michael Tschannen, Arsha Nagrani, Hexiang Hu, Mandar Joshi, Bo~Pang, Ceslee Montgomery, Paulina Pietrzyk, Marvin Ritter, A.~J. Piergiovanni, Matthias Minderer, Filip Pavetic, Austin Waters, Gang Li, Ibrahim Alabdulmohsin, Lucas Beyer, Julien Amelot, Kenton Lee, Andreas~Peter Steiner, Yang Li, Daniel Keysers, Anurag Arnab, Yuanzhong Xu, Keran Rong, Alexander Kolesnikov, Mojtaba Seyedhosseini, Anelia Angelova, Xiaohua Zhai, Neil Houlsby, and Radu Soricut.
+\newblock {{PaLI-X}}: {{On Scaling}} up a {{Multilingual Vision}} and {{Language Model}}, May 2023.
+
+\bibitem[Chi et~al.(2024)Chi, Xu, Feng, Cousineau, Du, Burchfiel, Tedrake, and Song]{chiDiffusionPolicyVisuomotor2024}
+Cheng Chi, Zhenjia Xu, Siyuan Feng, Eric Cousineau, Yilun Du, Benjamin Burchfiel, Russ Tedrake, and Shuran Song.
+\newblock Diffusion {{Policy}}: {{Visuomotor Policy Learning}} via {{Action Diffusion}}, March 2024.
+
+\bibitem[Connell and Mahadevan(1993)]{connellRobotLearning1993}
+Jonathan~H. Connell and Sridhar Mahadevan, editors.
+\newblock \emph{Robot {{Learning}}}.
+\newblock Springer US, Boston, MA, 1993.
+\newblock ISBN 978-1-4613-6396-5 978-1-4615-3184-5.
+\newblock \doi{10.1007/978-1-4615-3184-5}.
+
+\bibitem[Dai et~al.(2023)Dai, Li, Li, Tiong, Zhao, Wang, Li, Fung, and Hoi]{InstructBLIP}
+Wenliang Dai, Junnan Li, Dongxu Li, Anthony Tiong, Junqi Zhao, Weisheng Wang, Boyang Li, Pascale Fung, and Steven Hoi.
+\newblock {{InstructBLIP}}: {{Towards}} general-purpose vision-language models with instruction tuning.
+\newblock In \emph{Thirty-Seventh Conference on Neural Information Processing Systems}, 2023.
+
+\bibitem[Degrave et~al.(2022)Degrave, Felici, Buchli, Neunert, Tracey, Carpanese, Ewalds, Hafner, Abdolmaleki, {de las Casas}, Donner, Fritz, Galperti, Huber, Keeling, Tsimpoukelli, Kay, Merle, Moret, Noury, Pesamosca, Pfau, Sauter, Sommariva, Coda, Duval, Fasoli, Kohli, Kavukcuoglu, Hassabis, and Riedmiller]{degraveMagneticControlTokamak2022}
+Jonas Degrave, Federico Felici, Jonas Buchli, Michael Neunert, Brendan Tracey, Francesco Carpanese, Timo Ewalds, Roland Hafner, Abbas Abdolmaleki, Diego {de las Casas}, Craig Donner, Leslie Fritz, Cristian Galperti, Andrea Huber, James Keeling, Maria Tsimpoukelli, Jackie Kay, Antoine Merle, Jean-Marc Moret, Seb Noury, Federico Pesamosca, David Pfau, Olivier Sauter, Cristian Sommariva, Stefano Coda, Basil Duval, Ambrogio Fasoli, Pushmeet Kohli, Koray Kavukcuoglu, Demis Hassabis, and Martin Riedmiller.
+\newblock Magnetic control of tokamak plasmas through deep reinforcement learning.
+\newblock \emph{Nature}, 602\penalty0 (7897):\penalty0 414--419, February 2022.
+\newblock ISSN 1476-4687.
+\newblock \doi{10.1038/s41586-021-04301-9}.
+
+\bibitem[Deng et~al.(2009)Deng, Li, Do, Su, and {Fei-Fei}]{ImageNet_VSS09}
+J.~Deng, K.~Li, M.~Do, H.~Su, and L.~{Fei-Fei}.
+\newblock Construction and analysis of a large scale image ontology.
+\newblock Vision Sciences Society, 2009.
+
+\bibitem[Devlin et~al.(2019)Devlin, Chang, Lee, and Toutanova]{devlinBERTPretrainingDeep2019}
+Jacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova.
+\newblock {{BERT}}: {{Pre-training}} of {{Deep Bidirectional Transformers}} for {{Language Understanding}}, May 2019.
+
+\bibitem[Driess et~al.(2023)Driess, Xia, Sajjadi, Lynch, Chowdhery, Ichter, Wahid, Tompson, Vuong, Yu, Huang, Chebotar, Sermanet, Duckworth, Levine, Vanhoucke, Hausman, Toussaint, Greff, Zeng, Mordatch, and Florence]{driessPaLMEEmbodiedMultimodal2023}
+Danny Driess, Fei Xia, Mehdi S.~M. Sajjadi, Corey Lynch, Aakanksha Chowdhery, Brian Ichter, Ayzaan Wahid, Jonathan Tompson, Quan Vuong, Tianhe Yu, Wenlong Huang, Yevgen Chebotar, Pierre Sermanet, Daniel Duckworth, Sergey Levine, Vincent Vanhoucke, Karol Hausman, Marc Toussaint, Klaus Greff, Andy Zeng, Igor Mordatch, and Pete Florence.
+\newblock {{PaLM-E}}: {{An Embodied Multimodal Language Model}}, March 2023.
+
+\bibitem[Driess et~al.(2025)Driess, Springenberg, Ichter, Yu, {Li-Bell}, Pertsch, Ren, Walke, Vuong, Shi, and Levine]{driessKnowledgeInsulatingVisionLanguageAction2025}
+Danny Driess, Jost~Tobias Springenberg, Brian Ichter, Lili Yu, Adrian {Li-Bell}, Karl Pertsch, Allen~Z. Ren, Homer Walke, Quan Vuong, Lucy~Xiaoyang Shi, and Sergey Levine.
+\newblock Knowledge {{Insulating Vision-Language-Action Models}}: {{Train Fast}}, {{Run Fast}}, {{Generalize Better}}, May 2025.
+
+\bibitem[Esser et~al.(2024)Esser, Kulal, Blattmann, Entezari, M{\"u}ller, Saini, Levi, Lorenz, Sauer, Boesel, Podell, Dockhorn, English, Lacey, Goodwin, Marek, and Rombach]{esserScalingRectifiedFlow2024}
+Patrick Esser, Sumith Kulal, Andreas Blattmann, Rahim Entezari, Jonas M{\"u}ller, Harry Saini, Yam Levi, Dominik Lorenz, Axel Sauer, Frederic Boesel, Dustin Podell, Tim Dockhorn, Zion English, Kyle Lacey, Alex Goodwin, Yannik Marek, and Robin Rombach.
+\newblock Scaling {{Rectified Flow Transformers}} for {{High-Resolution Image Synthesis}}, March 2024.
+
+\bibitem[Fedus et~al.(2022)Fedus, Dean, and Zoph]{fedusReviewSparseExpert2022}
+William Fedus, Jeff Dean, and Barret Zoph.
+\newblock A {{Review}} of {{Sparse Expert Models}} in {{Deep Learning}}, September 2022.
+
+\bibitem[Fini et~al.(2024)Fini, Shukor, Li, Dufter, Klein, Haldimann, Aitharaju, da~Costa, B{\'e}thune, Gan, Toshev, Eichner, Nabi, Yang, Susskind, and {El-Nouby}]{finiMultimodalAutoregressivePretraining2024}
+Enrico Fini, Mustafa Shukor, Xiujun Li, Philipp Dufter, Michal Klein, David Haldimann, Sai Aitharaju, Victor Guilherme~Turrisi da~Costa, Louis B{\'e}thune, Zhe Gan, Alexander~T. Toshev, Marcin Eichner, Moin Nabi, Yinfei Yang, Joshua~M. Susskind, and Alaaeldin {El-Nouby}.
+\newblock Multimodal {{Autoregressive Pre-training}} of {{Large Vision Encoders}}, November 2024.
+
+\bibitem[Florence et~al.(2022)Florence, Lynch, Zeng, Ramirez, Wahid, Downs, Wong, Lee, Mordatch, and Tompson]{florenceImplicitBehavioralCloning2022}
+Pete Florence, Corey Lynch, Andy Zeng, Oscar~A. Ramirez, Ayzaan Wahid, Laura Downs, Adrian Wong, Johnny Lee, Igor Mordatch, and Jonathan Tompson.
+\newblock Implicit {{Behavioral Cloning}}.
+\newblock In \emph{Proceedings of the 5th {{Conference}} on {{Robot Learning}}}, pages 158--168. PMLR, January 2022.
+
+\bibitem[Fujita et~al.(2020)Fujita, Soda, Murata, and Tsuhari]{fujitaDevelopmentRobotsNuclear2020}
+Jun Fujita, Daisuke Soda, Chotaro Murata, and Hiroyuki Tsuhari.
+\newblock Development of {{Robots}} for {{Nuclear Power Plants}} and {{Their Application}} to {{New Fields}}.
+\newblock 57\penalty0 (4), 2020.
+
+\bibitem[Grattafiori et~al.(2024)Grattafiori, Dubey, Jauhri, Pandey, Kadian, {Al-Dahle}, Letman, Mathur, Schelten, Vaughan, Yang, Fan, Goyal, Hartshorn, Yang, Mitra, Sravankumar, Korenev, Hinsvark, Rao, Zhang, Rodriguez, Gregerson, Spataru, Roziere, Biron, Tang, Chern, Caucheteux, Nayak, Bi, Marra, McConnell, Keller, Touret, Wu, Wong, Ferrer, Nikolaidis, Allonsius, Song, Pintz, Livshits, Wyatt, Esiobu, Choudhary, Mahajan, {Garcia-Olano}, Perino, Hupkes, Lakomkin, AlBadawy, Lobanova, Dinan, Smith, Radenovic, Guzm{\'a}n, Zhang, Synnaeve, Lee, Anderson, Thattai, Nail, Mialon, Pang, Cucurell, Nguyen, Korevaar, Xu, Touvron, Zarov, Ibarra, Kloumann, Misra, Evtimov, Zhang, Copet, Lee, Geffert, Vranes, Park, Mahadeokar, Shah, van~der Linde, Billock, Hong, Lee, Fu, Chi, Huang, Liu, Wang, Yu, Bitton, Spisak, Park, Rocca, Johnstun, Saxe, Jia, Alwala, Prasad, Upasani, Plawiak, Li, Heafield, Stone, {El-Arini}, Iyer, Malik, Chiu, Bhalla, Lakhotia, {Rantala-Yeary}, van~der Maaten, Chen, Tan, Jenkins, Martin, Madaan, Malo, Blecher, Landzaat, de~Oliveira, Muzzi, Pasupuleti, Singh, Paluri, Kardas, Tsimpoukelli, Oldham, Rita, Pavlova, Kambadur, Lewis, Si, Singh, Hassan, Goyal, Torabi, Bashlykov, Bogoychev, Chatterji, Zhang, Duchenne, {\c C}elebi, Alrassy, Zhang, Li, Vasic, Weng, Bhargava, Dubal, Krishnan, Koura, Xu, He, Dong, Srinivasan, Ganapathy, Calderer, Cabral, Stojnic, Raileanu, Maheswari, Girdhar, Patel, Sauvestre, Polidoro, Sumbaly, Taylor, Silva, Hou, Wang, Hosseini, Chennabasappa, Singh, Bell, Kim, Edunov, Nie, Narang, Raparthy, Shen, Wan, Bhosale, Zhang, Vandenhende, Batra, Whitman, Sootla, Collot, Gururangan, Borodinsky, Herman, Fowler, Sheasha, Georgiou, Scialom, Speckbacher, Mihaylov, Xiao, Karn, Goswami, Gupta, Ramanathan, Kerkez, Gonguet, Do, Vogeti, Albiero, Petrovic, Chu, Xiong, Fu, Meers, Martinet, Wang, Wang, Tan, Xia, Xie, Jia, Wang, Goldschlag, Gaur, Babaei, Wen, Song, Zhang, Li, Mao, Coudert, Yan, Chen, Papakipos, Singh, Srivastava, Jain, Kelsey, Shajnfeld, Gangidi, Victoria, Goldstand, Menon, Sharma, Boesenberg, Baevski, Feinstein, Kallet, Sangani, Teo, Yunus, Lupu, Alvarado, Caples, Gu, Ho, Poulton, Ryan, Ramchandani, Dong, Franco, Goyal, Saraf, Chowdhury, Gabriel, Bharambe, Eisenman, Yazdan, James, Maurer, Leonhardi, Huang, Loyd, Paola, Paranjape, Liu, Wu, Ni, Hancock, Wasti, Spence, Stojkovic, Gamido, Montalvo, Parker, Burton, Mejia, Liu, Wang, Kim, Zhou, Hu, Chu, Cai, Tindal, Feichtenhofer, Gao, Civin, Beaty, Kreymer, Li, Adkins, Xu, Testuggine, David, Parikh, Liskovich, Foss, Wang, Le, Holland, Dowling, Jamil, Montgomery, Presani, Hahn, Wood, Le, Brinkman, Arcaute, Dunbar, Smothers, Sun, Kreuk, Tian, Kokkinos, Ozgenel, Caggioni, Kanayet, Seide, Florez, Schwarz, Badeer, Swee, Halpern, Herman, Sizov, Guangyi, Zhang, Lakshminarayanan, Inan, Shojanazeri, Zou, Wang, Zha, Habeeb, Rudolph, Suk, Aspegren, Goldman, Zhan, Damlaj, Molybog, Tufanov, Leontiadis, Veliche, Gat, Weissman, Geboski, Kohli, Lam, Asher, Gaya, Marcus, Tang, Chan, Zhen, Reizenstein, Teboul, Zhong, Jin, Yang, Cummings, Carvill, Shepard, McPhie, Torres, Ginsburg, Wang, Wu, U, Saxena, Khandelwal, Zand, Matosich, Veeraraghavan, Michelena, Li, Jagadeesh, Huang, Chawla, Huang, Chen, Garg, A, Silva, Bell, Zhang, Guo, Yu, Moshkovich, Wehrstedt, Khabsa, Avalani, Bhatt, Mankus, Hasson, Lennie, Reso, Groshev, Naumov, Lathi, Keneally, Liu, Seltzer, Valko, Restrepo, Patel, Vyatskov, Samvelyan, Clark, Macey, Wang, Hermoso, Metanat, Rastegari, Bansal, Santhanam, Parks, White, Bawa, Singhal, Egebo, Usunier, Mehta, Laptev, Dong, Cheng, Chernoguz, Hart, Salpekar, Kalinli, Kent, Parekh, Saab, Balaji, Rittner, Bontrager, Roux, Dollar, Zvyagina, Ratanchandani, Yuvraj, Liang, Alao, Rodriguez, Ayub, Murthy, Nayani, Mitra, Parthasarathy, Li, Hogan, Battey, Wang, Howes, Rinott, Mehta, Siby, Bondu, Datta, Chugh, Hunt, Dhillon, Sidorov, Pan, Mahajan, Verma, Yamamoto, Ramaswamy, Lindsay, Lindsay, Feng, Lin, Zha, Patil, Shankar, Zhang, Zhang, Wang, Agarwal, Sajuyigbe, Chintala, Max, Chen, Kehoe, Satterfield, Govindaprasad, Gupta, Deng, Cho, Virk, Subramanian, Choudhury, Goldman, Remez, Glaser, Best, Koehler, Robinson, Li, Zhang, Matthews, Chou, Shaked, Vontimitta, Ajayi, Montanez, Mohan, Kumar, Mangla, Ionescu, Poenaru, Mihailescu, Ivanov, Li, Wang, Jiang, Bouaziz, Constable, Tang, Wu, Wang, Wu, Gao, Kleinman, Chen, Hu, Jia, Qi, Li, Zhang, Zhang, Adi, Nam, Yu, Wang, Zhao, Hao, Qian, Li, He, Rait, DeVito, Rosnbrick, Wen, Yang, Zhao, and Ma]{grattafioriLlama3Herd2024}
+Aaron Grattafiori, Abhimanyu Dubey, Abhinav Jauhri, Abhinav Pandey, Abhishek Kadian, Ahmad {Al-Dahle}, Aiesha Letman, Akhil Mathur, Alan Schelten, Alex Vaughan, Amy Yang, Angela Fan, Anirudh Goyal, Anthony Hartshorn, Aobo Yang, Archi Mitra, Archie Sravankumar, Artem Korenev, Arthur Hinsvark, Arun Rao, Aston Zhang, Aurelien Rodriguez, Austen Gregerson, Ava Spataru, Baptiste Roziere, Bethany Biron, Binh Tang, Bobbie Chern, Charlotte Caucheteux, Chaya Nayak, Chloe Bi, Chris Marra, Chris McConnell, Christian Keller, Christophe Touret, Chunyang Wu, Corinne Wong, Cristian~Canton Ferrer, Cyrus Nikolaidis, Damien Allonsius, Daniel Song, Danielle Pintz, Danny Livshits, Danny Wyatt, David Esiobu, Dhruv Choudhary, Dhruv Mahajan, Diego {Garcia-Olano}, Diego Perino, Dieuwke Hupkes, Egor Lakomkin, Ehab AlBadawy, Elina Lobanova, Emily Dinan, Eric~Michael Smith, Filip Radenovic, Francisco Guzm{\'a}n, Frank Zhang, Gabriel Synnaeve, Gabrielle Lee, Georgia~Lewis Anderson, Govind Thattai, Graeme Nail, Gregoire Mialon, Guan Pang, Guillem Cucurell, Hailey Nguyen, Hannah Korevaar, Hu~Xu, Hugo Touvron, Iliyan Zarov, Imanol~Arrieta Ibarra, Isabel Kloumann, Ishan Misra, Ivan Evtimov, Jack Zhang, Jade Copet, Jaewon Lee, Jan Geffert, Jana Vranes, Jason Park, Jay Mahadeokar, Jeet Shah, Jelmer van~der Linde, Jennifer Billock, Jenny Hong, Jenya Lee, Jeremy Fu, Jianfeng Chi, Jianyu Huang, Jiawen Liu, Jie Wang, Jiecao Yu, Joanna Bitton, Joe Spisak, Jongsoo Park, Joseph Rocca, Joshua Johnstun, Joshua Saxe, Junteng Jia, Kalyan~Vasuden Alwala, Karthik Prasad, Kartikeya Upasani, Kate Plawiak, Ke~Li, Kenneth Heafield, Kevin Stone, Khalid {El-Arini}, Krithika Iyer, Kshitiz Malik, Kuenley Chiu, Kunal Bhalla, Kushal Lakhotia, Lauren {Rantala-Yeary}, Laurens van~der Maaten, Lawrence Chen, Liang Tan, Liz Jenkins, Louis Martin, Lovish Madaan, Lubo Malo, Lukas Blecher, Lukas Landzaat, Luke de~Oliveira, Madeline Muzzi, Mahesh Pasupuleti, Mannat Singh, Manohar Paluri, Marcin Kardas, Maria Tsimpoukelli, Mathew Oldham, Mathieu Rita, Maya Pavlova, Melanie Kambadur, Mike Lewis, Min Si, Mitesh~Kumar Singh, Mona Hassan, Naman Goyal, Narjes Torabi, Nikolay Bashlykov, Nikolay Bogoychev, Niladri Chatterji, Ning Zhang, Olivier Duchenne, Onur {\c C}elebi, Patrick Alrassy, Pengchuan Zhang, Pengwei Li, Petar Vasic, Peter Weng, Prajjwal Bhargava, Pratik Dubal, Praveen Krishnan, Punit~Singh Koura, Puxin Xu, Qing He, Qingxiao Dong, Ragavan Srinivasan, Raj Ganapathy, Ramon Calderer, Ricardo~Silveira Cabral, Robert Stojnic, Roberta Raileanu, Rohan Maheswari, Rohit Girdhar, Rohit Patel, Romain Sauvestre, Ronnie Polidoro, Roshan Sumbaly, Ross Taylor, Ruan Silva, Rui Hou, Rui Wang, Saghar Hosseini, Sahana Chennabasappa, Sanjay Singh, Sean Bell, Seohyun~Sonia Kim, Sergey Edunov, Shaoliang Nie, Sharan Narang, Sharath Raparthy, Sheng Shen, Shengye Wan, Shruti Bhosale, Shun Zhang, Simon Vandenhende, Soumya Batra, Spencer Whitman, Sten Sootla, Stephane Collot, Suchin Gururangan, Sydney Borodinsky, Tamar Herman, Tara Fowler, Tarek Sheasha, Thomas Georgiou, Thomas Scialom, Tobias Speckbacher, Todor Mihaylov, Tong Xiao, Ujjwal Karn, Vedanuj Goswami, Vibhor Gupta, Vignesh Ramanathan, Viktor Kerkez, Vincent Gonguet, Virginie Do, Vish Vogeti, V{\'i}tor Albiero, Vladan Petrovic, Weiwei Chu, Wenhan Xiong, Wenyin Fu, Whitney Meers, Xavier Martinet, Xiaodong Wang, Xiaofang Wang, Xiaoqing~Ellen Tan, Xide Xia, Xinfeng Xie, Xuchao Jia, Xuewei Wang, Yaelle Goldschlag, Yashesh Gaur, Yasmine Babaei, Yi~Wen, Yiwen Song, Yuchen Zhang, Yue Li, Yuning Mao, Zacharie~Delpierre Coudert, Zheng Yan, Zhengxing Chen, Zoe Papakipos, Aaditya Singh, Aayushi Srivastava, Abha Jain, Adam Kelsey, Adam Shajnfeld, Adithya Gangidi, Adolfo Victoria, Ahuva Goldstand, Ajay Menon, Ajay Sharma, Alex Boesenberg, Alexei Baevski, Allie Feinstein, Amanda Kallet, Amit Sangani, Amos Teo, Anam Yunus, Andrei Lupu, Andres Alvarado, Andrew Caples, Andrew Gu, Andrew Ho, Andrew Poulton, Andrew Ryan, Ankit Ramchandani, Annie Dong, Annie Franco, Anuj Goyal, Aparajita Saraf, Arkabandhu Chowdhury, Ashley Gabriel, Ashwin Bharambe, Assaf Eisenman, Azadeh Yazdan, Beau James, Ben Maurer, Benjamin Leonhardi, Bernie Huang, Beth Loyd, Beto~De Paola, Bhargavi Paranjape, Bing Liu, Bo~Wu, Boyu Ni, Braden Hancock, Bram Wasti, Brandon Spence, Brani Stojkovic, Brian Gamido, Britt Montalvo, Carl Parker, Carly Burton, Catalina Mejia, Ce~Liu, Changhan Wang, Changkyu Kim, Chao Zhou, Chester Hu, Ching-Hsiang Chu, Chris Cai, Chris Tindal, Christoph Feichtenhofer, Cynthia Gao, Damon Civin, Dana Beaty, Daniel Kreymer, Daniel Li, David Adkins, David Xu, Davide Testuggine, Delia David, Devi Parikh, Diana Liskovich, Didem Foss, Dingkang Wang, Duc Le, Dustin Holland, Edward Dowling, Eissa Jamil, Elaine Montgomery, Eleonora Presani, Emily Hahn, Emily Wood, Eric-Tuan Le, Erik Brinkman, Esteban Arcaute, Evan Dunbar, Evan Smothers, Fei Sun, Felix Kreuk, Feng Tian, Filippos Kokkinos, Firat Ozgenel, Francesco Caggioni, Frank Kanayet, Frank Seide, Gabriela~Medina Florez, Gabriella Schwarz, Gada Badeer, Georgia Swee, Gil Halpern, Grant Herman, Grigory Sizov, Guangyi, Zhang, Guna Lakshminarayanan, Hakan Inan, Hamid Shojanazeri, Han Zou, Hannah Wang, Hanwen Zha, Haroun Habeeb, Harrison Rudolph, Helen Suk, Henry Aspegren, Hunter Goldman, Hongyuan Zhan, Ibrahim Damlaj, Igor Molybog, Igor Tufanov, Ilias Leontiadis, Irina-Elena Veliche, Itai Gat, Jake Weissman, James Geboski, James Kohli, Janice Lam, Japhet Asher, Jean-Baptiste Gaya, Jeff Marcus, Jeff Tang, Jennifer Chan, Jenny Zhen, Jeremy Reizenstein, Jeremy Teboul, Jessica Zhong, Jian Jin, Jingyi Yang, Joe Cummings, Jon Carvill, Jon Shepard, Jonathan McPhie, Jonathan Torres, Josh Ginsburg, Junjie Wang, Kai Wu, Kam~Hou U, Karan Saxena, Kartikay Khandelwal, Katayoun Zand, Kathy Matosich, Kaushik Veeraraghavan, Kelly Michelena, Keqian Li, Kiran Jagadeesh, Kun Huang, Kunal Chawla, Kyle Huang, Lailin Chen, Lakshya Garg, Lavender A, Leandro Silva, Lee Bell, Lei Zhang, Liangpeng Guo, Licheng Yu, Liron Moshkovich, Luca Wehrstedt, Madian Khabsa, Manav Avalani, Manish Bhatt, Martynas Mankus, Matan Hasson, Matthew Lennie, Matthias Reso, Maxim Groshev, Maxim Naumov, Maya Lathi, Meghan Keneally, Miao Liu, Michael~L. Seltzer, Michal Valko, Michelle Restrepo, Mihir Patel, Mik Vyatskov, Mikayel Samvelyan, Mike Clark, Mike Macey, Mike Wang, Miquel~Jubert Hermoso, Mo~Metanat, Mohammad Rastegari, Munish Bansal, Nandhini Santhanam, Natascha Parks, Natasha White, Navyata Bawa, Nayan Singhal, Nick Egebo, Nicolas Usunier, Nikhil Mehta, Nikolay~Pavlovich Laptev, Ning Dong, Norman Cheng, Oleg Chernoguz, Olivia Hart, Omkar Salpekar, Ozlem Kalinli, Parkin Kent, Parth Parekh, Paul Saab, Pavan Balaji, Pedro Rittner, Philip Bontrager, Pierre Roux, Piotr Dollar, Polina Zvyagina, Prashant Ratanchandani, Pritish Yuvraj, Qian Liang, Rachad Alao, Rachel Rodriguez, Rafi Ayub, Raghotham Murthy, Raghu Nayani, Rahul Mitra, Rangaprabhu Parthasarathy, Raymond Li, Rebekkah Hogan, Robin Battey, Rocky Wang, Russ Howes, Ruty Rinott, Sachin Mehta, Sachin Siby, Sai~Jayesh Bondu, Samyak Datta, Sara Chugh, Sara Hunt, Sargun Dhillon, Sasha Sidorov, Satadru Pan, Saurabh Mahajan, Saurabh Verma, Seiji Yamamoto, Sharadh Ramaswamy, Shaun Lindsay, Shaun Lindsay, Sheng Feng, Shenghao Lin, Shengxin~Cindy Zha, Shishir Patil, Shiva Shankar, Shuqiang Zhang, Shuqiang Zhang, Sinong Wang, Sneha Agarwal, Soji Sajuyigbe, Soumith Chintala, Stephanie Max, Stephen Chen, Steve Kehoe, Steve Satterfield, Sudarshan Govindaprasad, Sumit Gupta, Summer Deng, Sungmin Cho, Sunny Virk, Suraj Subramanian, Sy~Choudhury, Sydney Goldman, Tal Remez, Tamar Glaser, Tamara Best, Thilo Koehler, Thomas Robinson, Tianhe Li, Tianjun Zhang, Tim Matthews, Timothy Chou, Tzook Shaked, Varun Vontimitta, Victoria Ajayi, Victoria Montanez, Vijai Mohan, Vinay~Satish Kumar, Vishal Mangla, Vlad Ionescu, Vlad Poenaru, Vlad~Tiberiu Mihailescu, Vladimir Ivanov, Wei Li, Wenchen Wang, Wenwen Jiang, Wes Bouaziz, Will Constable, Xiaocheng Tang, Xiaojian Wu, Xiaolan Wang, Xilun Wu, Xinbo Gao, Yaniv Kleinman, Yanjun Chen, Ye~Hu, Ye~Jia, Ye~Qi, Yenda Li, Yilin Zhang, Ying Zhang, Yossi Adi, Youngjin Nam, Yu, Wang, Yu~Zhao, Yuchen Hao, Yundi Qian, Yunlu Li, Yuzi He, Zach Rait, Zachary DeVito, Zef Rosnbrick, Zhaoduo Wen, Zhenyu Yang, Zhiwei Zhao, and Zhiyu Ma.
+\newblock The {{Llama}} 3 {{Herd}} of {{Models}}, November 2024.
+
+\bibitem[Griffin et~al.(2017)Griffin, Wiedebach, Bertrand, Leonessa, and Pratt]{griffinWalkingStabilizationUsing2017}
+Robert~J. Griffin, Georg Wiedebach, Sylvain Bertrand, Alexander Leonessa, and Jerry Pratt.
+\newblock Walking {{Stabilization Using Step Timing}} and {{Location Adjustment}} on the {{Humanoid Robot}}, {{Atlas}}.
+\newblock In \emph{2017 {{IEEE}}/{{RSJ International Conference}} on {{Intelligent Robots}} and {{Systems}} ({{IROS}})}, pages 667--673, September 2017.
+\newblock \doi{10.1109/IROS.2017.8202223}.
+
+\bibitem[Haarnoja et~al.(2017)Haarnoja, Tang, Abbeel, and Levine]{haarnojaReinforcementLearningDeep2017b}
+Tuomas Haarnoja, Haoran Tang, Pieter Abbeel, and Sergey Levine.
+\newblock Reinforcement {{Learning}} with {{Deep Energy-Based Policies}}.
+\newblock In \emph{Proceedings of the 34th {{International Conference}} on {{Machine Learning}}}, pages 1352--1361. PMLR, July 2017.
+
+\bibitem[Haarnoja et~al.(2018)Haarnoja, Zhou, Abbeel, and Levine]{haarnojaSoftActorCriticOffPolicy2018}
+Tuomas Haarnoja, Aurick Zhou, Pieter Abbeel, and Sergey Levine.
+\newblock Soft {{Actor-Critic}}: {{Off-Policy Maximum Entropy Deep Reinforcement Learning}} with a {{Stochastic Actor}}, August 2018.
+
+\bibitem[Hansen et~al.(2022)Hansen, Wang, and Su]{hansenTemporalDifferenceLearning2022}
+Nicklas Hansen, Xiaolong Wang, and Hao Su.
+\newblock Temporal {{Difference Learning}} for {{Model Predictive Control}}, July 2022.
+
+\bibitem[Heess et~al.(2017)Heess, TB, Sriram, Lemmon, Merel, Wayne, Tassa, Erez, Wang, Eslami, Riedmiller, and Silver]{heessEmergenceLocomotionBehaviours2017}
+Nicolas Heess, Dhruva TB, Srinivasan Sriram, Jay Lemmon, Josh Merel, Greg Wayne, Yuval Tassa, Tom Erez, Ziyu Wang, S.~M.~Ali Eslami, Martin Riedmiller, and David Silver.
+\newblock Emergence of {{Locomotion Behaviours}} in {{Rich Environments}}, July 2017.
+
+\bibitem[Higgins et~al.(2017)Higgins, Matthey, Pal, Burgess, Glorot, Botvinick, Mohamed, and Lerchner]{higgins2017beta}
+Irina Higgins, Loic Matthey, Arka Pal, Christopher Burgess, Xavier Glorot, Matthew Botvinick, Shakir Mohamed, and Alexander Lerchner.
+\newblock Beta-vae: {{Learning}} basic visual concepts with a constrained variational framework.
+\newblock In \emph{International Conference on Learning Representations}, 2017.
+
+\bibitem[Ho et~al.(2020)Ho, Jain, and Abbeel]{hoDenoisingDiffusionProbabilistic2020}
+Jonathan Ho, Ajay Jain, and Pieter Abbeel.
+\newblock Denoising {{Diffusion Probabilistic Models}}, December 2020.
+
+\bibitem[Jang et~al.(2022)Jang, Irpan, Khansari, Kappler, Ebert, Lynch, Levine, and Finn]{jangBCZZeroShotTask2022}
+Eric Jang, Alex Irpan, Mohi Khansari, Daniel Kappler, Frederik Ebert, Corey Lynch, Sergey Levine, and Chelsea Finn.
+\newblock {{BC-Z}}: {{Zero-Shot Task Generalization}} with {{Robotic Imitation Learning}}, February 2022.
+
+\bibitem[Janner et~al.(2022)Janner, Du, Tenenbaum, and Levine]{jannerPlanningDiffusionFlexible2022}
+Michael Janner, Yilun Du, Joshua~B. Tenenbaum, and Sergey Levine.
+\newblock Planning with {{Diffusion}} for {{Flexible Behavior Synthesis}}, December 2022.
+
+\bibitem[Ji et~al.(2023)Ji, Margolis, and Agrawal]{jiDribbleBotDynamicLegged2023}
+Yandong Ji, Gabriel~B. Margolis, and Pulkit Agrawal.
+\newblock {{DribbleBot}}: {{Dynamic Legged Manipulation}} in the {{Wild}}, April 2023.
+
+\bibitem[Jiang et~al.(2023)Jiang, Sablayrolles, Mensch, Bamford, Chaplot, de~las Casas, Bressand, Lengyel, Lample, Saulnier, Lavaud, Lachaux, Stock, Scao, Lavril, Wang, Lacroix, and Sayed]{jiangMistral7B2023}
+Albert~Q. Jiang, Alexandre Sablayrolles, Arthur Mensch, Chris Bamford, Devendra~Singh Chaplot, Diego de~las Casas, Florian Bressand, Gianna Lengyel, Guillaume Lample, Lucile Saulnier, L{\'e}lio~Renard Lavaud, Marie-Anne Lachaux, Pierre Stock, Teven~Le Scao, Thibaut Lavril, Thomas Wang, Timoth{\'e}e Lacroix, and William~El Sayed.
+\newblock Mistral {{7B}}, October 2023.
+
+\bibitem[Ke et~al.(2020)Ke, Wang, Bhattacharjee, Boots, and Srinivasa]{keGraspingChopsticksCombating2020}
+Liyiming Ke, Jingqiang Wang, Tapomayukh Bhattacharjee, Byron Boots, and Siddhartha Srinivasa.
+\newblock Grasping with {{Chopsticks}}: {{Combating Covariate Shift}} in {{Model-free Imitation Learning}} for {{Fine Manipulation}}, November 2020.
+
+\bibitem[Khazatsky et~al.(2025)Khazatsky, Pertsch, Nair, Balakrishna, Dasari, Karamcheti, Nasiriany, Srirama, Chen, Ellis, Fagan, Hejna, Itkina, Lepert, Ma, Miller, Wu, Belkhale, Dass, Ha, Jain, Lee, Lee, Memmel, Park, Radosavovic, Wang, Zhan, Black, Chi, Hatch, Lin, Lu, Mercat, Rehman, Sanketi, Sharma, Simpson, Vuong, Walke, Wulfe, Xiao, Yang, Yavary, Zhao, Agia, Baijal, Castro, Chen, Chen, Chung, Drake, Foster, Gao, Guizilini, Herrera, Heo, Hsu, Hu, Irshad, Jackson, Le, Li, Lin, Lin, Ma, Maddukuri, Mirchandani, Morton, Nguyen, O'Neill, Scalise, Seale, Son, Tian, Tran, Wang, Wu, Xie, Yang, Yin, Zhang, Bastani, Berseth, Bohg, Goldberg, Gupta, Gupta, Jayaraman, Lim, Malik, {Mart{\'i}n-Mart{\'i}n}, Ramamoorthy, Sadigh, Song, Wu, Yip, Zhu, Kollar, Levine, and Finn]{khazatskyDROIDLargeScaleInTheWild2025}
+Alexander Khazatsky, Karl Pertsch, Suraj Nair, Ashwin Balakrishna, Sudeep Dasari, Siddharth Karamcheti, Soroush Nasiriany, Mohan~Kumar Srirama, Lawrence~Yunliang Chen, Kirsty Ellis, Peter~David Fagan, Joey Hejna, Masha Itkina, Marion Lepert, Yecheng~Jason Ma, Patrick~Tree Miller, Jimmy Wu, Suneel Belkhale, Shivin Dass, Huy Ha, Arhan Jain, Abraham Lee, Youngwoon Lee, Marius Memmel, Sungjae Park, Ilija Radosavovic, Kaiyuan Wang, Albert Zhan, Kevin Black, Cheng Chi, Kyle~Beltran Hatch, Shan Lin, Jingpei Lu, Jean Mercat, Abdul Rehman, Pannag~R. Sanketi, Archit Sharma, Cody Simpson, Quan Vuong, Homer~Rich Walke, Blake Wulfe, Ted Xiao, Jonathan~Heewon Yang, Arefeh Yavary, Tony~Z. Zhao, Christopher Agia, Rohan Baijal, Mateo~Guaman Castro, Daphne Chen, Qiuyu Chen, Trinity Chung, Jaimyn Drake, Ethan~Paul Foster, Jensen Gao, Vitor Guizilini, David~Antonio Herrera, Minho Heo, Kyle Hsu, Jiaheng Hu, Muhammad~Zubair Irshad, Donovon Jackson, Charlotte Le, Yunshuang Li, Kevin Lin, Roy Lin, Zehan Ma, Abhiram Maddukuri, Suvir Mirchandani, Daniel Morton, Tony Nguyen, Abigail O'Neill, Rosario Scalise, Derick Seale, Victor Son, Stephen Tian, Emi Tran, Andrew~E. Wang, Yilin Wu, Annie Xie, Jingyun Yang, Patrick Yin, Yunchu Zhang, Osbert Bastani, Glen Berseth, Jeannette Bohg, Ken Goldberg, Abhinav Gupta, Abhishek Gupta, Dinesh Jayaraman, Joseph~J. Lim, Jitendra Malik, Roberto {Mart{\'i}n-Mart{\'i}n}, Subramanian Ramamoorthy, Dorsa Sadigh, Shuran Song, Jiajun Wu, Michael~C. Yip, Yuke Zhu, Thomas Kollar, Sergey Levine, and Chelsea Finn.
+\newblock {{DROID}}: {{A Large-Scale In-The-Wild Robot Manipulation Dataset}}, April 2025.
+
+\bibitem[Kim et~al.(2024)Kim, Pertsch, Karamcheti, Xiao, Balakrishna, Nair, Rafailov, Foster, Lam, Sanketi, Vuong, Kollar, Burchfiel, Tedrake, Sadigh, Levine, Liang, and Finn]{kimOpenVLAOpenSourceVisionLanguageAction2024}
+Moo~Jin Kim, Karl Pertsch, Siddharth Karamcheti, Ted Xiao, Ashwin Balakrishna, Suraj Nair, Rafael Rafailov, Ethan Foster, Grace Lam, Pannag Sanketi, Quan Vuong, Thomas Kollar, Benjamin Burchfiel, Russ Tedrake, Dorsa Sadigh, Sergey Levine, Percy Liang, and Chelsea Finn.
+\newblock {{OpenVLA}}: {{An Open-Source Vision-Language-Action Model}}, September 2024.
+
+\bibitem[Kingma and Welling(2013)]{kingma2013auto}
+Diederik~P Kingma and Max Welling.
+\newblock Auto-encoding variational bayes.
+\newblock \emph{arXiv preprint arXiv:1312.6114}, 2013.
+
+\bibitem[Knight et~al.()Knight, Kooijmans, Wolf, Alibert, Aractingi, Aubakirova, Zouitine, Martino, Palma, Pascal, and Cadene]{knightStandardOpenSO100}
+Rob Knight, Pepijn Kooijmans, Thomas Wolf, Simon Alibert, Michel Aractingi, Dana Aubakirova, Adil Zouitine, Russi Martino, Steven Palma, Caroline Pascal, and Remi Cadene.
+\newblock Standard {{Open SO-100}} \& {{SO-101 Arms}}.
+
+\bibitem[Kober et~al.()Kober, Bagnell, and Peters]{koberReinforcementLearningRobotics}
+Jens Kober, J~Andrew Bagnell, and Jan Peters.
+\newblock Reinforcement {{Learning}} in {{Robotics}}: {{A Survey}}.
+
+\bibitem[Koh et~al.(2023)Koh, Salakhutdinov, and Fried]{FROMAGe}
+Jing~Yu Koh, Ruslan Salakhutdinov, and Daniel Fried.
+\newblock Grounding language models to images for multimodal inputs and outputs, 2023.
+
+\bibitem[Kong et~al.(2024)Kong, Goel, Badlani, Ping, Valle, and Catanzaro]{kong2024audioflam}
+Zhifeng Kong, Arushi Goel, Rohan Badlani, Wei Ping, Rafael Valle, and Bryan Catanzaro.
+\newblock Audio flamingo: A novel audio language model with few-shot learning and dialogue abilities.
+\newblock In \emph{International Conference on Machine Learning}, pages 25125--25148. PMLR, 2024.
+
+\bibitem[Korrapati(2024)]{moondream}
+Vik Korrapati.
+\newblock Moondream.
+\newblock Online, 2024.
+
+\bibitem[Lauren{\c c}on et~al.(2023)Lauren{\c c}on, Saulnier, Tronchon, Bekman, Singh, Lozhkov, Wang, Karamcheti, Rush, Kiela, Cord, and Sanh]{OBELICS}
+Hugo Lauren{\c c}on, Lucile Saulnier, Leo Tronchon, Stas Bekman, Amanpreet Singh, Anton Lozhkov, Thomas Wang, Siddharth Karamcheti, Alexander~M Rush, Douwe Kiela, Matthieu Cord, and Victor Sanh.
+\newblock {{OBELICS}}: {{An}} open web-scale filtered dataset of interleaved image-text documents.
+\newblock In \emph{Thirty-Seventh Conference on Neural Information Processing Systems Datasets and Benchmarks Track}, 2023.
+
+\bibitem[Lauren{\c c}on et~al.(2024)Lauren{\c c}on, Tronchon, Cord, and Sanh]{laurenconWhatMattersWhen2024}
+Hugo Lauren{\c c}on, L{\'e}o Tronchon, Matthieu Cord, and Victor Sanh.
+\newblock What matters when building vision-language models?, May 2024.
+
+\bibitem[Lee et~al.(2020)Lee, Hwangbo, Wellhausen, Koltun, and Hutter]{leeLearningQuadrupedalLocomotion2020}
+Joonho Lee, Jemin Hwangbo, Lorenz Wellhausen, Vladlen Koltun, and Marco Hutter.
+\newblock Learning {{Quadrupedal Locomotion}} over {{Challenging Terrain}}.
+\newblock \emph{Science Robotics}, 5\penalty0 (47):\penalty0 eabc5986, October 2020.
+\newblock ISSN 2470-9476.
+\newblock \doi{10.1126/scirobotics.abc5986}.
+
+\bibitem[Lee et~al.(2024)Lee, Wang, Etukuru, Kim, Shafiullah, and Pinto]{leeBehaviorGenerationLatent2024}
+Seungjae Lee, Yibin Wang, Haritheja Etukuru, H.~Jin Kim, Nur Muhammad~Mahi Shafiullah, and Lerrel Pinto.
+\newblock Behavior {{Generation}} with {{Latent Actions}}, June 2024.
+
+\bibitem[Li et~al.(2023)Li, Li, Savarese, and Hoi]{BLIP-2}
+Junnan Li, Dongxu Li, Silvio Savarese, and Steven Hoi.
+\newblock {{BLIP-2}}: Bootstrapping language-image pre-training with frozen image encoders and large language models.
+\newblock In \emph{Proceedings of the 40th International Conference on Machine Learning}, {{ICML}}'23, , Honolulu, Hawaii, USA,, 2023. JMLR.org.
+
+\bibitem[Lillicrap et~al.(2019)Lillicrap, Hunt, Pritzel, Heess, Erez, Tassa, Silver, and Wierstra]{lillicrapContinuousControlDeep2019a}
+Timothy~P. Lillicrap, Jonathan~J. Hunt, Alexander Pritzel, Nicolas Heess, Tom Erez, Yuval Tassa, David Silver, and Daan Wierstra.
+\newblock Continuous control with deep reinforcement learning, July 2019.
+
+\bibitem[Lin et~al.(2024)Lin, Yin, Ping, Lu, Molchanov, Tao, Mao, Kautz, Shoeybi, and Han]{linVILAPretrainingVisual2024}
+Ji~Lin, Hongxu Yin, Wei Ping, Yao Lu, Pavlo Molchanov, Andrew Tao, Huizi Mao, Jan Kautz, Mohammad Shoeybi, and Song Han.
+\newblock {{VILA}}: {{On Pre-training}} for {{Visual Language Models}}, May 2024.
+
+\bibitem[Lipman et~al.(2023)Lipman, Chen, {Ben-Hamu}, Nickel, and Le]{lipmanFlowMatchingGenerative2023}
+Yaron Lipman, Ricky T.~Q. Chen, Heli {Ben-Hamu}, Maximilian Nickel, and Matt Le.
+\newblock Flow {{Matching}} for {{Generative Modeling}}, February 2023.
+
 \bibitem[Lipman et~al.(2024)Lipman, Havasi, Holderrieth, Shaul, Le, Karrer, Chen, {Lopez-Paz}, {Ben-Hamu}, and Gat]{lipmanFlowMatchingGuide2024}
 Yaron Lipman, Marton Havasi, Peter Holderrieth, Neta Shaul, Matt Le, Brian Karrer, Ricky T.~Q. Chen, David {Lopez-Paz}, Heli {Ben-Hamu}, and Itai Gat.
 \newblock Flow {{Matching Guide}} and {{Code}}, December 2024.
+
+\bibitem[Liu et~al.(2023)Liu, Li, Li, and Lee]{LLaVA-1.5}
+Haotian Liu, Chunyuan Li, Yuheng Li, and Yong~Jae Lee.
+\newblock Improved baselines with visual instruction tuning.
+\newblock In \emph{{{NeurIPS}} 2023 Workshop on Instruction Tuning and Instruction Following}, 2023.
+
+\bibitem[Liu et~al.(2024)Liu, Wang, Ma, Wu, Ma, Wei, Jiao, Wu, and Hu]{liu2024kangaroo}
+Jiajun Liu, Yibing Wang, Hanghang Ma, Xiaoping Wu, Xiaoqi Ma, Xiaoming Wei, Jianbin Jiao, Enhua Wu, and Jie Hu.
+\newblock Kangaroo: {{A}} powerful video-language model supporting long-context video input.
+\newblock \emph{arXiv preprint arXiv:2408.15542}, 2024.
+
+\bibitem[Luo(2022)]{luoUnderstandingDiffusionModels2022}
+Calvin Luo.
+\newblock Understanding {{Diffusion Models}}: {{A Unified Perspective}}, August 2022.
+
+\bibitem[Luo et~al.(2024)Luo, Xu, Wu, and Levine]{luoPreciseDexterousRobotic2024}
+Jianlan Luo, Charles Xu, Jeffrey Wu, and Sergey Levine.
+\newblock Precise and {{Dexterous Robotic Manipulation}} via {{Human-in-the-Loop Reinforcement Learning}}, October 2024.
+
+\bibitem[Luo et~al.(2025)Luo, Hu, Xu, Tan, Berg, Sharma, Schaal, Finn, Gupta, and Levine]{luoSERLSoftwareSuite2025}
+Jianlan Luo, Zheyuan Hu, Charles Xu, You~Liang Tan, Jacob Berg, Archit Sharma, Stefan Schaal, Chelsea Finn, Abhishek Gupta, and Sergey Levine.
+\newblock {{SERL}}: {{A Software Suite}} for {{Sample-Efficient Robotic Reinforcement Learning}}, March 2025.
+
+\bibitem[Lynch and Park(2017)]{lynchModernRoboticsMechanics2017}
+Kevin~M. Lynch and Frank~C. Park.
+\newblock \emph{Modern {{Robotics}}: {{Mechanics}}, {{Planning}}, and {{Control}}}.
+\newblock Cambridge University Press, 1 edition, May 2017.
+\newblock ISBN 978-1-316-66123-9 978-1-107-15630-2 978-1-316-60984-2.
+\newblock \doi{10.1017/9781316661239}.
+
+\bibitem[Ma{\~n}as et~al.(2023)Ma{\~n}as, Rodriguez~Lopez, Ahmadi, Nematzadeh, Goyal, and Agrawal]{MAPL}
+Oscar Ma{\~n}as, Pau Rodriguez~Lopez, Saba Ahmadi, Aida Nematzadeh, Yash Goyal, and Aishwarya Agrawal.
+\newblock {{MAPL}}: {{Parameter-efficient}} adaptation of unimodal pre-trained models for vision-language few-shot prompting.
+\newblock In Andreas Vlachos and Isabelle Augenstein, editors, \emph{Proceedings of the 17th Conference of the European Chapter of the Association for Computational Linguistics}, pages 2523--2548, Dubrovnik, Croatia, May 2023. Association for Computational Linguistics.
+\newblock \doi{10.18653/v1/2023.eacl-main.185}.
+
+\bibitem[Marafioti et~al.(2025)Marafioti, Zohar, Farr{\'e}, Noyan, Bakouch, Cuenca, Zakka, Allal, Lozhkov, Tazi, Srivastav, Lochner, Larcher, Morlon, Tunstall, von Werra, and Wolf]{marafiotiSmolVLMRedefiningSmall2025}
+Andr{\'e}s Marafioti, Orr Zohar, Miquel Farr{\'e}, Merve Noyan, Elie Bakouch, Pedro Cuenca, Cyril Zakka, Loubna~Ben Allal, Anton Lozhkov, Nouamane Tazi, Vaibhav Srivastav, Joshua Lochner, Hugo Larcher, Mathieu Morlon, Lewis Tunstall, Leandro von Werra, and Thomas Wolf.
+\newblock {{SmolVLM}}: {{Redefining}} small and efficient multimodal models, April 2025.
+
+\bibitem[Margolis et~al.(2022)Margolis, Yang, Paigwar, Chen, and Agrawal]{margolisRapidLocomotionReinforcement2022}
+Gabriel~B. Margolis, Ge~Yang, Kartik Paigwar, Tao Chen, and Pulkit Agrawal.
+\newblock Rapid {{Locomotion}} via {{Reinforcement Learning}}, May 2022.
+
+\bibitem[McCormac et~al.(2016)McCormac, Handa, Davison, and Leutenegger]{mccormacSemanticFusionDense3D2016}
+John McCormac, Ankur Handa, Andrew Davison, and Stefan Leutenegger.
+\newblock {{SemanticFusion}}: {{Dense 3D Semantic Mapping}} with {{Convolutional Neural Networks}}, September 2016.
+
+\bibitem[Mnih et~al.(2013)Mnih, Kavukcuoglu, Silver, Graves, Antonoglou, Wierstra, and Riedmiller]{mnihPlayingAtariDeep2013}
+Volodymyr Mnih, Koray Kavukcuoglu, David Silver, Alex Graves, Ioannis Antonoglou, Daan Wierstra, and Martin Riedmiller.
+\newblock Playing {{Atari}} with {{Deep Reinforcement Learning}}, December 2013.
 
 \bibitem[Nakkiran et~al.(2024)Nakkiran, Bradley, Zhou, and Advani]{nakkiranStepbyStepDiffusionElementary2024}
 Preetum Nakkiran, Arwen Bradley, Hattie Zhou, and Madhu Advani.
 \newblock Step-by-{{Step Diffusion}}: {{An Elementary Tutorial}}, June 2024.
 
+\bibitem[O'Neill et~al.(2025)O'Neill, Rehman, Gupta, Maddukuri, Gupta, Padalkar, Lee, Pooley, Gupta, Mandlekar, Jain, Tung, Bewley, Herzog, Irpan, Khazatsky, Rai, Gupta, Wang, Kolobov, Singh, Garg, Kembhavi, Xie, Brohan, Raffin, Sharma, Yavary, Jain, Balakrishna, Wahid, {Burgess-Limerick}, Kim, Sch{\"o}lkopf, Wulfe, Ichter, Lu, Xu, Le, Finn, Wang, Xu, Chi, Huang, Chan, Agia, Pan, Fu, Devin, Xu, Morton, Driess, Chen, Pathak, Shah, B{\"u}chler, Jayaraman, Kalashnikov, Sadigh, Johns, Foster, Liu, Ceola, Xia, Zhao, Frujeri, Stulp, Zhou, Sukhatme, Salhotra, Yan, Feng, Schiavi, Berseth, Kahn, Yang, Wang, Su, Fang, Shi, Bao, Amor, Christensen, Furuta, Bharadhwaj, Walke, Fang, Ha, Mordatch, Radosavovic, Leal, Liang, {Abou-Chakra}, Kim, Drake, Peters, Schneider, Hsu, Vakil, Bohg, Bingham, Wu, Gao, Hu, Wu, Wu, Sun, Luo, Gu, Tan, Oh, Wu, Lu, Yang, Malik, Silv{\'e}rio, Hejna, Booher, Tompson, Yang, Salvador, Lim, Han, Wang, Rao, Pertsch, Hausman, Go, Gopalakrishnan, Goldberg, Byrne, Oslund, Kawaharazuka, Black, Lin, Zhang, Ehsani, Lekkala, Ellis, Rana, Srinivasan, Fang, Singh, Zeng, Hatch, Hsu, Itti, Chen, Pinto, {Fei-Fei}, Tan, Fan, Ott, Lee, Weihs, Chen, Lepert, Memmel, Tomizuka, Itkina, Castro, Spero, Du, Ahn, Yip, Zhang, Ding, Heo, Srirama, Sharma, Kim, Irshad, Kanazawa, Hansen, Heess, Joshi, Suenderhauf, Liu, Palo, Shafiullah, Mees, Kroemer, Bastani, Sanketi, Miller, Yin, Wohlhart, Xu, Fagan, Mitrano, Sermanet, Abbeel, Sundaresan, Chen, Vuong, Rafailov, Tian, Doshi, {Mart{\'i}n-Mart{\'i}n}, Baijal, Scalise, Hendrix, Lin, Qian, Zhang, Mendonca, Shah, Hoque, Julian, Bustamante, Kirmani, Levine, Lin, Moore, Bahl, Dass, Sonawani, Tulsiani, Song, Xu, Haldar, Karamcheti, Adebola, Guist, Nasiriany, Schaal, Welker, Tian, Ramamoorthy, Dasari, Belkhale, Park, Nair, Mirchandani, Osa, Gupta, Harada, Matsushima, Xiao, Kollar, Yu, Ding, Davchev, Zhao, Armstrong, Darrell, Chung, Jain, Kumar, Vanhoucke, Guizilini, Zhan, Zhou, Burgard, Chen, Chen, Wang, Zhu, Geng, Liu, Liangwei, Li, Pang, Lu, Ma, Kim, Chebotar, Zhou, Zhu, Wu, Xu, Wang, Bisk, Dou, Cho, Lee, Cui, Cao, Wu, Tang, Zhu, Zhang, Jiang, Li, Li, Iwasawa, Matsuo, Ma, Xu, Cui, Zhang, Fu, and Lin]{oneillOpenXEmbodimentRobotic2025}
+Abby O'Neill, Abdul Rehman, Abhinav Gupta, Abhiram Maddukuri, Abhishek Gupta, Abhishek Padalkar, Abraham Lee, Acorn Pooley, Agrim Gupta, Ajay Mandlekar, Ajinkya Jain, Albert Tung, Alex Bewley, Alex Herzog, Alex Irpan, Alexander Khazatsky, Anant Rai, Anchit Gupta, Andrew Wang, Andrey Kolobov, Anikait Singh, Animesh Garg, Aniruddha Kembhavi, Annie Xie, Anthony Brohan, Antonin Raffin, Archit Sharma, Arefeh Yavary, Arhan Jain, Ashwin Balakrishna, Ayzaan Wahid, Ben {Burgess-Limerick}, Beomjoon Kim, Bernhard Sch{\"o}lkopf, Blake Wulfe, Brian Ichter, Cewu Lu, Charles Xu, Charlotte Le, Chelsea Finn, Chen Wang, Chenfeng Xu, Cheng Chi, Chenguang Huang, Christine Chan, Christopher Agia, Chuer Pan, Chuyuan Fu, Coline Devin, Danfei Xu, Daniel Morton, Danny Driess, Daphne Chen, Deepak Pathak, Dhruv Shah, Dieter B{\"u}chler, Dinesh Jayaraman, Dmitry Kalashnikov, Dorsa Sadigh, Edward Johns, Ethan Foster, Fangchen Liu, Federico Ceola, Fei Xia, Feiyu Zhao, Felipe~Vieira Frujeri, Freek Stulp, Gaoyue Zhou, Gaurav~S. Sukhatme, Gautam Salhotra, Ge~Yan, Gilbert Feng, Giulio Schiavi, Glen Berseth, Gregory Kahn, Guangwen Yang, Guanzhi Wang, Hao Su, Hao-Shu Fang, Haochen Shi, Henghui Bao, Heni~Ben Amor, Henrik~I. Christensen, Hiroki Furuta, Homanga Bharadhwaj, Homer Walke, Hongjie Fang, Huy Ha, Igor Mordatch, Ilija Radosavovic, Isabel Leal, Jacky Liang, Jad {Abou-Chakra}, Jaehyung Kim, Jaimyn Drake, Jan Peters, Jan Schneider, Jasmine Hsu, Jay Vakil, Jeannette Bohg, Jeffrey Bingham, Jeffrey Wu, Jensen Gao, Jiaheng Hu, Jiajun Wu, Jialin Wu, Jiankai Sun, Jianlan Luo, Jiayuan Gu, Jie Tan, Jihoon Oh, Jimmy Wu, Jingpei Lu, Jingyun Yang, Jitendra Malik, Jo{\~a}o Silv{\'e}rio, Joey Hejna, Jonathan Booher, Jonathan Tompson, Jonathan Yang, Jordi Salvador, Joseph~J. Lim, Junhyek Han, Kaiyuan Wang, Kanishka Rao, Karl Pertsch, Karol Hausman, Keegan Go, Keerthana Gopalakrishnan, Ken Goldberg, Kendra Byrne, Kenneth Oslund, Kento Kawaharazuka, Kevin Black, Kevin Lin, Kevin Zhang, Kiana Ehsani, Kiran Lekkala, Kirsty Ellis, Krishan Rana, Krishnan Srinivasan, Kuan Fang, Kunal~Pratap Singh, Kuo-Hao Zeng, Kyle Hatch, Kyle Hsu, Laurent Itti, Lawrence~Yunliang Chen, Lerrel Pinto, Li~{Fei-Fei}, Liam Tan, Linxi~"Jim" Fan, Lionel Ott, Lisa Lee, Luca Weihs, Magnum Chen, Marion Lepert, Marius Memmel, Masayoshi Tomizuka, Masha Itkina, Mateo~Guaman Castro, Max Spero, Maximilian Du, Michael Ahn, Michael~C. Yip, Mingtong Zhang, Mingyu Ding, Minho Heo, Mohan~Kumar Srirama, Mohit Sharma, Moo~Jin Kim, Muhammad~Zubair Irshad, Naoaki Kanazawa, Nicklas Hansen, Nicolas Heess, Nikhil~J. Joshi, Niko Suenderhauf, Ning Liu, Norman~Di Palo, Nur Muhammad~Mahi Shafiullah, Oier Mees, Oliver Kroemer, Osbert Bastani, Pannag~R. Sanketi, Patrick~"Tree" Miller, Patrick Yin, Paul Wohlhart, Peng Xu, Peter~David Fagan, Peter Mitrano, Pierre Sermanet, Pieter Abbeel, Priya Sundaresan, Qiuyu Chen, Quan Vuong, Rafael Rafailov, Ran Tian, Ria Doshi, Roberto {Mart{\'i}n-Mart{\'i}n}, Rohan Baijal, Rosario Scalise, Rose Hendrix, Roy Lin, Runjia Qian, Ruohan Zhang, Russell Mendonca, Rutav Shah, Ryan Hoque, Ryan Julian, Samuel Bustamante, Sean Kirmani, Sergey Levine, Shan Lin, Sherry Moore, Shikhar Bahl, Shivin Dass, Shubham Sonawani, Shubham Tulsiani, Shuran Song, Sichun Xu, Siddhant Haldar, Siddharth Karamcheti, Simeon Adebola, Simon Guist, Soroush Nasiriany, Stefan Schaal, Stefan Welker, Stephen Tian, Subramanian Ramamoorthy, Sudeep Dasari, Suneel Belkhale, Sungjae Park, Suraj Nair, Suvir Mirchandani, Takayuki Osa, Tanmay Gupta, Tatsuya Harada, Tatsuya Matsushima, Ted Xiao, Thomas Kollar, Tianhe Yu, Tianli Ding, Todor Davchev, Tony~Z. Zhao, Travis Armstrong, Trevor Darrell, Trinity Chung, Vidhi Jain, Vikash Kumar, Vincent Vanhoucke, Vitor Guizilini, Wei Zhan, Wenxuan Zhou, Wolfram Burgard, Xi~Chen, Xiangyu Chen, Xiaolong Wang, Xinghao Zhu, Xinyang Geng, Xiyuan Liu, Xu~Liangwei, Xuanlin Li, Yansong Pang, Yao Lu, Yecheng~Jason Ma, Yejin Kim, Yevgen Chebotar, Yifan Zhou, Yifeng Zhu, Yilin Wu, Ying Xu, Yixuan Wang, Yonatan Bisk, Yongqiang Dou, Yoonyoung Cho, Youngwoon Lee, Yuchen Cui, Yue Cao, Yueh-Hua Wu, Yujin Tang, Yuke Zhu, Yunchu Zhang, Yunfan Jiang, Yunshuang Li, Yunzhu Li, Yusuke Iwasawa, Yutaka Matsuo, Zehan Ma, Zhuo Xu, Zichen~Jeff Cui, Zichen Zhang, Zipeng Fu, and Zipeng Lin.
+\newblock Open {{X-Embodiment}}: {{Robotic Learning Datasets}} and {{RT-X Models}}, May 2025.
+
+\bibitem[Oquab et~al.(2024)Oquab, Darcet, Moutakanni, Vo, Szafraniec, Khalidov, Fernandez, Haziza, Massa, {El-Nouby}, Assran, Ballas, Galuba, Howes, Huang, Li, Misra, Rabbat, Sharma, Synnaeve, Xu, Jegou, Mairal, Labatut, Joulin, and Bojanowski]{oquabDINOv2LearningRobust2024}
+Maxime Oquab, Timoth{\'e}e Darcet, Th{\'e}o Moutakanni, Huy Vo, Marc Szafraniec, Vasil Khalidov, Pierre Fernandez, Daniel Haziza, Francisco Massa, Alaaeldin {El-Nouby}, Mahmoud Assran, Nicolas Ballas, Wojciech Galuba, Russell Howes, Po-Yao Huang, Shang-Wen Li, Ishan Misra, Michael Rabbat, Vasu Sharma, Gabriel Synnaeve, Hu~Xu, Herv{\'e} Jegou, Julien Mairal, Patrick Labatut, Armand Joulin, and Piotr Bojanowski.
+\newblock {{DINOv2}}: {{Learning Robust Visual Features}} without {{Supervision}}, February 2024.
+
+\bibitem[Permenter and Yuan(2024)]{permenterInterpretingImprovingDiffusion2024}
+Frank Permenter and Chenyang Yuan.
+\newblock Interpreting and {{Improving Diffusion Models}} from an {{Optimization Perspective}}, June 2024.
+
+\bibitem[Polyak et~al.(2025)Polyak, Zohar, Brown, Tjandra, Sinha, Lee, Vyas, Shi, Ma, Chuang, Yan, Choudhary, Wang, Sethi, Pang, Ma, Misra, Hou, Wang, Jagadeesh, Li, Zhang, Singh, Williamson, Le, Yu, Singh, Zhang, Vajda, Duval, Girdhar, Sumbaly, Rambhatla, Tsai, Azadi, Datta, Chen, Bell, Ramaswamy, Sheynin, Bhattacharya, Motwani, Xu, Li, Hou, Hsu, Yin, Dai, Taigman, Luo, Liu, Wu, Zhao, Kirstain, He, He, Pumarola, Thabet, Sanakoyeu, Mallya, Guo, Araya, Kerr, Wood, Liu, Peng, Vengertsev, Schonfeld, Blanchard, {Juefei-Xu}, Nord, Liang, Hoffman, Kohler, Fire, Sivakumar, Chen, Yu, Gao, Georgopoulos, Moritz, Sampson, Li, Parmeggiani, Fine, Fowler, Petrovic, and Du]{polyakMovieGenCast2025}
+Adam Polyak, Amit Zohar, Andrew Brown, Andros Tjandra, Animesh Sinha, Ann Lee, Apoorv Vyas, Bowen Shi, Chih-Yao Ma, Ching-Yao Chuang, David Yan, Dhruv Choudhary, Dingkang Wang, Geet Sethi, Guan Pang, Haoyu Ma, Ishan Misra, Ji~Hou, Jialiang Wang, Kiran Jagadeesh, Kunpeng Li, Luxin Zhang, Mannat Singh, Mary Williamson, Matt Le, Matthew Yu, Mitesh~Kumar Singh, Peizhao Zhang, Peter Vajda, Quentin Duval, Rohit Girdhar, Roshan Sumbaly, Sai~Saketh Rambhatla, Sam Tsai, Samaneh Azadi, Samyak Datta, Sanyuan Chen, Sean Bell, Sharadh Ramaswamy, Shelly Sheynin, Siddharth Bhattacharya, Simran Motwani, Tao Xu, Tianhe Li, Tingbo Hou, Wei-Ning Hsu, Xi~Yin, Xiaoliang Dai, Yaniv Taigman, Yaqiao Luo, Yen-Cheng Liu, Yi-Chiao Wu, Yue Zhao, Yuval Kirstain, Zecheng He, Zijian He, Albert Pumarola, Ali Thabet, Artsiom Sanakoyeu, Arun Mallya, Baishan Guo, Boris Araya, Breena Kerr, Carleigh Wood, Ce~Liu, Cen Peng, Dimitry Vengertsev, Edgar Schonfeld, Elliot Blanchard, Felix {Juefei-Xu}, Fraylie Nord, Jeff Liang, John Hoffman, Jonas Kohler, Kaolin Fire, Karthik Sivakumar, Lawrence Chen, Licheng Yu, Luya Gao, Markos Georgopoulos, Rashel Moritz, Sara~K. Sampson, Shikai Li, Simone Parmeggiani, Steve Fine, Tara Fowler, Vladan Petrovic, and Yuming Du.
+\newblock Movie {{Gen}}: {{A Cast}} of {{Media Foundation Models}}, February 2025.
+
+\bibitem[Pomerleau(1988)]{pomerleauALVINNAutonomousLand1988}
+Dean~A. Pomerleau.
+\newblock {{ALVINN}}: {{An Autonomous Land Vehicle}} in a {{Neural Network}}.
+\newblock In \emph{Advances in {{Neural Information Processing Systems}}}, volume~1. Morgan-Kaufmann, 1988.
+
 \bibitem[Prince(2023)]{prince2023understanding}
 Simon~J.D. Prince.
 \newblock \emph{Understanding Deep Learning}.
 \newblock The MIT Press, 2023.
+
+\bibitem[Radford et~al.(2021)Radford, Kim, Hallacy, Ramesh, Goh, Agarwal, Sastry, Askell, Mishkin, Clark, Krueger, and Sutskever]{radfordLearningTransferableVisual2021}
+Alec Radford, Jong~Wook Kim, Chris Hallacy, Aditya Ramesh, Gabriel Goh, Sandhini Agarwal, Girish Sastry, Amanda Askell, Pamela Mishkin, Jack Clark, Gretchen Krueger, and Ilya Sutskever.
+\newblock Learning {{Transferable Visual Models From Natural Language Supervision}}, February 2021.
+
+\bibitem[Raffel et~al.(2023)Raffel, Shazeer, Roberts, Lee, Narang, Matena, Zhou, Li, and Liu]{raffelExploringLimitsTransfer2023}
+Colin Raffel, Noam Shazeer, Adam Roberts, Katherine Lee, Sharan Narang, Michael Matena, Yanqi Zhou, Wei Li, and Peter~J. Liu.
+\newblock Exploring the {{Limits}} of {{Transfer Learning}} with a {{Unified Text-to-Text Transformer}}, September 2023.
+
+\bibitem[Reed et~al.(2022)Reed, Zolna, Parisotto, Colmenarejo, Novikov, {Barth-Maron}, Gimenez, Sulsky, Kay, Springenberg, Eccles, Bruce, Razavi, Edwards, Heess, Chen, Hadsell, Vinyals, Bordbar, and de~Freitas]{reedGeneralistAgent2022}
+Scott Reed, Konrad Zolna, Emilio Parisotto, Sergio~Gomez Colmenarejo, Alexander Novikov, Gabriel {Barth-Maron}, Mai Gimenez, Yury Sulsky, Jackie Kay, Jost~Tobias Springenberg, Tom Eccles, Jake Bruce, Ali Razavi, Ashley Edwards, Nicolas Heess, Yutian Chen, Raia Hadsell, Oriol Vinyals, Mahyar Bordbar, and Nando de~Freitas.
+\newblock A {{Generalist Agent}}, November 2022.
+
+\bibitem[Ronneberger et~al.(2015)Ronneberger, Fischer, and Brox]{ronnebergerUNetConvolutionalNetworks2015}
+Olaf Ronneberger, Philipp Fischer, and Thomas Brox.
+\newblock U-{{Net}}: {{Convolutional Networks}} for {{Biomedical Image Segmentation}}, May 2015.
+
+\bibitem[Ross et~al.(2011)Ross, Gordon, and Bagnell]{rossReductionImitationLearning2011}
+Stephane Ross, Geoffrey~J. Gordon, and J.~Andrew Bagnell.
+\newblock A {{Reduction}} of {{Imitation Learning}} and {{Structured Prediction}} to {{No-Regret Online Learning}}, March 2011.
+
+\bibitem[Sanneman et~al.(2020)Sanneman, Fourie, and Shah]{sannemanStateIndustrialRobotics2020}
+Lindsay Sanneman, Christopher Fourie, and Julie~A. Shah.
+\newblock The {{State}} of {{Industrial Robotics}}: {{Emerging Technologies}}, {{Challenges}}, and {{Key Research Directions}}, October 2020.
+
+\bibitem[Schuhmann et~al.(2022)Schuhmann, K{\"o}pf, Vencu, Coombes, and Beaumont]{LAION-COCO}
+C~Schuhmann, A~K{\"o}pf, R~Vencu, T~Coombes, and R~Beaumont.
+\newblock Laion coco: 600m synthetic captions from laion2b-en.
+\newblock \emph{URL https://laion.ai/blog/laion-coco}, 2022.
+
+\bibitem[Schulman et~al.(2017{\natexlab{a}})Schulman, Levine, Moritz, Jordan, and Abbeel]{schulmanTrustRegionPolicy2017}
+John Schulman, Sergey Levine, Philipp Moritz, Michael~I. Jordan, and Pieter Abbeel.
+\newblock Trust {{Region Policy Optimization}}, April 2017{\natexlab{a}}.
+
+\bibitem[Schulman et~al.(2017{\natexlab{b}})Schulman, Wolski, Dhariwal, Radford, and Klimov]{schulmanProximalPolicyOptimization2017}
+John Schulman, Filip Wolski, Prafulla Dhariwal, Alec Radford, and Oleg Klimov.
+\newblock Proximal {{Policy Optimization Algorithms}}, August 2017{\natexlab{b}}.
 
 \bibitem[{Shalev-Shwartz} and {Ben-David}(2014)]{shalev-shwartzUnderstandingMachineLearning2014}
 Shai {Shalev-Shwartz} and Shai {Ben-David}.
@@ -25,6 +418,15 @@ Shai {Shalev-Shwartz} and Shai {Ben-David}.
 \newblock ISBN 978-1-107-05713-5 978-1-107-29801-9.
 \newblock \doi{10.1017/CBO9781107298019}.
 
+\bibitem[Shukor et~al.(2023)Shukor, Dancette, and Cord]{shukor2023epalm}
+Mustafa Shukor, Corentin Dancette, and Matthieu Cord.
+\newblock Ep-alm: {{Efficient}} perceptual augmentation of language models.
+\newblock In \emph{Proceedings of the {{IEEE}}/{{CVF}} International Conference on Computer Vision}, pages 22056--22069, 2023.
+
+\bibitem[Shukor et~al.(2025)Shukor, Aubakirova, Capuano, Kooijmans, Palma, Zouitine, Aractingi, Pascal, Russi, Marafioti, Alibert, Cord, Wolf, and Cadene]{shukorSmolVLAVisionLanguageActionModel2025}
+Mustafa Shukor, Dana Aubakirova, Francesco Capuano, Pepijn Kooijmans, Steven Palma, Adil Zouitine, Michel Aractingi, Caroline Pascal, Martino Russi, Andres Marafioti, Simon Alibert, Matthieu Cord, Thomas Wolf, and Remi Cadene.
+\newblock {{SmolVLA}}: {{A Vision-Language-Action Model}} for {{Affordable}} and {{Efficient Robotics}}, June 2025.
+
 \bibitem[Siciliano and Khatib(2016)]{sicilianoSpringerHandbookRobotics2016}
 Bruno Siciliano and Oussama Khatib, editors.
 \newblock \emph{Springer {{Handbook}} of {{Robotics}}}.
@@ -32,11 +434,47 @@ Bruno Siciliano and Oussama Khatib, editors.
 \newblock ISBN 978-3-319-32550-7 978-3-319-32552-1.
 \newblock \doi{10.1007/978-3-319-32552-1}.
 
+\bibitem[Silver et~al.(2014)Silver, Lever, Heess, Degris, Wierstra, and Riedmiller]{pmlr-v32-silver14}
+David Silver, Guy Lever, Nicolas Heess, Thomas Degris, Daan Wierstra, and Martin Riedmiller.
+\newblock Deterministic policy gradient algorithms.
+\newblock In Eric~P. Xing and Tony Jebara, editors, \emph{Proceedings of the 31st International Conference on Machine Learning}, volume~32 of \emph{Proceedings of Machine Learning Research}, pages 387--395, Bejing, China, June 2014. PMLR.
+
+\bibitem[Sohn et~al.(2015)Sohn, Lee, and Yan]{sohnLearningStructuredOutput2015}
+Kihyuk Sohn, Honglak Lee, and Xinchen Yan.
+\newblock Learning {{Structured Output Representation}} using {{Deep Conditional Generative Models}}.
+\newblock In \emph{Advances in {{Neural Information Processing Systems}}}, volume~28. Curran Associates, Inc., 2015.
+
+\bibitem[Song et~al.(2022)Song, Meng, and Ermon]{songDenoisingDiffusionImplicit2022}
+Jiaming Song, Chenlin Meng, and Stefano Ermon.
+\newblock Denoising {{Diffusion Implicit Models}}, October 2022.
+
 \bibitem[Sutton and Barto(2018)]{suttonReinforcementLearningIntroduction2018}
 Richard~S. Sutton and Andrew~G. Barto.
 \newblock \emph{Reinforcement Learning: An Introduction}.
 \newblock Adaptive Computation and Machine Learning Series. The MIT Press, Cambridge, Massachusetts, second edition edition, 2018.
 \newblock ISBN 978-0-262-03924-6.
+
+\bibitem[Tancik et~al.(2020)Tancik, Srinivasan, Mildenhall, {Fridovich-Keil}, Raghavan, Singhal, Ramamoorthi, Barron, and Ng]{tancikFourierFeaturesLet2020}
+Matthew Tancik, Pratul~P. Srinivasan, Ben Mildenhall, Sara {Fridovich-Keil}, Nithin Raghavan, Utkarsh Singhal, Ravi Ramamoorthi, Jonathan~T. Barron, and Ren Ng.
+\newblock Fourier {{Features Let Networks Learn High Frequency Functions}} in {{Low Dimensional Domains}}, June 2020.
+
+\bibitem[Tang et~al.(2025)Tang, Abbatematteo, Hu, Chandra, {Mart{\'i}n-Mart{\'i}n}, and Stone]{tangDeepReinforcementLearning2025}
+Chen Tang, Ben Abbatematteo, Jiaheng Hu, Rohan Chandra, Roberto {Mart{\'i}n-Mart{\'i}n}, and Peter Stone.
+\newblock Deep {{Reinforcement Learning}} for {{Robotics}}: {{A Survey}} of {{Real-World Successes}}.
+\newblock \emph{Annual Review of Control, Robotics, and Autonomous Systems}, 8\penalty0 (Volume 8, 2025):\penalty0 153--188, May 2025.
+\newblock ISSN 2573-5144.
+\newblock \doi{10.1146/annurev-control-030323-022510}.
+
+\bibitem[Tang et~al.(2023)Tang, Zhao, Wang, Zhang, Sun, Zheng, Du, Qian, and Kurths]{tangPerceptionNavigationAutonomous2023}
+Yang Tang, Chaoqiang Zhao, Jianrui Wang, Chongzhen Zhang, Qiyu Sun, Weixing Zheng, Wenli Du, Feng Qian, and Juergen Kurths.
+\newblock Perception and {{Navigation}} in {{Autonomous Systems}} in the {{Era}} of {{Learning}}: {{A Survey}}.
+\newblock \emph{IEEE Transactions on Neural Networks and Learning Systems}, 34\penalty0 (12):\penalty0 9604--9624, December 2023.
+\newblock ISSN 2162-237X, 2162-2388.
+\newblock \doi{10.1109/TNNLS.2022.3167688}.
+
+\bibitem[Team et~al.(2024)Team, Riviere, Pathak, Sessa, Hardin, Bhupatiraju, Hussenot, Mesnard, Shahriari, Ram{\'e}, Ferret, Liu, Tafti, Friesen, Casbon, Ramos, Kumar, Lan, Jerome, Tsitsulin, Vieillard, Stanczyk, Girgin, Momchev, Hoffman, Thakoor, Grill, Neyshabur, Bachem, Walton, Severyn, Parrish, Ahmad, Hutchison, Abdagic, Carl, Shen, Brock, Coenen, Laforge, Paterson, Bastian, Piot, Wu, Royal, Chen, Kumar, Perry, Welty, {Choquette-Choo}, Sinopalnikov, Weinberger, Vijaykumar, Rogozi{\'n}ska, Herbison, Bandy, Wang, Noland, Moreira, Senter, Eltyshev, Visin, Rasskin, Wei, Cameron, Martins, Hashemi, {Klimczak-Pluci{\'n}ska}, Batra, Dhand, Nardini, Mein, Zhou, Svensson, Stanway, Chan, Zhou, Carrasqueira, Iljazi, Becker, Fernandez, van Amersfoort, Gordon, Lipschultz, Newlan, Ji, Mohamed, Badola, Black, Millican, McDonell, Nguyen, Sodhia, Greene, Sjoesund, Usui, Sifre, Heuermann, Lago, McNealus, Soares, Kilpatrick, Dixon, Martins, Reid, Singh, Iverson, G{\"o}rner, Velloso, Wirth, Davidow, Miller, Rahtz, Watson, Risdal, Kazemi, Moynihan, Zhang, Kahng, Park, Rahman, Khatwani, Dao, Bardoliwalla, Devanathan, Dumai, Chauhan, Wahltinez, Botarda, Barnes, Barham, Michel, Jin, Georgiev, Culliton, Kuppala, Comanescu, Merhej, Jana, Rokni, Agarwal, Mullins, Saadat, Carthy, Perrin, Arnold, Krause, Dai, Garg, Sheth, Ronstrom, Chan, Jordan, Yu, Eccles, Hennigan, Kocisky, Doshi, Jain, Yadav, Meshram, Dharmadhikari, Barkley, Wei, Ye, Han, Kwon, Xu, Shen, Gong, Wei, Cotruta, Kirk, Rao, Giang, Peran, Warkentin, Collins, Barral, Ghahramani, Hadsell, Sculley, Banks, Dragan, Petrov, Vinyals, Dean, Hassabis, Kavukcuoglu, Farabet, Buchatskaya, Borgeaud, Fiedel, Joulin, Kenealy, Dadashi, and Andreev]{teamGemma2Improving2024}
+Gemma Team, Morgane Riviere, Shreya Pathak, Pier~Giuseppe Sessa, Cassidy Hardin, Surya Bhupatiraju, L{\'e}onard Hussenot, Thomas Mesnard, Bobak Shahriari, Alexandre Ram{\'e}, Johan Ferret, Peter Liu, Pouya Tafti, Abe Friesen, Michelle Casbon, Sabela Ramos, Ravin Kumar, Charline~Le Lan, Sammy Jerome, Anton Tsitsulin, Nino Vieillard, Piotr Stanczyk, Sertan Girgin, Nikola Momchev, Matt Hoffman, Shantanu Thakoor, Jean-Bastien Grill, Behnam Neyshabur, Olivier Bachem, Alanna Walton, Aliaksei Severyn, Alicia Parrish, Aliya Ahmad, Allen Hutchison, Alvin Abdagic, Amanda Carl, Amy Shen, Andy Brock, Andy Coenen, Anthony Laforge, Antonia Paterson, Ben Bastian, Bilal Piot, Bo~Wu, Brandon Royal, Charlie Chen, Chintu Kumar, Chris Perry, Chris Welty, Christopher~A. {Choquette-Choo}, Danila Sinopalnikov, David Weinberger, Dimple Vijaykumar, Dominika Rogozi{\'n}ska, Dustin Herbison, Elisa Bandy, Emma Wang, Eric Noland, Erica Moreira, Evan Senter, Evgenii Eltyshev, Francesco Visin, Gabriel Rasskin, Gary Wei, Glenn Cameron, Gus Martins, Hadi Hashemi, Hanna {Klimczak-Pluci{\'n}ska}, Harleen Batra, Harsh Dhand, Ivan Nardini, Jacinda Mein, Jack Zhou, James Svensson, Jeff Stanway, Jetha Chan, Jin~Peng Zhou, Joana Carrasqueira, Joana Iljazi, Jocelyn Becker, Joe Fernandez, Joost van Amersfoort, Josh Gordon, Josh Lipschultz, Josh Newlan, Ju-yeong Ji, Kareem Mohamed, Kartikeya Badola, Kat Black, Katie Millican, Keelin McDonell, Kelvin Nguyen, Kiranbir Sodhia, Kish Greene, Lars~Lowe Sjoesund, Lauren Usui, Laurent Sifre, Lena Heuermann, Leticia Lago, Lilly McNealus, Livio~Baldini Soares, Logan Kilpatrick, Lucas Dixon, Luciano Martins, Machel Reid, Manvinder Singh, Mark Iverson, Martin G{\"o}rner, Mat Velloso, Mateo Wirth, Matt Davidow, Matt Miller, Matthew Rahtz, Matthew Watson, Meg Risdal, Mehran Kazemi, Michael Moynihan, Ming Zhang, Minsuk Kahng, Minwoo Park, Mofi Rahman, Mohit Khatwani, Natalie Dao, Nenshad Bardoliwalla, Nesh Devanathan, Neta Dumai, Nilay Chauhan, Oscar Wahltinez, Pankil Botarda, Parker Barnes, Paul Barham, Paul Michel, Pengchong Jin, Petko Georgiev, Phil Culliton, Pradeep Kuppala, Ramona Comanescu, Ramona Merhej, Reena Jana, Reza~Ardeshir Rokni, Rishabh Agarwal, Ryan Mullins, Samaneh Saadat, Sara~Mc Carthy, Sarah Perrin, S{\'e}bastien M.~R. Arnold, Sebastian Krause, Shengyang Dai, Shruti Garg, Shruti Sheth, Sue Ronstrom, Susan Chan, Timothy Jordan, Ting Yu, Tom Eccles, Tom Hennigan, Tomas Kocisky, Tulsee Doshi, Vihan Jain, Vikas Yadav, Vilobh Meshram, Vishal Dharmadhikari, Warren Barkley, Wei Wei, Wenming Ye, Woohyun Han, Woosuk Kwon, Xiang Xu, Zhe Shen, Zhitao Gong, Zichuan Wei, Victor Cotruta, Phoebe Kirk, Anand Rao, Minh Giang, Ludovic Peran, Tris Warkentin, Eli Collins, Joelle Barral, Zoubin Ghahramani, Raia Hadsell, D.~Sculley, Jeanine Banks, Anca Dragan, Slav Petrov, Oriol Vinyals, Jeff Dean, Demis Hassabis, Koray Kavukcuoglu, Clement Farabet, Elena Buchatskaya, Sebastian Borgeaud, Noah Fiedel, Armand Joulin, Kathleen Kenealy, Robert Dadashi, and Alek Andreev.
+\newblock Gemma 2: {{Improving Open Language Models}} at a {{Practical Size}}, August 2024.
 
 \bibitem[Tedrake({\natexlab{a}})]{tedrakeRoboticManipulationPerception}
 Russ Tedrake.
@@ -45,5 +483,72 @@ Russ Tedrake.
 \bibitem[Tedrake({\natexlab{b}})]{tedrakeUnderactuatedRoboticsAlgorithms}
 Russ Tedrake.
 \newblock Underactuated {{Robotics}}. {{Algorithms}} for {{Walking}}, {{Running}}, {{Swimming}}, {{Flying}}, and {{Manipulation}}, {\natexlab{b}}.
+
+\bibitem[Tiboni et~al.(2023)Tiboni, Arndt, and Kyrki]{tiboniDROPOSimtoRealTransfer2023}
+Gabriele Tiboni, Karol Arndt, and Ville Kyrki.
+\newblock {{DROPO}}: {{Sim-to-Real Transfer}} with {{Offline Domain Randomization}}, January 2023.
+
+\bibitem[Tiboni et~al.(2024)Tiboni, Klink, Peters, Tommasi, D'Eramo, and Chalvatzaki]{tiboniDomainRandomizationEntropy2024}
+Gabriele Tiboni, Pascal Klink, Jan Peters, Tatiana Tommasi, Carlo D'Eramo, and Georgia Chalvatzaki.
+\newblock Domain {{Randomization}} via {{Entropy Maximization}}, March 2024.
+
+\bibitem[Tobin et~al.(2017)Tobin, Fong, Ray, Schneider, Zaremba, and Abbeel]{tobinDomainRandomizationTransferring2017}
+Josh Tobin, Rachel Fong, Alex Ray, Jonas Schneider, Wojciech Zaremba, and Pieter Abbeel.
+\newblock Domain {{Randomization}} for {{Transferring Deep Neural Networks}} from {{Simulation}} to the {{Real World}}, March 2017.
+
+\bibitem[Tong et~al.(2024)Tong, Brown, Wu, Woo, IYER, Akula, Yang, Yang, Middepogu, Wang, et~al.]{tong2024cambrian}
+Peter Tong, Ellis Brown, Penghao Wu, Sanghyun Woo, Adithya Jairam~Vedagiri IYER, Sai~Charitha Akula, Shusheng Yang, Jihan Yang, Manoj Middepogu, Ziteng Wang, et~al.
+\newblock Cambrian-1: {{A}} fully open, vision-centric exploration of multimodal llms.
+\newblock \emph{Advances in Neural Information Processing Systems}, 37:\penalty0 87310--87356, 2024.
+
+\bibitem[Touvron et~al.(2023)Touvron, Martin, Stone, Albert, Almahairi, Babaei, Bashlykov, Batra, Bhargava, Bhosale, Bikel, Blecher, Ferrer, Chen, Cucurull, Esiobu, Fernandes, Fu, Fu, Fuller, Gao, Goswami, Goyal, Hartshorn, Hosseini, Hou, Inan, Kardas, Kerkez, Khabsa, Kloumann, Korenev, Koura, Lachaux, Lavril, Lee, Liskovich, Lu, Mao, Martinet, Mihaylov, Mishra, Molybog, Nie, Poulton, Reizenstein, Rungta, Saladi, Schelten, Silva, Smith, Subramanian, Tan, Tang, Taylor, Williams, Kuan, Xu, Yan, Zarov, Zhang, Fan, Kambadur, Narang, Rodriguez, Stojnic, Edunov, and Scialom]{touvronLlama2Open2023}
+Hugo Touvron, Louis Martin, Kevin Stone, Peter Albert, Amjad Almahairi, Yasmine Babaei, Nikolay Bashlykov, Soumya Batra, Prajjwal Bhargava, Shruti Bhosale, Dan Bikel, Lukas Blecher, Cristian~Canton Ferrer, Moya Chen, Guillem Cucurull, David Esiobu, Jude Fernandes, Jeremy Fu, Wenyin Fu, Brian Fuller, Cynthia Gao, Vedanuj Goswami, Naman Goyal, Anthony Hartshorn, Saghar Hosseini, Rui Hou, Hakan Inan, Marcin Kardas, Viktor Kerkez, Madian Khabsa, Isabel Kloumann, Artem Korenev, Punit~Singh Koura, Marie-Anne Lachaux, Thibaut Lavril, Jenya Lee, Diana Liskovich, Yinghai Lu, Yuning Mao, Xavier Martinet, Todor Mihaylov, Pushkar Mishra, Igor Molybog, Yixin Nie, Andrew Poulton, Jeremy Reizenstein, Rashi Rungta, Kalyan Saladi, Alan Schelten, Ruan Silva, Eric~Michael Smith, Ranjan Subramanian, Xiaoqing~Ellen Tan, Binh Tang, Ross Taylor, Adina Williams, Jian~Xiang Kuan, Puxin Xu, Zheng Yan, Iliyan Zarov, Yuchen Zhang, Angela Fan, Melanie Kambadur, Sharan Narang, Aurelien Rodriguez, Robert Stojnic, Sergey Edunov, and Thomas Scialom.
+\newblock Llama 2: {{Open Foundation}} and {{Fine-Tuned Chat Models}}, July 2023.
+
+\bibitem[Tsimpoukelli et~al.(2021)Tsimpoukelli, Menick, Cabi, Eslami, Vinyals, and Hill]{tsimpoukelli2021multimodalfrozen}
+Maria Tsimpoukelli, Jacob~L Menick, Serkan Cabi, {\relax SM}~Eslami, Oriol Vinyals, and Felix Hill.
+\newblock Multimodal few-shot learning with frozen language models.
+\newblock \emph{Advances in Neural Information Processing Systems}, 34:\penalty0 200--212, 2021.
+
+\bibitem[Vallaeys et~al.(2024)Vallaeys, Shukor, Cord, and Verbeek]{vallaeys2024improveddepalm}
+Th{\'e}ophane Vallaeys, Mustafa Shukor, Matthieu Cord, and Jakob Verbeek.
+\newblock Improved baselines for data-efficient perceptual augmentation of llms.
+\newblock \emph{arXiv preprint arXiv:2403.13499}, 2024.
+
+\bibitem[Wang et~al.(2025)Wang, Li, Yan, He, Yu, Zeng, Wang, Ma, Huang, Gao, et~al.]{wang2025internvideo2}
+Yi~Wang, Xinhao Li, Ziang Yan, Yinan He, Jiashuo Yu, Xiangyu Zeng, Chenting Wang, Changlian Ma, Haian Huang, Jianfei Gao, et~al.
+\newblock {{InternVideo2}}. 5: {{Empowering}} video mllms with long and rich context modeling.
+\newblock \emph{arXiv preprint arXiv:2501.12386}, 2025.
+
+\bibitem[Yao et~al.(2024)Yao, Yu, Zhang, Wang, Cui, Zhu, Cai, Li, Zhao, He, Chen, Zhou, Zou, Zhang, Hu, Zheng, Zhou, Cai, Han, Zeng, Li, Liu, and Sun]{minicmpv2024}
+Yuan Yao, Tianyu Yu, Ao~Zhang, Chongyi Wang, Junbo Cui, Hongji Zhu, Tianchi Cai, Haoyu Li, Weilin Zhao, Zhihui He, Qianyu Chen, Huarong Zhou, Zhensheng Zou, Haoye Zhang, Shengding Hu, Zhi Zheng, Jie Zhou, Jie Cai, Xu~Han, Guoyang Zeng, Dahai Li, Zhiyuan Liu, and Maosong Sun.
+\newblock {{MiniCPM-v}}: A {{GPT-4V}} level {{MLLM}} on your phone, 2024.
+
+\bibitem[Zhai et~al.(2023)Zhai, Mustafa, Kolesnikov, and Beyer]{zhaiSigmoidLossLanguage2023}
+Xiaohua Zhai, Basil Mustafa, Alexander Kolesnikov, and Lucas Beyer.
+\newblock Sigmoid {{Loss}} for {{Language Image Pre-Training}}, September 2023.
+
+\bibitem[Zhang et~al.(2025)Zhang, Li, Cheng, Hu, Yuan, Chen, Leng, Jiang, Zhang, Li, et~al.]{zhang2025videollama}
+Boqiang Zhang, Kehan Li, Zesen Cheng, Zhiqiang Hu, Yuqian Yuan, Guanzheng Chen, Sicong Leng, Yuming Jiang, Hang Zhang, Xin Li, et~al.
+\newblock {{VideoLLaMA}} 3: {{Frontier}} multimodal foundation models for image and video understanding.
+\newblock \emph{arXiv preprint arXiv:2501.13106}, 2025.
+
+\bibitem[Zhang et~al.(2024)Zhang, Xiao, He, and Shi]{zhangWoCoCoLearningWholeBody2024}
+Chong Zhang, Wenli Xiao, Tairan He, and Guanya Shi.
+\newblock {{WoCoCo}}: {{Learning Whole-Body Humanoid Control}} with {{Sequential Contacts}}, November 2024.
+
+\bibitem[Zhao et~al.(2023)Zhao, Kumar, Levine, and Finn]{zhaoLearningFineGrainedBimanual2023}
+Tony~Z. Zhao, Vikash Kumar, Sergey Levine, and Chelsea Finn.
+\newblock Learning {{Fine-Grained Bimanual Manipulation}} with {{Low-Cost Hardware}}, April 2023.
+
+\bibitem[Zhu et~al.(2024)Zhu, Chen, Shen, Li, and Elhoseiny]{zhu2024minigpt}
+Deyao Zhu, Jun Chen, Xiaoqian Shen, Xiang Li, and Mohamed Elhoseiny.
+\newblock {{MiniGPT-4}}: {{Enhancing}} vision-language understanding with advanced large language models.
+\newblock In \emph{The Twelfth International Conference on Learning Representations}, 2024.
+
+\bibitem[Zhu et~al.(2023)Zhu, Hessel, Awadalla, Gadre, Dodge, Fang, Yu, Schmidt, Wang, and Choi]{MMC4}
+Wanrong Zhu, Jack Hessel, Anas Awadalla, Samir~Yitzhak Gadre, Jesse Dodge, Alex Fang, Youngjae Yu, Ludwig Schmidt, William~Yang Wang, and Yejin Choi.
+\newblock Multimodal {{C4}}: {{An}} open, billion-scale corpus of images interleaved with text.
+\newblock In \emph{Thirty-Seventh Conference on Neural Information Processing Systems Datasets and Benchmarks Track}, 2023.
 
 \end{thebibliography}

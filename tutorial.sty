@@ -1,0 +1,1225 @@
+\ProvidesPackage{tutorial}[2025/10/14 v1.0 - A consolidated style for the Robot Learning Tutorial, by Francesco Capuano]
+\NeedsTeXFormat{LaTeX2e}
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Merged from hf.cls, defns.tex, main.tex preamble, and other files
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Basic packages
+\RequirePackage[utf8]{inputenc}
+\RequirePackage[T1]{fontenc}
+\RequirePackage{graphicx}
+\RequirePackage{booktabs}
+\RequirePackage{url}
+\RequirePackage{lineno}
+\RequirePackage[svgnames]{xcolor} % Renamed from xcolor to avoid option clash
+\RequirePackage{enumitem}
+\RequirePackage{listings}
+\RequirePackage{amsmath}
+\RequirePackage{amsfonts}
+\RequirePackage{amssymb}
+\RequirePackage{nicefrac}
+\RequirePackage{siunitx}
+\RequirePackage{multirow}
+\RequirePackage{bigdelim}
+\RequirePackage{longtable}
+\RequirePackage{tabularray}
+\RequirePackage{wrapfig}
+\RequirePackage{caption}
+\RequirePackage{subcaption}
+\RequirePackage{makecell}
+\RequirePackage{adjustbox}
+\RequirePackage[most]{tcolorbox}
+\RequirePackage{xspace}
+\RequirePackage{soul}
+\RequirePackage{csquotes}
+\RequirePackage{arydshln}
+\RequirePackage[round,authoryear]{natbib}
+\RequirePackage{todonotes}
+\RequirePackage[absolute]{textpos}
+\RequirePackage{pifont}
+\RequirePackage{bold-extra}
+\RequirePackage{pgf-pie}
+\RequirePackage{epigraph}
+\RequirePackage{algorithm}
+\RequirePackage{algpseudocode}
+\RequirePackage[top=2.25cm, bottom=2.5cm, left=2.5cm, right=2.5cm, columnsep=0.65cm, margin=1.9cm]{geometry}
+\RequirePackage{microtype}
+\RequirePackage{placeins}
+\RequirePackage{hyphenat}
+\RequirePackage{setspace}
+\RequirePackage{parskip}
+\RequirePackage[latin, english]{babel}
+\RequirePackage{lipsum}
+\RequirePackage{etoolbox}
+\RequirePackage{fancyhdr}
+\RequirePackage{nicematrix}
+\RequirePackage{bm}
+\RequirePackage{ifxetex}
+\RequirePackage{tocloft}
+\RequirePackage{mathtools}
+\RequirePackage{dsfont}
+\RequirePackage{xfrac}
+\RequirePackage{bbm}
+\RequirePackage{algorithmicx}
+\RequirePackage{xparse}
+\RequirePackage{hyperref}
+\RequirePackage[noabbrev,nameinlink]{cleveref}
+\RequirePackage{tikz}
+
+
+% Manrope font setup from hfstyle/manrope.sty
+\begin{filecontents}{t1manrope.fd}
+\ProvidesFile{t1manrope.fd}[Font definitions for T1/manrope.]
+\DeclareFontFamily{T1}{manrope}{}
+\DeclareFontShape{T1}{manrope}{m} {n} {<-> manroperegular } {}
+\DeclareFontShape{T1}{manrope}{b} {n} {<-> manropebold } {}
+\DeclareFontShape{T1}{manrope}{m} {it}{<-> ssub * manrope/m/n} {}
+\DeclareFontShape{T1}{manrope}{b} {it}{<-> ssub * manrope/b/n} {}
+\DeclareFontShape{T1}{manrope}{m} {sc}{<-> ssub * manrope/m/n} {}
+\DeclareFontShape{T1}{manrope}{b} {sc}{<-> ssub * manrope/b/n} {}
+\DeclareFontShape{T1}{manrope}{m} {sl}{<-> ssub * manrope/m/n} {}
+\DeclareFontShape{T1}{manrope}{b} {sl}{<-> ssub * manrope/b/n} {}
+\end{filecontents}
+\pdfmapline{+manroperegular < fonts/Manrope-Regular.ttf <T1-WGL4.enc}
+\pdfmapline{+manropebold < fonts/Manrope-Bold.ttf <T1-WGL4.enc}
+\ifxetex
+    \usepackage{fontspec}
+    \setsansfont{Manrope}
+\else
+    \renewcommand{\sfdefault}{manrope}
+\fi
+
+% Color definitions
+\definecolor{linkcolor}{RGB}{0, 0, 128}
+\definecolor{maroon}{HTML}{F26035}
+\definecolor{yellow}{HTML}{FDBC42}
+\definecolor{lavender}{HTML}{734f96}
+\definecolor{darkergrey}{HTML}{444444}
+\definecolor{midgrey}{HTML}{e6eded}
+\definecolor{neutralEight}{HTML}{343434}
+\definecolor{neutralFive}{HTML}{838383}
+\definecolor{neutralThree}{HTML}{bebebe}
+\definecolor{neutralOne}{HTML}{dedede}
+\definecolor{lightgrey}{HTML}{fafcfc}
+\definecolor{darkred}{RGB}{156, 39, 33}
+\definecolor{darkblue}{RGB}{31, 90, 153}
+\definecolor{forestgreen}{rgb}{0.13, 0.55, 0.13}
+\definecolor{olmoDarkBlue}{HTML}{012e59}
+\definecolor{olmoBlue}{HTML}{265ed4}
+\definecolor{olmoLightBlue}{HTML}{012e59}
+\definecolor{olmoTeal}{HTML}{00d5ff}
+\definecolor{olmoYellow}{HTML}{ffbb00}
+\definecolor{olmoOrange}{HTML}{ff9100}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{ai2accent}{HTML}{407579}
+\definecolor{hfforeground}{HTML}{1C2B33}
+\definecolor{hfbackground}{HTML}{ffffb7}
+\definecolor{hfforegroundDark}{HTML}{0A2B35}
+\definecolor{ai2pink}{HTML}{F0529C}
+\definecolor{hfyellow}{HTML}{000000}
+\definecolor{hf1}{HTML}{FFD220}
+\definecolor{hf2}{HTML}{FF8360}
+\definecolor{hf3}{HTML}{2D728F}
+\definecolor{hf4}{HTML}{B5DFCA}
+\definecolor{hf5}{HTML}{BABFD1}
+\definecolor{codewhite}{rgb}{1,1,1}
+
+% Package and document setup
+\hypersetup{
+     colorlinks   = true,
+     citecolor    = linkcolor,
+     linkcolor    = linkcolor,
+     urlcolor     = linkcolor,
+}
+\AtBeginDocument{
+  \hypersetup{
+    allcolors=ai2accent,
+    linkcolor=ai2accent,
+    citecolor=ai2accent,
+    urlcolor=ai2accent
+  }
+}
+\AtBeginDocument{
+  \color{hfforegroundDark}
+  \pagecolor{white}
+}
+
+\def\bibfont{\small}
+\setlist[itemize]{leftmargin=*,itemsep=0em,parsep=0.3em,topsep=0.3em}
+\DeclareUnicodeCharacter{2212}{\ensuremath{-}}
+\addtolength{\extrarowheight}{\belowrulesep}
+\aboverulesep=0pt
+\belowrulesep=0pt
+
+\usepackage{titlesec}
+\titleformat*{\section}{\Large\sffamily\bfseries}
+\titleformat*{\subsection}{\large\sffamily\bfseries}
+\titleformat*{\subsubsection}{\slightlylarger\sffamily\bfseries}
+\titleformat*{\paragraph}{\slightlysmaller\sffamily\bfseries}
+
+\DeclareTextFontCommand{\textbf}{\fontsize{9}{11}\selectfont\bfseries\sffamily}
+
+\DeclareCaptionLabelSeparator{custom}{}
+\DeclareCaptionFormat{custom}{{\sffamily\textbf{#1 #2}} #3}
+\DeclareCaptionLabelSeparator{pipe}{ $\vert$ }
+\captionsetup{singlelinecheck=false,format=custom,labelsep=pipe,font=small}
+\captionsetup[sub]{singlelinecheck=true,format=custom,labelsep=pipe,font=small}
+
+\renewcommand{\cfttoctitlefont}{\sffamily}
+\renewcommand{\cftsecfont}{\sffamily}
+\renewcommand{\cftsubsecfont}{\sffamily}
+\renewcommand{\cftsubsubsecfont}{\sffamily}
+\renewcommand{\cftparafont}{\sffamily}
+\renewcommand{\cftsecpagefont}{\sffamily}
+\renewcommand{\cftsubsecpagefont}{\sffamily}
+\renewcommand{\cftsubsubsecpagefont}{\sffamily}
+\renewcommand{\cftparapagefont}{\sffamily}
+
+\input{snippets/code_specs.tex}
+
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{P}[1]{>{\centering\let\newline\\\arraybackslash\columncolor{ai2lightpink}}m{#1}}
+
+\tcbuselibrary{minted}
+\usemintedstyle{colorful}
+\renewcommand{\theFancyVerbLine}{\color{olmoBlue}\footnotesize\arabic{FancyVerbLine}}
+\setminted[python]{
+  linenos,
+  breaklines,
+  fontsize=\footnotesize,
+  xleftmargin=2em
+}
+
+% Custom commands and environments
+\newcommand{\cmark}{\ding{51}}
+\newcommand{\xmark}{\ding{55}}
+\newcommand{\cblock}[3]{
+  \hspace{-1.5mm}
+  \begin{tikzpicture}
+    [
+    node/.style={square, minimum size=10mm, thick, line width=0pt},
+    ]
+    \node[fill={rgb,255:red,#1;green,#2;blue,#3}] () [] {};
+  \end{tikzpicture}%
+}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\nol}[1]{{\color{purple} [nol]: #1}}
+\newcommand{\orr}[1]{\textcolor{red}{[OZ:#1]}}
+\crefname{tcb@cnt@pbox}{code}{code}
+\Crefname{tcb@cnt@pbox}{Code}{Code}
+\crefname{assumption}{assumption}{assumption}
+\Crefname{assumption}{Assumption}{Assumptions}
+\newtcolorbox[auto counter]{pbox}[2][]{
+  breakable,
+  colback=white,
+  title=\textbf{Code~\thetcbcounter: #2},
+  #1,fonttitle=\sffamily,
+  fontupper=\sffamily,
+  arc=10pt,
+  colframe=hf4,
+  coltitle=hf3,
+  colbacktitle=hf4,
+  toptitle=0.25cm,
+  bottomtitle=0.125cm
+}
+
+% From hf.cls
+\newcommand{\nm}[1]{#1}
+\newcommand{\slightlylarger}{\fontsize{\dimexpr\f@size pt+1}{\dimexpr\f@size pt-0.2\baselineskip}\selectfont}
+\newcommand{\slightlysmaller}{\fontsize{\dimexpr\f@size pt-1}{\dimexpr\f@size pt+0.2\baselineskip}\selectfont}
+
+\newcommand\authorlistOne{}
+\newcommand\authorlistTwo{}
+\newcommand\authorlistThree{}
+\newcommand\authorlistFour{}
+\newcommand\authorlistFive{}
+\newcommand\authorOne[2][]{\addtolist[#1]{#2}{\authorlistOne}{\authorformat}{\quad }}
+\newcommand\authorTwo[2][]{\addtolist[#1]{#2}{\authorlistTwo}{\authorformat}{\quad }}
+\newcommand\authorThree[2][]{\addtolist[#1]{#2}{\authorlistThree}{\authorformat}{\quad }}
+\newcommand\authorFour[2][]{\addtolist[#1]{#2}{\authorlistFour}{\authorformat}{\quad }}
+\newcommand\authorFive[2][]{\addtolist[#1]{#2}{\authorlistFive}{\authorformat}{\quad }}
+\def\addtolist[#1]#2#3#4#5{
+  \begingroup
+    \if\relax#3\relax\def\sep{}\else\def\sep{#5}\fi
+    \let\protect\@unexpandable@protect 
+    \xdef#3{\expandafter{#3}\sep #4[#1]{#2}}%
+  \endgroup
+}
+\newcommand\authorlist{}
+\newcommand\authorformat[2][]{{\sffamily \bfseries #2$^{#1}$}}
+\renewcommand\author[2][]{\addtolist[#1]{#2}{\authorlist}{\authorformat}{\quad}}
+\newcommand\affiliationlist{}
+\newcommand\affiliationformat[2][]{{\normalsize $^{#1}$#2}}
+\newcommand\affiliation[2][]{\addtolist[#1]{#2}{\affiliationlist}{\affiliationformat}{, }}
+\newcommand\contributionlist{}
+\newcommand\contributionformat[2][]{{\small $^{#1}$#2}}
+\newcommand\contribution[2][]{\addtolist[#1]{#2}{\contributionlist}{\contributionformat}{, }}
+\newcommand\metadatalist{}
+\newcommand\metadataformat[2][]{{\small {\sffamily \bfseries #1} #2}}
+\newcommand\metadata[2][]{\addtolist[#1]{#2}{\metadatalist}{\metadataformat}{\par}}
+\newcommand\sans[1][]{\sffamily #1}
+\renewcommand{\abstract}[1]{\def\abstractlist{{\color{hfforeground} #1}}}
+\newcommand{\email}[1]{\href{mailto:#1}{\texttt{#1}}}
+\renewcommand\date[1]{\metadata[Date]{#1}}
+\newcommand\correspondence[1]{\metadata[Correspondence]{#1}}
+\renewcommand{\title}[1]{\newcommand{\titlelist}{{\Huge\sffamily\bfseries\color{hfyellow} #1}}}
+\newcommand{\beginappendix}{\appendix{\huge\sffamily Appendix\par}}
+\newcommand{\mainfigure}{}
+\newcommand{\maintable}{}
+\newcommand{\setmainfigure}[1]{\renewcommand{\mainfigure}{#1}}
+\newcommand{\setmaintable}[1]{\renewcommand{\maintable}{#1}}
+\newcommand{\mymaketitle}{%
+  \tcbset{enhanced,frame hidden}
+  \tcbset{borderline={0.5mm}{0mm}{yellow!70}}
+  \tcbset{left=0.5cm, right=0.5cm, top=0.5cm, bottom=0.5cm, arc=12pt}
+  \tcbset{colback=hfbackground, opacityback=0.65}
+  \tcbset{before skip=0pt, grow to left by=1.5pt, grow to right by=1.5pt}
+  \tcbset{overlay={\node[anchor=north east, at=(frame.north east), xshift=-0.5cm, yshift=-0.25cm] {\includegraphics[width=3.57cm]{logos/huggingface_long.pdf}};}}
+  \setlength{\parskip}{0cm}\nohyphens{\setstretch{1.618}\titlelist\par}
+  \vskip 0.5cm
+  \setlength{\parindent}{0cm}\setlength{\parskip}{0cm}
+  {\authorlistOne \par\vspace{0.3cm}\authorlistTwo\par\vspace{0.3cm}\authorlistThree\par\vspace{0.3cm}\affiliationlist\par\vspace{0.3cm}\contributionlist\par\vspace{0.5cm}\ifdefempty{\metadatalist}{}{\metadatalist}}
+  \ifdefempty{\mainfigure}{}{\mainfigure}
+  \begin{tcolorbox}{\Large\sffamily\bfseries Abstract\par}\vspace{0.5cm}\abstractlist\par\end{tcolorbox}
+  \ifdefempty{\maintable}{}{\maintable\vspace{0.5cm}}
+  \tcbset{reset}\FloatBarrier\setlength{\parskip}{5.5\p@}
+}
+\if@twocolumn
+    \renewcommand{\maketitle}{\twocolumn[\mymaketitle\vskip 0.38cm]}
+\else
+    \renewcommand{\maketitle}{\mymaketitle}
+\fi
+
+% From handles.tex
+\newcommand{\highlight}[1]{\textcolor{hf2}{#1}}
+\newcommand{\lerobot}{\texttt{lerobot}}
+\newcommand{\FK}{\text{FK}}
+\newcommand{\targetvel}{\dot {p}^*}
+\newcommand{\targetpos}{p^*}
+\newcommand{\statespace}{\mathcal S}
+\newcommand{\actionspace}{\mathcal A}
+\newcommand{\obsspace}{\mathcal O}
+\newcommand{\dynamics}{\mathcal D}
+\newcommand{\stateplusone}{s_{t+1}}
+\newcommand{\state}{s_t}
+\newcommand{\action}{a_t}
+\newcommand{\transition}{(\state, \action, \stateplusone)}
+\newcommand{\sars}{(\state, \action, r_t, \stateplusone)}
+\newcommand{\transitiongiven}{(\stateplusone \vert \state, \action)}
+\newcommand{\transitionprob}{\mathbb P \transitiongiven}
+\newcommand{\trajectory}{(s_0, a_0, r_0, s_1, a_1, r_1, \dots, s_{T-1}, a_{T-1}, r_{T-1}, s_T)}
+\newcommand{\Jpi}{J (\pi_\theta) }
+\newcommand{\qfunction}{\(Q\)-function}
+\newcommand{\qopt}{\( Q^* \)}
+\newcommand{\supp}[1]{\operatorname{supp}({#1})}
+\newcommand{\DKL}{\text{D}_{\text{KL}}}
+\newcommand{\actionchunk}{\mathbf{A}}
+\newcommand{\actionexpert}{\mathbf{v}_\theta}
+\newcommand{\pizero}{\( \pi_0 \)}
+\newtcolorbox{callout}[2][]{
+  enhanced, breakable,
+  colback=hfbackground, opacityback=0.85,
+  colframe=ai2accent, boxrule=0.6pt, arc=2mm,
+  left=8pt, right=8pt, top=8pt, bottom=8pt,
+  before skip=10pt, after skip=10pt,
+  fonttitle=\sffamily\bfseries,
+  title={\sffamily\bfseries #2},
+  #1
+}
+\newenvironment{tldr}[1][TL;DR]{\begin{callout}{#1}}{\end{callout}}
+\newcommand{\lerobotdataset}{\texttt{LeRobotDataset}}
+
+% From math_commands.tex
+\newcommand*\diff{\mathrm{d}}
+\newcommand*\Image{\mathrm{Im}}
+\newcommand*\NN{\smash{\hat{\mathcal{F}}_{\scriptsize\textrm{NN}}}}
+\newcommand*\G{\mathcal{G}}
+\newcommand*\D{\mathcal{D}}
+\newcommand*\F{\mathcal{F}}
+\newcommand*\R{\mathcal{R}}
+\newcommand*\TR{\hat{R}}
+\newcommand*\Deltab{\bar{\Delta}}
+\newcommand*\h{h}
+\newcommand*\biasb{\mathrm{bias}}
+\newcommand*\varb{\mathrm{var}}
+\newcommand*\covb{\mathrm{cov}}
+\newcommand*\M{\mathcal{M}}
+\newcommand*\B{\mathcal{B}}
+\newcommand*\W{\mathcal{W}}
+\newcommand*\Loss{\mathcal{L}}
+\newcommand*{\Ftr}{\smash{\mathcal{F}_{\scriptsize\textrm{tr}}}}
+\newcommand*{\Fts}{\smash{\mathcal{F}_{\scriptsize\textrm{ad}}}}
+\newcommand*{\Dtr}{\smash{\mathcal{D}_{\scriptsize\textrm{tr}}}}
+\newcommand*{\Dts}{\smash{\mathcal{D}_{\scriptsize\textrm{ad}}}}
+\newcommand*{\Etr}{\smash{\mathcal{E}_{\scriptsize\textrm{tr}}}}
+\newcommand*{\Ead}{\smash{\mathcal{E}_{\scriptsize\textrm{ad}}}}
+\newcommand*{\eg}{e.g.,\@\xspace}
+\newcommand*{\versus}{vs.\@\xspace}
+\newcommand*{\sut}{s.t.\@\xspace}
+\newcommand*{\ie}{i.e.,\@\xspace}
+\newcommand*{\iid}{ID\@\xspace}
+\newcommand*{\sota}{SoTA\@\xspace}
+\newcommand*{\ood}{OOD\@\xspace}
+\newcommand*{\metric}{metric}
+\newcommand*{\wrt}{w.r.t.\@\xspace}
+\newcommand*{\iif}{i.i.f.\@\xspace}
+\newcommand*{\aka}{a.k.a.\@\xspace}
+\newcommand*{\rhs}{r.h.s.\@\xspace}
+\newcommand*{\etc}{etc.\@\xspace}
+\newcommand*{\cf}{cf.\@\xspace}
+\newcommand*{\resp}{resp.\@\xspace}
+\newcommand*\er{\mathrm{er}}
+\newcommand*\ess{\operatorname{ess}}
+\let\originalleft\left
+\let\originalright\right
+\renewcommand{\left}{\mathopen{}\mathclose\bgroup\originalleft}
+\renewcommand{\right}{\aftergroup\egroup\originalright}
+\let\up\textsuperscript
+\let\vec\boldsymbol
+\newcommand{\defeq}{\mathrel{:\mkern-0.25mu=}}
+\newcommand{\eqdef}{\mathrel{=\mkern-0.25mu:}}
+\newcommand{\figleft}{{\em (Left)}}
+\newcommand{\figcenter}{{\em (Center)}}
+\newcommand{\figright}{{\em (Right)}}
+\newcommand{\figtop}{{\em (Top)}}
+\newcommand{\figbottom}{{\em (Bottom)}}
+\newcommand{\captiona}{{\em (a)}}
+\newcommand{\captionb}{{\em (b)}}
+\newcommand{\captionc}{{\em (c)}}
+\newcommand{\captiond}{{\em (d)}}
+\newcommand{\newterm}[1]{{\bf #1}}
+\def\figref#1{figure~\ref{#1}}
+\def\Figref#1{Figure~\ref{#1}}
+\def\twofigref#1#2{figures \ref{#1} and \ref{#2}}
+\def\trifigref#1#2#3#4{figures \ref{#1}, \ref{#2}, and \ref{#3}}
+\def\quadfigref#1#2#3#4{figures \ref{#1}, \ref{#2}, \ref{#3} and \ref{#4}}
+\def\secref#1{section~\ref{#1}}
+\def\Secref#1{Section~\ref{#1}}
+\def\Termref#1{Term~\ref{#1}}
+\def\twosecref#1#2{sections \ref{#1} and \ref{#2}}
+\def\trisecref#1#2#3{sections \ref{#1}, \ref{#2} and \ref{#3}}
+\def\appref#1{appendix~\ref{#1}}
+\def\Appref#1{Appendix~\ref{#1}}
+\def\suppref#1{supp.~\ref{#1}}
+\def\Suppref#1{Supp.~\ref{#1}}
+\def\eqref#1{eq.~\ref{#1}}
+\def\Eqref#1{Eq.~\ref{#1}}
+\def\plaineqref#1{\ref{#1}}
+\def\chapref#1{chapter~\ref{#1}}
+\def\Chapref#1{Chapter~\ref{#1}}
+\def\rangechapref#1#2{chapters\ref{#1}--\ref{#2}}
+\def\algref#1{algorithm~\ref{#1}}
+\def\Algref#1{Algorithm~\ref{#1}}
+\def\twoalgref#1#2{algorithms \ref{#1} and \ref{#2}}
+\def\Twoalgref#1#2{Algorithms \ref{#1} and \ref{#2}}
+\def\partref#1{part~\ref{#1}}
+\def\Partref#1{Part~\ref{#1}}
+\def\twopartref#1#2{parts \ref{#1} and \ref{#2}}
+\def\Tabref#1{Table~\ref{#1}}
+\def\tabref#1{table~\ref{#1}}
+\def\twotabref#1#2{tables \ref{#1} and \ref{#2}}
+\def\ceil#1{\lceil #1 \rceil}
+\def\floor#1{\lfloor #1 \rfloor}
+\newcommand{\Lp}{\mathcal{L}^\text{prior}}
+\newcommand{\Ll}{\mathcal{L}^\text{likeli}}
+\newcommand{\Lal}{\Ls^{\text{l}\widehat{\text{ikel}}\text{i}}}
+\def\eps{{\varepsilon}}
+\def\xopt{{x^{*}}}
+\def\Gopt{{G^{*}}}
+\def\p{{\textnormal{p}}}
+\def\P{{\textnormal{p}}}
+\def\Q{{\textnormal{q}}}
+\def\q{{\textnormal{q}}}
+\def\gTh{{\hat \gT}}
+\def\gDh{{\hat \gD}}
+\def\gPh{{\hat \gP}}
+\newcommand{\tin}[1]{\mbox{\tiny $#1$}}
+\def\reta{{\textnormal{$\eta$}}}
+\def\ra{{\textnormal{a}}}
+\def\rb{{\textnormal{b}}}
+\def\rc{{\textnormal{c}}}
+\def\rd{{\textnormal{d}}}
+\def\re{{\textnormal{e}}}
+\def\rf{{\textnormal{f}}}
+\def\rg{{\textnormal{g}}}
+\def\rh{{\textnormal{h}}}
+\def\ri{{\textnormal{i}}}
+\def\rj{{\textnormal{j}}}
+\def\rk{{\textnormal{k}}}
+\def\rl{{\textnormal{l}}}
+\def\rn{{\textnormal{n}}}
+\def\ro{{\textnormal{o}}}
+\def\rp{{\textnormal{p}}}
+\def\rq{{\textnormal{q}}}
+\def\rr{{\textnormal{r}}}
+\def\rs{{\textnormal{s}}}
+\def\rt{{\textnormal{t}}}
+\def\ru{{\textnormal{u}}}
+\def\rv{{\textnormal{v}}}
+\def\rw{{\textnormal{w}}}
+\def\reps{{\mathcal{E}}}
+\def\rtheta{{\Theta}}
+\def\rx{{X}}
+\def\ry{{Y}}
+\def\rz{{Z}}
+\def\S{\mathcal{S}}
+\def\T{\mathcal{T}}
+\def\X{\mathcal{X}}
+\def\Y{\mathcal{Y}}
+\def\U{\mathcal{U}}
+\def\rvepsilon{{\mathbf{\epsilon}}}
+\def\rva{{\mathbf{a}}}
+\def\rvb{{\mathbf{b}}}
+\def\rvc{{\mathbf{c}}}
+\def\rvd{{\mathbf{d}}}
+\def\rve{{\mathbf{e}}}
+\def\rvf{{\mathbf{f}}}
+\def\rvg{{\mathbf{g}}}
+\def\rvh{{\mathbf{h}}}
+\def\rvu{{\mathbf{i}}}
+\def\rvj{{\mathbf{j}}}
+\def\rvk{{\mathbf{k}}}
+\def\rvl{{\mathbf{l}}}
+\def\rvm{{\mathbf{m}}}
+\def\rvn{{\mathbf{n}}}
+\def\rvo{{\mathbf{o}}}
+\def\rvp{{\mathbf{p}}}
+\def\rvq{{\mathbf{q}}}
+\def\rvr{{\mathbf{r}}}
+\def\rvs{{\mathbf{s}}}
+\def\rvt{{\mathbf{t}}}
+%\def\rvu{{\mathbf{u}}}
+\def\rvv{{\mathbf{v}}}
+\def\rvw{{\mathbf{w}}}
+\def\rvx{{\mathbf{x}}}
+\def\rvy{{\mathbf{y}}}
+\def\rvz{{\mathbf{z}}}
+\def\rvtheta{{\bm{\theta}}}
+\def\erva{{\textnormal{a}}}
+\def\ervb{{\textnormal{b}}}
+\def\ervc{{\textnormal{c}}}
+\def\ervd{{\textnormal{d}}}
+\def\erve{{\textnormal{e}}}
+\def\ervf{{\textnormal{f}}}
+\def\ervg{{\textnormal{g}}}
+\def\ervh{{\textnormal{h}}}
+\def\ervi{{\textnormal{i}}}
+\def\ervj{{\textnormal{j}}}
+\def\ervk{{\textnormal{k}}}
+\def\ervl{{\textnormal{l}}}
+\def\ervm{{\textnormal{m}}}
+\def\ervn{{\textnormal{n}}}
+\def\ervo{{\textnormal{o}}}
+\def\ervp{{\textnormal{p}}}
+\def\ervq{{\textnormal{q}}}
+\def\ervr{{\textnormal{r}}}
+\def\ervs{{\textnormal{s}}}
+\def\ervt{{\textnormal{t}}}
+\def\ervu{{\textnormal{u}}}
+\def\ervv{{\textnormal{v}}}
+\def\ervw{{\textnormal{w}}}
+\def\ervx{{\textnormal{x}}}
+\def\ervy{{\textnormal{y}}}
+\def\ervz{{\textnormal{z}}}
+\def\rmA{{\mathbf{A}}}
+\def\rmB{{\mathbf{B}}}
+\def\rmC{{\mathbf{C}}}
+\def\rmD{{\mathbf{D}}}
+\def\rmE{{\mathbf{E}}}
+\def\rmF{{\mathbf{F}}}
+\def\rmG{{\mathbf{G}}}
+\def\rmH{{\mathbf{H}}}
+\def\rmI{{\mathbf{I}}}
+\def\rmJ{{\mathbf{J}}}
+\def\rmK{{\mathbf{K}}}
+\def\rmL{{\mathbf{L}}}
+\def\rmM{{\mathbf{M}}}
+\def\rmN{{\mathbf{N}}}
+\def\rmO{{\mathbf{O}}}
+\def\rmP{{\mathbf{P}}}
+\def\rmQ{{\mathbf{Q}}}
+\def\rmR{{\mathbf{R}}}
+\def\rmS{{\mathbf{S}}}
+\def\rmT{{\mathbf{T}}}
+\def\rmU{{\mathbf{U}}}
+\def\rmV{{\mathbf{V}}}
+\def\rmW{{\mathbf{W}}}
+\def\rmx{{\mathbf{x}}}
+\def\rmy{{\mathbf{y}}}
+\def\rmz{{\mathbf{Z}}}
+\def\ermA{{\textnormal{A}}}
+\def\ermB{{\textnormal{B}}}
+\def\ermC{{\textnormal{C}}}
+\def\ermD{{\textnormal{D}}}
+\def\ermE{{\textnormal{E}}}
+\def\ermF{{\textnormal{F}}}
+\def\ermG{{\textnormal{G}}}
+\def\ermH{{\textnormal{H}}}
+\def\ermI{{\textnormal{I}}}
+\def\ermJ{{\textnormal{J}}}
+\def\ermK{{\textnormal{K}}}
+\def\ermL{{\textnormal{L}}}
+\def\ermM{{\textnormal{M}}}
+\def\ermN{{\textnormal{N}}}
+\def\ermO{{\textnormal{O}}}
+\def\ermP{{\textnormal{P}}}
+\def\ermQ{{\textnormal{Q}}}
+\def\ermR{{\textnormal{R}}}
+\def\ermS{{\textnormal{S}}}
+\def\ermT{{\textnormal{T}}}
+\def\ermU{{\textnormal{U}}}
+\def\ermV{{\textnormal{V}}}
+\def\ermW{{\textnormal{W}}}
+\def\ermX{{\textnormal{X}}}
+\def\ermY{{\textnormal{Y}}}
+\def\ermZ{{\textnormal{Z}}}
+\def\vzero{{\bm{0}}}
+\def\vone{{\bm{1}}}
+\def\va{{\bm{a}}}
+\def\vb{{\bm{b}}}
+\def\vc{{\bm{c}}}
+\def\vd{{\bm{d}}}
+\def\ve{{\bm{e}}}
+\def\vf{{\bm{f}}}
+\def\vg{{\bm{g}}}
+\def\vh{{\bm{h}}}
+\def\vi{{\bm{i}}}
+\def\vj{{\bm{j}}}
+\def\vk{{\bm{k}}}
+\def\vl{{\bm{l}}}
+\def\vm{{\bm{m}}}
+\def\vn{{\bm{n}}}
+\def\vo{{\bm{o}}}
+\def\vp{{\bm{p}}}
+\def\vq{{\bm{q}}}
+\def\vr{{\bm{r}}}
+\def\vs{{\bm{s}}}
+\def\vt{{\bm{t}}}
+\def\vu{{\bm{u}}}
+\def\vv{{\bm{v}}}
+\def\vw{{\bm{w}}}
+\def\vx{{\bm{x}}}
+\def\vy{{\bm{y}}}
+\def\vz{{\bm{z}}}
+\def\valpha{{\bm{\alpha}}}
+\def\vtheta{{\bm{\theta}}}
+\def\vdelta{{\bm{\delta}}}
+\def\vDelta{{\bm{\Delta}}}
+\def\vmu{{\bm{\mu}}}
+\def\vphi{{\bm{\phi}}}
+\def\vSigma{{\bm{\Sigma}}}
+\def\evalpha{{\alpha}}
+\def\evbeta{{\beta}}
+\def\evepsilon{{\epsilon}}
+\def\evlambda{{\lambda}}
+\def\evomega{{\omega}}
+\def\evmu{{\mu}}
+\def\evpsi{{\psi}}
+\def\evsigma{{\sigma}}
+\def\evtheta{{\theta}}
+\def\eva{{a}}
+\def\evb{{b}}
+\def\evc{{c}}
+\def\evd{{d}}
+\def\eve{{e}}
+\def\evf{{f}}
+\def\evg{{g}}
+\def\evh{{h}}
+\def\evi{{i}}
+\def\evj{{j}}
+\def\evk{{k}}
+\def\evl{{l}}
+\def\evm{{m}}
+\def\evn{{n}}
+\def\evo{{o}}
+\def\evp{{p}}
+\def\evq{{q}}
+\def\evr{{r}}
+\def\evs{{s}}
+\def\evt{{t}}
+\def\evu{{u}}
+\def\evv{{v}}
+\def\evw{{w}}
+\def\evx{{x}}
+\def\evy{{y}}
+\def\evz{{z}}
+\def\mA{{\bm{A}}}
+\def\mB{{\bm{B}}}
+\def\mC{{\bm{C}}}
+\def\mD{{\bm{D}}}
+\def\mE{{\bm{E}}}
+\def\mF{{\bm{F}}}
+\def\mG{{\bm{G}}}
+\def\mH{{\bm{H}}}
+\def\mI{{\bm{I}}}
+\def\mJ{{\bm{J}}}
+\def\mK{{\bm{K}}}
+\def\mL{{\bm{L}}}
+\def\mM{{\bm{M}}}
+\def\mN{{\bm{N}}}
+\def\mO{{\bm{O}}}
+\def\mP{{\bm{P}}}
+\def\mQ{{\bm{Q}}}
+\def\mR{{\bm{R}}}
+\def\mS{{\bm{S}}}
+\def\mT{{\bm{T}}}
+\def\mU{{\bm{U}}}
+\def\mV{{\bm{V}}}
+\def\mW{{\bm{W}}}
+\def\mX{{\bm{X}}}
+\def\mY{{\bm{Y}}}
+\def\mZ{{\bm{Z}}}
+\def\E{{\mathcal{E}}}
+\def\mBeta{{\bm{\beta}}}
+\def\mTheta{{\bm{\theta}}}
+\def\mPhi{{\bm{\Phi}}}
+\def\mLambda{{\bm{\Lambda}}}
+\def\mSigma{{\bm{\Sigma}}}
+\DeclareMathAlphabet{\mathsfit}{\encodingdefault}{\sfdefault}{m}{sl}
+\SetMathAlphabet{\mathsfit}{bold}{\encodingdefault}{\sfdefault}{bx}{n}
+\newcommand{\tens}[1]{\bm{\mathsfit{#1}}}
+\def\tA{{\tens{A}}}
+\def\tB{{\tens{B}}}
+\def\tC{{\tens{C}}}
+\def\tD{{\tens{D}}}
+\def\tE{{\tens{E}}}
+\def\tF{{\tens{F}}}
+\def\tG{{\tens{G}}}
+\def\tH{{\tens{H}}}
+\def\tI{{\tens{I}}}
+\def\tJ{{\tens{J}}}
+\def\tK{{\tens{K}}}
+\def\tL{{\tens{L}}}
+\def\tM{{\tens{M}}}
+\def\tN{{\tens{N}}}
+\def\tO{{\tens{O}}}
+\def\tP{{\tens{P}}}
+\def\tQ{{\tens{Q}}}
+\def\tR{{\tens{R}}}
+\def\tS{{\tens{S}}}
+\def\tT{{\tens{T}}}
+\def\tU{{\tens{U}}}
+\def\tV{{\tens{V}}}
+\def\tW{{\tens{W}}}
+\def\tX{{\tens{X}}}
+\def\tY{{\tens{Y}}}
+\def\tZ{{\tens{Z}}}
+\def\tx{{\tens{x}}}
+\def\gA{{\mathcal{A}}}
+\def\gB{{\mathcal{B}}}
+\def\gC{{\mathcal{C}}}
+\def\gD{{\mathcal{D}}}
+\def\gE{{\mathcal{E}}}
+\def\gF{{\mathcal{F}}}
+\def\gG{{\mathcal{G}}}
+\def\gGh{{\hat\gG}}
+\def\gFh{{\hat\gF}}
+\def\gH{{\mathcal{H}}}
+\def\gI{{\mathcal{I}}}
+\def\gJ{{\mathcal{J}}}
+\def\gK{{\mathcal{K}}}
+\def\gL{{\mathcal{L}}}
+\def\gM{{\mathcal{M}}}
+\def\gN{{\mathcal{N}}}
+\def\gO{{\mathcal{O}}}
+\def\gP{{\mathcal{P}}}
+\def\gQ{{\mathcal{Q}}}
+\def\gR{{\mathcal{R}}}
+\def\gS{{\mathcal{S}}}
+\def\gT{{\mathcal{T}}}
+\def\gU{{\mathcal{U}}}
+\def\gV{{\mathcal{V}}}
+\def\gW{{\mathcal{W}}}
+\def\gX{{\mathcal{X}}}
+\def\gY{{\mathcal{Y}}}
+\def\gZ{{\mathcal{Z}}}
+\def\sA{{\mathbb{A}}}
+\def\sB{{\mathbb{B}}}
+\def\sC{{\mathbb{C}}}
+\def\sD{{\mathbb{D}}}
+\def\sF{{\mathbb{F}}}
+\def\sG{{\mathbb{G}}}
+\def\sH{{\mathbb{H}}}
+\def\sI{{\mathbb{I}}}
+\def\sJ{{\mathbb{J}}}
+\def\sK{{\mathbb{K}}}
+\def\sL{{\mathbb{L}}}
+\def\sM{{\mathbb{M}}}
+\def\sN{{\mathbb{N}}}
+\def\sO{{\mathbb{O}}}
+\def\sP{{\mathbb{P}}}
+\def\sQ{{\mathbb{Q}}}
+\def\sR{{\mathbb{R}}}
+\def\sS{{\mathbb{S}}}
+\def\sU{{\mathbb{U}}}
+\def\sV{{\mathbb{V}}}
+\def\sW{{\mathbb{W}}}
+%\def\sX{{\mathcal{X}}}
+%\def\sY{{\mathcal{Y}}}
+\def\sZ{{\mathcal{Z}}}
+\def\sTheta{{\bm{\Theta}}}
+\def\emLambda{{\Lambda}}
+\def\emA{{A}}
+\def\emB{{B}}
+\def\emC{{C}}
+\def\emD{{D}}
+\def\emE{{E}}
+\def\emF{{F}}
+\def\emG{{G}}
+\def\emH{{H}}
+\def\emI{{I}}
+\def\emJ{{J}}
+\def\emK{{K}}
+\def\emL{{L}}
+\def\emM{{M}}
+\def\emN{{N}}
+\def\emO{{O}}
+\def\emP{{P}}
+\def\emQ{{Q}}
+\def\emR{{R}}
+\def\emS{{S}}
+\def\emT{{T}}
+\def\emU{{U}}
+\def\emV{{V}}
+\def\emW{{W}}
+\def\emX{{X}}
+\def\emY{{Y}}
+\def\emZ{{Z}}
+\def\emSigma{{\Sigma}}
+\newcommand{\etens}[1]{\mathsfit{#1}}
+\def\etLambda{{\etens{\Lambda}}}
+\def\etA{{\etens{A}}}
+\def\etB{{\etens{B}}}
+\def\etC{{\etens{C}}}
+\def\etD{{\etens{D}}}
+\def\etE{{\etens{E}}}
+\def\etF{{\etens{F}}}
+\def\etG{{\etens{G}}}
+\def\etH{{\etens{H}}}
+\def\etI{{\etens{I}}}
+\def\etJ{{\etens{J}}}
+\def\etK{{\etens{K}}}
+\def\etL{{\etens{L}}}
+\def\etM{{\etens{M}}}
+\def\etN{{\etens{N}}}
+\def\etO{{\etens{O}}}
+\def\etP{{\etens{P}}}
+\def\etQ{{\etens{Q}}}
+\def\etR{{\etens{R}}}
+\def\etS{{\etens{S}}}
+\def\etT{{\etens{T}}}
+\def\etU{{\etens{U}}}
+\def\etV{{\etens{V}}}
+\def\etW{{\etens{W}}}
+\def\etX{{\etens{X}}}
+\def\etY{{\etens{Y}}}
+\def\etZ{{\etens{Z}}}
+\newcommand{\pdata}{p_{\rm{data}}}
+\newcommand{\ptrain}{\hat{p}_{\rm{data}}}
+\newcommand{\Ptrain}{\hat{P}_{\rm{data}}}
+\newcommand{\pmodel}{p_{\rm{model}}}
+\newcommand{\Pmodel}{P_{\rm{model}}}
+\newcommand{\ptildemodel}{\tilde{p}_{\rm{model}}}
+\newcommand{\pencode}{p_{\rm{encoder}}}
+\newcommand{\pdecode}{p_{\rm{decoder}}}
+\newcommand{\precons}{p_{\rm{reconstruct}}}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\laplace}{\mathrm{Laplace}} %
+\newcommand{\KL}{$\mathrm{KL}$\@\xspace}
+\newcommand{\Kl}{\mathrm{KL}}
+\newcommand{\Esp}{\mathbb{E}}
+\newcommand{\Ls}{\mathcal{L}}
+\newcommand{\emp}{\tilde{p}}
+\newcommand{\lr}{\alpha}
+\newcommand{\reg}{\lambda}
+\newcommand{\rect}{\mathrm{rectifier}}
+%\newcommand{\softmax}{\mathrm{softmax}}
+\newcommand{\slerp}{\mathrm{slerp}}
+\newcommand{\sigmoid}{\sigma}
+\newcommand{\softplus}{\zeta}
+%\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\standarderror}{\mathrm{SE}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Span}{\mathrm{Span}}
+\newcommand{\card}{\mathrm{card}}
+\newcommand{\KLD}[2]{D_{\mathrm{KL}} \left( \left. \left. #1 \right|\right| #2 \right) }
+\newcommand{\normlzero}{L^0}
+\newcommand{\normlone}{L^1}
+\newcommand{\normltwo}{L^2}
+\newcommand{\normlp}{L^p}
+\newcommand{\normmax}{L^\infty}
+\newcommand{\pihalf}{\frac{\pi}{2}}
+\newcommand{\parents}{Pa} %
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\argmin}{argmin}
+\newcommand{\acc}{\mathrm{Acc}}
+\newcommand{\1}{\mathds{1}}
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\Tr}{Tr}
+\let\ab\allowbreak
+
+% From defns.tex
+\newcommand{\qedwhite}{\hfill \ensuremath{\Box}}
+\newcommand{\squishlist}{
+   \begin{list}{$\bullet$}
+    { \setlength{\itemsep}{0pt}      \setlength{\parsep}{3pt}
+      \setlength{\topsep}{3pt}       \setlength{\partopsep}{0pt}
+      \setlength{\leftmargin}{1.5em} \setlength{\labelwidth}{1em}
+      \setlength{\labelsep}{0.5em} } }
+\newcommand{\squishlisttwo}{
+   \begin{list}{$\bullet$}
+    { \setlength{\itemsep}{0pt}    \setlength{\parsep}{0pt}
+      \setlength{\topsep}{0pt}     \setlength{\partopsep}{0pt}
+      \setlength{\leftmargin}{2em} \setlength{\labelwidth}{1.5em}
+      \setlength{\labelsep}{0.5em} } }
+\newcommand{\squishend}{\end{list}}
+\newcommand{\denselist}{\itemsep 0pt\topsep-6pt\partopsep-6pt}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}{Corollary}[section]
+\newtheorem{defn}{Definition}[section]
+\newenvironment{mythm}{{\bf Theorem}}{}
+\newcommand{\tm}{\tilde{m}}
+\newcommand{\tv}{\tilde{v}}
+\newcommand{\myvec}[1]{\boldsymbol{#1}}
+\newcommand{\myvecsym}[1]{\boldsymbol{#1}}
+\newcommand{\ind}[1]{\mathbb{I}(#1)}
+\newcommand{\vbeta}{\myvecsym{\beta}}
+\newcommand{\vchi}{\myvecsym{\chi}}
+\newcommand{\vepsilon}{\myvecsym{\epsilon}}
+\newcommand{\vell}{\myvecsym{\ell}}
+\newcommand{\veta}{\myvecsym{\eta}}
+\newcommand{\vgamma}{\myvecsym{\gamma}}
+\newcommand{\vGamma}{\myvecsym{\Gamma}}
+\newcommand{\vnu}{\myvecsym{\nu}}
+\newcommand{\vkappa}{\myvecsym{\kappa}}
+\newcommand{\vlambda}{\myvecsym{\lambda}}
+\newcommand{\vLambda}{\myvecsym{\Lambda}}
+\newcommand{\vLambdaBar}{\overline{\vLambda}}
+\newcommand{\vomega}{\myvecsym{\omega}}
+\newcommand{\vOmega}{\myvecsym{\Omega}}
+\newcommand{\vPhi}{\myvecsym{\Phi}}
+\newcommand{\vpi}{\myvecsym{\pi}}
+\newcommand{\vpsi}{\myvecsym{\psi}}
+\newcommand{\vPsi}{\myvecsym{\Psi}}
+\newcommand{\vTheta}{\myvecsym{\Theta}}
+\newcommand{\vsigma}{\myvecsym{\sigma}}
+\newcommand{\vtau}{\myvecsym{\tau}}
+\newcommand{\vupsilon}{\myvecsym{\upsilon}}
+\newcommand{\vxi}{\myvecsym{\xi}}
+\newcommand{\vxn}{\vx^{(n)}}
+\newcommand{\vmuY}{\vb}
+\newcommand{\vmuMu}{\vmu_{x}}
+\newcommand{\vmuMuGivenY}{\vmu_{x|y}}
+\newcommand{\vSigmaMu}{\vSigma_{x}}
+\newcommand{\vSigmaMuInv}{\vSigma_{x}^{-}^{-1}}
+\newcommand{\vSigmaMuGivenY}{\vSigma_{x|y}}
+\newcommand{\vSigmaMuGivenYinv}{\vSigma_{x|y}^{-1}}
+\newcommand{\vSigmaY}{\vSigma_{y}}
+\newcommand{\vSigmaYinv}{\vSigma_{y}^{-1}}
+\newcommand{\muY}{\mu_{y}}
+\newcommand{\muMu}{\mu_{\mu}}
+\newcommand{\muMuGivenY}{\mu_{\mu|y}}
+\newcommand{\SigmaMu}{\Sigma_{\mu}}
+\newcommand{\SigmaMuInv}{\Sigma_{\mu}^{-1}}
+\newcommand{\SigmaMuGivenY}{\Sigma_{\mu|y}}
+\newcommand{\SigmaMuGivenYinv}{\Sigma_{\mu|y}^{-1}}
+\newcommand{\SigmaY}{\Sigma_{y}}
+\newcommand{\SigmaYinv}{\Sigma_{y}^{-1}}
+\newcommand{\hatf}{\hat{f}}
+\newcommand{\haty}{\hat{y}}
+\newcommand{\const}{\mbox{const}}
+\newcommand{\one}{(1)}
+\newcommand{\two}{(2)}
+\newcommand{\vws}{\vw_s}
+\newcommand{\vwh}{\hat{\vw}}
+\newcommand{\vxt}{\myvec{\tilde{x}}}
+\newcommand{\vyt}{\myvec{\tilde{y}}}
+\newcommand{\vA}{\myvec{A}}
+\newcommand{\vB}{\myvec{B}}
+\newcommand{\vC}{\myvec{C}}
+\newcommand{\vD}{\myvec{D}}
+\newcommand{\vE}{\myvec{E}}
+\newcommand{\vF}{\myvec{F}}
+\newcommand{\vG}{\myvec{G}}
+\newcommand{\vH}{\myvec{H}}
+\newcommand{\vI}{\myvec{I}}
+\newcommand{\vJ}{\myvec{J}}
+\newcommand{\vK}{\myvec{K}}
+\newcommand{\vL}{\myvec{L}}
+\newcommand{\vM}{\myvec{M}}
+\newcommand{\vN}{\myvec{N}}
+\newcommand{\vO}{\myvec{O}}
+\newcommand{\vP}{\myvec{P}}
+\newcommand{\vQ}{\myvec{Q}}
+\newcommand{\vR}{\myvec{R}}
+\newcommand{\vS}{\myvec{S}}
+\newcommand{\vT}{\myvec{T}}
+\newcommand{\vU}{\myvec{U}}
+\newcommand{\vV}{\myvec{V}}
+\newcommand{\vW}{\myvec{W}}
+\newcommand{\vX}{\myvec{X}}
+\newcommand{\vXs}{\vX_{s}}
+\newcommand{\vXt}{\myvec{\tilde{X}}}
+\newcommand{\vY}{\myvec{Y}}
+\newcommand{\vZ}{\myvec{Z}}
+\newcommand{\vxtest}{\myvec{x}_*}
+\newcommand{\vytest}{\myvec{y}_*}
+\newcommand{\ftrue}{f_{true}}
+\newcommand{\myprec}{\mbox{prec}}
+\newcommand{\precw}{\lambda_{w}}
+\newcommand{\precy}{\lambda_{y}}
+\newcommand{\fbar}{\overline{f}}
+\newcommand{\xmybar}{\overline{x}}
+\newcommand{\ybar}{\overline{y}}
+\newcommand{\zbar}{\overline{z}}
+\newcommand{\vxbar}{\overline{\vx}}
+\newcommand{\vXbar}{\overline{\vX}}
+\newcommand{\vybar}{\overline{\vy}}
+\newcommand{\vYbar}{\overline{\vY}}
+\newcommand{\vzbar}{\overline{\vz}}
+\newcommand{\vZbar}{\overline{\vZ}}
+\newcommand{\xbar}{\overline{x}}
+\newcommand{\Xbar}{\overline{X}}
+\newcommand{\Ybar}{\overline{Y}}
+\newcommand{\Gbar}{\overline{G}}
+\newcommand{\Jbar}{\overline{J}}
+\newcommand{\Lbar}{\overline{L}}
+\newcommand{\Nbar}{\overline{N}}
+\newcommand{\Qbar}{\overline{Q}}
+\newcommand{\Tbar}{\overline{T}}
+\newcommand{\Sbar}{\overline{S}}
+\newcommand{\vSbar}{\overline{\vS}}
+\newcommand{\Rbar}{\overline{R}}
+\newcommand{\vtaubar}{\overline{\vtau}}
+\newcommand{\vtbar}{\overline{\vt}}
+\newcommand{\vsbar}{\overline{\vs}}
+\newcommand{\htilde}{\tilde{h}}
+\newcommand{\vhtilde}{\tilde{\vh}}
+\newcommand{\Dtilde}{\tilde{D}}
+\newcommand{\Ftilde}{\tilde{F}}
+\newcommand{\wtilde}{\tilde{w}}
+\newcommand{\ptilde}{\tilde{p}}
+\newcommand{\pemp}{p_{emp}}
+\newcommand{\pstar}{p^*}
+\newcommand{\xtilde}{\tilde{x}}
+\newcommand{\Xtilde}{\tilde{X}}
+\newcommand{\ytilde}{\tilde{y}}
+\newcommand{\Ytilde}{\tilde{Y}}
+\newcommand{\vxtilde}{\tilde{\vx}}
+\newcommand{\vytilde}{\tilde{\vy}}
+\newcommand{\ztilde}{\tilde{\z}}
+\newcommand{\vztilde}{\tilde{\vz}}
+\newcommand{\vthetaMAP}{\hat{\vtheta}_{MAP}}
+\newcommand{\vthetaS}{\vtheta^{(s)}}
+\newcommand{\vthetahat}{\hat{\vtheta}}
+\newcommand{\thetahat}{\hat{\theta}}
+\newcommand{\thetabar}{\overline{\theta}}
+\newcommand{\vthetabar}{\overline{\vtheta}}
+\newcommand{\pibar}{\overline{\pi}}
+\newcommand{\vpibar}{\overline{\vpi}}
+\newcommand{\choice}[2]{\left(\!\!\! \begin{array}{c} #1 \\ #2\end{array} \!\!\!\right)}
+\newcommand{\half}{\frac{1}{2}}
+%\newcommand{\defeq}{\stackrel{\rm def}{=}}
+\newcommand{\real}{\mathbb{R}}
+\newcommand{\given}{\|}
+\newcommand{\indep}[2]{{#1} \perp {#2}}
+\newcommand{\condindep}[3]{{#1} \perp {#2} | {#3}}
+\newcommand{\condindepG}[3]{{#1} \perp_G {#2} | {#3}}
+\newcommand{\condindepP}[3]{{#1} \perp_p {#2} | {#3}}
+\newcommand{\depend}[2]{{#1} \not \perp {#2}}
+\newcommand{\conddepend}[3]{{#1} \not \perp {#2} | {#3}}
+\newcommand{\trans}[1]{{#1}^{\mathtt{T}}}
+\newcommand{\inv}[1]{{#1}^{-1}}
+\newcommand{\lra}{\leftrightarrow}
+\newcommand{\Ra}{\Rightarrow}
+\newcommand{\la}{\leftarrow}
+\newcommand{\tr}{\mbox{tr}}
+\newcommand{\dom}{\mbox{dom}}
+\newcommand{\bel}{\mbox{bel}}
+\newcommand{\dsep}{\mbox{dsep}}
+\newcommand{\sep}{\mbox{sep}}
+\newcommand{\entails}{\models}
+\newcommand{\range}{\mbox{range}}
+\newcommand{\myspan}{\mbox{span}}
+\newcommand{\nullspace}{\mbox{nullspace}}
+\newcommand{\adj}{\mbox{adj}}
+\newcommand{\nbd}{\mbox{nbd}}
+\newcommand{\nbr}{\mbox{nbr}}
+\newcommand{\anc}{\mbox{anc}}
+\newcommand{\desc}{\mbox{desc}}
+\newcommand{\pred}{\mbox{pred}}
+\newcommand{\nondesc}{\mbox{nondesc}}
+\newcommand{\pa}{\pi}
+\newcommand{\ch}{\mbox{ch}}
+\newcommand{\mb}{\mbox{mb}}
+\newcommand{\connects}{\sim}
+\newcommand{\betadist}{\mbox{Beta}}
+\newcommand{\Betadist}{\mbox{Beta}}
+\newcommand{\bernoulli}{\mbox{Ber}}
+\newcommand{\Ber}{\mbox{Ber}}
+\newcommand{\Binom}{\mbox{Bin}}
+\newcommand{\NegBinom}{\mbox{NegBinom}}
+\newcommand{\binomdist}{\mbox{Bin}}
+\newcommand{\cauchy}{\mbox{Cauchy}}
+\newcommand{\DE}{\mbox{DE}}
+\newcommand{\Dir}{\mbox{Dir}}
+\newcommand{\discrete}{\calM}
+\newcommand{\Discrete}{\calM}
+\newcommand{\expdist}{\mbox{Exp}}
+\newcommand{\expon}{\mbox{Expon}}
+\newcommand{\gammadist}{\mbox{Ga}}
+\newcommand{\Ga}{\mbox{Ga}}
+\newcommand{\gauss}{{\cal N}}
+\newcommand{\IG}{\mbox{IG}}
+\newcommand{\IGauss}{\mbox{InvGauss}}
+\newcommand{\IW}{\mbox{IW}}
+\newcommand{\Laplace}{\mbox{Lap}}
+\newcommand{\Mu}{\mbox{Mu}}
+\newcommand{\Multi}{\mbox{Mu}}
+\newcommand{\NIX}{NI\chi^2}
+\newcommand{\GIX}{NI\chi^2}
+\newcommand{\NIG}{\mbox{NIG}}
+\newcommand{\GIG}{\mbox{NIG}}
+\newcommand{\NIW}{\mbox{NIW}}
+\newcommand{\GIW}{\mbox{NIW}}
+\newcommand{\MVNIW}{\mbox{NIW}}
+\newcommand{\NW}{\mbox{NWi}}
+\newcommand{\MVNIG}{\mbox{NIG}}
+\newcommand{\NGdist}{\mbox{NG}}
+\newcommand{\prob}{p}
+\newcommand{\Poi}{\mbox{Poi}}
+\newcommand{\Student}{{\cal T}}
+\newcommand{\student}{{\cal T}}
+\newcommand{\Wishart}{\mbox{Wi}}
+\newcommand{\Wi}{\mbox{Wi}}
+\newcommand{\unif}{\mbox{U}}
+\newcommand{\etr}{\mbox{etr}}
+\newcommand{\soft}{\mbox{soft}}
+\newcommand{\cond}{\mbox{cond}}
+%\newcommand{\sign}{\mbox{sign}}
+\newcommand{\sgn}{\mbox{sgn}}
+\newcommand{\mle}{\mbox{mle}}
+\newcommand{\myiff}{\mbox{iff}}
+\newcommand{\pd}{\mbox{pd}}
+\newcommand{\pdf}{\mbox{pdf }}
+\newcommand{\cdf}{\mbox{cdf}}
+\newcommand{\pmf}{\mbox{pmf}}
+%\newcommand{\wrt}{\mbox{wrt}}
+\newcommand{\matlab}{{\sc MATLAB}}
+\newcommand{\NETLAB}{{\sc NETLAB}}
+\newcommand{\MLABA}{\mbox{PMTK}}
+\newcommand{\BLT}{\mbox{PMTK}}
+\newcommand{\PMTK}{\mbox{PMTK}}
+\newcommand{\mywp}{\mbox{wp}}
+\newcommand{\KLpq}[2]{\mathrm{KL}\left[{#1}\|{#2}\right]}
+%\newcommand{\KL}{\mbox{KL}}
+\newcommand{\MI}{\mathbb{I}}
+\newcommand{\MIxy}[2]{\mathbb{I}\left({#1};{#2}\right)}
+\newcommand{\MIxyz}[3]{\mathbb{I}\left({#1};{#2}|{#3}\right)}
+\newcommand{\entropy}[1]{\mathbb{H}\left({#1}\right)}
+\newcommand{\entropypq}[2]{\mathbb{H}\left({#1}, {#2}\right)}
+\newcommand{\vvec}{\mbox{vec}}
+\newcommand{\kron}{\otimes}
+\newcommand{\dof}{\mbox{dof}}
+\newcommand{\energy}{E}
+\newcommand{\expectAngle}[1]{\langle #1 \rangle}
+\newcommand{\expect}[2]{\mathds{E}_{{#1}} \left[ {#2} \right]}
+\newcommand{\expectGiven}[3]{\mathds{E}_{{#1}} \left[ {#2} \mid {#3} \right]}
+%\newcommand{\Var}{\mbox{Var}}
+\newcommand{\VarGiven}[3]{\mbox{Var}_{{#1}}\left[ {#2} \mid {#3}\right]}
+\newcommand{\var}[1]{\mbox{var}\left[{#1}\right]}
+\newcommand{\std}[1]{\mbox{std}\left[{#1}\right]}
+\newcommand{\varQ}[2]{\mbox{var}_{{#2}}\left[{#1}\right]}
+\newcommand{\cov}[1]{\mbox{cov}\left[{#1}\right]}
+\newcommand{\median}[1]{\mbox{median}\left[{#1}\right]}
+\newcommand{\diag}{\mbox{diag}}
+\newcommand{\blkdiag}{\mbox{blkdiag}}
+\newcommand{\bias}{\mbox{bias}}
+\newcommand{\union}{\cup}
+\newcommand{\intersect}{\cap}
+\newcommand{\size}{\mbox{size}}
+\newcommand{\trace}{\mbox{trace}}
+\newcommand{\myc}{c}
+\newcommand{\myi}{i}
+\newcommand{\myj}{j}
+\newcommand{\myk}{k}
+\newcommand{\myn}{n}
+\newcommand{\myq}{q}
+\newcommand{\mys}{s}
+\newcommand{\myt}{t}
+%\newcommand{\supp}{\mbox{supp}}
+\newcommand{\calA}{{\cal A}}
+\newcommand{\calB}{{\cal B}}
+\newcommand{\calC}{{\cal C}}
+\newcommand{\calD}{{\cal D}}
+\newcommand{\calDx}{{\cal D}_x}
+\newcommand{\calE}{{\cal E}}
+\newcommand{\cale}{{\cal e}}
+\newcommand{\calF}{{\cal F}}
+\newcommand{\calG}{{\cal G}}
+\newcommand{\calH}{{\cal H}}
+\newcommand{\calHX}{{\cal H}_X}
+\newcommand{\calHy}{{\cal H}_y}
+\newcommand{\calI}{{\cal I}}
+\newcommand{\calK}{{\cal K}}
+\newcommand{\calM}{{\cal M}}
+\newcommand{\calN}{{\cal N}}
+\newcommand{\caln}{{\cal n}}
+\newcommand{\calNP}{{\cal NP}}
+\newcommand{\calMp}{\calM^+}
+\newcommand{\calMm}{\calM^-}
+\newcommand{\calMo}{\calM^o}
+\newcommand{\Ctest}{C_*}
+\newcommand{\calL}{{\cal L}}
+\newcommand{\calP}{{\cal P}}
+\newcommand{\calq}{{\cal q}}
+\newcommand{\calQ}{{\cal Q}}
+\newcommand{\calR}{{\cal R}}
+\newcommand{\calS}{{\cal S}}
+\newcommand{\calSstar}{\calS_*}
+\newcommand{\calT}{{\cal T}}
+\newcommand{\calV}{{\cal V}}
+\newcommand{\calv}{{\cal v}}
+\newcommand{\calX}{{\cal X}}
+\newcommand{\calY}{{\cal Y}}
+\newcommand{\Lone}{$\ell_1$}
+\newcommand{\Ltwo}{$\ell_2$}
+\newcommand{\mya}{\mbox{a}}
+\newcommand{\myat}{\alpha_{t|t-1}}
+\newcommand{\score}{\mbox{score}}
+\newcommand{\AIC}{\mbox{AIC}}
+\newcommand{\BIC}{\mbox{BIC}}
+\newcommand{\BICcost}{\mbox{BIC-cost}}
+\newcommand{\scoreBIC}{\mbox{score-BIC}}
+\newcommand{\scoreBICL}{\mbox{score-BIC-L1}}
+\newcommand{\scoreL}{\mbox{score-L1}}
+\newcommand{\ecoli}{\mbox{{\it E. coli}}}
+\newcommand{\doPearl}{\mbox{do}}
+\newcommand{\data}{\calD}
+\newcommand{\model}{\calM}
+\newcommand{\dataTrain}{\calD_{\mbox{train}}}
+\newcommand{\dataTest}{\calD_{\mbox{test}}}
+\newcommand{\dataValid}{\calD_{\mbox{valid}}}
+\newcommand{\futuredata}{\tilde{\calD}}
+\newcommand{\algo}{\calA}
+\newcommand{\fitAlgo}{\calF}
+\newcommand{\predictAlgo}{\calP}
+\newcommand{\err}{\mbox{err}}
+\newcommand{\logit}{\mbox{logit}}
+\newcommand{\parent}{\mbox{pa}}
+\newcommand{\conv}[1]{\,\,\,\displaystyle{\operatorname*{\longrightarrow}^{\,_{#1}\,}}\,\,\,}
+\newcommand{\dconv}{\conv{D}}
+\newcommand{\pconv}{\conv{P}}
+\newcommand{\asconv}{\conv{AS}}
+\newcommand{\lpconv}[1]{\conv{L^{#1}}}
+\DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{n}
+\newcommand{\condSet}{\mathcal{S}}
+\newcommand{\condSetC}{\mathcal{\lnot S}}
+
+\endinput
+
