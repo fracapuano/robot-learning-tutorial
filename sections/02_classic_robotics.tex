@@ -11,7 +11,7 @@ Learning-based approaches to robotics are motivated by the need to (1) generaliz
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.5\linewidth]{figures/ch2/ch2-approaches.png}
+    \includegraphics[width=0.5\linewidth]{figures/ch2/ch2-approaches.pdf}
     \caption{Overview of methods to generate motion (clearly non-exhausitve, see~\citet{bekrisStateRobotMotion2024}). The different methods can be grouped based on whether they explicitly (\emph{dynamics-based}) or implicitly (\emph{learning-based}) model robot-environment interactions.}
     \label{fig:generating-motion-atlas}
 \end{figure}
@@ -34,7 +34,7 @@ In this section, we wish to introduce the inherent benefits of \highlight{learni
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.7\linewidth]{figures/ch2/ch2-platforms.png}
+    \includegraphics[width=0.7\linewidth]{figures/ch2/ch2-platforms.pdf}
     \caption{Different kinds of motions are achieved with potentially very different robotic platforms. From left to right, top to bottom: ViperX, SO-100, Boston Dynamics' Spot, Open-Duck, 1X's NEO, Boston Dynamics' Atlas. This is an example list of robotic platforms and is (very) far from being exhaustive.}
     \label{fig:robotics-platforms-atlas}
 \end{figure}
@@ -65,7 +65,7 @@ Recently, the development of low-cost manipulators like the ALOHA~\citep{zhaoLea
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.4\linewidth]{figures/ch2/ch2-cost-accessibility.png}
+    \includegraphics[width=0.4\linewidth]{figures/ch2/ch2-cost-accessibility.pdf}
     \caption{Cheaper, more accessible robots are starting to rival traditional platforms like the Panda arm platforms in adoption in resource-constrained scenarios. The SO-100, in particular, has a cost in the 100s of Euros, and can be entirely 3D-printed in hours, while the industrially-manufactured Panda arm costs tens of thousands of Euros and is not openly available.}
     \label{fig:robotic-platforms-costs}
 \end{figure}
@@ -76,7 +76,7 @@ Here, we mostly wish to highlight the benefits of ML over these traditional tech
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.7\linewidth]{figures/ch2/ch2-so100-to-planar-manipulator.png}
+    \includegraphics[width=0.7\linewidth]{figures/ch2/ch2-so100-to-planar-manipulator.pdf}
     \caption{The SO-100 arm is a 6-dof manipulator arm. Preventing some of its joints (shoulder pane, wrist flex and wrist roll) from actuating, it can be represented as a traditional 2-dof planar manipulator (the gripper joint in the end-effector is not considered towards the count of the degrees of freedom used to produce motion).}
     \label{fig:make-so100-planar-manipulator}
 \end{figure}
@@ -98,19 +98,19 @@ In this tutorial, we do not cover topics related to spatial algebra, and we inst
     \centering
     \begin{subfigure}[t]{0.32\linewidth}
         \centering
-        \includegraphics[width=\linewidth,height=\panelheight,keepaspectratio]{figures/ch2/ch2-planar-manipulator-free.png}
+        \includegraphics[width=\linewidth,height=\panelheight,keepaspectratio]{figures/ch2/ch2-planar-manipulator-free.pdf}
         \caption{Free to move}
         \label{fig:planar-manipulation-simple}
     \end{subfigure}\hfill
     \begin{subfigure}[t]{0.32\linewidth}
         \centering
-        \includegraphics[width=\linewidth,height=\panelheight,keepaspectratio]{figures/ch2/ch2-planar-manipulator-floor.png}
+        \includegraphics[width=\linewidth,height=\panelheight,keepaspectratio]{figures/ch2/ch2-planar-manipulator-floor.pdf}
         \caption{Constrained by the surface}
         \label{fig:planar-manipulator-floor}
     \end{subfigure}\hfill
     \begin{subfigure}[t]{0.32\linewidth}
         \centering
-        \includegraphics[width=\linewidth,height=\panelheight,keepaspectratio]{figures/ch2/ch2-planar-manipulator-floor-shelf.png}
+        \includegraphics[width=\linewidth,height=\panelheight,keepaspectratio]{figures/ch2/ch2-planar-manipulator-floor-shelf.pdf}
         \caption{Constrained by surface and (fixed) obstacle}
         \label{fig:planar-manipulator-floor-shelf}
     \end{subfigure}
@@ -177,7 +177,7 @@ While very effective when a goal trajectory has been well specified, the perform
 \begin{wrapfigure}[12]{r}{0.3\textwidth}
     \vspace{-\intextsep}
     \centering
-    \includegraphics[width=\linewidth]{figures/ch2/ch2-planar-manipulator-floor-box.png}
+    \includegraphics[width=\linewidth]{figures/ch2/ch2-planar-manipulator-floor-box.pdf}
     \caption{Planar manipulator robot in the presence of a moving obstacle.}
     \label{fig:planar-manipulator-box-velocity}
 \end{wrapfigure}
@@ -202,7 +202,7 @@ While essential in the early development of robotics, the aforementioned methods
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/ch2/ch2-classical-limitations.png}
+    \includegraphics[width=0.9\linewidth]{figures/ch2/ch2-classical-limitations.pdf}
     \caption{Dynamics-based approaches to robotics suffer from several limitations: (1) orchestrating multiple components poses integration challenges; (2) the need to develop custom processing pipelines for the sensing modalities and tasks considered hinders scalability; (3) simplified analytical models of physical phenomena (here friction at the gripper; credits to~\citet{antonovaReinforcementLearningPivoting2017}) limit real-world performance. Lastly, (4) dynamics-based methods overlook trends in the availability and growth of robotics data.}
     \label{fig:classical-limitations}
 \end{figure}

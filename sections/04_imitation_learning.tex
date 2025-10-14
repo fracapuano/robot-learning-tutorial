@@ -14,7 +14,7 @@ Behavioral Cloning provides a natural platform to learn from real-world interact
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.8\textwidth]{figures/ch4/ch4-bc-trajectories.png}
+    \includegraphics[width=0.8\textwidth]{figures/ch4/ch4-bc-trajectories.pdf}
     \caption{(A) Average (with standard deviation) evolution of the actuation levels over the first 5 recorded episodes in \url{lerobot/svla_so101_pickplace}. Proprioperceptive states provide invaluable to determine the robot's state during an episode. (B) Camera frames are also recorded alongside measurements on the robot's state, capturing information about the robot's interaction with its environment.}
     \label{fig:ch4-bc-trajectories}
 \end{figure}
@@ -37,7 +37,7 @@ In principle, (expert) trajectories \( \tau^{(i)} \) can have different lengths 
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.9\textwidth]{figures/ch4/ch4-observation-action-mapping.png}
+    \includegraphics[width=0.9\textwidth]{figures/ch4/ch4-observation-action-mapping.pdf}
     \caption{Sample observations and action pairs over the course of a given trajectory recorded in \url{lerobot/svla_so101_pickplace}. Observations, comprising of both proprioperceptive and visual information, are recorded alongside the configuration of a second, leader robot controlled by a human expert, providing complete information for regressing actions given observations.}
     \label{fig:ch4-observation-action-mapping}
 \end{figure}
@@ -66,7 +66,7 @@ Yet, many robotics applications still benefit from relatively inexpensive pipeli
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.8\textwidth]{figures/ch4/ch4-issues-with-bc.png}
+    \includegraphics[width=0.8\textwidth]{figures/ch4/ch4-issues-with-bc.pdf}
     \caption{Point-wise policies suffer from limitations due to (A) covariate shifts and (B) poor approximation of multimodal demonstrations. (A) Small errors may drive the policy out of distribution, incuring in a vicious circle ultimately resulting in failure. (B) Both modes of reaching for a target object in the scene---either left or right-first---are equally as good and thus equally as likely to be present in a dataset of human demonstrations, ultimately resulting in multimodal demonstrations.}
     \label{fig:ch4-issues-with-bc}
 \end{figure}
@@ -91,7 +91,7 @@ Likelihood-based learning provides a principled training objective to achieve bo
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.8\textwidth]{figures/ch4/ch4-task-effect-on-pairs.png}
+    \includegraphics[width=0.8\textwidth]{figures/ch4/ch4-task-effect-on-pairs.pdf}
     \caption{Intuitively, latent variable in a single latent model may contain information regarding the task being performed, which directly results in the likelihood of the same observation-action pair being different for two different tasks. When (A) picking a block the likelihood of a wide gripper's opening should be higher than narrower one, while it should be the opposite when (B) pushing the block.}
     \label{fig:ch4-task-effect-on-pairs}
 \end{figure}
@@ -110,7 +110,7 @@ VAEs approximate the latent variable model presented in eq.~\ref{eq:BC-latent-va
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.9\textwidth]{figures/ch4/ch4-latent-variable-model.png}
+    \includegraphics[width=0.9\textwidth]{figures/ch4/ch4-latent-variable-model.pdf}
     \caption{(A) The latent variable model in a robotics application regulates influence between observed (\(o,a) \) variables and an unobservable latent variable. (B) VAEs approximate exact latent variable models by means of variational inference. }
     \label{fig:ch4-latent-variable-model}
 \end{figure}
@@ -186,7 +186,7 @@ Also, for ease of notation, we will refer to observation-action pairs \( o,a \) 
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.5\textwidth]{figures/ch4/ch4-many-latents.png}
+    \includegraphics[width=0.5\textwidth]{figures/ch4/ch4-many-latents.pdf}
     \caption{HMLV models posit the data generation process is influenced by a stack of Markov-dependent latent variables, with samples from the posterior distribution being progressively higher up in the hierarchy.}
     \label{fig:ch4-many-latents}
 \end{figure}
@@ -248,7 +248,7 @@ where the former term is equivalent to the reconstruction term in eq.~\ref{eq:VA
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.9\textwidth]{figures/ch4/ch4-diffusion-robot-actions.png}
+    \includegraphics[width=0.9\textwidth]{figures/ch4/ch4-diffusion-robot-actions.pdf}
     \caption{DMs iteratively corrupt samples (left) from an unknown distribution into a quasi-standard Gaussian (center), learning the displacement field (right) that permits to reconstruct samples from the unknown target distribution by iteratively denoising samples of a tractable, easy-to-sample distribution.}
     \label{fig:diffusion-robot-actions}
 \end{figure}
@@ -270,7 +270,7 @@ This key intuition allows to write a simplified training objective\footnote{See~
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.3\textwidth]{figures/ch4/ch4-action-vs-observation-distribution.png}
+    \includegraphics[width=0.3\textwidth]{figures/ch4/ch4-action-vs-observation-distribution.pdf}
     \caption{A joint action-observation distribution, in the simplified case where the observation is the elbow-flex actuation in a SO-100, and the action is the recorded position for the same joint from the teleoperator arm. The motion recorded being teleoperated, the points distribute along a the diagonal.}
     \label{fig:ch4-action-vs-observation-distribution}
 \end{figure}
@@ -315,7 +315,7 @@ Crucially,~\citet{lipmanFlowMatchingGenerative2023} prove that by exclusively op
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.9\textwidth]{figures/ch4/ch4-normalizing-flows.png}
+    \includegraphics[width=0.9\textwidth]{figures/ch4/ch4-normalizing-flows.pdf}
     \caption{Probability distributions can be modified differently by applying different vector fields, inducing different flows of mass across the same support (top versus bottom, using two different time-invariant 2D-fields \( u_1(x,y) = (x,0) \) and \( u_2(x,y) = (x/\sqrt{2}, y/\sqrt{2}) \)). Notice time flows \emph{continuously} in \( [0,1] \). FM models learn to approximate a target vector field, thereby producing arbitrary (goal) transformations of an easy-to-sample initial distribution.}
     \label{fig:ch4-normalizing-flows}
 \end{figure}
@@ -329,7 +329,7 @@ In particular, by avoiding unnecessary backtracking associated with the inherent
 
 \begin{figure}
     \centering
-    \includegraphics[width=\textwidth]{figures/ch4/ch4-diffusion-vs-flowmatching.png}
+    \includegraphics[width=\textwidth]{figures/ch4/ch4-diffusion-vs-flowmatching.pdf}
     \caption{Compared to diffusion, flow matching distorts distribution along a less randomic pattern, resulting in a clearer interpolation between source and target distribution. The visualization shows an example comparison between these two methods on joint distribution of robot observations and actions over \( T=50 \) steps.}
     \label{fig:ch4-diffusion-paths-versus-fm}
 \end{figure}
@@ -384,7 +384,7 @@ In ACT (Figure~\ref{fig:ch4-act}), inference for a given observation \( o \in \m
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.75\textwidth]{figures/ch4/ch4-act-encoder.png}
+    \includegraphics[width=0.75\textwidth]{figures/ch4/ch4-act-encoder.pdf}
     \caption{The CVAE encoder used in ACT. Input action chunks are first embedded and aggregated with positional embeddings, before being processed alongside embedded proprioperceptive information, and a learned \texttt{[CLS]} token used to aggregate input level information, and predict the style variable \( z \). The encoder is exclusively used to \emph{train} the decoder, and it is entirely disregarded at inference time.}
     \label{fig:ch4-act-encoder}
 \end{figure}
@@ -396,7 +396,7 @@ If at inference \( z \) is sampled from a standard Gaussian, during training \( 
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.75\textwidth]{figures/ch4/ch4-act-decoder.png}
+    \includegraphics[width=0.75\textwidth]{figures/ch4/ch4-act-decoder.pdf}
     \caption{The CVAE decoder used in ACT, comprising of a full encoder-decoder Transformer architecture. Camera observations from all \( n \) camera views are first embedded using pre-trained visual encoders, and then aggregated with the corresponding positional embeddings. Then, the proprioperceptive information and style variable \( z \) retrieved from the CVAE encoder, are fed to the encoder-decoder Transformer for inference. The encoder shares the matrices \( K,V \) with the decoder, and is trained to decode fixed position embeddings into action chunks.}
     \label{fig:ch4-act-decoder}
 \end{figure}
@@ -405,7 +405,7 @@ If at inference \( z \) is sampled from a standard Gaussian, during training \( 
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.9\textwidth]{figures/ch4/ch4-act.png}
+    \includegraphics[width=0.9\textwidth]{figures/ch4/ch4-act.pdf}
     \caption{Action Chunking with Transformer (ACT), as in~\citet{zhaoLearningFineGrainedBimanual2023}. ACT introduces an action chunking paradigm to cope with high-dimensional multi-modal demonstration data, and a transformer-based CVAE architecture.}
     \label{fig:ch4-act}
 \end{figure}
@@ -439,7 +439,7 @@ Note how in eq.~\ref{eq:diffusion-policy-objective} the noise regressor is condi
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.9\textwidth]{figures/ch4/ch4-diffusion-policy.png}
+    \includegraphics[width=0.9\textwidth]{figures/ch4/ch4-diffusion-policy.pdf}
     \caption{The Diffusion Policy archicture, as in~\citet{chiDiffusionPolicyVisuomotor2024}. A stack of \( H_o \) previous observations is used as external conditioning to denoise a group of \( H_a \) actions. Conditioning is performed at every layer of a U-Net block. Diffusion Policy allows to obtain fully-formed action chunks with as little as \(T=10\) denoising steps.}
     \label{fig:diffusion-policy-architecture}
 \end{figure}
@@ -494,7 +494,7 @@ Crucially, decoupling action prediction from action execution also allows to all
     \centering
     \begin{minipage}[t]{\textwidth}
         \centering
-        \includegraphics[width=0.9\textwidth]{figures/ch4/ch4-async-inference.png}
+        \includegraphics[width=0.9\textwidth]{figures/ch4/ch4-async-inference.pdf}
         \caption{\textbf{Asynchronous inference}. Illustration of the asynchronous inference stack. Note that the policy can be run on a remote server, possibly with GPUs.}
         \label{fig:ch4-async-inference}
     \end{minipage}
@@ -547,7 +547,7 @@ Figure~\ref{fig:ch4-queues} illustrates how the size of the action chunk \(\lver
     \centering
     \begin{minipage}[t]{0.99\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{figures/ch4/ch4-queues.png}
+        \includegraphics[width=\textwidth]{figures/ch4/ch4-queues.pdf}
         \caption{Action queue size evolution at runtime for various levels of \( g\) when (A) not filtering out observation based on joint-space similarity and (B) filtering out near-duplicates observation, measuring their similarity in joint-space.}
         \label{fig:ch4-queues}
     \end{minipage}

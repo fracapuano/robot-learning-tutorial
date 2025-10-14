@@ -15,7 +15,7 @@ While Section~\ref{sec:learning-imitation} introduced methods for learning \emph
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.9\textwidth]{figures/ch5/ch5-ml-vs-robotics-foundation.png}
+    \includegraphics[width=0.9\textwidth]{figures/ch5/ch5-ml-vs-robotics-foundation.pdf}
     \caption{Fields within ML such as Computer Vision and NLP converged on the development of foundation models, trained on a variety of large scale models and capable to perform multiple downstream tasks (top). Conversely, robotics suffered from limited standardization in terms of the architectures used, and siloed, task specific datasets, incurring in a high degree of fragmentation which traditionally hindered the development of generalist models for robotics in favour of task-specific models (bottom).}
     \label{fig:ch5-ml-vs-robotics-foundation}
 \end{figure}
@@ -33,7 +33,7 @@ Thus, the high degree of fragmentation of robotics datasets and tasks has tradit
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.8\textwidth]{figures/ch5/ch5-generalist-policies-timeline.png}
+    \includegraphics[width=0.8\textwidth]{figures/ch5/ch5-generalist-policies-timeline.pdf}
     \caption{Early efforts in the development of generalist models for robotics include BC-Zero~\citep{jangBCZZeroShotTask2022}, RT-1~\citep{brohanRT1RoboticsTransformer2023}, and RT-2~\citep{brohanRT2VisionLanguageActionModels2023}: large scale models trained on thousands of demonstrations. The open release of the Open-X~\citep{oneillOpenXEmbodimentRobotic2025} and DROID datasets~\citep{khazatskyDROIDLargeScaleInTheWild2025} fostered the development of open source models: OpenVLA~\citep{kimOpenVLAOpenSourceVisionLanguageAction2024}, \pizero~\citep{black$p_0$VisionLanguageActionFlow2024} and SmolVLA~\citep{shukorSmolVLAVisionLanguageActionModel2025}.}
     \label{fig:ch5-generalist-policies-timeline}
 \end{figure}
@@ -68,7 +68,7 @@ The language model backbone is then used to predict \emph{discrete action tokens
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.9\textwidth]{figures/ch5/ch5-trends.png}
+    \includegraphics[width=0.9\textwidth]{figures/ch5/ch5-trends.pdf}
     \caption{Robot learning is undergoing a paradigmatic shift: centralized data collections (A, left) are increasingly larger, often comprising millions of demonstrations, while (A, right) decentralized data collection efforts are becoming an alternative for large scale data collection. (B) Generalist models are also becoming increasingly smaller and easier to run on limited hardware.}
     \label{fig:ch5-trends}
 \end{figure}
@@ -112,7 +112,7 @@ The two separate experts communicate via self-attention layers, but maintain dis
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.9\textwidth]{figures/ch5/ch5-pi0.png}
+    \includegraphics[width=0.9\textwidth]{figures/ch5/ch5-pi0.pdf}
     \caption{The \pizero~architecture, as in~\citet{black$p_0$VisionLanguageActionFlow2024}. Vision and language tokens are routed to a VLM backbone which is prevented from attending robot proprioperceptive states and action tokens, which are instead routed to a smaller subset of weights within the architecture referred to as "action expert". The architecture is trained with Flow Matching on 10M+ trajectories from a mixture of closed and openly available datasets.}
     \label{fig:ch5-pi0}
 \end{figure}
@@ -171,7 +171,7 @@ Interestingly, differently from a standard flow matching pipeline~\citep{lipmanF
 \begin{wrapfigure}{r}{0.4\textwidth}
     \vspace{-10pt}
     \centering
-    \includegraphics[width=\linewidth]{figures/ch5/ch5-pi0-sampling-timesteps.png}
+    \includegraphics[width=\linewidth]{figures/ch5/ch5-pi0-sampling-timesteps.pdf}
     \caption{Unlike more traditional flow-matching algorithms, \pizero~uses a modified distribution to sample the timestep \( \tau \) from during training and inference, favouring earlier timestamps corresponding to noisier chunks.}
     \label{fig:ch5-pi0-sampling-timesteps}
 \end{wrapfigure}
@@ -203,7 +203,7 @@ In constrast with this closed approach, SmolVLA~\citep{shukorSmolVLAVisionLangua
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.9\textwidth]{figures/ch5/ch5-smolvla.png}
+    \includegraphics[width=0.9\textwidth]{figures/ch5/ch5-smolvla.pdf}
     \caption{The SmolVLA architecture, as in~\citet{shukorSmolVLAVisionLanguageActionModel2025}. SmolVLA is a compact MoE model trained with flow matching to denoise action chunks. Vision and language tokens are fed to a VLM backbone, and share information with the proprioperceptive and action tokens via the attention mechanism. The attention expert interleaves SA and CA layers for further conditioning on the visual features from the VLM backbone. SmolVLA skips computations and reduces the visual tokens, resulting in 7x less memory usage than \pizero~(450M parameters vs. \pizero's 3.3B).}
     \label{fig:ch5-smolvla}
 \end{figure}

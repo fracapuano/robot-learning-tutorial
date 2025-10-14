@@ -9,7 +9,7 @@ The need for expensive, high-fidelity simulators can be obviated learning from r
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/ch3/ch3-learning-benefits.png}
+    \includegraphics[width=0.9\linewidth]{figures/ch3/ch3-learning-benefits.pdf}
     \caption{Learning-based robotics streamlines perception-to-action by learning a (1) unified high-level controller capable to take (2) high-dimensional, unstructured sensorimotor information. Learning (3) does not require a dynamics model and instead focuses on interaction data, and (4) empirically correlates with
     the scale of the data used.
     }
@@ -30,7 +30,7 @@ We then introduce the major limitations RL suffers from, to introduce BC techniq
 \begin{wrapfigure}[23]{r}{0.3\textwidth}
     \vspace{-\intextsep}
     \centering
-    \includegraphics[width=\linewidth]{figures/ch3/ch3-learning-atlas.png}
+    \includegraphics[width=\linewidth]{figures/ch3/ch3-learning-atlas.pdf}
     \caption{Overview of the robot learning methods implemented in \lerobot. All algorithms are implemented in Pytorch. References:~\citet{zhaoLearningFineGrainedBimanual2023,chiDiffusionPolicyVisuomotor2024,leeBehaviorGenerationLatent2024,black$p_0$VisionLanguageActionFlow2024,shukorSmolVLAVisionLanguageActionModel2025,luoPreciseDexterousRobotic2024,hansenTemporalDifferenceLearning2022} (top-to-bottom, left-to-right).}
     \label{fig:robot-learning-atlas}
 \end{wrapfigure}
@@ -43,7 +43,7 @@ Figure~\ref{fig:robot-learning-atlas} illustrates this categorization graphicall
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.8\linewidth]{figures/ch3/ch3-rl-examples.png}
+    \includegraphics[width=0.8\linewidth]{figures/ch3/ch3-rl-examples.pdf}
     \caption{Examples of two different robotics tasks performed using RL. In the manipulation task (A) an agent learns to reach for a yellow plastic block in its environment, and to put it inside of a box. In the locomotion task (B) an agent learns to move its center of mass sideways without falling.}
     \label{fig:robotics-with-rl-examples}
 \end{figure}
@@ -62,7 +62,7 @@ In RL, this feedback loop between actions and outcomes (Figure~\ref{fig:rl-most-
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.5\linewidth]{figures/ch3/ch3-agent-env.png}
+    \includegraphics[width=0.5\linewidth]{figures/ch3/ch3-agent-env.pdf}
     \caption{Agent-Environment interaction diagram (image credits to~\citet{suttonReinforcementLearningIntroduction2018}).}
     \label{fig:rl-most-famous-pic}
 \end{figure}
@@ -136,7 +136,7 @@ A variety of algorithms have been developed in RL attempting to find (approximat
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.4\textwidth]{figures/ch3/ch3-rl-algorithms-atlas.png}
+    \includegraphics[width=0.4\textwidth]{figures/ch3/ch3-rl-algorithms-atlas.pdf}
     \caption{Popular RL algorithms. See~\citet{SpinningUp2018} for a complete list of citations.}
     \label{fig:rl-algos-atlas}
 \end{figure}
@@ -159,7 +159,7 @@ On real-world hardware, generating this data is time-consuming.
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.7\linewidth]{figures/ch3/ch3-duck-sim-vs-real.png}
+    \includegraphics[width=0.7\linewidth]{figures/ch3/ch3-duck-sim-vs-real.pdf}
     \caption{Simulated (left) vs. real-world (right) OpenDuck. Discrepancies in the simulation dynamics (\emph{reality gap}) pose risks to policy transfer.}
     \label{fig:synthetic-vs-real-duck}
 \end{figure}
@@ -174,7 +174,7 @@ Over the course of training---typically at each episode's reset---a new \( \xi \
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/ch3/ch3-many-ducks.png}
+    \includegraphics[width=0.9\linewidth]{figures/ch3/ch3-many-ducks.pdf}
     \caption{The same locomotion task can be carried out in different (simulated) domains (exemplified by the difference in terrains) at training time, resulting to increased robustness over diverse environment dynamics.}
     \label{fig:ducks-on-terrains}
 \end{figure}
@@ -303,7 +303,7 @@ Randomizing the initial pose of the end-effector (\( s_0 \)),~\citet{luoSERLSoft
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.8\linewidth]{figures/ch3/ch3-hil-serl-examples.png}
+    \includegraphics[width=0.8\linewidth]{figures/ch3/ch3-hil-serl-examples.pdf}
     \caption{(A) HIL-SERL allows for real-world training of high performance RL agents by building on top advancements presented by of SAC, RLPD and SERL. (B) Example of human intervention during a HIL-SERL training process on a real-world SO-100.}
     \label{fig:hil-serl-blocks}
 \end{figure}
@@ -321,7 +321,7 @@ Empirically, HIL-SERL attains near-perfect success rates (99\%+) on diverse mani
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.9\textwidth]{figures/ch3/ch3-hil-serl-architecture.png}
+    \includegraphics[width=0.9\textwidth]{figures/ch3/ch3-hil-serl-architecture.pdf}
     \caption{HIL-SERL is a SOTA RL algorithm for training control policies directly in the real-world. Its implementation in \lerobot~relies on a decoupled actor-learner architecture, communicating over processes (and possibly networks) with queues used to share (1) transitions \( \sars \) and (2) parameters \( \theta \).}
     \label{fig:ch3-hil-serl-architecture}
 \end{figure}
