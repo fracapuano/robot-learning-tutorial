@@ -17,7 +17,7 @@ The need for expensive, high-fidelity simulators can be obviated learning from r
 \end{figure}
 
 Learning-based techniques for robotics naturally address the limitations presented in Section~\ref{sec:classical} (Figure~\ref{fig:robot-learning-upsides}).
-In particular, learning-based techniques typically rely on monolithich prediction-to-action pipelines (\emph{visuomotor policies}) which do directly map sensorimotor inputs to predicted actions, streamlining control policies by removing the need to interface multiple components.
+In particular, learning-based techniques typically rely on monolithic prediction-to-action pipelines (\emph{visuomotor policies}) which do directly map sensorimotor inputs to predicted actions, streamlining control policies by removing the need to interface multiple components.
 Mapping sensory inputs to actions also makes it possible to incorporate diverse input modalities, leveraging the automatic feature extraction capabilities of modern learning systems. 
 Moreover, learning-based approaches can, in principle, bypass explicit modeling altogether and instead rely solely on interaction data---an advantage that proves transformative when dynamics are difficult to model or entirely unknown.
 Lastly, learning for robotics (\emph{robot learning}) is naturally well posed to leverage the growing amount of robotics data openly available, just as computer vision and natural language processing did historically benefit from large-scale corpora of data, in great part overlooked by dynamics-based approaches.
@@ -25,7 +25,7 @@ Lastly, learning for robotics (\emph{robot learning}) is naturally well posed to
 Being a field at its relative nascent stages, no prevalent technique(s) proves distinctly better than any other in the domain of robot learning.
 Still, two major classes of methods gained prominence: \highlight{Reinforcement Learning (RL)} and \highlight{Behavioral Cloning (BC)} (Figure~\ref{fig:robot-learning-atlas}).
 In this section, we provide a conceptual overview of applications of RL to robotics, as well as introduce practical examples of how to use RL within \lerobot.
-We then introduce the major limitations RL suffers from, to introduce BC techniques in Section~\ref{sec:learning-imitation} and Section~{sec:learning-foundation}.
+We then introduce the major limitations RL suffers from, to introduce BC techniques in Section~\ref{sec:learning-imitation} and Section~\ref{sec:learning-foundation}.
 
 \begin{wrapfigure}[23]{r}{0.3\textwidth}
     \vspace{-\intextsep}
