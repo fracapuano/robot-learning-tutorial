@@ -42,7 +42,7 @@ In principle, (expert) trajectories \( \tau^{(i)} \) can have different lengths 
     \label{fig:ch4-observation-action-mapping}
 \end{figure}
 
-Behavioral Cloning (BC)~\citep{pomerleauALVINNAutonomousLand1988} aims at producing synthetic behaviors by learning the mapping from observations to actions, and in its most natural formulation can be effectively tackled as a \emph{supevised} learning problem, consisting of learning the (deterministic) mapping \(f: \obsspace \mapsto \actionspace, \ a_t = f(o_t) \) by solving
+Behavioral Cloning (BC)~\citep{pomerleauALVINNAutonomousLand1988} aims at producing synthetic behaviors by learning the mapping from observations to actions, and in its most natural formulation can be effectively tackled as a \emph{supervised} learning problem, consisting of learning the (deterministic) mapping \(f: \obsspace \mapsto \actionspace, \ a_t = f(o_t) \) by solving
 \begin{equation}\label{eq:loss-minimization-SL}
     \min_{f} \mathbb{E}_{(o_t, a_t) \sim p(\bullet)} \mathcal L(a_t, f(o_t)),
 \end{equation}

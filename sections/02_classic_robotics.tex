@@ -12,15 +12,15 @@ Learning-based approaches to robotics are motivated by the need to (1) generaliz
 \begin{figure}
     \centering
     \includegraphics[width=0.5\linewidth]{figures/ch2/ch2-approaches.pdf}
-    \caption{Overview of methods to generate motion (clearly non-exhausitve, see~\citet{bekrisStateRobotMotion2024}). The different methods can be grouped based on whether they explicitly (\emph{dynamics-based}) or implicitly (\emph{learning-based}) model robot-environment interactions.}
+    \caption{Overview of methods to generate motion (clearly non-exhaustive, see~\citet{bekrisStateRobotMotion2024}). The different methods can be grouped based on whether they explicitly (\emph{dynamics-based}) or implicitly (\emph{learning-based}) model robot-environment interactions.}
     \label{fig:generating-motion-atlas}
 \end{figure}
 
 Robotics is concerned with producing artificial motion in the physical world in useful, reliable and safe fashion.
-Thus, robotics is an inherently multi-disciplinar domain: producing autonomous motion in the physical world requires, to the very least, interfacing different software (motion planners) and hardware (motion executioners) components.
+Thus, robotics is an inherently multidisciplinary domain: producing autonomous motion in the physical world requires, to the very least, interfacing different software (motion planners) and hardware (motion executioners) components.
 Further, knowledge of mechanical, electrical, and software engineering, as well as rigid-body mechanics and control theory have therefore proven quintessential in robotics since the field first developed in the 1950s.
 More recently, Machine Learning (ML) has also proved effective in robotics, complementing these more traditional disciplines~\citep{connellRobotLearning1993}.
-As a direct consequence of its multi-disciplinar nature, robotics has developed as a rather wide array of methods, all concerned with the main purpose of \highlight{producing artificial motion in the physical world}.
+As a direct consequence of its multidisciplinary nature, robotics has developed as a rather wide array of methods, all concerned with the main purpose of \highlight{producing artificial motion in the physical world}.
 
 Methods to produce robotics motion range from traditional \emph{explicit} models---\highlight{dynamics-based}\footnote{In here, we refer to both \emph{kinematics} and \emph{dynamics}-based control.} methods, leveraging precise descriptions of the mechanics of robots' rigid bodies and their interactions with eventual obstacles in the environment---to \emph{implicit} models---\highlight{learning-based} methods, treating artificial motion as a statistical pattern to learn given multiple sensorimotor readings~\citep{agrawalComputationalSensorimotorLearning,bekrisStateRobotMotion2024}.
 A variety of methods have been developed between these two extrema.
