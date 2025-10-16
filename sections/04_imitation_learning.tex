@@ -42,7 +42,7 @@ In principle, (expert) trajectories \( \tau^{(i)} \) can have different lengths 
     \label{fig:ch4-observation-action-mapping}
 \end{figure}
 
-Behavioral Cloning (BC)~\citep{pomerleauALVINNAutonomousLand1988} aims at producing synthetic behaviors by learning the mapping from observations to actions, and in its most natural formulation can be effectively tackled as a \emph{supevised} learning problem, consisting of learning the (deterministic) mapping \(f: \obsspace \mapsto \actionspace, \ a_t = f(o_t) \) by solving
+Behavioral Cloning (BC)~\citep{pomerleauALVINNAutonomousLand1988} aims at producing synthetic behaviors by learning the mapping from observations to actions, and in its most natural formulation can be effectively tackled as a \emph{supervised} learning problem, consisting of learning the (deterministic) mapping \(f: \obsspace \mapsto \actionspace, \ a_t = f(o_t) \) by solving
 \begin{equation}\label{eq:loss-minimization-SL}
     \min_{f} \mathbb{E}_{(o_t, a_t) \sim p(\bullet)} \mathcal L(a_t, f(o_t)),
 \end{equation}
@@ -67,13 +67,13 @@ Yet, many robotics applications still benefit from relatively inexpensive pipeli
 \begin{figure}
     \centering
     \includegraphics[width=0.8\textwidth]{figures/ch4/ch4-issues-with-bc.pdf}
-    \caption{Point-wise policies suffer from limitations due to (A) covariate shifts and (B) poor approximation of multimodal demonstrations. (A) Small errors may drive the policy out of distribution, incuring in a vicious circle ultimately resulting in failure. (B) Both modes of reaching for a target object in the scene---either left or right-first---are equally as good and thus equally as likely to be present in a dataset of human demonstrations, ultimately resulting in multimodal demonstrations.}
+    \caption{Point-wise policies suffer from limitations due to (A) covariate shifts and (B) poor approximation of multimodal demonstrations. (A) Small errors may drive the policy out of distribution, incurring in a vicious circle ultimately resulting in failure. (B) Both modes of reaching for a target object in the scene---either left or right-first---are equally as good and thus equally as likely to be present in a dataset of human demonstrations, ultimately resulting in multimodal demonstrations.}
     \label{fig:ch4-issues-with-bc}
 \end{figure}
 
 While conceptually elegant, \emph{point-estimate policies} \( f : \obsspace \mapsto \actionspace \) learned by solving eq.~\ref{eq:loss-minimization-SL} have been observed to suffer from (1) compounding errors~\citep{rossReductionImitationLearning2011} and (2) poor fit to multimodal distributions~\citep{florenceImplicitBehavioralCloning2022, keGraspingChopsticksCombating2020}.
 Figure~\ref{fig:ch4-issues-with-bc} illustrates these two key issues related to learning \emph{explicit policies}~\citep{florenceImplicitBehavioralCloning2022}.
-Besides sequentiality in \( \mathcal D \), compounding errors due to \emph{covariate shift} may also prove catastrophic, as even small \( \epsilon \)-prediction errors \( 0 < \Vert \mu(o_t) - a_t \Vert \leq \epsilon \) can quickly drive the policy into out-of-distribution states, incuring in less confident generations and thus compounding errors (Figure~\ref{fig:ch4-issues-with-bc}, left).
+Besides sequentiality in \( \mathcal D \), compounding errors due to \emph{covariate shift} may also prove catastrophic, as even small \( \epsilon \)-prediction errors \( 0 < \Vert \mu(o_t) - a_t \Vert \leq \epsilon \) can quickly drive the policy into out-of-distribution states, incurring in less confident generations and thus compounding errors (Figure~\ref{fig:ch4-issues-with-bc}, left).
 Moreover, point-estimate policies typically fail to learn \emph{multimodal} targets, which are very common in human demonstrations solving real-world robotics problems, as multiple trajectories can be equally as good towards the accomplishment of a goal (e.g., symmetric grasps, Figure~\ref{fig:ch4-issues-with-bc}, right).
 In particular, unimodal regressors tend to average across modes, yielding indecisive or even unsafe commands~\citep{florenceImplicitBehavioralCloning2022}.
 To address poor multimodal fitting,~\citet{florenceImplicitBehavioralCloning2022} propose learning the \emph{generative model} \( p(o, a) \) underlying the samples in \( \mathcal D \), rather than explicitly learning a prediction function \( f: a = f(o) \).
@@ -198,7 +198,7 @@ In that, HMLV models thus provide a framework to perform variational inference v
 DMs are a particular instantiation of HMLV models for which the posterior is fixed to \( q( z_t \vert z_{t-1}) = \mathcal N(z_t \sqrt{1-\beta_t}, \beta_t \mathbf{I}) \), for a given \( \beta_t \in \mathbb R^+ \). 
 In practice, \( \beta_t \) is used to iteratively reduce the signal-to-noise ratio along the latents' hierarchy, similarily to how a diffusion process influences the information of a physical system.
 
-Just like VAEs, DMs attemp to learn to reproduce an underlying data distribution \( p (o,a) \) given a collection of i.i.d. samples approximating the model posited to have generated the data in the first place (eq.~\ref{eq:BC-multi-latent-model-1}).
+Just like VAEs, DMs attempt to learn to reproduce an underlying data distribution \( p (o,a) \) given a collection of i.i.d. samples approximating the model posited to have generated the data in the first place (eq.~\ref{eq:BC-multi-latent-model-1}).
 Similarily to VAEs, DMs approximate the process of sampling from the unknown \( p(o,a) \) by (1) sampling from an easy-to-sample distribution (e.g., Gaussian) and (2) learning to reconstruct high-likelihood samples under the unknown distribution.
 However, in stark contrast with VAEs, the easy-to-sample distribution contains \emph{no mutual information} regarding the data distribution \( p(o,a) \).
 Crucially, as no information from the sample \( (o,a) \) (denoted as \( z_0 \equiv (o,a) \) for simplicity of notation) is assumed to be propagated throughout the chain of latents, the posterior \( q(z_t \vert z_{t-1})\) assumes a relatively amicable structure in DMs, reducing complexity.

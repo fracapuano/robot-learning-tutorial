@@ -83,7 +83,7 @@ Every dataset on the Hugging Face Hub containing the three main pillars presente
 In practice, most reinforcement learning (RL) and behavioral cloning (BC) algorithms tend to operate on stack of observation and actions.
 For the sake of brevity, we will refer to joint spaces, and camera frames with the single term of \emph{frame}.
 For instance, RL algorithms may use a history of previous frames \(o_{t-H_o:t} \) to mitigate partial observability, and BC algorithms are in practice trained to regress chunks of multiple actions (\(a_{t+t+H_a} \)) rather than single controls.
-To accommodate for these specifics of robot learning training, \lerobotdataset~provides a native windowing operation, whereby users can define the \emph{seconds} of a given window (before and after) around any given frame, by using the \texttt{delta\_timestemps} functionality.
+To accommodate for these specifics of robot learning training, \lerobotdataset~provides a native windowing operation, whereby users can define the \emph{seconds} of a given window (before and after) around any given frame, by using the \texttt{delta\_timestamps} functionality.
 Unavailable frames are opportunely padded, and a padding mask is also returned to filter out the padded frames.
 Notably, this all happens within the \lerobotdataset, and is entirely transparent to higher level wrappers commonly used in training ML models such as \texttt{torch.utils.data.DataLoader}.
 
