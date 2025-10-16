@@ -45,9 +45,10 @@ Items marked with an empty `[ ]` in the following Table of Contents are open for
 - [x] 5.2 Modern VLAs
     - [x] 5.2.1 VLMs for VLAs
 - [x] 5.3 PI0
-    - [ ] 5.3.1 Code Example: Using PI0
+    - [x] 5.3.1 Code Example: Using PI0
 - [x] 5.4 SmolVLA
-    - [ ] 5.4.1 Code Example: Using SmolVLA
+    - [x] 5.4.1 Code Example: Using SmolVLA
+    - [ ] 5.4.2 Code Example: Training SmolVLA
 - [ ] 5.5 GR00T (1/2)
     - [ ] 5.5.1 Code Example: Using GR00T
 - [ ] 5.6 PI05
@@ -58,7 +59,7 @@ Items marked with an empty `[ ]` in the following Table of Contents are open for
     - [ ] BEHAVIOR
 
 ### 6. Some Emerging Directions in Robot Learning
-- [ ] 6.1 Post training VLAs
+- [ ] 6.1 Post-training VLAs
     - [ ] 6.1.1 From Imitation to Refinement
     - [ ] 6.1.2 EXPO
 - [ ] 6.2 World Models for robotics
