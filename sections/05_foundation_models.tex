@@ -113,16 +113,16 @@ The two separate experts communicate via self-attention layers, but maintain dis
 \begin{figure}
     \centering
     \includegraphics[width=0.9\textwidth]{figures/ch5/ch5-pi0.pdf}
-    \caption{The \pizero~architecture, as in~\citet{black$p_0$VisionLanguageActionFlow2024}. Vision and language tokens are routed to a VLM backbone which is prevented from attending robot proprioperceptive states and action tokens, which are instead routed to a smaller subset of weights within the architecture referred to as "action expert". The architecture is trained with Flow Matching on 10M+ trajectories from a mixture of closed and openly available datasets.}
+    \caption{The \pizero~architecture, as in~\citet{black$p_0$VisionLanguageActionFlow2024}. Vision and language tokens are routed to a VLM backbone which is prevented from attending robot proprioceptive states and action tokens, which are instead routed to a smaller subset of weights within the architecture referred to as "action expert". The architecture is trained with Flow Matching on 10M+ trajectories from a mixture of closed and openly available datasets.}
     \label{fig:ch5-pi0}
 \end{figure}
 
 Concretely, \( \pi_0 \) is a single, unified transformer with two disjoint sets of weights \( \phi, \theta\). 
 A larger VLM backbone \( f_\phi \) initialized from Gemma 2.6B processes multiple image frames obtained from multiple cameras points \( [\{ I_t \}_{t=1}^n] \), as well as a language instruction \([\ell_t]\) used to describe the task considered.
-Concurrently, a 300M-parameter \emph{action expert} based on a similar transformer architecture is used to process both the robot proprioperceptive state \(q_t\) and an action chunk \(a_{t:t+H_a}\) (Figure~\ref{fig:ch5-pi0}).
+Concurrently, a 300M-parameter \emph{action expert} based on a similar transformer architecture is used to process both the robot proprioceptive state \(q_t\) and an action chunk \(a_{t:t+H_a}\) (Figure~\ref{fig:ch5-pi0}).
 The different expert networks operate separately in processing the respective inputs and turn them into query, key and value matrices, and only share information between each other via self-attention layers.
 The outputs from the VLM backbone are disregarded, while the vector field regressed by the action expert is used to iteratively refine the action process.
-In particular, \pizero~uses a \emph{blockwise causal attention mask} over tokens belonging to three separate blocks: (1) image and language tokens \(\mathcal T_i \)  obtained from \([\{ I_t \}_{t=1}^n, \ell_t]\), (2) proprioperceptive tokens \(\mathcal T_q \) obtained from \(q_t\), and (3) the action tokens \( \mathcal T_a \) for items in the chunk \(a^{\tau}_{t:t+H_a}\) at time \( \tau \) in the flow-matching process.
+In particular, \pizero~uses a \emph{blockwise causal attention mask} over tokens belonging to three separate blocks: (1) image and language tokens \(\mathcal T_i \)  obtained from \([\{ I_t \}_{t=1}^n, \ell_t]\), (2) proprioceptive tokens \(\mathcal T_q \) obtained from \(q_t\), and (3) the action tokens \( \mathcal T_a \) for items in the chunk \(a^{\tau}_{t:t+H_a}\) at time \( \tau \) in the flow-matching process.
 Notably, \emph{within} each block the attention operations are bidirectional, while \emph{across} blocks, future blocks are masked out.
 Formally, this corresponds to using an attention mask like:
 \begin{equation*}
@@ -137,7 +137,7 @@ Formally, this corresponds to using an attention mask like:
 \end{equation*}
 Note how \emph{intra}-block directional attention allows tokens to communicate freely, while \emph{inter}-block communication is mediated by the attention mask \(\mathbf{A} \).
 \emph{Blockwise causal masking} effectively prevents the pre-trained perception-language tokens from attending to robotics-tokens, likely out of distribution for VLM backbones traditionally trained on large corpora of internet, non-robotics, data.
-Crucially, because communication is obstructed between image-language tokens, proprioperceptive tokens and action tokens, one can cache keys and values across denoising steps at runtime time, incurring in a reduced computational footprint and faster inference.
+Crucially, because communication is obstructed between image-language tokens, proprioceptive tokens and action tokens, one can cache keys and values across denoising steps at runtime time, incurring in a reduced computational footprint and faster inference.
 
 In \pizero, both the VLM backbone and action expert are update using a \emph{flow matching} loss, and in particular are updated minimizing:
 \begin{align}
@@ -165,7 +165,7 @@ Flow matching~\citep[Section\ref{sec:ch4-flow-matching}]{lipmanFlowMatchingGener
 In turn, the application of flow matching to large-scale datasets of multiple human behaviors across tasks and embodiments appears rather consequential, particularly considering how it can enable faster inference via a limited number of denoising steps at test time---as few as 10, in \pizero.
 In particular, the action expert is implemented as a conditional flow matching model.
 Each action token embeds a noisy action \(a_i^{\tau} \in a^\tau_{t:t+H_a}\), alongside a sinusoidal encoding of the \emph{flow process} timestep \(\tau\).
-The action expert then leverages full bidirectional attention across the \(H_a\) action tokens provided, and also attends to previous proprioperceptive and image-language tokens.
+The action expert then leverages full bidirectional attention across the \(H_a\) action tokens provided, and also attends to previous proprioceptive and image-language tokens.
 Interestingly, differently from a standard flow matching pipeline~\citep{lipmanFlowMatchingGenerative2023}, \(\tau\) is \emph{not} sampled from a uniform distribution \(\tau \sim \mathcal U([0,1]) \), but rather obtained from \(\tau \sim \textrm{Beta}(1.5,1) \) defined on the \( [0,s], s<1 \) support (Figure~\ref{fig:ch5-pi0-sampling-timesteps}).
 
 \begin{wrapfigure}{r}{0.4\textwidth}
@@ -204,7 +204,7 @@ In constrast with this closed approach, SmolVLA~\citep{shukorSmolVLAVisionLangua
 \begin{figure}
     \centering
     \includegraphics[width=0.9\textwidth]{figures/ch5/ch5-smolvla.pdf}
-    \caption{The SmolVLA architecture, as in~\citet{shukorSmolVLAVisionLanguageActionModel2025}. SmolVLA is a compact MoE model trained with flow matching to denoise action chunks. Vision and language tokens are fed to a VLM backbone, and share information with the proprioperceptive and action tokens via the attention mechanism. The attention expert interleaves SA and CA layers for further conditioning on the visual features from the VLM backbone. SmolVLA skips computations and reduces the visual tokens, resulting in 7x less memory usage than \pizero~(450M parameters vs. \pizero's 3.3B).}
+    \caption{The SmolVLA architecture, as in~\citet{shukorSmolVLAVisionLanguageActionModel2025}. SmolVLA is a compact MoE model trained with flow matching to denoise action chunks. Vision and language tokens are fed to a VLM backbone, and share information with the proprioceptive and action tokens via the attention mechanism. The attention expert interleaves SA and CA layers for further conditioning on the visual features from the VLM backbone. SmolVLA skips computations and reduces the visual tokens, resulting in 7x less memory usage than \pizero~(450M parameters vs. \pizero's 3.3B).}
     \label{fig:ch5-smolvla}
 \end{figure}
 
@@ -218,11 +218,11 @@ To improve efficiency, the action expert adopts a reduced embedding dimension co
 \citet{shukorSmolVLAVisionLanguageActionModel2025}'s design choices thus result in a much smaller size model compared to \pizero, consisting of ca. 450M parameters versus \pizero's 3.3B parameters.
 
 In practice, SmolVLA consumes multi-view RGB images, a natural-language instruction, and projected sensorimotor state token as inputs, together with the noised \emph{action chunk} \( \tilde{a}_{t:t+H_a} \) the action expert \( v_\theta \) is trained to denoise.
-The robot proprioperceptive states are projected to a shared token space with the VLM to match \( d_{\text{VLM}} \), and successively projected into the expert's token space.
+The robot proprioceptive states are projected to a shared token space with the VLM to match \( d_{\text{VLM}} \), and successively projected into the expert's token space.
 Similarily to \pizero, SmolVLA adopts separate experts communicating exclusively through self-attention layers, which however do not employ blockwise causal attention masking and rather favour simple causal masking.
 
 In contrast with \pizero, the action expert interleaves \emph{cross-attention} (CA) and \emph{self-attention} (SA) layers, a choice shown to yield higher success and smoother action chunks in practice.
-While in the expert SA layers tokens are used to obtain queries, keys and values, CA layers use action tokens only as queries, and instead project visual, language and proprioperceptive tokens from the VLM backbone to a shared embedding space to then obtain keys and values.
+While in the expert SA layers tokens are used to obtain queries, keys and values, CA layers use action tokens only as queries, and instead project visual, language and proprioceptive tokens from the VLM backbone to a shared embedding space to then obtain keys and values.
 Notably, keys and values can be cached  here as well, resulting in performance gains at inference time.
 
 SmolVLA also trims down both token and layer compute.

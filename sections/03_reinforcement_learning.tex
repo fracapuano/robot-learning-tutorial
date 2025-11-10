@@ -4,21 +4,21 @@
 \epigraph{\textit{Approximate the solution, not the problem} [...]}{Richard Sutton}
 
 \begin{tldr}
-The need for expensive, high-fidelity simulators can be obviated learning from real-world data, using sample-efficient algorithms that can safely train directly on hardware.
+    The need for expensive, high-fidelity simulators can be obviated learning from real-world data, using sample-efficient algorithms that can safely train directly on hardware.
 \end{tldr}
 
 \begin{figure}
     \centering
     \includegraphics[width=0.9\linewidth]{figures/ch3/ch3-learning-benefits.pdf}
     \caption{Learning-based robotics streamlines perception-to-action by learning a (1) unified high-level controller capable to take (2) high-dimensional, unstructured sensorimotor information. Learning (3) does not require a dynamics model and instead focuses on interaction data, and (4) empirically correlates with
-    the scale of the data used.
+        the scale of the data used.
     }
     \label{fig:robot-learning-upsides}
 \end{figure}
 
 Learning-based techniques for robotics naturally address the limitations presented in Section~\ref{sec:classical} (Figure~\ref{fig:robot-learning-upsides}).
 In particular, learning-based techniques typically rely on monolithic prediction-to-action pipelines (\emph{visuomotor policies}) which do directly map sensorimotor inputs to predicted actions, streamlining control policies by removing the need to interface multiple components.
-Mapping sensory inputs to actions also makes it possible to incorporate diverse input modalities, leveraging the automatic feature extraction capabilities of modern learning systems. 
+Mapping sensory inputs to actions also makes it possible to incorporate diverse input modalities, leveraging the automatic feature extraction capabilities of modern learning systems.
 Moreover, learning-based approaches can, in principle, bypass explicit modeling altogether and instead rely solely on interaction data---an advantage that proves transformative when dynamics are difficult to model or entirely unknown.
 Lastly, learning for robotics (\emph{robot learning}) is naturally well posed to leverage the growing amount of robotics data openly available, just as computer vision and natural language processing did historically benefit from large-scale corpora of data, in great part overlooked by dynamics-based approaches.
 
@@ -76,11 +76,11 @@ Unless diversely specified, we will only be referring to discrete-time finite-ho
 Formally, a length-\(T\) Markov Decision Process (MDP) is a tuple \( \mathcal M = \langle \statespace, \actionspace, \dynamics, r, \gamma, \rho, T \rangle \), where:
 \begin{itemize}
     \item \(\statespace\) is the \emph{state space}; \(\state \in \statespace\) denotes the (possibly non-directly observable) environment state at time \(t\). In robotics, states often comprise robot configuration and velocities (\(q_t, \dot q_t\)), and can also accomodate sensor readings such as camera or audio streams.
-    %
-    \item \(\actionspace\) is the \emph{action space}; \(\action \in \actionspace\) may represent joint torques, joint velocities, or even end-effector commands at timestep \( t \). In general, actions correspond to commands intervenings on the configuration of the robot. 
-    %
+          %
+    \item \(\actionspace\) is the \emph{action space}; \(\action \in \actionspace\) may represent joint torques, joint velocities, or even end-effector commands at timestep \( t \). In general, actions correspond to commands intervenings on the configuration of the robot.
+          %
     \item \(\dynamics\) represents the (possibly non-deterministic) environment dynamics, with \(\dynamics: \statespace \times \actionspace \times \statespace \mapsto [0, 1] \), \( \dynamics \, \transition = \transitionprob \). For instance, for a planar manipulator dynamics could be considered deterministic when the environment is fully described (Figure~\ref{fig:planar-manipulation-simple}), and stochastic when unmodeled disturbances depending on non-observable parameters intervene (Figure~\ref{fig:planar-manipulator-box-velocity}).
-    %
+          %
     \item \(r: \statespace \times \actionspace \times \statespace \to \mathbb R\) is the \emph{reward function}, weighing the transition \( \transition \) in the context of the achievement of an arbitrary goal. For instance, a simple reward function for quickly moving along the \( x \) axis (Figure~\ref{fig:robotics-with-rl-examples}) could be based on the absolute position of the robot along the \( x \) axis~(\(p_{x_t}\)), present negative penalties for falling over (measured from \( p_{z_t} \)) and a introduce bonuses \( \dot p_{x_t} \) for speed, \(r \transition \equiv r(\state) = p_{x_t} \cdot \dot p_{x_t} - \tfrac{1}{p_{z_t}} \).
 \end{itemize}
 Lastly, \(\gamma \in [0,1) \) represent the discount factor regulating preference for immediate versus long-term reward (with an effective horizon equal to \( \tfrac{1}{1-\gamma} \)), and \( \rho \) is the distribution over \(\statespace \) for the MDP's \emph{initial}, \( s_0 \sim \rho \).
@@ -93,8 +93,8 @@ with per-step rewards defined as \(r_t = r \transition \) for ease of notation.
 Interestingly, assuming both the environment dynamics and conditional distribution over actions given states---i.e., the \emph{policy}---to be \emph{Markovian}:
 %
 \begin{align}
-\mathbb P(\stateplusone \vert s_t, a_t, s_{t-1}, a_{t-1}, \dots s_0, a_0 ) &= \mathbb P \transitiongiven \label{eq:dynamics_markovian} \\
-\mathbb P(\action \vert \state, a_{t-1}, s_{t-1}, s_0, a_0) &= \mathbb P(\action \vert \state), \label{eq:policy_markovian}
+    \mathbb P(\stateplusone \vert s_t, a_t, s_{t-1}, a_{t-1}, \dots s_0, a_0 ) & = \mathbb P \transitiongiven \label{eq:dynamics_markovian}     \\
+    \mathbb P(\action \vert \state, a_{t-1}, s_{t-1}, s_0, a_0)                & = \mathbb P(\action \vert \state), \label{eq:policy_markovian}
 \end{align}
 %
 the probability of observing a given trajectory \( \tau \) factorizes into:
@@ -102,15 +102,15 @@ the probability of observing a given trajectory \( \tau \) factorizes into:
     \mathbb P(\tau) = \mathbb P (s_0) \prod_{t=0}^{T-1} \mathbb P \transitiongiven \ \mathbb P(\action \vert \state).
 \end{equation}
 
-Policies \( \mathbb P(\action \vert \state) \) are typically indicated as \( \pi(\action \vert \state) \), often parametrized via \( \theta \), yielding \( \pi_\theta (\action \vert \state )\), and are traine by optimizing the (discounted) \emph{return} associated to a given \( \tau \), i.e. the (random) sum of measured rewards over an arbitrary trajectory, 
+Policies \( \mathbb P(\action \vert \state) \) are typically indicated as \( \pi(\action \vert \state) \), often parametrized via \( \theta \), yielding \( \pi_\theta (\action \vert \state )\), and are traine by optimizing the (discounted) \emph{return} associated to a given \( \tau \), i.e. the (random) sum of measured rewards over an arbitrary trajectory,
 \[
     G(\tau) = \sum_{t=0}^{T-1} \gamma^{t} r_t.
 \]
-In that, agents seek to learn control strategies (\emph{policies}, \( \pi_\theta \)) maximizing the expected return \( \mathbb E_{\tau \sim \pi_\theta} G(\tau) \). 
+In that, agents seek to learn control strategies (\emph{policies}, \( \pi_\theta \)) maximizing the expected return \( \mathbb E_{\tau \sim \pi_\theta} G(\tau) \).
 For a given dynamics \( \mathcal D \)---i.e., for a given problem---taking the expectation over the (possibly random) trajectories resulting from acting according to a certain policy provides a direct, goal-conditioned ordering in the space of all the possible policies \( \Pi \), yielding the (maximization) target \( J : \Pi \mapsto \mathbb R \)
 \begin{align}
-    J(\pi_\theta) &= \mathbb E_{\tau \sim \mathbb P_{\theta; \mathcal D}} \left[ G(\tau) \right], \label{eq:RL-j-function} \\
-    \mathbb P_{\theta; \mathcal D} (\tau) &= \rho \prod_{t=0}^{T-1} \mathcal D \transition \ \pi_\theta (\action \vert \state).\label{eq:traj-probabilities-for-policies}
+    J(\pi_\theta)                         & = \mathbb E_{\tau \sim \mathbb P_{\theta; \mathcal D}} \left[ G(\tau) \right], \label{eq:RL-j-function}                        \\
+    \mathbb P_{\theta; \mathcal D} (\tau) & = \rho \prod_{t=0}^{T-1} \mathcal D \transition \ \pi_\theta (\action \vert \state).\label{eq:traj-probabilities-for-policies}
 \end{align}
 
 Crucially, in the RL framework the agent is assumed to only \emph{observe} the environment dynamics and not to intervene on them, and thus eq.~\ref{eq:RL-j-function} varies exclusively with the policy followed.
@@ -127,9 +127,9 @@ Similarily, the \emph{state-action} value function also conditions the cumulativ
 \]
 Importantly, value functions are interrelated:
 \begin{align}
-Q_\pi(s_t, a_t) &= \mathbb{E}_{\stateplusone \sim \mathbb P(\bullet \vert \state, \action)} \left[ r_t + \gamma V_\pi(\stateplusone) \right] \label{eq:q-as-v} \\
-V_\pi(\state) &= \mathbb E_{\action \sim \pi(\bullet \vert \state)} \left[ Q_\pi (\state, \action) \right],
-\label{eq:v-as-q}
+    Q_\pi(s_t, a_t) & = \mathbb{E}_{\stateplusone \sim \mathbb P(\bullet \vert \state, \action)} \left[ r_t + \gamma V_\pi(\stateplusone) \right] \label{eq:q-as-v} \\
+    V_\pi(\state)   & = \mathbb E_{\action \sim \pi(\bullet \vert \state)} \left[ Q_\pi (\state, \action) \right],
+    \label{eq:v-as-q}
 \end{align}
 inducing an ordering over states and state-action pairs under \( \pi \), and value functions are thus central to most RL algorithms.
 A variety of algorithms have been developed in RL attempting to find (approximate) solutions to the problem of maximizing cumulative reward (we report some in Figure~\ref{fig:rl-algos-atlas}).
@@ -212,15 +212,15 @@ Interestingly, when complemented with in-training human interventions, real-worl
 \paragraph{Sample-efficient RL}
 In an MDP, the optimal policy \( \pi^* \) can be derived from its associated \qfunction, \( Q^* \equiv Q_{\pi^*} \), and in particular the optimal action(s) \(\mu(\state)\) can be selected maximizing the optimal \qfunction \ over the action space,
 \[
-\mu(\state) = \max_{\action \in \mathcal A} Q^*(\state, \action).
+    \mu(\state) = \max_{\action \in \mathcal A} Q^*(\state, \action).
 \]
 Interestingly, the \qopt-function satisfies a recursive relationship (\emph{Bellman equation}) based on a very natural intuition%
 \footnote{Quote from~\citet{mnihPlayingAtariDeep2013}. The notation used has slightly been adapted for consistency with the rest of this tutorial.}:
 \begin{quote}
     [...] If the optimal value \( Q^*(\stateplusone, a_{t+1}) \) of the [state] \(\stateplusone \) was known for all possible actions \(a_{t+1} \), then the optimal strategy is to select the action \( a_{t+1}\) maximizing the expected value of \( r_t + \gamma Q^*(s_{t+1}, a_{t+1}) \)
-\[ 
-Q^*(s_t, a_t) = \mathbb E_{s_{t+1} \sim \mathbb P(\bullet \vert s_t, a_t)} \left[ r_t + \gamma \max_{a_{t+1} \in \mathcal A} Q^*(s_{t+1}, a_{t+1}) \big\vert s_t, a_t  \right]
-\]
+    \[
+        Q^*(s_t, a_t) = \mathbb E_{s_{t+1} \sim \mathbb P(\bullet \vert s_t, a_t)} \left[ r_t + \gamma \max_{a_{t+1} \in \mathcal A} Q^*(s_{t+1}, a_{t+1}) \big\vert s_t, a_t  \right]
+    \]
 \end{quote}
 
 In turn, the optimal \qfunction \ %
@@ -229,21 +229,21 @@ is guaranteed to be self-consistent by definition.
 \[
     Q_{i+1}(s_t, a_t) \leftarrow \mathbb E_{s_{t+1} \sim \mathbb P(\bullet \vert s_t, a_t)} \left[ r_t + \gamma \max_{a_{t+1} \in \mathcal A} Q_i (s_{t+1}, a_{t+1}) \big\vert s_t, a_t  \right],  \quad i=0,1,2,\dots,K
 \]
-Then, one can derive the (ideally, near-optimal) policy by explicitly maximizing over the action space the final (ideally, near-optimal) estimate \( Q_K \approx Q^* \) at each timestep. 
+Then, one can derive the (ideally, near-optimal) policy by explicitly maximizing over the action space the final (ideally, near-optimal) estimate \( Q_K \approx Q^* \) at each timestep.
 Indeed, one can show that under certain assumptions on the MDP considered, \( Q_K \to Q^* \, \text{as } K \to \infty \).
 
-Effective in its early applications to small-scale discrete problems, vanilla Q-learning was found complicated to scale to large \( \statespace \times \actionspace \) problems, in which storing \( Q : \statespace \times \actionspace \mapsto \mathbb R \) alone might result prohibitive. 
+Effective in its early applications to small-scale discrete problems, vanilla Q-learning was found complicated to scale to large \( \statespace \times \actionspace \) problems, in which storing \( Q : \statespace \times \actionspace \mapsto \mathbb R \) alone might result prohibitive.
 Also, vanilla Q-learning is not directly usable for \emph{continuous}, unstructured state-action space MPDs, such as those considered in robotics.
 In their seminal work on \emph{Deep Q-Learning} (DQN),~\citet{mnihPlayingAtariDeep2013} propose learning Q-values using deep convolutional neural networks, thereby accomodating for large and even unstructured \emph{state} spaces.
 DQN parametrizes the Q-function using a neural network with parameters \( \theta \), updating the parameters by sequentially minimizing the expected squared temporal-difference error (TD-error, \( \delta_i \)):
 \begin{align}
-\mathcal L(\theta_i) &= \mathbb E_{(s_t, a_t) \sim \chi(\bullet)} 
-    \big[ 
-        (\underbrace{y_i - Q_{\theta_i}(s_t, a_t)}_{\delta_i})^2 
-    \big], \label{eq:dqn-loss} \\
-    y_i &= \mathbb E_{s_{t+1} \sim \mathbb P(\bullet \vert s_t, a_t)} \big[ r_t + \gamma \max_{\action \in \mathcal A} Q_{\theta_{i-1}} (\stateplusone, a_{t+1}) \big], \label{eq:TD-target}
+    \mathcal L(\theta_i) & = \mathbb E_{(s_t, a_t) \sim \chi(\bullet)}
+    \big[
+        (\underbrace{y_i - Q_{\theta_i}(s_t, a_t)}_{\delta_i})^2
+    \big], \label{eq:dqn-loss}                                                                                                                                                                                 \\
+    y_i                  & = \mathbb E_{s_{t+1} \sim \mathbb P(\bullet \vert s_t, a_t)} \big[ r_t + \gamma \max_{\action \in \mathcal A} Q_{\theta_{i-1}} (\stateplusone, a_{t+1}) \big], \label{eq:TD-target}
 \end{align}
-where \( \chi \) represents a behavior distribution over state-action pairs. 
+where \( \chi \) represents a behavior distribution over state-action pairs.
 Crucially, \( \chi \) can in principle be different from the policy being followed, effectively allowing to reuse prior data stored in a \emph{replay buffer} \( D \) in the form of \( \sars \) transitions, used to form the TD-target \( y_i \), TD-error \( \delta_i \) and loss function eq.~\ref{eq:dqn-loss} via Monte-Carlo (MC) estimates.
 
 While effective in handling large, unstructured state spaces for discrete action-space problems, DQN's application to continous control problems proved challenging.
@@ -256,7 +256,7 @@ Provably, eq.~\ref{eq:deterministic-pg} is the \emph{deterministic policy gradie
 ~\citet{lillicrapContinuousControlDeep2019a} extended DPG to the case of (1) high-dimensional unstructured observations and (2) continuous action spaces, introducing Deep Deterministic Policy Gradient (DDPG), an important algorithm in RL and its applications to robotics.
 DDPG adopts a modified TD-target compared to eq.~\ref{eq:TD-target}, by maintaining a policy network used to select actions, yielding
 \begin{equation}\label{eq:TD-target-ddpg}
-y_i = \mathbb E_{s_{t+1} \sim \mathbb P(\bullet \vert s_t, a_t)} \big[ r_t + \gamma Q_{\theta_{i-1}} (\stateplusone, \mu_\phi(\stateplusone)) \big] .
+    y_i = \mathbb E_{s_{t+1} \sim \mathbb P(\bullet \vert s_t, a_t)} \big[ r_t + \gamma Q_{\theta_{i-1}} (\stateplusone, \mu_\phi(\stateplusone)) \big] .
 \end{equation}
 Similarily to DQN, DDPG also employs the same replay buffer mechanism, reusing past transitions over training for increased sample efficiency and estimate the loss function via MC-estimates.
 
@@ -264,7 +264,7 @@ Soft Actor-Critic (SAC)~\citep{haarnojaSoftActorCriticOffPolicy2018} is a deriva
 MaxEnt RL~\citep{haarnojaReinforcementLearningDeep2017b} has proven particularly robust thanks to the development of diverse behaviors, incentivized by its entropy-regularization formulation.
 In that, MaxEnt revisits the RL objective \( J (\pi) \) to specifically account for the policy entropy \( \mathcal H(\pi (\bullet \vert s_t)) \),
 \begin{align}
-    J(\pi) &= \sum_{t=0}^T \mathbb{E}_{(s_t, a_t) \sim \chi} \left[ r_t + \alpha \mathcal H(\pi (\bullet \vert s_t)) \right].
+    J(\pi) & = \sum_{t=0}^T \mathbb{E}_{(s_t, a_t) \sim \chi} \left[ r_t + \alpha \mathcal H(\pi (\bullet \vert s_t)) \right].
     \label{eq:J-soft}
 \end{align}
 This modified objective results in the \emph{soft} TD-target:
@@ -298,7 +298,7 @@ In particular,~\citet[SERL]{luoSERLSoftwareSuite2025} introduces a suite of tool
 Reward classifiers are particularly useful in treating complex, dynamic tasks---e.g., folding a t-shirt---for which a precise reward formulation is arbitrarily complex to obtain, or that do require significant shaping and are more easily learned directly from demonstrations of success (\(e^+\)) or failure (\(e^-\)) states, rather than from a precise formulation of \( r_t \), with a natural target for the reward classifier being \( r(s) = \log c(e^+ \vert s ) \).
 Furthermore,~\citet{luoSERLSoftwareSuite2025} demonstrate the benefits of learning separate (1) \emph{forward} and (2) \emph{backward} controllers---parametrized by separate policies---where (1) the former learns to execute a task to completion and (2) the latter learns to reset the environment to its initial state from terminal states, thereby aiding training in real-world episodic settings.
 
-Lastly, in order to improve on the robustness of their approach to different goals while maintaing practical scalability,~\citet{luoSERLSoftwareSuite2025} introduced a modified state and action space, expressing proprioperceptive configurations \( q \)  and actions \( \dot q \) in the frame of the end-effector pose at \( t=0 \).
+Lastly, in order to improve on the robustness of their approach to different goals while maintaing practical scalability,~\citet{luoSERLSoftwareSuite2025} introduced a modified state and action space, expressing proprioceptive configurations \( q \)  and actions \( \dot q \) in the frame of the end-effector pose at \( t=0 \).
 Randomizing the initial pose of the end-effector (\( s_0 \)),~\citet{luoSERLSoftwareSuite2025} achieved a similar result to that of manually randomizing the environment at every timestep, but with the benefit of maintaining the environment in the same condition across multiple training episodes, achieving higher scalability of their method thanks to the increased practicality of their approach.
 
 \begin{figure}
@@ -332,7 +332,7 @@ This code example is organized into four parts: we first show how to train a rew
 At a higher level, the HIL-SERL architecture (Figure~\ref{fig:ch3-hil-serl-architecture}) relies on two main components:
 \begin{itemize}
     \item An \texttt{Actor}, running a frozen policy network used to interact with the environment and obtain observations. Observations are used to both condition the frozen actor in selecting the action to enact, and to form \( \sars \) transitions that are shared with the \texttt{Learner}. Rewards are inferred using a custom, learned reward classifier trained on a dataset of offline demonstrations.
-    %
+          %
     \item A \texttt{Learner}, used to optimize the policy's parameters \( \theta \) for maximum expected return. The learner samples batches of offline data from online and offline buffers in equal proportion~\citep{ballEfficientOnlineReinforcement2023}, and shares updated parameters with the \texttt{Actor}.
 \end{itemize}
 
@@ -364,10 +364,10 @@ The HIL-SERL architecture presented in this example can be exclusively run local
 
 Despite the advancements in real-world RL training, training RL agents for real-world tasks still suffers from the following limitations:
 \begin{itemize}
-\item In those instances where real-world training experience is prohibitively expensive to gather (e.g., Tokamak control~\citep{degraveMagneticControlTokamak2022}, Autonomous Stratospehere Navigation~\citep{bellemareAutonomousNavigationStratospheric2020})in-simulation training is often the only viable option. 
-However, high-fidelity simulators for real-world problems can be difficult to build and maintain, especially for contact-rich manipulation and tasks involving deformable or soft materials.
+    \item In those instances where real-world training experience is prohibitively expensive to gather (e.g., Tokamak control~\citep{degraveMagneticControlTokamak2022}, Autonomous Stratospehere Navigation~\citep{bellemareAutonomousNavigationStratospheric2020})in-simulation training is often the only viable option.
+          However, high-fidelity simulators for real-world problems can be difficult to build and maintain, especially for contact-rich manipulation and tasks involving deformable or soft materials.
 
-\item Reward design is a fundamental source of brittleness in real-world RL pipelines. While shaping dense rewards is often necessary to guide exploration in long-horizon tasks, the process is error-prone and heavily reliant on human expertise and intuition. Poorly tuned terms can lead to specification gaming or convergence to local optima, making reward shaping a critical challenge for applying RL in practice. Sparse rewards that only signal successful trajectories can avoid these pitfalls but typically result in much slower learning due to reduced supervision.
+    \item Reward design is a fundamental source of brittleness in real-world RL pipelines. While shaping dense rewards is often necessary to guide exploration in long-horizon tasks, the process is error-prone and heavily reliant on human expertise and intuition. Poorly tuned terms can lead to specification gaming or convergence to local optima, making reward shaping a critical challenge for applying RL in practice. Sparse rewards that only signal successful trajectories can avoid these pitfalls but typically result in much slower learning due to reduced supervision.
 \end{itemize}
 
 Advances in learning to act from potentially large corpora of human demonstrations via Behavioral Cloning (BC) address both of these concerns.

@@ -15,7 +15,7 @@ Behavioral Cloning provides a natural platform to learn from real-world interact
 \begin{figure}
     \centering
     \includegraphics[width=0.8\textwidth]{figures/ch4/ch4-bc-trajectories.pdf}
-    \caption{(A) Average (with standard deviation) evolution of the actuation levels over the first 5 recorded episodes in \url{lerobot/svla_so101_pickplace}. Proprioperceptive states provide invaluable to determine the robot's state during an episode. (B) Camera frames are also recorded alongside measurements on the robot's state, capturing information about the robot's interaction with its environment.}
+    \caption{(A) Average (with standard deviation) evolution of the actuation levels over the first 5 recorded episodes in \url{lerobot/svla_so101_pickplace}. Proprioceptive states provide invaluable to determine the robot's state during an episode. (B) Camera frames are also recorded alongside measurements on the robot's state, capturing information about the robot's interaction with its environment.}
     \label{fig:ch4-bc-trajectories}
 \end{figure}
 
@@ -26,11 +26,11 @@ Behavioral Cloning (BC) sidesteps these constraints by \highlight{casting contro
 Most notably, by \emph{learning-to-imitate}, autonomous systems naturally adhere to the objectives, preferences, and success criteria implicitly encoded in the data, which reduces early-stage exploratory failures and obviates hand-crafted reward shaping altogether.
 
 Formally, let \( \mathcal D = \{ \tau^{(i)} \}_{i=1}^N \) be a set of expert trajectories, with \( \tau^{(i)} = \{(o_t^{(i)}, a_t^{(i)})\}_{t=0}^{T_i} \) representing the \(i\)-th length-\(T_i\) trajectory in \( \mathcal D \), \(o_t \in \obsspace \) denoting observations (e.g., images and proprioception altogether), and \(a_t \in \actionspace \) the expert actions.
-Typically, observations \( o \in \obsspace \) consist of both image and proprioperceptive information, while actions \( a \in \actionspace \) represent control specifications for the robot to execute, e.g. a joint configuration.
+Typically, observations \( o \in \obsspace \) consist of both image and proprioceptive information, while actions \( a \in \actionspace \) represent control specifications for the robot to execute, e.g. a joint configuration.
 Note that differently from Section~\ref{sec:learning-rl}, in the imitation learning context \( \mathcal D \) denotes an offline dataset collecting \( N \) length-\( T_i \) reward-free (expert) human trajectories \( \tau^{(i)} \), and \emph{not} the environment dynamics.
 Similarily, in this section \( \tau^{(i)} \) represent a length-\(T_i\) trajectory of observation-action pairs, which crucially \emph{omits entirely any reward} information.
 Figure~\ref{fig:ch4-bc-trajectories} graphically shows trajectories in terms of the average evolution of the actuation on the 6 joints of a teleoperated SO-100 manipulator.
-Notice how proprioperceptive states are captured jointly with camera frames over the course of the recorded episodes, providing a unified high-frame rate collection of both image and joint teleoperation data.
+Notice how proprioceptive states are captured jointly with camera frames over the course of the recorded episodes, providing a unified high-frame rate collection of both image and joint teleoperation data.
 Figure~\ref{fig:ch4-observation-action-mapping} shows \( (o_t, a_t) \)-pairs for the same dataset, with the actions performed by the human expert illustrated alongside the corresponding observation.
 In principle, (expert) trajectories \( \tau^{(i)} \) can have different lengths since demonstrations might exhibit multi-modal strategies to attain the same goal, resulting in multiple, different behaviors.
 
@@ -38,7 +38,7 @@ In principle, (expert) trajectories \( \tau^{(i)} \) can have different lengths 
 \begin{figure}
     \centering
     \includegraphics[width=0.9\textwidth]{figures/ch4/ch4-observation-action-mapping.pdf}
-    \caption{Sample observations and action pairs over the course of a given trajectory recorded in \url{lerobot/svla_so101_pickplace}. Observations, comprising of both proprioperceptive and visual information, are recorded alongside the configuration of a second, leader robot controlled by a human expert, providing complete information for regressing actions given observations.}
+    \caption{Sample observations and action pairs over the course of a given trajectory recorded in \url{lerobot/svla_so101_pickplace}. Observations, comprising of both proprioceptive and visual information, are recorded alongside the configuration of a second, leader robot controlled by a human expert, providing complete information for regressing actions given observations.}
     \label{fig:ch4-observation-action-mapping}
 \end{figure}
 
@@ -385,19 +385,19 @@ In ACT (Figure~\ref{fig:ch4-act}), inference for a given observation \( o \in \m
 \begin{figure}
     \centering
     \includegraphics[width=0.75\textwidth]{figures/ch4/ch4-act-encoder.pdf}
-    \caption{The CVAE encoder used in ACT. Input action chunks are first embedded and aggregated with positional embeddings, before being processed alongside embedded proprioperceptive information, and a learned \texttt{[CLS]} token used to aggregate input level information, and predict the style variable \( z \). The encoder is exclusively used to \emph{train} the decoder, and it is entirely disregarded at inference time.}
+    \caption{The CVAE encoder used in ACT. Input action chunks are first embedded and aggregated with positional embeddings, before being processed alongside embedded proprioceptive information, and a learned \texttt{[CLS]} token used to aggregate input level information, and predict the style variable \( z \). The encoder is exclusively used to \emph{train} the decoder, and it is entirely disregarded at inference time.}
     \label{fig:ch4-act-encoder}
 \end{figure}
 
 However, the authors claim that using a deterministic procedure to sample \( z \) benefits policy evaluation, and thus avoid using the conditional prior at all at inference time, effectively using the CVAE framework exclusively to train a more expressive decoder.
 At test time,~\citet{zhaoLearningFineGrainedBimanual2023} propose simply using \( z = \mathbf{0} \), as the conditional prior on \( z \) used in training is set to be a standard Gaussian.
-Further, conditioning on the observation \( o \) is achieved through explicitly feeding proprioperceptive and visual observations to the decoder, \( p_\theta(a \vert z, o) \) at test time.
-If at inference \( z \) is sampled from a standard Gaussian, during training \( z \) is sampled from an approximate posterior distribution \(q_\phi(z \vert o, a)\), which, however, disregards image observations and exclusively uses proprioperceptive states to form \( o \) for efficiency reasons.
+Further, conditioning on the observation \( o \) is achieved through explicitly feeding proprioceptive and visual observations to the decoder, \( p_\theta(a \vert z, o) \) at test time.
+If at inference \( z \) is sampled from a standard Gaussian, during training \( z \) is sampled from an approximate posterior distribution \(q_\phi(z \vert o, a)\), which, however, disregards image observations and exclusively uses proprioceptive states to form \( o \) for efficiency reasons.
 
 \begin{figure}
     \centering
     \includegraphics[width=0.75\textwidth]{figures/ch4/ch4-act-decoder.pdf}
-    \caption{The CVAE decoder used in ACT, comprising of a full encoder-decoder Transformer architecture. Camera observations from all \( n \) camera views are first embedded using pre-trained visual encoders, and then aggregated with the corresponding positional embeddings. Then, the proprioperceptive information and style variable \( z \) retrieved from the CVAE encoder, are fed to the encoder-decoder Transformer for inference. The encoder shares the matrices \( K,V \) with the decoder, and is trained to decode fixed position embeddings into action chunks.}
+    \caption{The CVAE decoder used in ACT, comprising of a full encoder-decoder Transformer architecture. Camera observations from all \( n \) camera views are first embedded using pre-trained visual encoders, and then aggregated with the corresponding positional embeddings. Then, the proprioceptive information and style variable \( z \) retrieved from the CVAE encoder, are fed to the encoder-decoder Transformer for inference. The encoder shares the matrices \( K,V \) with the decoder, and is trained to decode fixed position embeddings into action chunks.}
     \label{fig:ch4-act-decoder}
 \end{figure}
 
