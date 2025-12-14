@@ -42,6 +42,42 @@ Rather than requiring the controller to be learned via evolutionary algorithms, 
 Critically, Dreamer demonstrates that this approach achieves comparable or superior data-efficiency to prior model-free methods like PPO~\citep{schulmanProximalPolicyOptimization2017} or D4PG~\citep{barthmaron2018distributeddistributionaldeterministicpolicy}, despite requiring no direct environment interaction for policy optimization.
 This is possible because the model enables \emph{massively parallel} imagination of trajectories, allowing the agent to generate thousands of imagined rollouts from a single real environment interaction.
 
+\subsubsection{DreamerV3: Scaling World Models Across Diverse Domains}
+
+While early world model approaches showed promise on vision-based control tasks, the challenge of achieving generality across diverse domains has remained.
+The third generation of the Dreamer algorithm - \textbf{DreamerV3}~\citep{hafner2024masteringdiversedomainsworld} - represents a landmark achievement in demonstrating that a \emph{single, fixed hyperparameter configuration} can outperform specialized expert algorithms across more than 150 diverse tasks, ranging from continuous control to game-playing to robotic navigation.
+DreamerV3 achieves this unprecedented generality through a combination of architectural innovations and careful hyperparameter choices, including:
+
+\begin{enumerate}
+    \item \emph{Latent overshooting}, which regularizes the latent dynamics model by predicting multiple steps ahead and comparing predictions across different prediction horizons, mitigating error accumulation over long imagined trajectories.
+    \item \emph{Balanced loss weighting} across reconstruction, dynamics, and reward prediction objectives, ensuring that no single loss dominates during training and that the model learns a balanced representation.
+    \item \emph{Categorical distributions} for modeling discrete and continuous variables, replacing earlier choices of Gaussian distributions which could lead to high-variance gradients.
+    \item \emph{Architectural choices} such as layer normalization and gating mechanisms, which together improve training stability across diverse domains.
+\end{enumerate}
+
+A landmark result from DreamerV3 is being the first algorithm to collect diamonds in Minecraft - a long-horizon, sparse-reward environment requiring hierarchical reasoning - from scratch without human demonstrations or curricula.
+This achievement underscores the capability of world models to solve complex, open-ended tasks by learning to imagine and plan over extended horizons.
+
+\subsubsection{World Models and Cross-Embodiment Generalization}
+
+Beyond sample efficiency, world models also enable cross-embodiment generalization when trained on diverse, multi-embodiment data.
+\cite{wu2022daydreamerworldmodelsphysical} applied the Dreamer framework to real robots across four different embodiments (manipulation tasks and locomotion tasks), demonstrating that a single world model trained on diverse experience could be used to learn behaviors for previously unseen tasks without additional environment interaction.
+This cross-embodiment capability emerges naturally from world models trained on diverse data: by learning to predict dynamics in a latent space, the model captures principles of physics and interaction that generalize across different morphologies, provided that the training data is diverse enough to expose the model to such variations.
+
+\subsubsection{Challenges and Limitations of Traditional World Models}
+
+Despite their promise, scaling world models to handle complex, real-world robotics scenarios has proven challenging.
+The primary limitations include:
+
+\begin{enumerate}
+    \item \textbf{Error accumulation}: Errors in the learned dynamics model compound over long prediction horizons. While techniques like latent overshooting help mitigate this, long-horizon planning (e.g., predicting thousands of steps) remains difficult.
+    \item \textbf{Diversity of interactions}: Real-world environments exhibit high stochasticity and multimodality (e.g., a robot pushing an object might succeed or fail depending on subtle conditions), and capturing this diversity in a learned model is challenging.
+    \item \textbf{Partial observability}: Many real-world scenarios involve partial observability (hidden state), requiring the world model to maintain uncertainty estimates or reason about unobserved variables - a problem that remains open.
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Cosmos World Model}
+
 
 
 
