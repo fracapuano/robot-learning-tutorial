@@ -299,7 +299,7 @@ This results in a continuous (and deterministic) trajectory at inference, which 
 Formally, FM can be fully characterized by an ordinary differential equation (ODE) relating instantaneous variations of flows with the underlying vector field, and hence providing complete trajectories over the distributions' support when integrating over time,
 \begin{align}
     \frac{d}{dt} \psi(z, t) &= v(t, \psi(t, z)), \\
-    \psi(0, z) &= z .
+    \psi(z, 0) &= z .
 \end{align}
 In practice, flow models learn to approximate these dynamics by estimating a vector field \( v \) that matches the true, unknown \( u \), so that the induced flows \( \psi \) can approximate the ideal trajectories \( \psi^* \).
 
