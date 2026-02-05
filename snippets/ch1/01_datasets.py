@@ -4,7 +4,7 @@ from lerobot.datasets.streaming_dataset import StreamingLeRobotDataset
 
 delta_timestamps = {
     # 0.2, and 0.1 seconds *before* each frame
-    "observation.images.wrist_camera": [-0.2, -0.1, 0.0]
+    "observation.images.up": [-0.2, -0.1, 0.0]
 }
 
 # Optionally, use StreamingLeRobotDataset to avoid downloading the dataset
@@ -45,7 +45,7 @@ for epoch in range(num_epochs):
         # Move data to the appropriate device (e.g., GPU)
         observations = batch["observation.state"].to(device)
         actions = batch["action"].to(device)
-        images = batch["observation.images.wrist_camera"].to(device)
+        images = batch["observation.images.up"].to(device)
 
         # Next, you can do amazing_model.forward(batch)
         ...
