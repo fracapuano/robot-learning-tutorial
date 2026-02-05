@@ -298,8 +298,8 @@ Note also how FM models time \( t \in [0,1] \) to be varying continuously while 
 This results in a continuous (and deterministic) trajectory at inference, which is in practice more efficient compared to following stochastic paths like in DMs.
 Formally, FM can be fully characterized by an ordinary differential equation (ODE) relating instantaneous variations of flows with the underlying vector field, and hence providing complete trajectories over the distributions' support when integrating over time,
 \begin{align}
-    \frac{d}{dt} \psi(z, t) &= v(t, \psi(t, z)), \\
-    \psi(z, 0) &= z .
+    \frac{d}{dt} \psi(t, z) &= v(t, \psi(t, z)), \\
+    \psi(0, z) &= z .
 \end{align}
 In practice, flow models learn to approximate these dynamics by estimating a vector field \( v \) that matches the true, unknown \( u \), so that the induced flows \( \psi \) can approximate the ideal trajectories \( \psi^* \).
 
