@@ -15,22 +15,22 @@ Behavioral Cloning provides a natural platform to learn from real-world interact
 \begin{figure}
     \centering
     \includegraphics[width=0.8\textwidth]{figures/ch4/ch4-bc-trajectories.pdf}
-    \caption{(A) Average (with standard deviation) evolution of the actuation levels over the first 5 recorded episodes in \url{lerobot/svla_so101_pickplace}. Proprioperceptive states provide invaluable to determine the robot's state during an episode. (B) Camera frames are also recorded alongside measurements on the robot's state, capturing information about the robot's interaction with its environment.}
+    \caption{(A) Average (with standard deviation) evolution of the actuation levels over the first 5 recorded episodes in \url{lerobot/svla_so101_pickplace}. proprioceptive states provide invaluable to determine the robot's state during an episode. (B) Camera frames are also recorded alongside measurements on the robot's state, capturing information about the robot's interaction with its environment.}
     \label{fig:ch4-bc-trajectories}
 \end{figure}
 
 Learning from human demonstrations provides a pragmatic alternative to the RL pipeline discussed in Section~\ref{sec:learning-rl}.
 Indeed, especially in real-world robotics, online exploration is typically \highlight{costly and potentially unsafe}, and designing (dense) reward signals is a \highlight{brittle and task-specific} process.
 Further, even success detection itself often requires bespoke instrumentation, while episodic training demands reliable resets---all factors complicating training RL algorithms on hardware at scale.
-Behavioral Cloning (BC) sidesteps these constraints by \highlight{casting control an imitation learning problem}, leveraging previously collected expert demonstrations to anchor the learned autonomous behavior.
+Behavioral Cloning (BC) sidesteps these constraints by \highlight{casting control as an imitation learning problem}, leveraging previously collected expert demonstrations to anchor the learned autonomous behavior.
 Most notably, by \emph{learning-to-imitate}, autonomous systems naturally adhere to the objectives, preferences, and success criteria implicitly encoded in the data, which reduces early-stage exploratory failures and obviates hand-crafted reward shaping altogether.
 
 Formally, let \( \mathcal D = \{ \tau^{(i)} \}_{i=1}^N \) be a set of expert trajectories, with \( \tau^{(i)} = \{(o_t^{(i)}, a_t^{(i)})\}_{t=0}^{T_i} \) representing the \(i\)-th length-\(T_i\) trajectory in \( \mathcal D \), \(o_t \in \obsspace \) denoting observations (e.g., images and proprioception altogether), and \(a_t \in \actionspace \) the expert actions.
-Typically, observations \( o \in \obsspace \) consist of both image and proprioperceptive information, while actions \( a \in \actionspace \) represent control specifications for the robot to execute, e.g. a joint configuration.
+Typically, observations \( o \in \obsspace \) consist of both image and proprioceptive information, while actions \( a \in \actionspace \) represent control specifications for the robot to execute, e.g. a joint configuration.
 Note that differently from Section~\ref{sec:learning-rl}, in the imitation learning context \( \mathcal D \) denotes an offline dataset collecting \( N \) length-\( T_i \) reward-free (expert) human trajectories \( \tau^{(i)} \), and \emph{not} the environment dynamics.
-Similarily, in this section \( \tau^{(i)} \) represent a length-\(T_i\) trajectory of observation-action pairs, which crucially \emph{omits entirely any reward} information.
+Similarily, in this section \( \tau^{(i)} \) represent a length-\(T_i\) trajectory of observation-action pairs, which crucially \emph{entirely omits any reward} information.
 Figure~\ref{fig:ch4-bc-trajectories} graphically shows trajectories in terms of the average evolution of the actuation on the 6 joints of a teleoperated SO-100 manipulator.
-Notice how proprioperceptive states are captured jointly with camera frames over the course of the recorded episodes, providing a unified high-frame rate collection of both image and joint teleoperation data.
+Notice how proprioceptive states are captured jointly with camera frames over the course of the recorded episodes, providing a unified high-frame rate collection of both image and joint teleoperation data.
 Figure~\ref{fig:ch4-observation-action-mapping} shows \( (o_t, a_t) \)-pairs for the same dataset, with the actions performed by the human expert illustrated alongside the corresponding observation.
 In principle, (expert) trajectories \( \tau^{(i)} \) can have different lengths since demonstrations might exhibit multi-modal strategies to attain the same goal, resulting in multiple, different behaviors.
 
@@ -38,7 +38,7 @@ In principle, (expert) trajectories \( \tau^{(i)} \) can have different lengths 
 \begin{figure}
     \centering
     \includegraphics[width=0.9\textwidth]{figures/ch4/ch4-observation-action-mapping.pdf}
-    \caption{Sample observations and action pairs over the course of a given trajectory recorded in \url{lerobot/svla_so101_pickplace}. Observations, comprising of both proprioperceptive and visual information, are recorded alongside the configuration of a second, leader robot controlled by a human expert, providing complete information for regressing actions given observations.}
+    \caption{Sample observations and action pairs over the course of a given trajectory recorded in \url{lerobot/svla_so101_pickplace}. Observations, comprising of both proprioceptive and visual information, are recorded alongside the configuration of a second, leader robot controlled by a human expert, providing complete information for regressing actions given observations.}
     \label{fig:ch4-observation-action-mapping}
 \end{figure}
 
@@ -55,7 +55,7 @@ Another strategy to mitigate the impact of regressing over non-i.i.d. samples re
 However, because we only consider the case where a single offline dataset \( \mathcal D \) of trajectories is available and no more data can be collected, DAgger falls out of our scope.
 
 Despite the inherent challenges of learning from non-i.i.d. data, the BC formulation presents several operational advantages in robotics.
-First, training happens offline and naturally accomodates for expert, demonstration data, hereby severily limiting exploration risks by preventing the robot from performing dangerous actions altogether, by anchoring action in imitation.
+First, training happens offline and naturally accomodates for expert demonstration data, hereby severily limiting exploration risks by preventing the robot from performing dangerous actions altogether, by anchoring action in imitation.
 Second, reward design is entirely unnecessary in BC, as demonstrations already reflect human intent.
 The absence of rewards also prevents the risk of misalignment and specification gaming (\emph{reward hacking}), otherwise inherent in purely reward-based RL~\citep{heessEmergenceLocomotionBehaviours2017}.
 Third, because expert trajectories encode terminal conditions, success detection and resets are implicit in the dataset.
@@ -92,11 +92,11 @@ Likelihood-based learning provides a principled training objective to achieve bo
 \begin{figure}
     \centering
     \includegraphics[width=0.8\textwidth]{figures/ch4/ch4-task-effect-on-pairs.pdf}
-    \caption{Intuitively, latent variable in a single latent model may contain information regarding the task being performed, which directly results in the likelihood of the same observation-action pair being different for two different tasks. When (A) picking a block the likelihood of a wide gripper's opening should be higher than narrower one, while it should be the opposite when (B) pushing the block.}
+    \caption{Intuitively, the latent variable in a single latent model may contain information regarding the task being performed, which directly results in the likelihood of the same observation-action pair being different for two different tasks. When (A) picking a block, the likelihood of a wide gripper's opening should be higher than narrower one, while it should be the opposite when (B) pushing the block.}
     \label{fig:ch4-task-effect-on-pairs}
 \end{figure}
 
-A common inductive bias used in GM posits samples \( (o,a) \) are influenced from an unobservable latent variable \( z \in Z \), resulting in:
+A common inductive bias used in GM posits that samples \( (o,a) \) are influenced from an unobservable latent variable \( z \in Z \), resulting in:
 \begin{equation}\label{eq:BC-latent-variable}
     p (o,a) = \int_{\supp{Z}} p(o,a \vert z) p(z)
 \end{equation}
@@ -182,7 +182,7 @@ In particular, DMs posit the generative process can be decomposed to a series of
     p(z_0, z_1, \dots z_T) &= p(z_T) \prod_{t=1}^{T} p(z_{t-1} \vert z_t), \label{eq:BC-multi-latent-model-2}
 \end{align}
 where we explicitly showed the marginalization over the multiple latents in eq.~\ref{eq:BC-multi-latent-model-1}, and used the law of conditional probability and Markov property in eq.~\ref{eq:BC-multi-latent-model-2}.
-Also, for ease of notation, we will refer to observation-action pairs \( o,a \) as \( z_0 \).
+Also, for ease of notation, we will refer to observation-action pairs \( (o,a) \) as \( z_0 \).
 
 \begin{figure}
     \centering
@@ -205,7 +205,7 @@ Crucially, as no information from the sample \( (o,a) \) (denoted as \( z_0 \equ
 The \emph{true} likelihood \( p(z_{t-1} \vert z_t) \) is instead typically approximated using the parametrization \(  p_\theta (z_{t-1} \vert z_t) \).
 In that, the information contained in the unknwon data distribution is \emph{reconstructed} via a process in which samples from a fixed distribution are iteratively turned into (ideally) high-likelihood samples under \( p(o,a) \)---a process referred to as \emph{denoising}.
 
-Under such model, we can express the log-likelihood of an arbitrary sample \( z_0 \) as:
+Under such a model, we can express the log-likelihood of an arbitrary sample \( z_0 \) as:
 \begin{align}
     \log p_\theta (z_0) &= \log \int_{\supp{Z_1} \times \supp{Z_2} \times \dots \times \supp{Z_T}} p_\theta(\underbrace{z_0, z_1, z_2, \dots z_T}_{z_{0:T}}) \\
     &= \log \int_{\supp{Z_{1:T}}} \frac{p_\theta(z_{0:T}) \cdot q(z_{1:T} \vert z_0)}{q(z_{1:T} \vert z_0)} \label{eq:diffusion-1} \\
@@ -385,19 +385,19 @@ In ACT (Figure~\ref{fig:ch4-act}), inference for a given observation \( o \in \m
 \begin{figure}
     \centering
     \includegraphics[width=0.75\textwidth]{figures/ch4/ch4-act-encoder.pdf}
-    \caption{The CVAE encoder used in ACT. Input action chunks are first embedded and aggregated with positional embeddings, before being processed alongside embedded proprioperceptive information, and a learned \texttt{[CLS]} token used to aggregate input level information, and predict the style variable \( z \). The encoder is exclusively used to \emph{train} the decoder, and it is entirely disregarded at inference time.}
+    \caption{The CVAE encoder used in ACT. Input action chunks are first embedded and aggregated with positional embeddings, before being processed alongside embedded proprioceptive information, and a learned \texttt{[CLS]} token used to aggregate input level information, and predict the style variable \( z \). The encoder is exclusively used to \emph{train} the decoder, and it is entirely disregarded at inference time.}
     \label{fig:ch4-act-encoder}
 \end{figure}
 
 However, the authors claim that using a deterministic procedure to sample \( z \) benefits policy evaluation, and thus avoid using the conditional prior at all at inference time, effectively using the CVAE framework exclusively to train a more expressive decoder.
 At test time,~\citet{zhaoLearningFineGrainedBimanual2023} propose simply using \( z = \mathbf{0} \), as the conditional prior on \( z \) used in training is set to be a standard Gaussian.
-Further, conditioning on the observation \( o \) is achieved through explicitly feeding proprioperceptive and visual observations to the decoder, \( p_\theta(a \vert z, o) \) at test time.
-If at inference \( z \) is sampled from a standard Gaussian, during training \( z \) is sampled from an approximate posterior distribution \(q_\phi(z \vert o, a)\), which, however, disregards image observations and exclusively uses proprioperceptive states to form \( o \) for efficiency reasons.
+Further, conditioning on the observation \( o \) is achieved through explicitly feeding proprioceptive and visual observations to the decoder, \( p_\theta(a \vert z, o) \) at test time.
+If at inference \( z \) is sampled from a standard Gaussian, during training \( z \) is sampled from an approximate posterior distribution \(q_\phi(z \vert o, a)\), which, however, disregards image observations and exclusively uses proprioceptive states to form \( o \) for efficiency reasons.
 
 \begin{figure}
     \centering
     \includegraphics[width=0.75\textwidth]{figures/ch4/ch4-act-decoder.pdf}
-    \caption{The CVAE decoder used in ACT, comprising of a full encoder-decoder Transformer architecture. Camera observations from all \( n \) camera views are first embedded using pre-trained visual encoders, and then aggregated with the corresponding positional embeddings. Then, the proprioperceptive information and style variable \( z \) retrieved from the CVAE encoder, are fed to the encoder-decoder Transformer for inference. The encoder shares the matrices \( K,V \) with the decoder, and is trained to decode fixed position embeddings into action chunks.}
+    \caption{The CVAE decoder used in ACT, comprising of a full encoder-decoder Transformer architecture. Camera observations from all \( n \) camera views are first embedded using pre-trained visual encoders, and then aggregated with the corresponding positional embeddings. Then, the proprioceptive information and style variable \( z \) retrieved from the CVAE encoder, are fed to the encoder-decoder Transformer for inference. The encoder shares the matrices \( K,V \) with the decoder, and is trained to decode fixed position embeddings into action chunks.}
     \label{fig:ch4-act-decoder}
 \end{figure}
 
@@ -422,7 +422,7 @@ If at inference \( z \) is sampled from a standard Gaussian, during training \( 
 
 \subsection{Diffusion Policy}
 DMs have proven very effective in approximating complex highly dimensional distributions, such as distributions over images~\citep{hoDenoisingDiffusionProbabilistic2020} or videos~\citep{polyakMovieGenCast2025}, thanks to their inherent capability to deal with multimodal data, and their training stability.
-In Diffusion Policy (DP),~\citet{chiDiffusionPolicyVisuomotor2024} present an application of DMs the field of robot learning, leveraging diffusion to model expert demonstrations in a variety of simulated and real-world tasks.
+In Diffusion Policy (DP),~\citet{chiDiffusionPolicyVisuomotor2024} present an application of DMs to the field of robot learning, leveraging diffusion to model expert demonstrations in a variety of simulated and real-world tasks.
 Similarily to ACT~\citep{zhaoLearningFineGrainedBimanual2023},~\citet{chiDiffusionPolicyVisuomotor2024} (1) adopt a modified \emph{observation-conditioned target distribution} instead of the full joint \( p(o,a) \), and (2) predict multiple actions into the future instead of a single action.
 Besides the intractability of the observations' marginal \( p_\theta(o) \) given \(p_\theta(o,a) \), DP's choice to model the data distribution through \( p_\theta(a \vert o) \) also stems from the computational burden of diffusion at test time: generating actions together with observations would require a large number of denoising steps—an unnecessarily slow and ultimately unhelpful process, given that robotics focuses on producing controls rather than reconstructing observations.
 
@@ -454,7 +454,7 @@ DP can be trained with as little as 50-150 demos (ca. 15-60 minutes of teleopera
 Notably, the authors ablated the relevance of using RGB camera streams as input to their policy, and observed how high frame-rate visual observations can be used to attain performance (measured as success rate) comparable to that of state-based policies, which are typically trained in simulation with priviledged information not directly available in real-world deployments.
 As high-frame rate RGB inputs naturally accomodate for dynamic, fast changing environments,~\citet{chiDiffusionPolicyVisuomotor2024}'s conclusion offers significant evidence for learning streamlined control policies directly from pixels.
 In their work,~\citet{chiDiffusionPolicyVisuomotor2024} also ablate the performance of DP against the size of the dataset collected, showing that DP reliably outperforms the considered baseline for all benchmark sizes considered.
-Further, in order  accelerate inference,~\citet{chiDiffusionPolicyVisuomotor2024} employ Denoising Diffusion Implicit Models~\citep{songDenoisingDiffusionImplicit2022}, a variant of Denoising Diffusion Probabilistic Models~\citep{hoDenoisingDiffusionProbabilistic2020} (DDPM) adopting a strictly deterministic denoising paradigm (differently from DDPM's natively stochastic one) inducing the same final distribution's as DDPM's, and yet resulting in 10x less denoising steps at inference time~\citep{chiDiffusionPolicyVisuomotor2024}.
+Further, in order to accelerate inference,~\citet{chiDiffusionPolicyVisuomotor2024} employ Denoising Diffusion Implicit Models~\citep{songDenoisingDiffusionImplicit2022}, a variant of Denoising Diffusion Probabilistic Models~\citep{hoDenoisingDiffusionProbabilistic2020} (DDPM) adopting a strictly deterministic denoising paradigm (differently from DDPM's natively stochastic one) inducing the same final distribution's as DDPM's, and yet resulting in 10x less denoising steps at inference time~\citep{chiDiffusionPolicyVisuomotor2024}.
 Across a range of simulated and real-world tasks,~\citet{chiDiffusionPolicyVisuomotor2024} find DPs particularly performant when modeling \( \epsilon_\theta \) with a transformer-based network, although the authors note the increased sensitivity of transformer networks to hyperparameters.
 Thus,~\citet{chiDiffusionPolicyVisuomotor2024} explicitly recommend starting out with a simpler, convolution-based architecture for diffusion (Figure~\ref{fig:diffusion-policy-architecture}), which is however reported to be biased towards learning low-frequency components~\citep{tancikFourierFeaturesLet2020}, and thus may prove more challenging to train with non-smooth action sequences.
 
@@ -483,8 +483,8 @@ A less resource-intensive approach is to entirely exhaust the chunk \( \actionch
 Sync inference allocates computation every \( H_a \) timesteps, resulting in a reduced computational burden (on average) at control time. 
 In contrast, sync inference also inherently hinders the responsiveness of robot systems, introducing blind lags due to the robot being \emph{idle} while computing \( \actionchunk \).
 
-One can use the fact that policies output multiple actions at the same time to directly (1) the lack of adaptiveness and (2) the presence of lags at runtime by decoupling action chunk \emph{prediction} \( \actionchunk \) from action \emph{execution} \( a_t \gets \textsc{PopFront}(\actionchunk_t) \).
-This decoupled stack, which we refer to as \emph{asynchronous} (async) inference (\ref{alg:async-inference}), also enables optimized inference by allowing action-chunk inference to run on a separate machine, typically equipped with better computational resources than the ones onboard a robot.
+One can use the fact that policies output multiple actions at the same time to directly address (1) the lack of adaptiveness and (2) the presence of lags at runtime by decoupling action chunk \emph{prediction} \( \actionchunk \) from action \emph{execution} \( a_t \gets \textsc{PopFront}(\actionchunk_t) \).
+This decoupled stack, which we refer to as \emph{asynchronous} (async) inference (alg.~\ref{alg:async-inference}), also enables optimized inference by allowing action-chunk inference to run on a separate machine, typically equipped with better computational resources than the ones onboard a robot.
 In async inference, a \( \textsc{RobotClient} \) sends an observation \( o_t \) to a \( \textsc{PolicyServer} \), receiving an action chunk \( \actionchunk_t \) once inference is complete (Figure~\ref{fig:ch4-async-inference}).
 In this, we avoid execution lags by triggering chunk prediction while the control loop is still consuming a previously available chunk, aggregating the previous and incoming chunks whenever the latter is available to the \( \textsc{RobotClient} \).
 In turn, async-inference tightens the loop between action prediction and action execution efficienty, by increasing the frequency at which observations are processed for chunk prediction while not running inference at every timestep.
@@ -558,7 +558,7 @@ In practice, choosing \(g\in(0,1)\) allows to strike a balance between reactivit
 If not for the aforementioned similarity filter, the \( \textsc{RobotClient} \) would send observations for processing every \( (1 - g) H_a \cdot \Delta t\) seconds, receiving a new chunk of actions every \( (1 - g) H_a \cdot \Delta t + \mathbb E[\ell_S] \), on average. 
 The presence of the filter for observation similarity dilates this processing time, and serves the scope of avoiding the robot stalling due to the queue being constantly integrated with an incoming, nearly identical, action chunk. 
 In particular, Figure~\ref{fig:ch4-queues} results in a queue which is filled with incoming actions \emph{unless} near-duplicate observations are filtered out from the processing pipeline. 
-For clarity, the red arrow in~\ref{fig:ch4-queues} highlights a timestep where the observation similarity mechanism is bypassed, forcing a (nearly identical) observation to be processed as the queue results empty.
+For clarity, the red arrow in Figure~\ref{fig:ch4-queues} highlights a timestep where the observation similarity mechanism is bypassed, forcing a (nearly identical) observation to be processed as the queue results empty.
 
 \subsubsection{Code Example: Using Async Inference}
 

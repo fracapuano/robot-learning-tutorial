@@ -4,7 +4,7 @@
 \epigraph{\textit{Know your enemy} [...]}{Sun Tzu}
 
 \begin{tldr}
-Learning-based approaches to robotics are motivated by the need to (1) generalize across tasks and embodiments (2) reduce dependency on human expertise (3) leverage historical trends on the production of data---all traditionally overlooked by dynamics-based techniques.
+Learning-based approaches to robotics are motivated by the need to (1) generalize across tasks and embodiments, (2) reduce dependency on human expertise, and (3) leverage historical trends on the production of data---all traditionally overlooked by dynamics-based techniques.
 \end{tldr}
 
 \subsection{Explicit and Implicit Models}
@@ -16,7 +16,7 @@ Learning-based approaches to robotics are motivated by the need to (1) generaliz
     \label{fig:generating-motion-atlas}
 \end{figure}
 
-Robotics is concerned with producing artificial motion in the physical world in useful, reliable and safe fashion.
+Robotics is concerned with producing artificial motion in the physical world in a useful, reliable, and safe fashion.
 Thus, robotics is an inherently multi-disciplinar domain: producing autonomous motion in the physical world requires, to the very least, interfacing different software (motion planners) and hardware (motion executioners) components.
 Further, knowledge of mechanical, electrical, and software engineering, as well as rigid-body mechanics and control theory have therefore proven quintessential in robotics since the field first developed in the 1950s.
 More recently, Machine Learning (ML) has also proved effective in robotics, complementing these more traditional disciplines~\citep{connellRobotLearning1993}.
@@ -24,7 +24,7 @@ As a direct consequence of its multi-disciplinar nature, robotics has developed 
 
 Methods to produce robotics motion range from traditional \emph{explicit} models---\highlight{dynamics-based}\footnote{In here, we refer to both \emph{kinematics} and \emph{dynamics}-based control.} methods, leveraging precise descriptions of the mechanics of robots' rigid bodies and their interactions with eventual obstacles in the environment---to \emph{implicit} models---\highlight{learning-based} methods, treating artificial motion as a statistical pattern to learn given multiple sensorimotor readings~\citep{agrawalComputationalSensorimotorLearning,bekrisStateRobotMotion2024}.
 A variety of methods have been developed between these two extrema.
-For instance, ~\citet{hansenTemporalDifferenceLearning2022} show how learning-based systems can benefit from information on the physics of problems, complementing a traditional learning method such as Temporal Difference (TD)-learning~\citet{suttonReinforcementLearningIntroduction2018} with Model-Predictive Control (MPC).
+For instance, ~\citet{hansenTemporalDifferenceLearning2022} show how learning-based systems can benefit from information on the physics of problems, complementing a traditional learning method such as Temporal Difference (TD)-learning~\citep{suttonReinforcementLearningIntroduction2018} with Model-Predictive Control (MPC).
 Conversely, as explicit models may be relying on assumptions proving overly simplistic---or even unrealistic---in practice, learning can prove effective to improve modeling of complex phenomena or complement perception~\citep{mccormacSemanticFusionDense3D2016}.
 Such examples aim at demonstrating the richness of approaches to robotics, and Figure~\ref{fig:generating-motion-atlas} graphically illustrates some of the most relevant techniques.
 Such a list is clearly far from being exhaustive, and we refer to~\citet{bekrisStateRobotMotion2024} for a more comprehensive overview of both general and application-specific methods for motion generation.
@@ -47,7 +47,7 @@ Effects such as (1) are typically achieved \emph{through} the robot, i.e. genera
 Motions like (2) may result in changes in the robot's physical location within its environment.
 Generally, modifications to a robot's location within its environment may be considered instances of the general \emph{locomotion} problem, further specified as \emph{wheeled} or \emph{legged} locomotion based on whenever a robot makes use of wheels or leg(s) to move in the environment.
 Lastly, an increased level of dynamism in the robot-environment interactions can be obtained combining (1) and (2), thus designing systems capable to interact with \emph{and} move within their environment.
-This category is problems is typically termed \emph{mobile manipulation}, and is characterized by a typically much larger set of control variables compared to either locomotion or manipulation alone.
+This category of problems is typically termed \emph{mobile manipulation}, and is characterized by a typically much larger set of control variables compared to either locomotion or manipulation alone.
 
 % Focus on learning-based approaches and manipulation
 The traditional body of work developed since the very inception of robotics is increasingly complemented by learning-based approaches.
@@ -158,7 +158,7 @@ However, tracking \( \tau_K \) via IK can prove prohibitively expensive, as trac
 Let \( J(q) \) denote the Jacobian matrix of (partial) derivatives of the FK-function \( f_\FK: \mathcal Q \mapsto \mathcal P \), such that \( J(q) = \frac{\partial f_{FK}(q)}{\partial q } \).
 Then, one can apply the chain rule to any \( p(q) = f_{\FK}(q) \), deriving \( \dot p = J(q) \dot q \), and thus finally relating variations in the robot configurations to variations in pose, thereby providing a platform for control.
 
-Given a desired end-effector trajectory \( \targetvel(t) \) (1) indicating anchor regions in space and (2) how much time to spend in each region, diff-IK finds \( \dot q(t) \) solving for joints' \emph{velocities} instead of \emph{configurations},
+Given a desired end-effector trajectory \( \targetvel(t) \), (1) indicating anchor regions in space and (2) how much time to spend in each region, diff-IK finds \( \dot q(t) \) solving for joints' \emph{velocities} instead of \emph{configurations},
 \begin{align}
 \dot q(t) = \arg\min_\nu \; \lVert J(q(t)) \nu - \targetvel (t) \rVert_2^2
 \label{eq:reg_ik_velocity}
@@ -187,7 +187,7 @@ Accounting analytically for the presence of this disturbance---for instance, to 
 
 Less predictable disturbances however (e.g., \( \dot x_B \leftarrow \dot x_B + \eps, \eps \sim N(0,1) \)) may prove challenging to model analytically, and one could attain the same result of preventing link-object collision by adding a condition on the distance between the midpoint of \( l \) and \( x_B \), enforced through a feedback loop on the position of the robot and object at each control cycle.
 
-To mitigate the effect of modeling errors, sensing noise and other disturbances, classical pipelines indeed do augment diff-IK with feedback control looping back quantities of interest.
+To mitigate the effect of modeling errors, sensing noise and other disturbances, classical pipelines indeed do augment diff-IK with feedback control, looping back quantities of interest.
 In practice, following a trajectory with a closed feedback loop might consist in backwarding the error between the target and measured pose, \( \Delta p = \targetpos - p(q) \), hereby modifying the control applied to \( \dot q = J(q)^+ (\targetvel + k_p \Delta p ) \), with \( k_p \) defined as the (proportional) gain.
 
 More advanced techniques for control consisting in feedback linearization, PID control, Linear Quatratic Regulator (LQR) or Model-Predictive Control (MPC) can be employed to stabilize tracking and reject moderate perturbations, and we refer to \citet[Chapter~8]{sicilianoSpringerHandbookRobotics2016} for in-detail explanation of these concepts, or \citep[Chapter~8]{tedrakeRoboticManipulationPerception} for a simple, intuitive example in the case of a point-mass system.
@@ -224,4 +224,4 @@ Lastly, dynamics-based methods (naturally) overlook the rather recent \highlight
 The curation of academic datasets by large centralized groups of human experts in robotics~\citep{oneillOpenXEmbodimentRobotic2025, khazatskyDROIDLargeScaleInTheWild2025} is now increasingly complemented by a \highlight{growing number of robotics datasets contributed in a decentralized fashion} by individuals with varied expertise.
 If not tangentially, dynamics-based approaches are not posed to maximally benefit from this trend, which holds the premise of allowing generalization in the space of tasks and embodiments, like data was the cornerstone for advancements in vision~\citep{alayracFlamingoVisualLanguage2022} and natural-language understanding~\citep{brownLanguageModelsAre2020}.
 
-Taken together, these limitations (Figure~\ref{fig:classical-limitations}) motivate the exploration of learning-based approaches that can (1) integrate perception and control more tightly, (2) adapt across tasks and embodiments with reduced expert modeling interventions and (3) scale gracefully in performance as more robotics data becomes available.
+Taken together, these limitations (Figure~\ref{fig:classical-limitations}) motivate the exploration of learning-based approaches that can (1) integrate perception and control more tightly, (2) adapt across tasks and embodiments with reduced expert modeling interventions, and (3) scale gracefully in performance as more robotics data becomes available.
