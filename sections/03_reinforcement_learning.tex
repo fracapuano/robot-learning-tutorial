@@ -151,7 +151,7 @@ However, RL still suffers from limitations concerning safety and learning effici
 
 First, especially early in training, \highlight{actions are typically explorative, and thus may be erractic}.
 On physical systems, untrained policies may command high velocities, self-collisiding configurations, or torques exceeding joint limits, leading to wear and potential hardware damage.
-Mitigating these risks requires external safeguards (e.g., watchdogs, safety monitors, emergency stops), often incuring in a high degree of human supervision.
+Mitigating these risks requires external safeguards (e.g., watchdogs, safety monitors, emergency stops), often incurring in a high degree of human supervision.
 Further, in the typical episodic setting considered in most robotics problems, experimentation is substantially slowed down by the need to manually reset the environment over the course of training, a time-consuming and error-prone process.
 Second, learning efficiently remains problematic in RL, \highlight{limiting the applicability of RL in real-world robotics due to consequently prohibitive timescales of training}.
 Even strong algorithms such as SAC~\citep{haarnojaSoftActorCriticOffPolicy2018} typically require a large numbers of transitions \( \{ \sars \}_{t=1}^N \).

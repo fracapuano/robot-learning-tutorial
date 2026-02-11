@@ -137,7 +137,7 @@ Formally, this corresponds to using an attention mask like:
 \end{equation*}
 Note how \emph{intra}-block directional attention allows tokens to communicate freely, while \emph{inter}-block communication is mediated by the attention mask \(\mathbf{A} \).
 \emph{Blockwise causal masking} effectively prevents the pre-trained perception-language tokens from attending to robotics-tokens, likely out of distribution for VLM backbones traditionally trained on large corpora of internet, non-robotics, data.
-Crucially, because communication is obstructed between image-language tokens, proprioperceptive tokens and action tokens, one can cache keys and values across denoising steps at runtime time, incuring in a reduced computational footprint and faster inference.
+Crucially, because communication is obstructed between image-language tokens, proprioperceptive tokens and action tokens, one can cache keys and values across denoising steps at runtime time, incurring in a reduced computational footprint and faster inference.
 
 In \pizero, both the VLM backbone and action expert are update using a \emph{flow matching} loss, and in particular are updated minimizing:
 \begin{align}
