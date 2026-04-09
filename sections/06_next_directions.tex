@@ -1,6 +1,23 @@
-- Post training VLAs
-    - From Imitation to Refinement
-    - EXPO
+\section{Post training VLAs}
+Why would you even bother post-training a model? 
+ResiP shows performance plateus, which indicates "just get more data bro" is not a valid option.
+Also, there is some strong signal on the fact that post-training pre-training models can result in gains in performance that are otherwise unattainable with base models only.
+The trivial citation for this is, of course, the RLHF paper.
+
+\subsection{From Imitation to Refinement: ResiP}
+Lars' paper.
+Performance plateus, just getting more data is not enough.
+Also, regular BC struggles with high-precision tasks.
+Whenever one encounters a "bottleneck state" then BC might incur in catastrophic failure, from which it is not possible to recover.
+BC policies in this context can be considered as planners, accessing higher level skills instead of precise controls (note: Joe Watson said the same thing, maybe get a reference here)
+ResiP learns a residual policy that is trained to refine the output of the base BC policy
+Refinement happens 10x faster than planning, with higher level chunks defined by the BC policy and lower-level corrections implemented via the considered policy.
+
+% take it from here, 3 stage pipeline, RL algorithm, distillation. Present results in terms of success rates.
+
+
+
+\subsection{EXPO}
 
 - World Models for robotics
     - Cosmos

@@ -40,7 +40,6 @@
 
 % Colorful stuff %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\RequirePackageWithOptions{xcolor}
 \RequirePackage[most]{tcolorbox}
 \definecolor{ai2accent}{HTML}{407579}
 % \definecolor{ai2accent}{HTML}{ff0000}

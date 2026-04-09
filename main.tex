@@ -28,9 +28,9 @@
 \usepackage{makecell}
 \usepackage{adjustbox}
 
-% Color and boxes
+% Color, boxes and tables
 \usepackage[most]{tcolorbox}
-\usepackage{xcolor}
+\usepackage[table,xcdraw,dvipsnames]{xcolor}
 
 % Text and formatting
 \usepackage{xspace}
@@ -155,6 +155,7 @@
 
 \newcommand{\orr}[1]{\textcolor{red}{[OZ:#1]}}
 
+
 \tcbuselibrary{minted}
 \usemintedstyle{colorful}
 
@@ -174,6 +175,7 @@
 
 
 \newtcolorbox[auto counter]{pbox}[2][]{
+  breakable,
   colback=white,
   title=\textbf{Code~\thetcbcounter: #2},
   #1,fonttitle=\sffamily,
@@ -189,6 +191,7 @@
 \input{preamble}
 \input{math_commands}
 \input{handles}
+\input{snippets/code_specs}
 
 \title{
 Robot Learning: A Tutorial
@@ -197,17 +200,17 @@ Robot Learning: A Tutorial
 \newcommand{\huggingface}{\raisebox{-1.5pt}{\includegraphics[height=1.05em]{logos/hf.pdf}}\xspace}
 \newcommand{\coreContrib}{\raisebox{.33em}{\hspace{.05em}\includegraphics[height=.5em]{logos/core.png}}\xspace}
 
-\newcommand{\hf}{\raisebox{.28em}{\hspace{.05em}\includegraphics[height=.65em]{logos/hf.pdf}}\xspace}
+\newcommand{\hf}{\raisebox{.28em}{\hspace{.05em}\includegraphics[height=1em]{logos/hf.pdf}}\xspace}
 \newcommand{\ensps}{\raisebox{.3em}{\hspace{.05em}\includegraphics[height=.65em]{logos/ensps_logo.pdf}}\xspace}
+\newcommand{\oxford}{\raisebox{.3em}{\hspace{.05em}\includegraphics[height=1em]{logos/oxford_logo.png}}\xspace}
 
-\authorOne[]{Francesco Capuano \ensps \hf}
-\authorOne[]{...}
+\authorOne[]{Francesco Capuano \oxford \hf}
+\authorOne[]{Caroline Pascal\hf}
 \authorOne[]{Adil Zouitine\hf}
-\authorOne[]{Pepijn Kooijmans\hf}
 \authorOne[]{Thomas Wolf\hf}
 \authorOne[]{Michel Aractingi\hf}
 
-\contribution[]{\ensps École Normale Supérieure Paris-Saclay, \hf Hugging Face}
+\contribution[]{\oxford University of Oxford, \hf Hugging Face}
 
 \newcommand{\fix}{\marginpar{FIX}}
 \newcommand{\new}{\marginpar{NEW}}
@@ -227,19 +230,20 @@ Robot Learning: A Tutorial
 \newpage
 \input{sections/01_introduction}
 
-% \input{sections/02_classic_robotics}
+\newpage
+\input{sections/02_classic_robotics}
 
-% \newpage
-% % \input{sections/03_reinforcement_learning.tex}
+\newpage
+\input{sections/03_reinforcement_learning.tex}
 
-% \newpage
-% \input{sections/04_imitation_learning.tex}
+\newpage
+\input{sections/04_imitation_learning.tex}
 
-% \newpage
-% \input{sections/05_foundation_models.tex}
+\newpage
+\input{sections/05_foundation_models.tex}
 
-% \newpage
-% \input{sections/07_conclusions.tex}
+\newpage
+\input{sections/07_conclusions.tex}
 
 \bibliographystyle{hfstyle/plainnat}
 \bibliography{main}

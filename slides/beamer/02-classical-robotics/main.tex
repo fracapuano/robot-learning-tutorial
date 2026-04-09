@@ -1,0 +1,180 @@
+\documentclass{beamer}
+
+\input{../shared/preamble}
+\graphicspath{{../../../figures/}{../../../logos/}}
+
+\title[Robot Learning Tutorial]{Robot Learning: A Tutorial}
+\subtitle{Chapter 2: Classical Robotics}
+\author[Capuano et al.]{\commonauthors}
+\date{}
+\titlegraphic{
+  \vspace{-1.1cm}
+  \includegraphics[height=1.4cm]{hf.pdf}
+  \hspace{0.3cm}
+  \includegraphics[height=1.2cm]{oxford_logo.png}
+}
+
+\begin{document}
+
+\chaptertitleframe{Explicit models, control pipelines, and the concrete limitations that motivate a shift toward data-driven robotics.}
+
+\begin{frame}{Roadmap}
+  \begin{enumerate}
+    \item Explicit vs. implicit ways of generating motion
+    \item Why manipulation is a useful running example
+    \item FK, IK, differential IK, and feedback
+    \item Why these pipelines become brittle at scale
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}{Two Ways to Produce Motion}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.52\textwidth}
+      \includegraphics[width=\linewidth]{ch2/ch2-approaches.png}
+    \end{column}
+    \begin{column}{0.44\textwidth}
+      \begin{itemize}
+        \item \highlight{Explicit models}: write down mechanics, constraints, and controllers.
+        \item \highlight{Implicit models}: learn motion from sensorimotor data.
+        \item Real systems often mix both, but the tension between them drives modern robot learning.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+  \sources{\citep{bekrisStateRobotMotion2024,hansenTemporalDifferenceLearning2022}}
+\end{frame}
+
+\begin{frame}{Robotics Is Not One Problem}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.58\textwidth}
+      \includegraphics[width=\linewidth]{ch2/ch2-platforms.png}
+    \end{column}
+    \begin{column}{0.38\textwidth}
+      \begin{itemize}
+        \item \highlight{Manipulation}: change the environment.
+        \item \highlight{Locomotion}: change the robot's position in the environment.
+        \item \highlight{Mobile manipulation}: do both at once.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+
+  \vspace{0.2cm}
+  \statbox{Why this matters}{The platform, state representation, and controller design change dramatically across these settings.}
+\end{frame}
+
+\begin{frame}{A Running Example: Accessible Manipulation}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.42\textwidth}
+      \includegraphics[width=\linewidth]{ch2/ch2-cost-accessibility.png}
+    \end{column}
+    \begin{column}{0.54\textwidth}
+      \includegraphics[width=\linewidth]{ch2/ch2-so100-to-planar-manipulator.png}
+    \end{column}
+  \end{columns}
+
+  \vspace{0.2cm}
+  \begin{itemize}
+    \item The chapter uses a simplified planar manipulator abstraction of the SO-100 to explain core ideas.
+    \item Low-cost platforms matter because they make data collection and experimentation \highlight{materially more accessible}.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{From Forward Kinematics to Inverse Kinematics}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.5\textwidth}
+      \includegraphics[width=\linewidth]{ch2/ch2-planar-manipulator-free.png}
+    \end{column}
+    \begin{column}{0.46\textwidth}
+      \small
+      \[
+      p(q)=
+      \begin{pmatrix}
+      l\cos(\theta_1)+l\cos(\theta_1+\theta_2) \\
+      l\sin(\theta_1)+l\sin(\theta_1+\theta_2)
+      \end{pmatrix}
+      \]
+      \begin{itemize}
+        \item \highlight{FK}: map configuration to end-effector pose.
+        \item \highlight{IK}: solve for a configuration that reaches a target pose.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+
+  \vspace{0.2cm}
+  \statbox{Core issue}{IK tells you where to be. It does not, by itself, tell you how to move there safely over time.}
+  \sources{\citep{lynchModernRoboticsMechanics2017,sicilianoSpringerHandbookRobotics2016,tedrakeRoboticManipulationPerception,tedrakeUnderactuatedRoboticsAlgorithms}}
+\end{frame}
+
+\begin{frame}{Why Differential IK Matters}
+  \begin{itemize}
+    \item Tracking a full trajectory with repeated IK solves can be expensive.
+    \item Differential IK instead solves for \highlight{joint velocities} using the Jacobian.
+  \end{itemize}
+
+  \[
+  \dot q(t)=\arg\min_{\nu}\left\lVert J(q(t))\nu-\dot p^*(t)\right\rVert_2^2
+  \]
+
+  \begin{itemize}
+    \item In favorable settings this admits a closed-form pseudo-inverse solution.
+    \item That makes it practical for structured, well-understood environments.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Environment Constraints Change the Problem}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.32\textwidth}
+      \includegraphics[width=\linewidth]{ch2/ch2-planar-manipulator-floor.png}
+    \end{column}
+    \begin{column}{0.32\textwidth}
+      \includegraphics[width=\linewidth]{ch2/ch2-planar-manipulator-floor-shelf.png}
+    \end{column}
+    \begin{column}{0.32\textwidth}
+      \includegraphics[width=\linewidth]{ch2/ch2-planar-manipulator-floor-box.png}
+    \end{column}
+  \end{columns}
+
+  \vspace{0.25cm}
+  \begin{itemize}
+    \item Surfaces, shelves, and moving obstacles alter the feasible set of motions.
+    \item The controller now depends on \highlight{task-specific geometry, contacts, and disturbances}.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Feedback Loops Help, but at a Price}
+  \begin{itemize}
+    \item Closed-loop control corrects tracking errors by feeding pose error back into the command.
+    \item This improves robustness to noise and moderate perturbations.
+    \item But performance still depends on:
+    \item accurate sensing, gain tuning, system-specific heuristics, and manageable contact dynamics.
+  \end{itemize}
+
+  \vspace{0.25cm}
+  \statbox{Practical reality}{Feedback reduces modeling error. It does not remove the need to decide what to model, how to tune it, and how to integrate many brittle components.}
+\end{frame}
+
+\begin{frame}{Where Classical Pipelines Break}
+  \includegraphics[width=\linewidth,height=0.68\textheight,keepaspectratio]{ch2/ch2-classical-limitations.png}
+  \begin{itemize}
+    \item Integration overhead, handcrafted perception pipelines, approximated physics, and weak reuse across tasks all accumulate.
+  \end{itemize}
+  \sources{\citep{antonovaReinforcementLearningPivoting2017}}
+\end{frame}
+
+\begin{frame}{Why Learning Becomes Attractive}
+  \begin{itemize}
+    \item Learn directly from high-dimensional observations instead of hand-designing every intermediate representation.
+    \item Reuse data across tasks and embodiments rather than rebuilding planners and controllers for each one.
+    \item Benefit from the recent surge of \highlight{open robotics datasets} rather than leaving that signal mostly unused.
+  \end{itemize}
+
+  \vspace{0.25cm}
+  \statbox{Chapter takeaway}{Classical robotics gives structure, guarantees, and foundational intuition. Robot learning becomes attractive when modeling, integration, and scaling costs dominate.}
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Selected References}
+\scriptsize
+\nocite{sicilianoSpringerHandbookRobotics2016,lynchModernRoboticsMechanics2017,tedrakeRoboticManipulationPerception,tedrakeUnderactuatedRoboticsAlgorithms,bekrisStateRobotMotion2024}
+\bibliography{../shared/references}
+\end{frame}
+
+\end{document}

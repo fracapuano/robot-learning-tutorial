@@ -1,0 +1,109 @@
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{array}
+\usepackage{colortbl}
+\usepackage[authoryear,round]{natbib}
+\usepackage{ragged2e}
+
+\usetheme{Madrid}
+\usecolortheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}[frame number]
+\setbeamersize{text margin left=0.6cm, text margin right=0.6cm}
+
+\definecolor{myprimary}{HTML}{FF9D00}
+\definecolor{mysecondary}{HTML}{FF8360}
+\definecolor{mydark}{HTML}{243447}
+\definecolor{mylight}{HTML}{FFF4E8}
+\definecolor{mysoft}{HTML}{F7F7F7}
+
+\setbeamercolor{structure}{fg=myprimary}
+\setbeamercolor{title}{fg=white,bg=myprimary}
+\setbeamercolor{subtitle}{fg=myprimary}
+\setbeamercolor{frametitle}{fg=white,bg=myprimary!90}
+\setbeamercolor{block title}{fg=white,bg=myprimary!85}
+\setbeamercolor{block body}{fg=black,bg=mylight}
+\setbeamercolor{normal text}{fg=mydark,bg=white}
+\setbeamercolor{alerted text}{fg=mysecondary}
+
+\setbeamerfont{title}{series=\bfseries,size=\Large}
+\setbeamerfont{frametitle}{series=\bfseries,size=\large}
+\setbeamerfont{block title}{series=\bfseries}
+\setbeamertemplate{bibliography item}[text]
+\setlength{\bibsep}{1pt plus 0.2ex}
+\bibliographystyle{abbrvnat}
+
+\newcommand{\lerobot}{\texttt{lerobot}}
+\newcommand{\lerobotdataset}{\texttt{LeRobotDataset}}
+\newcommand{\pizero}{\(\pi_0\)}
+\newcommand{\highlight}[1]{\textcolor{myprimary}{\textbf{#1}}}
+\newcommand{\statbox}[2]{%
+  \begingroup
+  \setlength{\fboxsep}{8pt}%
+  \colorbox{mylight}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{\raggedright\textbf{\large #1}\\[-1pt]\small #2}}%
+  \endgroup
+}
+
+\newcommand{\circled}[1]{%
+  \tikz[baseline=(char.base)]\node[draw,circle,inner sep=1pt,thick](char){\textbf{#1}};%
+}
+
+\newcommand{\lightbox}[1]{%
+  \tikz[baseline=(txt.base)]{
+    \node[
+      fill=myprimary!15,
+      rounded corners=2pt,
+      inner xsep=4pt,
+      inner ysep=1.5pt
+    ] (txt) {\strut #1};
+  }%
+}
+
+\newcommand{\commonauthors}{%
+  Francesco Capuano \and
+  Caroline Pascal \and
+  Adil Zouitine \and
+  Thomas Wolf \and
+  Michel Aractingi
+}
+
+\newcommand{\shortauthors}{%
+  Francesco Capuano, Caroline Pascal, Adil Zouitine, Thomas Wolf, Michel Aractingi
+}
+
+\newcommand{\chaptertitleframe}[1]{%
+  \begin{frame}[plain]
+    \vspace{0.35cm}
+    \begin{center}
+      \begin{beamercolorbox}[wd=0.86\paperwidth,rounded=true,sep=10pt,center]{title}
+        \usebeamerfont{title}\inserttitle
+      \end{beamercolorbox}
+
+      \vspace{0.55cm}
+      {\Large\bfseries\textcolor{myprimary}{\insertsubtitle}\par}
+      \vspace{0.15cm}
+      {\small\color{mydark}\shortauthors\par}
+
+      \vspace{0.45cm}
+      \includegraphics[height=1.0cm]{hf.pdf}
+      \hspace{0.45cm}
+      \includegraphics[height=0.95cm]{oxford_logo.png}
+
+      \vspace{0.55cm}
+      \begin{beamercolorbox}[wd=0.8\paperwidth,rounded=true,sep=8pt,center]{block body}
+        \small #1
+      \end{beamercolorbox}
+    \end{center}
+  \end{frame}
+}
+
+\newcommand{\sources}[1]{%
+  \vfill
+  {\raggedright\tiny\color{black!65}\textbf{Refs:} #1\par}
+}

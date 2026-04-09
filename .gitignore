@@ -1,4 +1,4 @@
-.DS_store
+.DS_Store
 
 *.aux
 *.nav
@@ -7,7 +7,14 @@
 *.toc
 *.out
 *.vrb
+*.bbl
 *.blg
 *latexmk*
 *fls
 *synctex*
+
+*/_minted/*
+slides/beamer/**/*.pdf
+slides/beamer/_review/
+slides/beamer/_review_refs/
+slides/beamer/**/*-review-*.png
