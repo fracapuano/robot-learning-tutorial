@@ -129,7 +129,7 @@ Unfortunately, eq.~\ref{eq:evidence-definition} is rarely tractable when the dis
 
 In their seminal work on Variational Auto-Encoders (VAEs),~\citet{kingma2013auto} present two major contributions to learn complex latent-variable GMs from unstructured data, proposing (1) a tractable, variational lower-bound to eq.~\ref{eq:evidence-definition} as an optimization target to jointly learn likelihood and posterior and (2) using high-capacity function approximators to model the likelihood \(p_\theta(o,a\vert z)\) and (approximate) posterior distribution \( q_\phi(z \vert o,a) \approx q_\theta(z \vert o,a) \).
 
-In particular, the lower bound on eq.~\ref{eq:evidence-definition} (Evidence LOwer Bound, \emph{ELBO}) can be derived from eq.~\ref{eq:evidence-definition} applying Jensen's inequality---\(\log \mathbb{E}[\bullet] \geq \mathbb{E} [\log (\bullet)] \)---yielding:
+In particular, the lower bound on eq.~\ref{eq:evidence-definition} (Evidence Lower BOund, \emph{ELBO}) can be derived from eq.~\ref{eq:evidence-definition} applying Jensen's inequality---\(\log \mathbb{E}[\bullet] \geq \mathbb{E} [\log (\bullet)] \)---yielding:
 \begin{align}
     \log p_\theta(\mathcal D) &\geq \sum_{i=0}^{N} \left(
             \mathbb{E}_{z \sim q_\theta(\bullet \vert (o,a)_i)} \big[ \log p_\theta((o,a)_i \vert z) \big]
@@ -155,7 +155,7 @@ Indeed, expectations can be estimated using MC estimates from the learned distri
 An intuitive explanation of the learning dynamics of VAEs can be given considering the equivalent case of \emph{minimizing the negative ELBO}, which admits the particularly interpretable factorization (considering, without loss of generality, only one \( (o,a) \sim \mathcal D \)):
 \begin{align}
 \min_{\theta, \phi} - \text{ELBO}_{\mathcal (o,a) \sim \mathcal D}(\theta, \phi) &= \min_{\theta, \phi}\mathbf{L^{\text{rec}}}(\theta) + \mathbf{L^{\text{reg}}}(\phi), \label{eq:VAE-min-neg-ELBO}\\
-\mathbf{L^{\text{rec}}}(\theta) &= \mathbb{E}_{z \sim q_\phi(\bullet \vert o,a}) \big[ \log p_\theta(o,a \vert z) \big] \label{eq:VAE-Lrec} \\
+\mathbf{L^{\text{rec}}}(\theta) &= - \mathbb{E}_{z \sim q_\phi(\bullet \vert o,a}) \big[ \log p_\theta(o,a \vert z) \big] \label{eq:VAE-Lrec} \\
 \mathbf{L^{\text{reg}}}(\phi) &= \DKL \big[ q_\phi(z \vert o,a) \Vert p(z) \big]. \label{eq:VAE-Lreg}
 \end{align}
 
@@ -215,7 +215,7 @@ Under such model, we can express the log-likelihood of an arbitrary sample \( z_
     &= \mathbb{E}_{z_{1:T} \sim q(\bullet \vert z_0)} \bigg[ \log \frac{p(z_T) \cdot p_\theta (z_0 \vert z_1) \prod_{t=2}^{T} p_\theta (z_{t-1} \vert z_t)}{q(z_T \vert z_{T-1}) \prod_{t=1}^{T-1} q(z_t \vert z_{t-1})} \bigg] \label{eq:diffusion-3} \\
     &= \mathbb{E}_{z_{1:T} \sim q(\bullet \vert z_0)} \bigg[ \log \frac{p(z_T) \cdot p_\theta (z_0 \vert z_1) \prod_{t=1}^{T-1} p_\theta (z_{t} \vert z_{t+1})}{q(z_T \vert z_{T-1}) \prod_{t=1}^{T-1} q(z_t \vert z_{t-1})} \bigg] \label{eq:diffusion-4} \\
     &= 
-        \mathbb{E}_{z_{1:T} \sim q(\bullet \vert z_0)} \bigg[ \log \frac{p(z_T) \cdot p_\theta (z_0 \vert z_1)}{q(z_t \vert z_{t-1})} \bigg] + 
+        \mathbb{E}_{z_{1:T} \sim q(\bullet \vert z_0)} \bigg[ \log \frac{p(z_T) \cdot p_\theta (z_0 \vert z_1)}{q(z_T \vert z_{T-1})} \bigg] + 
         \mathbb{E}_{z_{1:T} \sim q(\bullet \vert z_0)} \bigg[ \log \prod_{t=1}^{T-1} \frac{p_\theta (z_{t} \vert z_{t+1})}{q(z_t \vert z_{t-1})}\bigg]
     \label{eq:diffusion-5} \\
     &=
